@@ -1,8 +1,13 @@
 (kicad_sch (version 20230121) (generator eeschema)
 
-  (uuid d0453087-86e7-46ae-b0cb-918eb829bd63)
+  (uuid c71bdc9f-cfe5-4861-a805-60e238de246c)
 
   (paper "A4")
+
+  (title_block
+    (title "LEDs")
+    (rev "A")
+  )
 
   (lib_symbols
     (symbol "LED:Inolux_IN-PI554FCH" (pin_names (offset 0.254)) (in_bom yes) (on_board yes)
@@ -416,7 +421,7 @@
     (effects (font (size 1.27 1.27)) (justify right))
     (uuid 1cc3ab1a-848b-48f1-80e6-e32e7c28285a)
   )
-  (hierarchical_label "3V3" (shape input) (at 42.545 31.75 180) (fields_autoplaced)
+  (hierarchical_label "5V" (shape input) (at 42.545 31.75 180) (fields_autoplaced)
     (effects (font (size 1.27 1.27)) (justify right))
     (uuid 5460dd00-1ffa-4724-b016-f10cb58f85b7)
   )

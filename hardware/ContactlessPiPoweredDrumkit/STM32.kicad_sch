@@ -1,0 +1,15 @@
+(kicad_sch (version 20230121) (generator eeschema)
+
+  (uuid 5e4c2895-f84f-4317-a042-1689026c01ad)
+
+  (paper "A4")
+
+  (title_block
+    (title "STM32")
+    (rev "A")
+  )
+
+  (lib_symbols
+  )
+
+)

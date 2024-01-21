@@ -377,7 +377,7 @@
       "no_connect_dangling": "warning",
       "pin_not_connected": "error",
       "pin_not_driven": "error",
-      "pin_to_pin": "warning",
+      "pin_to_pin": "error",
       "power_pin_not_driven": "error",
       "similar_labels": "warning",
       "simulation_model_issue": "ignore",
@@ -475,6 +475,18 @@
     [
       "9d3eacd6-08d9-44d0-813a-c789cffee5a1",
       "Distance Sensors"
+    ],
+    [
+      "94e8ba6c-c36f-4fda-bfef-5d54c49bf641",
+      "LEDs"
+    ],
+    [
+      "424c49fd-f70f-4496-9530-1fb5e73f8263",
+      "STM32"
+    ],
+    [
+      "9d3f11bb-e609-4abb-a1fd-9716dfa5489f",
+      "Power"
     ]
   ],
   "text_variables": {}
