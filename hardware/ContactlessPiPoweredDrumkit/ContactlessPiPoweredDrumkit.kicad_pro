@@ -477,7 +477,7 @@
       "Distance Sensors"
     ],
     [
-      "94e8ba6c-c36f-4fda-bfef-5d54c49bf641",
+      "6c5dfaa6-0031-4f18-aab5-cbcf53c25edb",
       "LEDs"
     ],
     [
@@ -487,6 +487,10 @@
     [
       "9d3f11bb-e609-4abb-a1fd-9716dfa5489f",
       "Power"
+    ],
+    [
+      "b5c11ef6-57c9-4f36-961a-4cf93fe01f6a",
+      "Raspberry PI"
     ]
   ],
   "text_variables": {}
