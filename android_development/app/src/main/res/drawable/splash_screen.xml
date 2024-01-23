@@ -4,8 +4,6 @@
     <item android:drawable="@color/white" />
     <item android:drawable="@drawable/drum_set_splash"
         android:gravity="center"
-        android:width="10dp"
-        android:height="10dp"
-        android:/>
+        />
 
 </layer-list>
