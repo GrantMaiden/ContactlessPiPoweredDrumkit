@@ -48,7 +48,13 @@
           "min_clearance": 0.5
         }
       },
-      "diff_pair_dimensions": [],
+      "diff_pair_dimensions": [
+        {
+          "gap": 0.0,
+          "via_gap": 0.0,
+          "width": 0.0
+        }
+      ],
       "drc_exclusions": [],
       "meta": {
         "version": 2
@@ -112,7 +118,7 @@
         "min_hole_to_hole": 0.25,
         "min_microvia_diameter": 0.19999999999999998,
         "min_microvia_drill": 0.09999999999999999,
-        "min_resolved_spokes": 2,
+        "min_resolved_spokes": 1,
         "min_silk_clearance": 0.0,
         "min_text_height": 0.7999999999999999,
         "min_text_thickness": 0.08,
@@ -165,8 +171,18 @@
           "td_width_to_size_filter_ratio": 0.9
         }
       ],
-      "track_widths": [],
-      "via_dimensions": [],
+      "track_widths": [
+        0.0,
+        0.254,
+        0.3048,
+        0.4064
+      ],
+      "via_dimensions": [
+        {
+          "diameter": 0.0,
+          "drill": 0.0
+        }
+      ],
       "zones_allow_external_fillets": false
     },
     "layer_presets": [],
@@ -177,7 +193,31 @@
     "equivalence_files": []
   },
   "erc": {
-    "erc_exclusions": [],
+    "erc_exclusions": [
+      "label_dangling|2343150|1254760|e94905c0-03ee-4115-ac16-d488ad00cd05|00000000-0000-0000-0000-000000000000|||",
+      "multiple_net_names|285750|539750|f8ef44b2-b54a-4fcf-8095-ca6331c74127|fba12927-ea02-4398-ace9-887e6f151bbf|||",
+      "multiple_net_names|332740|515620|44414cf8-aaa2-4eef-8c44-f8dcd07a50b0|cf9b4331-c5d6-47e5-9f1f-cc021de3f750|||",
+      "multiple_net_names|412750|322580|44f7263c-2691-4848-86c2-6bcd37a2523a|c43c88c3-61a7-498f-8891-088cecae46cc|||",
+      "multiple_net_names|425450|317500|b37d010d-e9c1-4001-baef-cf9cdcd52dde|5460dd00-1ffa-4724-b016-f10cb58f85b7|||",
+      "multiple_net_names|429260|318770|38241c6b-6a2f-4cab-b6a2-eb8b4792c6e4|ded6eadc-5922-4ea8-b4a3-1ac7585ffa54|||",
+      "multiple_net_names|552450|330200|155818b2-7c35-4a53-944e-00b478c2a3fe|d33d1d80-bba0-40a8-8fb7-21b5eaaa49ce|||",
+      "pin_not_connected|1155700|1085850|1eafc717-607b-472d-b7df-0809e59fcb01|00000000-0000-0000-0000-000000000000|||",
+      "pin_not_connected|1155700|806450|277692be-b0fb-4e69-8268-9c0706bfd988|00000000-0000-0000-0000-000000000000|||",
+      "pin_not_connected|1155700|984250|0bc1dca5-cd44-4c05-94d8-1b3887b90b58|00000000-0000-0000-0000-000000000000|||",
+      "pin_not_connected|749300|1009650|59c741f5-eedf-4647-8f83-4e76478eee06|00000000-0000-0000-0000-000000000000|||",
+      "pin_not_connected|749300|1060450|cccbe444-b488-4a1e-b104-710f24df51f2|00000000-0000-0000-0000-000000000000|||",
+      "pin_not_connected|749300|1085850|dbf3d90f-a875-4718-b912-b66808880d61|00000000-0000-0000-0000-000000000000|||",
+      "pin_not_connected|749300|781050|01d39183-9f8d-4061-960a-1d6f6d835312|00000000-0000-0000-0000-000000000000|||",
+      "pin_not_connected|749300|806450|c145d919-bac5-4df0-8b74-a3279258d4de|00000000-0000-0000-0000-000000000000|||",
+      "pin_not_connected|749300|857250|4e5c1dd1-566e-41e3-9f7e-7b7f24854546|00000000-0000-0000-0000-000000000000|||",
+      "pin_not_connected|749300|882650|17b9a4ef-54e0-4300-a696-aef64e8384f8|00000000-0000-0000-0000-000000000000|||",
+      "pin_not_connected|749300|908050|539495b3-f69c-40fb-8298-2b6c31ca785a|00000000-0000-0000-0000-000000000000|||",
+      "pin_not_connected|749300|958850|89855fdd-4978-499c-be26-4976ad872c35|00000000-0000-0000-0000-000000000000|||",
+      "pin_not_connected|749300|984250|fe8bcd1b-0394-42ad-9d58-6c955167d09e|00000000-0000-0000-0000-000000000000|||",
+      "power_pin_not_driven|1623060|628650|44198e97-8ea0-495f-825d-a3a979e7a14e|00000000-0000-0000-0000-000000000000|||",
+      "power_pin_not_driven|1686560|323850|c9cdda9f-de15-4fc0-853f-be51e5a9d929|00000000-0000-0000-0000-000000000000|||",
+      "power_pin_not_driven|2112010|1178560|1d09ec3e-2003-4efa-9dec-424b42df6f14|00000000-0000-0000-0000-000000000000|||"
+    ],
     "meta": {
       "version": 0
     },
@@ -361,7 +401,7 @@
       "different_unit_net": "error",
       "duplicate_reference": "error",
       "duplicate_sheet_names": "error",
-      "endpoint_off_grid": "warning",
+      "endpoint_off_grid": "ignore",
       "extra_units": "error",
       "global_label_dangling": "warning",
       "hier_label_mismatch": "error",
@@ -399,7 +439,7 @@
     "classes": [
       {
         "bus_width": 12,
-        "clearance": 0.2,
+        "clearance": 0.3,
         "diff_pair_gap": 0.25,
         "diff_pair_via_gap": 0.25,
         "diff_pair_width": 0.2,
@@ -481,12 +521,8 @@
       "LEDs"
     ],
     [
-      "424c49fd-f70f-4496-9530-1fb5e73f8263",
-      "STM32"
-    ],
-    [
-      "9d3f11bb-e609-4abb-a1fd-9716dfa5489f",
-      "Power"
+      "fc0dac79-4ebb-4466-ad0d-935d446d1bb4",
+      "Mounting Holes"
     ],
     [
       "b5c11ef6-57c9-4f36-961a-4cf93fe01f6a",

@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "CustomArtwork")(type "KiCad")(uri "${KIPRJMOD}/CustomArtwork.pretty")(options "")(descr ""))
+)
