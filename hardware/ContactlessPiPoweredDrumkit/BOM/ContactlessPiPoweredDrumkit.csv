@@ -1,0 +1,16 @@
+Reference,Value,Part Number,Supplier,Supplier Part Number,Footprint,Price,Total Cost,Qty
+"C1, C2, C5, C6, C9, C10",100n,CL10B104KB8NNWC,,,Capacitor_SMD:C_0603_1608Metric,0.1,0.6,6
+"C3, C4, C7, C8, C11, C12",4.7u,CL10A475KQ8NNNC,,,Capacitor_SMD:C_0603_1608Metric,0.1,0.6,6
+D1-D6,Inolux_IN-PI554FCH,IN-PI554FCH,,,LED_SMD:LED_Inolux_IN-PI554FCH_PLCC4_5.0x5.0mm_P3.2mm,0.72,4.32,6
+H1-H6,MountingHole_Pad,,,,MountingHole:MountingHole_4.3mm_M4_DIN965_Pad_TopBottom,,,N/A
+J1,Raspberry_Pi_1_2_3,61304021821,Digikey,732-61304021821-ND,Connector_PinSocket_2.54mm:PinSocket_2x20_P2.54mm_Vertical,1.92,1.92,1
+J2-J7,Conn_01x06_Socket,,,,Connector_PinSocket_2.54mm:PinSocket_1x06_P2.54mm_Vertical,,,DNP
+R1-R12,10k,RMCF0603FT10K0,,,Resistor_SMD:R_0603_1608Metric,0.1,1.2,12
+R13-R16,1k,RMCF0603FT1K00,,,Resistor_SMD:R_0603_1608Metric,0.1,0.4,4
+R17,500,RMCF0603FG475R,,,Resistor_SMD:R_0603_1608Metric,0.1,0.1,1
+U1-U6,VL53L4CD,VL53L4CDV0DH/1,Digikey,497-VL53L4CDV0DH/1DKR-ND,Sensor_Distance:ST_VL53L1x,4.28,25.68,6
+U7,SN74LVC1T45DCK,SN74LVC1T45DCKR,Digikey,296-16844-6-ND,Package_TO_SOT_SMD:SOT-363_SC-70-6,0.68,0.68,1
+,,,,,,,,
+,,,,,,,,
+,,,,,,Total Board Cost (USD):,35.5,
+,,,,,,Total Board Cost (GBP):,28.1746031746032,
