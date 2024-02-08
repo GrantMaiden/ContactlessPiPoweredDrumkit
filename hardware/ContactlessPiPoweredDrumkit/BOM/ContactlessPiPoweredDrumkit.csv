@@ -10,7 +10,9 @@ R13-R16,1k,RMCF0603FT1K00,,,Resistor_SMD:R_0603_1608Metric,0.1,0.4,4
 R17,500,RMCF0603FG475R,,,Resistor_SMD:R_0603_1608Metric,0.1,0.1,1
 U1-U6,VL53L4CD,VL53L4CDV0DH/1,Digikey,497-VL53L4CDV0DH/1DKR-ND,Sensor_Distance:ST_VL53L1x,4.28,25.68,6
 U7,SN74LVC1T45DCK,SN74LVC1T45DCKR,Digikey,296-16844-6-ND,Package_TO_SOT_SMD:SOT-363_SC-70-6,0.68,0.68,1
+PCB FAB,,,,,,3.82,3.82,1
+PCB ASSY,,,,,,1.91,1.91,1
+Shipping,,,,,,4.4,4.4,1
 ,,,,,,,,
-,,,,,,,,
-,,,,,,Total Board Cost (USD):,35.5,
-,,,,,,Total Board Cost (GBP):,28.1746031746032,
+,,,,,,Total Board Cost (USD):,45.63,
+,,,,,,Total Board Cost (GBP):,36.2142857142857,
