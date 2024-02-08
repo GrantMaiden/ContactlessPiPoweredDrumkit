@@ -1,11 +1,11 @@
-%TF.GenerationSoftware,KiCad,Pcbnew,7.0.10*%
-%TF.CreationDate,2024-02-06T20:08:39+00:00*%
-%TF.ProjectId,ContactlessPiPoweredDrumkit,436f6e74-6163-4746-9c65-73735069506f,REVA*%
-%TF.SameCoordinates,Original*%
-%TF.FileFunction,Profile,NP*%
+G04 #@! TF.GenerationSoftware,KiCad,Pcbnew,7.0.10*
+G04 #@! TF.CreationDate,2024-02-08T00:49:32+00:00*
+G04 #@! TF.ProjectId,ContactlessPiPoweredDrumkit,436f6e74-6163-4746-9c65-73735069506f,REVA*
+G04 #@! TF.SameCoordinates,Original*
+G04 #@! TF.FileFunction,Profile,NP*
 %FSLAX46Y46*%
 G04 Gerber Fmt 4.6, Leading zero omitted, Abs format (unit mm)*
-G04 Created by KiCad (PCBNEW 7.0.10) date 2024-02-06 20:08:39*
+G04 Created by KiCad (PCBNEW 7.0.10) date 2024-02-08 00:49:32*
 %MOMM*%
 %LPD*%
 G01*
@@ -14,9 +14,9 @@ G04 APERTURE LIST*
 %ADD11C,0.150000*%
 %ADD12C,0.300000*%
 %ADD13C,0.400000*%
-%TA.AperFunction,Profile*%
+G04 #@! TA.AperFunction,Profile*
 %ADD14C,0.100000*%
-%TD*%
+G04 #@! TD*
 G04 APERTURE END LIST*
 D10*
 D11*
