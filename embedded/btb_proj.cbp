@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="btb_proj" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/btb_proj" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/btb_proj" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add directory="include" />
+		</Compiler>
+		<ResourceCompiler>
+			<Add directory="include" />
+		</ResourceCompiler>
+		<Linker>
+			<Add directory="include" />
+		</Linker>
+		<Unit filename="include/VL53L4CD_api.h" />
+		<Unit filename="include/btb_main.h" />
+		<Unit filename="include/examples.h" />
+		<Unit filename="include/platform.h" />
+		<Unit filename="include/types.h" />
+		<Unit filename="src/VL53L4CD_api.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/btb_main.cpp" />
+		<Unit filename="src/platform.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
