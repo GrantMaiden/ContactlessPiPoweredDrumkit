@@ -1,0 +1,104 @@
+# depslib dependency file v1.0
+1708142678 source:/home/pi/github/ContactlessPiPoweredDrumkit-grantDev/embedded/include/platform.c
+	<fcntl.h>
+	<unistd.h>
+	<time.h>
+	<linux/i2c.h>
+	<linux/i2c-dev.h>
+	<sys/ioctl.h>
+	"platform.h"
+	"types.h"
+
+1708143568 /home/pi/github/ContactlessPiPoweredDrumkit-grantDev/embedded/include/platform.h
+	<stdint.h>
+	<string.h>
+
+1645103948 /home/pi/github/ContactlessPiPoweredDrumkit-grantDev/embedded/include/types.h
+	<stdint.h>
+	<stddef.h>
+	<string.h>
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+
+1708142884 source:/home/pi/github/ContactlessPiPoweredDrumkit-grantDev/embedded/include/VL53L4CD_api.c
+	<string.h>
+	<math.h>
+	"../include/VL53L4CD_api.h"
+	"../include/platform.h"
+
+1677494142 /home/pi/github/ContactlessPiPoweredDrumkit-grantDev/embedded/include/VL53L4CD_api.h
+	"platform.h"
+
+1708142758 source:/home/pi/github/ContactlessPiPoweredDrumkit-grantDev/embedded/include/examples.h
+	"platform.h"
+
+1708143568 source:/home/pi/github/ContactlessPiPoweredDrumkit-grantDev/embedded/include/platform.h
+	<stdint.h>
+	<string.h>
+
+1645103948 source:/home/pi/github/ContactlessPiPoweredDrumkit-grantDev/embedded/include/types.h
+	<stdint.h>
+	<stddef.h>
+	<string.h>
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+
+1677494142 source:/home/pi/github/ContactlessPiPoweredDrumkit-grantDev/embedded/include/VL53L4CD_api.h
+	"platform.h"
+
+1708146857 source:/home/pi/github/ContactlessPiPoweredDrumkit-grantDev/embedded/src/btb_main.cpp
+	<stdlib.h>
+	<string.h>
+	<stdio.h>
+	"VL53L4CD_api.h"
+	"platform.h"
+	"types.h"
+	"examples.h"
+
+1708142023 /home/pi/github/ContactlessPiPoweredDrumkit-grantDev/embedded/include/VL53L4CD_api.c
+	<string.h>
+	<math.h>
+	"VL53L4CD_api.h"
+	"platform.h"
+	"platform.c"
+
+1708142678 /home/pi/github/ContactlessPiPoweredDrumkit-grantDev/embedded/include/platform.c
+	<fcntl.h>
+	<unistd.h>
+	<time.h>
+	<linux/i2c.h>
+	<linux/i2c-dev.h>
+	<sys/ioctl.h>
+	"platform.h"
+	"types.h"
+
+1708142884 source:/home/pi/github/ContactlessPiPoweredDrumkit-grantDev/embedded/src/VL53L4CD_api.c
+	<string.h>
+	<math.h>
+	"../include/VL53L4CD_api.h"
+	"../include/platform.h"
+
+1708143523 source:/home/pi/github/ContactlessPiPoweredDrumkit-grantDev/embedded/src/platform.c
+	<fcntl.h>
+	<unistd.h>
+	<time.h>
+	<linux/i2c.h>
+	<linux/i2c-dev.h>
+	<sys/ioctl.h>
+	"../include/platform.h"
+	"../include/types.h"
+
+1708142758 /home/pi/github/ContactlessPiPoweredDrumkit-grantDev/embedded/include/examples.h
+	"platform.h"
+
+1708146485 source:/home/pi/github/ContactlessPiPoweredDrumkit-grantDev/embedded/src/btb_main.c
+	<stdlib.h>
+	<string.h>
+	<stdio.h>
+	"VL53L4CD_api.h"
+	"platform.h"
+	"types.h"
+	"examples.h"
+
