@@ -44,7 +44,6 @@ void initDistanceSensors()
 	int status;
 	VL53L4CD_LinuxDev LinuxDev;
 	Dev_t Dev = &LinuxDev;
-	VL53L4CD_Version_t TOF_SW_Version;
 
 	// Power on sensor and init
 	status = VL53L4CD_comms_init(Dev);
@@ -53,16 +52,9 @@ void initDistanceSensors()
 		printf("VL53L4CD comms init failed\n");
 	}
 
-	// Read Status Registor to confirm device working
-	status = VL53L4CD_GetSWVersion(&TOF_SW_Version);
-	printf("Starting examples of VL53L4CD driver (version %u.%u.%u.%u)\n",
-		TOF_SW_Version.major,
-		TOF_SW_Version.minor,
-		TOF_SW_Version.build,
-		TOF_SW_Version.revision);
+	// Optionally Run example1 from sensor demo
+    ex
 
-    example1(Dev);
-}
 
 /**********************************************\
 Function Name:  initLeds()
@@ -112,8 +104,8 @@ int example1(Dev_t dev)
 	dev->address = 0x52;
 
 	/* (Optional) Change I2C address */
-	// status = VL53L4CD_SetI2CAddress(dev, 0x20);
-	// dev->address = 0x20;
+	//status = VL53L4CD_SetI2CAddress(dev, 0x20);
+	//dev->address = 0x20;
 
 
 	/*********************************/
