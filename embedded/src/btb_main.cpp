@@ -10,11 +10,11 @@ Description:    Entry Point into ENG5228 project for University of Glasgow
 #include <stdio.h>
 #include "btb_main.h"
 
+// VL53l4CD ULD Includes
 extern "C" {
 #include "VL53L4CD_api.h"
 #include "platform.h"
 #include "types.h"
-#include "examples.h"
 }
 
 /**********************************************\
@@ -53,8 +53,8 @@ void initDistanceSensors()
 	}
 
 	// Optionally Run example1 from sensor demo
-    ex
-
+    example1(Dev);
+}
 
 /**********************************************\
 Function Name:  initLeds()
@@ -78,12 +78,12 @@ void initInterrupts()
 
 }
 
-/*************************\
+/**********************************************\
 Function Name:  example1
 Input Args:     Dev_t dev: Device struct for Distance Sensor
 Output Args:    none
 Description:    runs example1 from distance Sensor STM32 example code
-/*************************/
+/**********************************************/
 int example1(Dev_t dev)
 {
 

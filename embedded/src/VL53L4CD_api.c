@@ -63,8 +63,8 @@
 
 #include <string.h>
 #include <math.h>
-#include "../include/VL53L4CD_api.h"
-#include "../include/platform.h"
+#include "VL53L4CD_api.h"
+#include "platform.h"
 //#include "platform.c"
 
 static const uint8_t VL53L4CD_DEFAULT_CONFIGURATION[] = {

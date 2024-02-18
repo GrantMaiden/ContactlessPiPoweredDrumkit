@@ -69,8 +69,8 @@
 
 #include <sys/ioctl.h>
 
-#include "../include/platform.h"
-#include "../include/types.h"
+#include "platform.h"
+#include "types.h"
 
 #define VL53L4CD_ERROR_GPIO_SET_FAIL	1
 #define VL53L4CD_COMMS_ERROR		2
