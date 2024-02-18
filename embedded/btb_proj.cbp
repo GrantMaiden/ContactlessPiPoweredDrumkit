@@ -40,7 +40,6 @@
 		</Linker>
 		<Unit filename="include/VL53L4CD_api.h" />
 		<Unit filename="include/btb_main.h" />
-		<Unit filename="include/examples.h" />
 		<Unit filename="include/platform.h" />
 		<Unit filename="include/types.h" />
 		<Unit filename="src/VL53L4CD_api.c">
