@@ -8,8 +8,11 @@ Description:    Entry Point into ENG5228 project for University of Glasgow
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include "btb_main.h"
+#include <unistd.h>
 
+#include "btb_main.h"
+#include "gpio_controller.h"
+#include "defines.h"
 // VL53l4CD ULD Includes
 extern "C" {
 #include "VL53L4CD_api.h"
@@ -25,10 +28,21 @@ Description:    main function/application entry
 /**********************************************/
 int main()
 {
+    //gpioTest(GPIO_TEST_LENGTH_SEC);
 	//Initialize Application
-    initDistanceSensors();
+	initializePiGpio();
     initLeds();
     initInterrupts();
+    //// Example: Start Ranging on D2
+    //gpioSetOutput(D1_XSHUT, PI_LOW);
+    //gpioSetOutput(D2_XSHUT, PI_HIGH);
+    //gpioSetOutput(D3_XSHUT, PI_LOW);
+    //gpioSetOutput(D4_XSHUT, PI_LOW);
+    //gpioSetOutput(D5_XSHUT, PI_LOW);
+    //gpioSetOutput(D6_XSHUT, PI_LOW);
+    //sleep(1); //let gpio change
+    //initDistanceSensors();
+
 
 }
 
