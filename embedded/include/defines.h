@@ -14,6 +14,7 @@ Description:    contains user constants, global enums, and structs
 #define PI_HIGH     1
 #define GPIO4       4
 
+#define LED_SHIFT_3V3  14
 #define D1_GPIO1    18
 #define D1_XSHUT    16
 #define D2_GPIO1    7
