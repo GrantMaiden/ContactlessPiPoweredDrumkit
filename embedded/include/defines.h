@@ -8,6 +8,13 @@ Description:    contains user constants, global enums, and structs
 //Test defines
 #define GPIO_TEST_LENGTH_SEC 10
 
+//Gpio Controller Defines
+#define WAIT_10MS   1551000
+#define WAIT_1MS    155100
+#define WAIT_100US  15510
+#define WAIT_245NS  38
+#define WAIT_190NS  29
+#define WAIT_50NS   8
 
 //Gpio Defines
 #define PI_LOW      0

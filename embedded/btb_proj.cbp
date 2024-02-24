@@ -42,6 +42,7 @@
 		<Unit filename="include/btb_main.h" />
 		<Unit filename="include/defines.h" />
 		<Unit filename="include/gpio_controller.h" />
+		<Unit filename="include/led.h" />
 		<Unit filename="include/platform.h" />
 		<Unit filename="include/types.h" />
 		<Unit filename="src/VL53L4CD_api.c">
@@ -49,6 +50,7 @@
 		</Unit>
 		<Unit filename="src/btb_main.cpp" />
 		<Unit filename="src/gpio_controller.cpp" />
+		<Unit filename="src/led.cpp" />
 		<Unit filename="src/platform.c">
 			<Option compilerVar="CC" />
 		</Unit>
