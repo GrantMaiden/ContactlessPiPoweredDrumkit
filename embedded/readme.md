@@ -1,5 +1,8 @@
 Directory for Embedded development
 
+Recommended Operating System for compilation- (Bookworm "12", Kernal 6.1):
+https://downloads.raspberrypi.com/raspios_full_armhf/images/raspios_full_armhf-2023-12-06/2023-12-05-raspios-bookworm-armhf-full.img.xz
+
 Project is managed using codeblocks.
 To install codeblocks, run the following from console:
 sudo apt-get install codeblocks
