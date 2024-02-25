@@ -10,6 +10,7 @@ Description:    contains user constants, global enums, and structs
 
 //Gpio Controller Defines
 #define WAIT_10MS   1551000
+#define WAIT_5MS    775000
 #define WAIT_1MS    155100
 #define WAIT_100US  15510
 #define WAIT_245NS  38

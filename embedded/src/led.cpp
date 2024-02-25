@@ -1,8 +1,8 @@
 /****************************** Module Header ******************************\
-Module Name:    gpio_control.cpp
+Module Name:    led.cpp
 Project:        btb
 Author:         Grant Maiden
-Description:    Gpio Control functions and processes
+Description:    led control functions and processes
 \***************************************************************************/
 
 #include <stdio.h>
@@ -19,7 +19,7 @@ Description:    Gpio Control functions and processes
 Function Name:  ledCreateColorArr
 Input Args:     outputArr, led1, led2, led3, led4, led5, led6
 Output Args:    void
-Description:    creates a single color array combined from input arguments. Will fill outputArr memory with combined data.
+Description:    creates a single color array combined from input arguments. Will fill outputArr memory with combined data. Performs RGB->GRB byteshift
 /**********************************************/
 void ledCreateColorArr(char* outputArr,unsigned led1, unsigned led2, unsigned led3, unsigned led4, unsigned led5, unsigned led6)
 {

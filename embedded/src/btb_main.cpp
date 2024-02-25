@@ -139,7 +139,7 @@ void runCommandLine(char *argv[])
     else if (!strcmp(argv[0], "gpioLedSpiTest"))
     {
         char * arr = new char[18]();
-        ledCreateColorArr(arr, LED_COLOR_WHITE_DIM, LED_COLOR_WHITE_DIM, LED_COLOR_WHITE_DIM, LED_COLOR_WHITE_DIM, LED_COLOR_WHITE_DIM, LED_COLOR_WHITE_DIM);
+        ledCreateColorArr(arr, LED_COLOR_CYAN_DIM, LED_COLOR_PURPLE_DIM, LED_COLOR_YELLOW_DIM, LED_COLOR_WHITE_DIM, LED_COLOR_BLUE_DIM, LED_COLOR_GREEN_DIM);
         gpioLedSpiTest(arr);
     }
     else

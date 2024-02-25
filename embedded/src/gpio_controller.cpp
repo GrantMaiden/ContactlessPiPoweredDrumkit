@@ -58,6 +58,7 @@ int initializePiGpio(void)
     }
 
 
+
     return gpioVersion;
 }
 
@@ -164,19 +165,16 @@ bool gpioLedSpiTest(char *arr)
 
     // blink test
     int loops = 0;
-    while (loops <= 2)
+    while (loops <= 4)
     {
         printf("Generating Color Input stream and sending to LEDs\n");
         gpioLedSetColor(arr);
-        gpioSpiSendData(spiLedBuf, SPI_LED_BUF_LENGTH);
         sleep(1);
 
-        printf("Turning Leds off\n");
-        for (int i = SPI_LED_BUF_COLOR_INDEX; i<SPI_LED_BUF_LENGTH; i++)
-        {
-            spiLedBuf[i] = LED_OUTPUT_LOW;
-        }
-        gpioSpiSendData(spiLedBuf, SPI_LED_BUF_LENGTH);
+        // Turn Leds off
+        char * colorArr = new char[18]();
+        ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
+        gpioLedSetColor(colorArr);
         sleep(1);
 
         loops++;
@@ -189,19 +187,18 @@ bool gpioLedSpiTest(char *arr)
     long int stopTime = GPIO_TEST_LENGTH_SEC + clockObj.tv_sec;
     char colorByte = 0x00;
     int dir = 1;
+    char * colorArr = new char[18]();
     while(stopTime>currentTime)
     {
-        char * colorArr = new char[18]();
         unsigned ColorRed = colorByte << 16;
         unsigned ColorGreen = colorByte << 8;
         unsigned ColorBlue = colorByte << 0;
-        ledCreateColorArr(arr, ColorRed, ColorGreen, ColorBlue, ColorRed, ColorGreen, ColorBlue);
-        gpioLedSetColor(arr);
-        gpioSpiSendData(spiLedBuf, SPI_LED_BUF_LENGTH);
+        ledCreateColorArr(colorArr, ColorRed, ColorGreen, ColorBlue, ColorRed, ColorGreen, ColorBlue);
+        gpioLedSetColor(colorArr);
 
         clock_gettime(CLOCK_REALTIME, &clockObj);
         currentTime = clockObj.tv_sec;
-        for(long int i=0; i<WAIT_1MS; i++){asm volatile("nop");}
+        //for(long int i=0; i<WAIT_1MS; i++){asm volatile("nop");}
 
         if(dir == 1)
         {
@@ -217,7 +214,9 @@ bool gpioLedSpiTest(char *arr)
         }
     }
 
-
+    // Turn Leds off
+    ledCreateColorArr(arr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
+    gpioLedSetColor(arr);
 
     printf("gpioLedSpiTest Completed.\n");
 
@@ -228,10 +227,11 @@ bool gpioLedSpiTest(char *arr)
 Function Name:  gpioSpiSendData
 Input Args:     char *buf
                 unsigned length
+                int repeatSendData
 Output Args:    int- PiGpio success or failure
 Description:    Sends Data at Baudrate required for leds.
 /**********************************************/
-int gpioSpiSendData(char *buf, unsigned length)
+int gpioSpiSendData(char *buf, unsigned length, int repeatSendData)
 {
     // Send Reset Command
     //gpioSetMode(LED_SHIFT_3V3, PI_OUTPUT);
@@ -248,13 +248,15 @@ int gpioSpiSendData(char *buf, unsigned length)
     //}
 
     // Send Write Data
-    int spiWriteStatus = spiWrite(spiHandle, buf, length);
-    if (spiWriteStatus < 0)
+    for (int i=0;i<=repeatSendData;i++)
     {
-        printf("Spi write failed. spiWrite() returned: %i\n", spiWriteStatus);
-        return false;
+        int spiWriteStatus = spiWrite(spiHandle, buf, length);
+        if (spiWriteStatus < 0)
+        {
+            printf("Spi write failed. spiWrite() returned: %i\n", spiWriteStatus);
+            return false;
+        }
     }
-
     // Close Spi Handle
     //int spiHandleClosedStatus = spiClose(spiHandle);// = spiClose(spiHandle);
     //if (spiHandleClosedStatus < 0)
@@ -293,7 +295,7 @@ void gpioLedSetColor(char *arr)
         //printf("Led Color buffer index: %i\nValue: %i\n", i, arr[i]);
     }
 
-
+    gpioSpiSendData(spiLedBuf, SPI_LED_BUF_LENGTH);
 }
 
 /**********************************************\

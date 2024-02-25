@@ -14,13 +14,15 @@ Description:    Header file for gpio_control.cpp
     Then search for core_freq parameter.
 */
 
-#define SPI_LED_BUF_LENGTH          444
-#define SPI_LED_BUF_COLOR_INDEX     300
-#define SPI_FLAGS                   0b000000000000000000000000011100000
-#define SPI_FREQ                    7000000
+#define LED_SEND_REPEATED_SPI       1
+#define SPI_LED_BUF_LENGTH          344
+#define SPI_LED_BUF_COLOR_INDEX     200
+#define SPI_FLAGS                   0b000000000001100000000000011100000
+#define SPI_FREQ                    6666667
 #define SPI_CHANNEL                 0
 #define LED_OUTPUT_HIGH             0b00001111
 #define LED_OUTPUT_LOW              0b00000011
+
 
 /**
  * GPIO Speed test. Toggles GPIO 4 (pin 7) at maximimum speed for user defined seconds.
@@ -60,10 +62,11 @@ bool gpioLedSpiTest(char *arr);
 /**
  * Sends Spi Data at Baudrate required for leds.
  * \param buf- char *buf pointer to char buffer that contains spi data
-  * \param length - unsigned length of data
+ * \param length - unsigned length of data
+ * \param repeatSendData - int send same message multiple times (for redundancy and correct errors)
  * \returns bool- returns true if completed successfully or false if error occured.
  **/
-int gpioSpiSendData(char *buf, unsigned length);
+int gpioSpiSendData(char *buf, unsigned length, int repeatSendData = LED_SEND_REPEATED_SPI);
 
 /**
  * Sets Led Color Array to input 144bits (18bytes). Led<->Byte Order D1-D2-D3-D4-D5-D6
