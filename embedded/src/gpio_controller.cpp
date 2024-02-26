@@ -1,5 +1,5 @@
 /****************************** Module Header ******************************\
-Module Name:    gpio_control.cpp
+Module Name:    gpio_controller.cpp
 Project:        btb
 Author:         Grant Maiden
 Description:    Gpio Control functions and processes
@@ -162,12 +162,14 @@ bool gpioLedSpiTest(char *arr)
         printf("Led Color buffer index: %i\nValue: %i\n", l, arr[l]);
     }
     initializePiGpio();
+    gpioSetOutput(D2_XSHUT, PI_HIGH);
+
 
     // blink test
     int loops = 0;
     while (loops <= 4)
     {
-        printf("Generating Color Input stream and sending to LEDs\n");
+        // Set Color
         gpioLedSetColor(arr);
         sleep(1);
 
@@ -188,6 +190,7 @@ bool gpioLedSpiTest(char *arr)
     char colorByte = 0x00;
     int dir = 1;
     char * colorArr = new char[18]();
+    gpioSetOutput(D2_XSHUT, PI_LOW);
     while(stopTime>currentTime)
     {
         unsigned ColorRed = colorByte << 16;
