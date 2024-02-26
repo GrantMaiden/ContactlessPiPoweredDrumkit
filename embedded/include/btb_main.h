@@ -46,3 +46,11 @@ void parseCommandLine(int argc,char *argv[]);
  **/
 void runCommandLine(char *argv[]);
 
+/**
+ * Callback that is triggered on DistanceSensors Interrupt Falling Edge.
+ * \param gpio - int gpio Triggered Gpio number
+ * \param level - int level GPIO input level at time of ISR
+ * \param tick - uint32_t trigger time in microseconds.
+ **/
+void rangingISRCallback(int gpio, int level, uint32_t tick);
+

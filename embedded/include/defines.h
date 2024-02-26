@@ -5,10 +5,13 @@ Author:         Grant Maiden
 Description:    contains user constants, global enums, and structs
 \***************************************************************************/
 
-//Test defines
+// Test defines
 #define GPIO_TEST_LENGTH_SEC 10
 
-//Gpio Controller Defines
+// Misc
+#define DISTANCE_SENSOR_INTERRUPT_TIMEOUT 12
+
+// Gpio Controller Defines
 #define WAIT_10MS   1551000
 #define WAIT_5MS    775000
 #define WAIT_2MS    310200
@@ -18,7 +21,7 @@ Description:    contains user constants, global enums, and structs
 #define WAIT_190NS  29
 #define WAIT_50NS   8
 
-//Gpio Defines
+// Gpio Defines
 #define PI_LOW      0
 #define PI_HIGH     1
 #define GPIO4       4
