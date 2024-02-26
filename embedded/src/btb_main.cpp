@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
     parseCommandLine(argc, argv);
     //gpioTest(GPIO_TEST_LENGTH_SEC);
 	//Initialize Application
-	initializePiGpio();
+	gpioInitializeLib();
     initLeds();
     initInterrupts();
     //// Example: Start Ranging on D2

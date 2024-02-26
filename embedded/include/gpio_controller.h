@@ -15,8 +15,8 @@ Description:    Header file for gpio_control.cpp
 */
 
 #define LED_SEND_REPEATED_SPI       0
-#define SPI_LED_BUF_LENGTH          244
-#define SPI_LED_BUF_COLOR_INDEX     100
+#define SPI_LED_BUF_LENGTH          344
+#define SPI_LED_BUF_COLOR_INDEX     200
 #define SPI_FLAGS                   0b000000000001100000000000011100000
 #define SPI_FREQ                    6666667
 #define SPI_CHANNEL                 0
@@ -35,7 +35,7 @@ bool gpioTest(uint seconds);
  * initialize PiGpio Library
  * \returns int- PiGpio library version
  **/
-int initializePiGpio(void);
+int gpioInitializeLib(void);
 
 /**
  * Sets Output level of GPIO
