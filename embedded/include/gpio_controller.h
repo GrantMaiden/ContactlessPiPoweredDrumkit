@@ -1,5 +1,5 @@
 /****************************** Module Header ******************************\
-Module Name:    gpio_control.h
+Module Name:    gpio_controller.h
 Project:        btb
 Author:         Grant Maiden
 Description:    Header file for gpio_control.cpp
@@ -14,7 +14,7 @@ Description:    Header file for gpio_control.cpp
     Then search for core_freq parameter.
 */
 
-#define LED_SEND_REPEATED_SPI       1
+#define LED_SEND_REPEATED_SPI       0
 #define SPI_LED_BUF_LENGTH          344
 #define SPI_LED_BUF_COLOR_INDEX     200
 #define SPI_FLAGS                   0b000000000001100000000000011100000
@@ -35,7 +35,7 @@ bool gpioTest(uint seconds);
  * initialize PiGpio Library
  * \returns int- PiGpio library version
  **/
-int initializePiGpio(void);
+int gpioInitializeLib(void);
 
 /**
  * Sets Output level of GPIO

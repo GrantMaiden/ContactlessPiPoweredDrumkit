@@ -1,5 +1,5 @@
 /****************************** Module Header ******************************\
-Module Name:    gpio_control.cpp
+Module Name:    gpio_controller.cpp
 Project:        btb
 Author:         Grant Maiden
 Description:    Gpio Control functions and processes
@@ -28,7 +28,7 @@ Input Args:     void
 Output Args:    int- PiGpio library version
 Description:    initialize PiGpio
 /**********************************************/
-int initializePiGpio(void)
+int gpioInitializeLib(void)
 {
     // init pins
     gpioTerminate();
@@ -71,7 +71,7 @@ Description:    toggle GPIO4 (pin7) as fast as possible
 bool gpioTest(uint seconds)
 {
     printf("Beginning gpioTest. gpioTest Toggles GPIO4 as fast as possible, testing frequency limitations of piGPIO library\n");
-    initializePiGpio();
+    gpioInitializeLib();
     if(gpioSetMode(GPIO4, PI_OUTPUT) != 0)
     {
         printf("failed to set GPIO mode on GPIO %i\n", GPIO4);
@@ -106,7 +106,7 @@ Description:    Spew '1010' pattern to Leds using asm nop for delay
 bool ledNopAsmTest(uint seconds)
 {
     printf("Beginning ledNopAsmTest. Spew '1010' pattern to Leds using asm nop for delay\n");
-    initializePiGpio();
+    gpioInitializeLib();
     if(gpioSetMode(LED_SHIFT_3V3, PI_OUTPUT) != 0)
     {
         printf("failed to set GPIO mode on GPIO %i\n", GPIO4);
@@ -161,13 +161,14 @@ bool gpioLedSpiTest(char *arr)
     {
         printf("Led Color buffer index: %i\nValue: %i\n", l, arr[l]);
     }
-    initializePiGpio();
+    gpioInitializeLib();
+
 
     // blink test
     int loops = 0;
     while (loops <= 4)
     {
-        printf("Generating Color Input stream and sending to LEDs\n");
+        // Set Color
         gpioLedSetColor(arr);
         sleep(1);
 
@@ -198,7 +199,7 @@ bool gpioLedSpiTest(char *arr)
 
         clock_gettime(CLOCK_REALTIME, &clockObj);
         currentTime = clockObj.tv_sec;
-        //for(long int i=0; i<WAIT_1MS; i++){asm volatile("nop");}
+        for(long int i=0; i<WAIT_2MS; i++){asm volatile("nop");}
 
         if(dir == 1)
         {
