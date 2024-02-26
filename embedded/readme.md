@@ -7,8 +7,25 @@ Project is managed using codeblocks.
 To install codeblocks, run the following from console:
 sudo apt-get install codeblocks
 
-Enable I2C communication:
+Enable I2C/SPI communication:
 Pi Grenade Bomb -> Preferences -> Raspberry Pi Configuration -> Interfaces -> I2C (Toggle)
+Pi Grenade Bomb -> Preferences -> Raspberry Pi Configuration -> Interfaces -> SPI (Toggle)
+
+Edit Config.txt:
+sudo nano /boot/firmware/config.txt
+Add Lines:
+core_freq=250
+core_freq_min=250
+
+pigpio download:
+https://abyz.me.uk/rpi/pigpio/download.html
+
+Setup Codeblocks:
+Settings-> Compiler -> Linker Settings -> Other linker options -> add to field: -lpigpio -lrt -lpthread
+
+Add Tool Codeblocks:
+Tools -> Configure Tools -> Add -> Name field: Run as Sudo -> Executable Field: sudo $(TARGET_OUTPUT_FILE) 
+NOTE: MUST BUILD THEN TO RUN SELECT THIS TOOL FROM TOOL MENU
 
 Self Documenting Code Format:
 https://www.doxygen.nl/manual/docblocks.html

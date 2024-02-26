@@ -8,8 +8,12 @@ Description:    Entry Point into ENG5228 project for University of Glasgow
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include "btb_main.h"
+#include <unistd.h>
 
+#include "btb_main.h"
+#include "gpio_controller.h"
+#include "defines.h"
+#include "led.h"
 // VL53l4CD ULD Includes
 extern "C" {
 #include "VL53L4CD_api.h"
@@ -23,12 +27,25 @@ Input Args:     none
 Output Args:    none
 Description:    main function/application entry
 /**********************************************/
-int main()
+int main(int argc, char *argv[])
 {
+
+    parseCommandLine(argc, argv);
+    //gpioTest(GPIO_TEST_LENGTH_SEC);
 	//Initialize Application
-    initDistanceSensors();
+	gpioInitializeLib();
     initLeds();
     initInterrupts();
+    //// Example: Start Ranging on D2
+    //gpioSetOutput(D1_XSHUT, PI_LOW);
+    //gpioSetOutput(D2_XSHUT, PI_LOW);
+    //gpioSetOutput(D3_XSHUT, PI_LOW);
+    //gpioSetOutput(D4_XSHUT, PI_HIGH);
+    //gpioSetOutput(D5_XSHUT, PI_LOW);
+    //gpioSetOutput(D6_XSHUT, PI_LOW);
+    //sleep(1); //let gpio change
+    initDistanceSensors();
+
 
 }
 
@@ -76,6 +93,59 @@ Description:    intialize interrupts and timers
 void initInterrupts()
 {
 
+}
+
+/**********************************************\
+Function Name:  parseCommandLine()
+Input Args:     int argc        arguement count
+                char *argv[]    arguement values
+Output Args:    none
+Description:    Parses Command line arguements. Command line inputs are used primarily for unit tests.
+/**********************************************/
+void parseCommandLine(int argc,char *argv[])
+{
+    if (argc > 1)
+    {
+        printf("Found %i additional input arguments\n\n", argc-1);
+        for(int i=1; i<argc; i++)
+        {
+            printf("Attempting to run Command: %s\n", argv[i]);
+            runCommandLine(&argv[i]);
+        }
+        exit(0);
+    }
+}
+
+/**********************************************\
+Function Name:  runCommandLine()
+Input Args:     string arg   arguement values
+Output Args:    none
+Description:    Runs Command Line arguements
+/**********************************************/
+void runCommandLine(char *argv[])
+{
+    if(!strcmp(argv[0], "gpioTest"))
+    {
+        gpioTest(GPIO_TEST_LENGTH_SEC);
+    }
+    else if (!strcmp(argv[0], "test"))
+    {
+        printf("Test Arguement Received!!\n");
+    }
+    else if (!strcmp(argv[0], "ledNopAsmTest"))
+    {
+        ledNopAsmTest(GPIO_TEST_LENGTH_SEC);
+    }
+    else if (!strcmp(argv[0], "gpioLedSpiTest"))
+    {
+        char * arr = new char[18]();
+        ledCreateColorArr(arr, LED_COLOR_CYAN_DIM, LED_COLOR_PURPLE_DIM, LED_COLOR_YELLOW_DIM, LED_COLOR_WHITE_DIM, LED_COLOR_BLUE_DIM, LED_COLOR_GREEN_DIM);
+        gpioLedSpiTest(arr);
+    }
+    else
+    {
+        printf("Command: %s Failed to run!!!\n", argv[0]);
+    }
 }
 
 /**********************************************\

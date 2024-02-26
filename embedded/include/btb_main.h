@@ -5,7 +5,6 @@ Author:         Grant Maiden
 Description:    Header file for btb.main.c
 \***************************************************************************/
 
-// VL53l4CD ULD Includes
 extern "C" {
 #include "VL53L4CD_api.h"
 #include "platform.h"
@@ -33,4 +32,17 @@ void initLeds();
  * Initialize Interrupts
  **/
 void initInterrupts();
+
+/**
+ * Parses Command line arguements. Command line inputs are used primarily for unit tests
+ * \param argc - int containging the number of command line arguements
+ * \param *argv[] - char* to an array of characters containing the input commands
+ **/
+void parseCommandLine(int argc,char *argv[]);
+
+/**
+ * Runs command line arguements
+ * \param argv - char array input of characters containing the input command
+ **/
+void runCommandLine(char *argv[]);
 
