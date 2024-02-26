@@ -9,11 +9,13 @@ Description:    Entry Point into ENG5228 project for University of Glasgow
 #include <string.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <pigpio.h>
 
 #include "btb_main.h"
 #include "gpio_controller.h"
 #include "defines.h"
 #include "led.h"
+
 // VL53l4CD ULD Includes
 extern "C" {
 #include "VL53L4CD_api.h"
@@ -92,7 +94,31 @@ Description:    intialize interrupts and timers
 /**********************************************/
 void initInterrupts()
 {
+    gpioSetISRFunc(D1_GPIO1, FALLING_EDGE, DISTANCE_SENSOR_INTERRUPT_TIMEOUT, rangingISRCallback);
+    gpioSetISRFunc(D2_GPIO1, FALLING_EDGE, DISTANCE_SENSOR_INTERRUPT_TIMEOUT, rangingISRCallback);
+    gpioSetISRFunc(D3_GPIO1, FALLING_EDGE, DISTANCE_SENSOR_INTERRUPT_TIMEOUT, rangingISRCallback);
+    gpioSetISRFunc(D4_GPIO1, FALLING_EDGE, DISTANCE_SENSOR_INTERRUPT_TIMEOUT, rangingISRCallback);
+    gpioSetISRFunc(D5_GPIO1, FALLING_EDGE, DISTANCE_SENSOR_INTERRUPT_TIMEOUT, rangingISRCallback);
+    gpioSetISRFunc(D6_GPIO1, FALLING_EDGE, DISTANCE_SENSOR_INTERRUPT_TIMEOUT, rangingISRCallback);
+}
 
+/**********************************************\
+Function Name:  rangingISRCallback()
+Input Args:     int gpio :Triggered Gpio number
+                int level: GPIO input level at time of ISR
+                uint32_t tick: trigger time in microseconds.
+Output Args:    none
+Description:    callback that is triggered on DistanceSensors Interrupt Falling Edge.
+/**********************************************/
+void rangingISRCallback(int gpio, int level, uint32_t tick)
+{
+    printf("GPIO %d became %d at %d\n", gpio, level, tick); //COMMENT ME OUT WHEN WORKING
+
+    if (level == PI_TIMEOUT)
+    {
+        printf("GPIO %d returned Interrupt Timeout! Interrupt Exceeded %dms!\n", gpio, DISTANCE_SENSOR_INTERRUPT_TIMEOUT);
+    }
+    // LUCAS ETHAN ADD CODE.
 }
 
 /**********************************************\
@@ -130,7 +156,7 @@ void runCommandLine(char *argv[])
     }
     else if (!strcmp(argv[0], "test"))
     {
-        printf("Test Arguement Received!!\n");
+        printf("Test Argument Received!!\n");
     }
     else if (!strcmp(argv[0], "ledNopAsmTest"))
     {
@@ -141,6 +167,10 @@ void runCommandLine(char *argv[])
         char * arr = new char[18]();
         ledCreateColorArr(arr, LED_COLOR_CYAN_DIM, LED_COLOR_PURPLE_DIM, LED_COLOR_YELLOW_DIM, LED_COLOR_WHITE_DIM, LED_COLOR_BLUE_DIM, LED_COLOR_GREEN_DIM);
         gpioLedSpiTest(arr);
+    }
+    else if (!strcmp(argv[0], "interruptTest"))
+    {
+        //gpioLedSpiTest(arr);
     }
     else
     {

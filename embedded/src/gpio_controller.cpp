@@ -23,7 +23,7 @@ char * spiLedBuf = new char[SPI_LED_BUF_LENGTH]();
 int spiHandle;
 
 /**********************************************\
-Function Name:  initializePiGpio
+Function Name:  gpioInitializeLib
 Input Args:     void
 Output Args:    int- PiGpio library version
 Description:    initialize PiGpio
