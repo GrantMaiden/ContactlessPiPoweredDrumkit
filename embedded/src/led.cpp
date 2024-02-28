@@ -141,12 +141,11 @@ void ledInitialiseTest()
 
         // Simulate Delay
         gpioDelay(2500);
-        // Turn Leds off
-        ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
-        gpioLedSetColor(colorArr);
     }
-
-
+    // Turn Leds off
+    ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
+    gpioLedSetColor(colorArr);
+    printf("ledInitialiseTest Complete.\n");
 
 }
 
