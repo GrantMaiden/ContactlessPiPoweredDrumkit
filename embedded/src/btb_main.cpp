@@ -31,20 +31,19 @@ Description:    main function/application entry
 /**********************************************/
 int main(int argc, char *argv[])
 {
-
     parseCommandLine(argc, argv);
     //gpioTest(GPIO_TEST_LENGTH_SEC);
 	//Initialize Application
 	gpioInitializeLib();
     initLeds();
-    initInterrupts();
+    //initInterrupts();
     //// Example: Start Ranging on D2
-    //gpioSetOutput(D1_XSHUT, PI_LOW);
-    //gpioSetOutput(D2_XSHUT, PI_LOW);
-    //gpioSetOutput(D3_XSHUT, PI_LOW);
-    //gpioSetOutput(D4_XSHUT, PI_HIGH);
-    //gpioSetOutput(D5_XSHUT, PI_LOW);
-    //gpioSetOutput(D6_XSHUT, PI_LOW);
+    gpioSetOutput(D1_XSHUT, PI_LOW);
+    gpioSetOutput(D2_XSHUT, PI_LOW);
+    gpioSetOutput(D3_XSHUT, PI_LOW);
+    gpioSetOutput(D4_XSHUT, PI_HIGH);
+    gpioSetOutput(D5_XSHUT, PI_LOW);
+    gpioSetOutput(D6_XSHUT, PI_LOW);
     //sleep(1); //let gpio change
     initDistanceSensors();
 

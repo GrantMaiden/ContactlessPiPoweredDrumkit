@@ -199,7 +199,7 @@ bool gpioLedSpiTest(char *arr)
 
         clock_gettime(CLOCK_REALTIME, &clockObj);
         currentTime = clockObj.tv_sec;
-        for(long int i=0; i<WAIT_2MS; i++){asm volatile("nop");}
+        gpioDelay(2000); // 2000us wait
 
         if(dir == 1)
         {
