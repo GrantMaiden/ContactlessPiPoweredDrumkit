@@ -44,6 +44,7 @@
 		<Unit filename="include/gpio_controller.h" />
 		<Unit filename="include/led.h" />
 		<Unit filename="include/platform.h" />
+		<Unit filename="include/ranging.h" />
 		<Unit filename="include/types.h" />
 		<Unit filename="src/VL53L4CD_api.c">
 			<Option compilerVar="CC" />
@@ -54,6 +55,7 @@
 		<Unit filename="src/platform.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="src/ranging.cpp" />
 		<Extensions />
 	</Project>
 </CodeBlocks_project_file>

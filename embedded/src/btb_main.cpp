@@ -15,6 +15,7 @@ Description:    Entry Point into ENG5228 project for University of Glasgow
 #include "gpio_controller.h"
 #include "defines.h"
 #include "led.h"
+#include "ranging.h"
 
 // VL53l4CD ULD Includes
 extern "C" {
@@ -171,6 +172,10 @@ void runCommandLine(char *argv[])
     else if (!strcmp(argv[0], "interruptTest"))
     {
         //gpioLedSpiTest(arr);
+    }
+    else if (!strcmp(argv[0], "rangingTestDistanceSensors"))
+    {
+        rangingTestDistanceSensors();
     }
     else
     {

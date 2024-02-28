@@ -1,0 +1,93 @@
+# depslib dependency file v1.0
+1709058216 source:/home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/src/gpio_controller.cpp
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<unistd.h>
+	<time.h>
+	<math.h>
+	<pigpio.h>
+	"defines.h"
+	"gpio_controller.h"
+	"led.h"
+
+1709058216 /home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/include/defines.h
+
+1709058216 /home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/include/gpio_controller.h
+
+1709058216 /home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/include/led.h
+
+1709058216 source:/home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/src/led.cpp
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<unistd.h>
+	"defines.h"
+	"gpio_controller.h"
+	"led.h"
+
+1709058216 source:/home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/src/platform.c
+	<fcntl.h>
+	<unistd.h>
+	<time.h>
+	<linux/i2c.h>
+	<linux/i2c-dev.h>
+	<sys/ioctl.h>
+	"platform.h"
+	"types.h"
+
+1709058216 /home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/include/platform.h
+	<stdint.h>
+	<string.h>
+
+1709058216 /home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/include/types.h
+	<stdint.h>
+	<stddef.h>
+	<string.h>
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+
+1709061105 source:/home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/src/ranging.cpp
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<unistd.h>
+	"defines.h"
+	"gpio_controller.h"
+	"ranging.h"
+
+1709060084 /home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/include/ranging.h
+	"VL53L4CD_api.h"
+	"platform.h"
+	"types.h"
+
+1709058216 /home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/include/VL53L4CD_api.h
+	"platform.h"
+
+1709058216 source:/home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/src/VL53L4CD_api.c
+	<string.h>
+	<math.h>
+	"VL53L4CD_api.h"
+	"platform.h"
+
+1709058428 source:/home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/src/btb_main.cpp
+	<stdlib.h>
+	<string.h>
+	<stdio.h>
+	<unistd.h>
+	<pigpio.h>
+	"btb_main.h"
+	"gpio_controller.h"
+	"defines.h"
+	"led.h"
+	"ranging.h"
+	"VL53L4CD_api.h"
+	"platform.h"
+	"types.h"
+
+1709058216 /home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/include/btb_main.h
+	"VL53L4CD_api.h"
+	"platform.h"
+	"types.h"
+
