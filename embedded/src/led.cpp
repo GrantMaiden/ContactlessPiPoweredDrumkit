@@ -9,6 +9,7 @@ Description:    led control functions and processes
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <pigpio.h>
 
 #include "defines.h"
 #include "gpio_controller.h"
@@ -38,6 +39,116 @@ void ledCreateColorArr(char* outputArr,unsigned led1, unsigned led2, unsigned le
 
 }
 
+
+/**********************************************\
+Function Name:  ledInitialiseTest
+Input Args:     None
+Output Args:    void
+Description:    Peter's LED test
+/**********************************************/
+
+void ledInitialiseTest()
+{
+    printf("Beginning ledInitialiseTest. Runs Peter's LED Test Via SPI Interface\n");
+    gpioInitializeLib();
+    char * colorArr = new char[18]();
+    TSM currentState = TSM::INITIAL1;
+    unsigned initialColour1 = 0x7;
+    TSM nextState = currentState;
+    int loops = 0;
+    int loopWait = 0;
+
+    while(loops <= 2000)
+    {
+        // Update current state from nextState
+        currentState = nextState;
+        switch(currentState)
+        {
+            case INITIAL1:
+                ledCreateColorArr(colorArr, initialColour1, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
+                gpioLedSetColor(colorArr);
+                if (loopWait == INITIAL_SPEED)
+                {
+                    nextState = INITIAL2;
+                    loopWait = 0;
+                }
+                break;
+
+            case INITIAL2:
+                ledCreateColorArr(colorArr, LED_COLOR_OFF, initialColour1, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
+                gpioLedSetColor(colorArr);
+                if (loopWait == INITIAL_SPEED)
+                {
+                    nextState = INITIAL3;
+                    loopWait = 0;
+                }
+                break;
+
+            case INITIAL3:
+                ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, initialColour1, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
+                gpioLedSetColor(colorArr);
+                if (loopWait == INITIAL_SPEED)
+                {
+                    nextState = INITIAL4;
+                    loopWait = 0;
+                }
+                break;
+
+            case INITIAL4:
+                ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, initialColour1, LED_COLOR_OFF, LED_COLOR_OFF);
+                gpioLedSetColor(colorArr);
+                if (loopWait == INITIAL_SPEED)
+                {
+                    nextState = INITIAL5;
+                    loopWait = 0;
+                }
+                break;
+
+            case INITIAL5:
+                ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, initialColour1, LED_COLOR_OFF);
+                gpioLedSetColor(colorArr);
+                if (loopWait == INITIAL_SPEED)
+                {
+                    nextState = INITIAL6;
+                    loopWait = 0;
+                }
+                break;
+
+            case INITIAL6:
+                ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, initialColour1);
+                gpioLedSetColor(colorArr);
+                if (loopWait == INITIAL_SPEED)
+                {
+                    nextState = INITIAL1;
+                    initialColour1 = initialColour1 * 5;
+                    loopWait = 0;
+                }
+                //else if (loops == 1000 )
+                //{
+                // nextState = primaryState1
+                //}
+                break;
+
+            default:
+                nextState = INITIAL1;
+                break;
+        }
+
+
+
+        // Prepare for next Iteration of SM
+        loops = loops+1;
+        loopWait = loopWait+1;
+
+        // Simulate Delay
+        gpioDelay(2500);
+    }
+    // Turn Leds off
+    ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
+    gpioLedSetColor(colorArr);
+    printf("ledInitialiseTest Complete.\n");
+
+}
 
 
 

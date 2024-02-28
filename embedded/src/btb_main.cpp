@@ -33,16 +33,15 @@ int main(int argc, char *argv[])
 {
 
     parseCommandLine(argc, argv);
-    //gpioTest(GPIO_TEST_LENGTH_SEC);
 	//Initialize Application
 	gpioInitializeLib();
     initLeds();
     initInterrupts();
     //// Example: Start Ranging on D2
     //gpioSetOutput(D1_XSHUT, PI_LOW);
-    //gpioSetOutput(D2_XSHUT, PI_LOW);
+    //gpioSetOutput(D2_XSHUT, PI_HIGH);
     //gpioSetOutput(D3_XSHUT, PI_LOW);
-    //gpioSetOutput(D4_XSHUT, PI_HIGH);
+    //gpioSetOutput(D4_XSHUT, PI_LOW);
     //gpioSetOutput(D5_XSHUT, PI_LOW);
     //gpioSetOutput(D6_XSHUT, PI_LOW);
     //sleep(1); //let gpio change
@@ -167,6 +166,10 @@ void runCommandLine(char *argv[])
         char * arr = new char[18]();
         ledCreateColorArr(arr, LED_COLOR_CYAN_DIM, LED_COLOR_PURPLE_DIM, LED_COLOR_YELLOW_DIM, LED_COLOR_WHITE_DIM, LED_COLOR_BLUE_DIM, LED_COLOR_GREEN_DIM);
         gpioLedSpiTest(arr);
+    }
+    else if (!strcmp(argv[0], "ledInitialiseTest"))
+    {
+        ledInitialiseTest();
     }
     else if (!strcmp(argv[0], "interruptTest"))
     {
