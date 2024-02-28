@@ -20,6 +20,10 @@ extern "C" {
 #define D4_I2C_ADDRESS      0x55
 #define D5_I2C_ADDRESS      0x56
 #define D6_I2C_ADDRESS      0x57
+// Change these as desired
+#define RANGE_TIMING_MAX    10
+#define RANGING_LIM_LOW     10
+#define RANGING_LIM_HIGH    500
 
 
 // Enums
@@ -48,8 +52,9 @@ int getRangeTest(Dev_t dev);
 
 /**
  * Initialize Distance Sensors
+ * \param int xshutID whichever sensor to init
  **/
-void rangingInitDistanceSensors();
+void rangingInitDistanceSensors(int xshutID, Dev_t dev);
 
 /**
  * Test Distance Sensors
