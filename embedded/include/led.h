@@ -15,10 +15,12 @@ Description:    contains led definitions and headers
 #define LED_COLOR_YELLOW_DIM        0x010100
 #define LED_COLOR_CYAN_DIM          0x000101
 #define LED_COLOR_ORANGE_BRIGHT     0xCC8400
+#define LED_COLOR_RED               0x110000
+#define LED_COLOR_GREEN             0x001100
 #define LED_COLOR_OFF               0x000000
 
 // LED Speed
-#define INITIAL_SPEED               17
+#define INITIAL_SPEED               46
 
 enum TSM:int
 {
@@ -27,7 +29,10 @@ enum TSM:int
     INITIAL3,
     INITIAL4,
     INITIAL5,
-    INITIAL6
+    INITIAL6,
+    INITIAL7,
+    INITIAL8,
+    INITIAL9
 };
 
 /**

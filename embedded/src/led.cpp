@@ -54,80 +54,157 @@ void ledInitialiseTest()
     char * colorArr = new char[18]();
     TSM currentState = TSM::INITIAL1;
     unsigned initialColour1 = 0x7;
-    TSM nextState = currentState;
+    TSM nextState;
     int loops = 0;
     int loopWait = 0;
+    int initialSpeed = INITIAL_SPEED;
+    char colorByte = 0x00;
+    int dir = 1;
 
-    while(loops <= 2000)
+    while(loops <= 4300)
     {
-        // Update current state from nextState
-        currentState = nextState;
         switch(currentState)
         {
             case INITIAL1:
                 ledCreateColorArr(colorArr, initialColour1, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
                 gpioLedSetColor(colorArr);
-                if (loopWait == INITIAL_SPEED)
+                if (loopWait == initialSpeed)
                 {
                     nextState = INITIAL2;
                     loopWait = 0;
+                }
+
+                else if (loops == 2500 )
+                {
+                  nextState = INITIAL7;
+                  loopWait = 0;
                 }
                 break;
 
             case INITIAL2:
                 ledCreateColorArr(colorArr, LED_COLOR_OFF, initialColour1, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
                 gpioLedSetColor(colorArr);
-                if (loopWait == INITIAL_SPEED)
+                if (loopWait == initialSpeed)
                 {
                     nextState = INITIAL3;
                     loopWait = 0;
+                }
+                else if (loops == 2500 )
+                {
+                  nextState = INITIAL7;
+                  loopWait = 0;
                 }
                 break;
 
             case INITIAL3:
                 ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, initialColour1, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
                 gpioLedSetColor(colorArr);
-                if (loopWait == INITIAL_SPEED)
+                if (loopWait == initialSpeed)
                 {
                     nextState = INITIAL4;
                     loopWait = 0;
+                }
+                else if (loops == 2500 )
+                {
+                  nextState = INITIAL7;
+                  loopWait = 0;
                 }
                 break;
 
             case INITIAL4:
                 ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, initialColour1, LED_COLOR_OFF, LED_COLOR_OFF);
                 gpioLedSetColor(colorArr);
-                if (loopWait == INITIAL_SPEED)
+                if (loopWait == initialSpeed)
                 {
                     nextState = INITIAL5;
                     loopWait = 0;
+                }
+                else if (loops == 2500 )
+                {
+                  nextState = INITIAL7;
+                  loopWait = 0;
                 }
                 break;
 
             case INITIAL5:
                 ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, initialColour1, LED_COLOR_OFF);
                 gpioLedSetColor(colorArr);
-                if (loopWait == INITIAL_SPEED)
+                if (loopWait == initialSpeed)
                 {
                     nextState = INITIAL6;
                     loopWait = 0;
+                }
+
+                else if (loops == 2500 )
+                {
+                  nextState = INITIAL7;
+                  loopWait = 0;
                 }
                 break;
 
             case INITIAL6:
                 ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, initialColour1);
                 gpioLedSetColor(colorArr);
-                if (loopWait == INITIAL_SPEED)
+                if (loopWait == initialSpeed)
                 {
                     nextState = INITIAL1;
+                    initialSpeed = initialSpeed - 2;
                     initialColour1 = initialColour1 * 5;
                     loopWait = 0;
                 }
-                //else if (loops == 1000 )
-                //{
-                // nextState = primaryState1
-                //}
+
+                else if (loops == 2500 )
+                {
+                  nextState = INITIAL7;
+                  loopWait = 0;
+                }
                 break;
+
+            case INITIAL7:
+                ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
+                gpioLedSetColor(colorArr);
+                if (loopWait == 200)
+                {
+                    nextState = INITIAL8;
+                    loopWait = 0;
+                }
+
+                else if (loops >= 3600 )
+                {
+                  nextState = INITIAL9;
+                  loopWait = 0;
+                }
+
+                break;
+
+            case INITIAL8:
+                ledCreateColorArr(colorArr, LED_COLOR_RED, LED_COLOR_RED, LED_COLOR_RED, LED_COLOR_RED, LED_COLOR_RED, LED_COLOR_RED);
+                gpioLedSetColor(colorArr);
+                if (loopWait == 250)
+                {
+                    nextState = INITIAL7;
+                    loopWait = 0;
+                }
+
+                else if (loops >= 3600 )
+                {
+                  nextState = INITIAL9;
+                  loopWait = 0;
+                }
+
+                break;
+
+            case INITIAL9:
+                ledCreateColorArr(colorArr, LED_COLOR_GREEN, LED_COLOR_GREEN, LED_COLOR_GREEN, LED_COLOR_GREEN, LED_COLOR_GREEN, LED_COLOR_GREEN);
+                gpioLedSetColor(colorArr);
+                if (loopWait == 500)
+                {
+                    nextState = INITIAL7;
+                    loopWait = 0;
+                }
+
+                break;
+
 
             default:
                 nextState = INITIAL1;
@@ -139,16 +216,18 @@ void ledInitialiseTest()
         // Prepare for next Iteration of SM
         loops = loops+1;
         loopWait = loopWait+1;
+        currentState = nextState;
 
         // Simulate Delay
         gpioDelay(2500);
+        // Turn Leds off
+        ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
+        gpioLedSetColor(colorArr);
     }
-    // Turn Leds off
-    ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
-    gpioLedSetColor(colorArr);
-    printf("ledInitialiseTest Complete.\n");
-
 }
+
+
+
 
 
 
