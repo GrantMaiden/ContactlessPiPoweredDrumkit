@@ -54,12 +54,14 @@ void ledInitialiseTest()
     char * colorArr = new char[18]();
     TSM currentState = TSM::INITIAL1;
     unsigned initialColour1 = 0x7;
-    TSM nextState;
+    TSM nextState = currentState;
     int loops = 0;
     int loopWait = 0;
 
     while(loops <= 2000)
     {
+        // Update current state from nextState
+        currentState = nextState;
         switch(currentState)
         {
             case INITIAL1:
@@ -137,7 +139,6 @@ void ledInitialiseTest()
         // Prepare for next Iteration of SM
         loops = loops+1;
         loopWait = loopWait+1;
-        currentState = nextState;
 
         // Simulate Delay
         gpioDelay(2500);
