@@ -18,7 +18,7 @@ Description:    Header file for gpio_control.cpp
 #define SPI_LED_BUF_LENGTH          344
 #define SPI_LED_BUF_COLOR_INDEX     200
 #define SPI_FLAGS                   0b000000000001100000000000011100000
-#define SPI_FREQ                    6666667
+#define SPI_FREQ                    6400000
 #define SPI_CHANNEL                 0
 #define LED_OUTPUT_HIGH             0b00001111
 #define LED_OUTPUT_LOW              0b00000011

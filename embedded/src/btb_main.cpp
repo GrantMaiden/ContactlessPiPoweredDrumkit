@@ -31,21 +31,20 @@ Description:    main function/application entry
 /**********************************************/
 int main(int argc, char *argv[])
 {
-
-    parseCommandLine(argc, argv);
+	parseCommandLine(argc, argv);
 	//Initialize Application
 	gpioInitializeLib();
-    initLeds();
-    initInterrupts();
-    //// Example: Start Ranging on D2
-    //gpioSetOutput(D1_XSHUT, PI_LOW);
-    //gpioSetOutput(D2_XSHUT, PI_HIGH);
-    //gpioSetOutput(D3_XSHUT, PI_LOW);
-    //gpioSetOutput(D4_XSHUT, PI_LOW);
-    //gpioSetOutput(D5_XSHUT, PI_LOW);
-    //gpioSetOutput(D6_XSHUT, PI_LOW);
-    //sleep(1); //let gpio change
-    initDistanceSensors();
+	initLeds();
+	//initInterrupts();
+	//// Example: Start Ranging on D2
+	gpioSetOutput(D1_XSHUT, PI_LOW);
+	gpioSetOutput(D2_XSHUT, PI_LOW);
+	gpioSetOutput(D3_XSHUT, PI_LOW);
+	gpioSetOutput(D4_XSHUT, PI_HIGH);
+	gpioSetOutput(D5_XSHUT, PI_LOW);
+	gpioSetOutput(D6_XSHUT, PI_LOW);
+	//sleep(1); //let gpio change
+	initDistanceSensors();
 
 
 }
@@ -58,7 +57,7 @@ Description:    intializes distance sensors
 /**********************************************/
 void initDistanceSensors()
 {
-    // Variables
+	// Variables
 	int status;
 	VL53L4CD_LinuxDev LinuxDev;
 	Dev_t Dev = &LinuxDev;
@@ -71,7 +70,7 @@ void initDistanceSensors()
 	}
 
 	// Optionally Run example1 from sensor demo
-    example1(Dev);
+	example1(Dev);
 }
 
 /**********************************************\
