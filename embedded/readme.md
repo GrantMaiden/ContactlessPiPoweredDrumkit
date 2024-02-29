@@ -1,5 +1,11 @@
 Directory for Embedded development
 
+!!!IMPORTANT! PLEASE READ ENTIRETY OF THIS README BEFORE PROCEEDING WITH RUNNING PROJECT!!!
+
+For Cmake build instructions, refer to cmake_build_instructions.txt
+For Unit Test Parameters, refer to unit_tests.txt
+Before proceeding, make sure to complete build setup, otherwise compilation will not be successful.
+
 Recommended Operating System for compilation- (Bookworm "12", Kernal 6.1):
 https://downloads.raspberrypi.com/raspios_full_armhf/images/raspios_full_armhf-2023-12-06/2023-12-05-raspios-bookworm-armhf-full.img.xz
 
