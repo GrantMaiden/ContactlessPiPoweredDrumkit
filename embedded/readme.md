@@ -42,3 +42,8 @@ https://www.kernel.org/doc/Documentation/
 Sys Libraries location:  
 /usr/include/arm-linux-gnueabihf/sys  
   
+To close lingering pigpio processes:  
+	$cat /var/run/pigpio.pid  
+	$<NumberReturned>  
+	$sudo kill -9 <NumberReturned> 
+  

@@ -38,6 +38,8 @@
 		<Linker>
 			<Add directory="include" />
 		</Linker>
+		<Unit filename="include/CppThread.h" />
+		<Unit filename="include/CppTimer.h" />
 		<Unit filename="include/VL53L4CD_api.h" />
 		<Unit filename="include/btb_main.h" />
 		<Unit filename="include/defines.h" />
