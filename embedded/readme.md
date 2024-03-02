@@ -44,6 +44,6 @@ Sys Libraries location:
   
 To close lingering pigpio processes:  
    $cat /var/run/pigpio.pid  
-   $NumberReturned 
-   $sudo kill -9 NumberReturned
+   $NumberReturned   
+   $sudo kill -9 NumberReturned   
   
