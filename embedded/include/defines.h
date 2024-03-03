@@ -40,3 +40,31 @@ Description:    contains user constants, global enums, and structs
 #define D5_XSHUT        25
 #define D6_GPIO1        21
 #define D6_XSHUT        15
+
+typedef enum
+{
+    SENSOR1,
+    SENSOR2,
+    SENSOR3,
+    SENSOR4,
+    SENSOR5,
+    SENSOR6
+}sensorID;
+
+// Structs
+
+/**
+ * sensorValues structure contains status and distance value of a sensor
+ **/
+typedef struct
+{
+    uint8_t rangeStatus; // range status 0 means data ready.
+    uint16_t currentDistance_mm;
+    uint16_t lastDistance_mm;
+    int currentVelocity;
+    int averageVelocity;
+}sensorValues;
+
+
+
+

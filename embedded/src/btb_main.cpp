@@ -18,6 +18,7 @@ Description:    Entry Point into ENG5228 project for University of Glasgow
 #include "gpio_controller.h"
 #include "defines.h"
 #include "led.h"
+#include "controller.h"
 
 
 // global variables
@@ -62,14 +63,12 @@ void btbThread::run() {
     {
         if(enableLedSM)
         {
-            // led state machine
+            // TODO: call led state machine
             enableLedSM = false;
         }
-        if(enableControllerSM)
-        {
-            // controller Statemachine
-            enableControllerSM = false;
-        }
+
+        // controller Statemachine
+        controllerSM();
 
         //printf("threadRunning\n");
     }
@@ -98,22 +97,6 @@ void initLeds()
 }
 
 /**********************************************\
-Function Name:  initInterrupts()
-Input Args:     none
-Output Args:    none
-Description:    intialize interrupts and timers
-/**********************************************/
-void initInterrupts()
-{
-    gpioSetISRFunc(D1_GPIO1, FALLING_EDGE, DISTANCE_SENSOR_INTERRUPT_TIMEOUT, rangingISRCallback);
-    gpioSetISRFunc(D2_GPIO1, FALLING_EDGE, DISTANCE_SENSOR_INTERRUPT_TIMEOUT, rangingISRCallback);
-    gpioSetISRFunc(D3_GPIO1, FALLING_EDGE, DISTANCE_SENSOR_INTERRUPT_TIMEOUT, rangingISRCallback);
-    gpioSetISRFunc(D4_GPIO1, FALLING_EDGE, DISTANCE_SENSOR_INTERRUPT_TIMEOUT, rangingISRCallback);
-    gpioSetISRFunc(D5_GPIO1, FALLING_EDGE, DISTANCE_SENSOR_INTERRUPT_TIMEOUT, rangingISRCallback);
-    gpioSetISRFunc(D6_GPIO1, FALLING_EDGE, DISTANCE_SENSOR_INTERRUPT_TIMEOUT, rangingISRCallback);
-}
-
-/**********************************************\
 Function Name:  rangingISRCallback()
 Input Args:     int gpio :Triggered Gpio number
                 int level: GPIO input level at time of ISR
@@ -130,25 +113,52 @@ void rangingISRCallback(int gpio, int level, uint32_t tick)
         printf("GPIO %d returned Interrupt Timeout! Interrupt Exceeded %dms!\nUs tick: %lu\n", gpio, DISTANCE_SENSOR_INTERRUPT_TIMEOUT, tick);
     }
 
-    // LUCAS ETHAN ADD CODE.
+    // LUCAS ETHAN ADD CODE to return senseValue struct.
+    sensorValues senseValues;
     switch(gpio)
     {
         case D1_GPIO1:
+            // TODO: ADD CODE senseValue = someFUNCTION()
+            controllerUpdateSensorValue(senseValues, sensorID::SENSOR1);
             break;
         case D2_GPIO1:
+            // TODO: ADD CODE senseValue = someFUNCTION()
+            controllerUpdateSensorValue(senseValues, sensorID::SENSOR2);
             break;
         case D3_GPIO1:
+            // TODO: ADD CODE senseValue = someFUNCTION()
+            controllerUpdateSensorValue(senseValues, sensorID::SENSOR3);
             break;
         case D4_GPIO1:
+            // TODO: ADD CODE senseValue = someFUNCTION()
+            controllerUpdateSensorValue(senseValues, sensorID::SENSOR4);
             break;
         case D5_GPIO1:
+            // TODO: ADD CODE senseValue = someFUNCTION()
+            controllerUpdateSensorValue(senseValues, sensorID::SENSOR5);
             break;
         case D6_GPIO1:
+            // TODO: ADD CODE senseValue = someFUNCTION()
+            controllerUpdateSensorValue(senseValues, sensorID::SENSOR6);
             break;
 
     }
-    // if (allSensorsHaveNewData)
-    //      enableControllerSM = true;
+}
+
+/**********************************************\
+Function Name:  initInterrupts()
+Input Args:     none
+Output Args:    none
+Description:    intialize interrupts and timers
+/**********************************************/
+void initInterrupts()
+{
+    gpioSetISRFunc(D1_GPIO1, FALLING_EDGE, DISTANCE_SENSOR_INTERRUPT_TIMEOUT, rangingISRCallback);
+    gpioSetISRFunc(D2_GPIO1, FALLING_EDGE, DISTANCE_SENSOR_INTERRUPT_TIMEOUT, rangingISRCallback);
+    gpioSetISRFunc(D3_GPIO1, FALLING_EDGE, DISTANCE_SENSOR_INTERRUPT_TIMEOUT, rangingISRCallback);
+    gpioSetISRFunc(D4_GPIO1, FALLING_EDGE, DISTANCE_SENSOR_INTERRUPT_TIMEOUT, rangingISRCallback);
+    gpioSetISRFunc(D5_GPIO1, FALLING_EDGE, DISTANCE_SENSOR_INTERRUPT_TIMEOUT, rangingISRCallback);
+    gpioSetISRFunc(D6_GPIO1, FALLING_EDGE, DISTANCE_SENSOR_INTERRUPT_TIMEOUT, rangingISRCallback);
 }
 
 /**********************************************\
