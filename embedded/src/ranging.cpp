@@ -1,7 +1,7 @@
 /****************************** Module Header ******************************\
 Module Name:    ranging.cpp
 Project:        btb
-Author:         Lucas Zehner
+Author:         Lucas Zehner & Ethan Travers
 Description:    ranging control for distance sensors
 \***************************************************************************/
 
@@ -34,6 +34,13 @@ Dev_t i2cdev_Sensor5 = &linuxDev5;
 VL53L4CD_LinuxDev linuxDev6;
 Dev_t i2cdev_Sensor6 = &linuxDev6;
 
+VL53L4CD_ResultsData_t 	results_Sensor1;
+VL53L4CD_ResultsData_t 	results_Sensor2;
+VL53L4CD_ResultsData_t 	results_Sensor3;
+VL53L4CD_ResultsData_t 	results_Sensor4;
+VL53L4CD_ResultsData_t 	results_Sensor5;
+VL53L4CD_ResultsData_t 	results_Sensor6;
+
 /**********************************************\
 Function Name:  rangingTestDistanceSensors
 Input Args:     none
@@ -48,7 +55,7 @@ void rangingTestDistanceSensors()
     rangingInitDistanceSensors(SENSOR3, i2cdev_Sensor3);
     rangingInitDistanceSensors(SENSOR4, i2cdev_Sensor4);
     rangingInitDistanceSensors(SENSOR5, i2cdev_Sensor5);
-
+    //rangingPollingTestAll();
 }
 
 /**********************************************\
@@ -61,11 +68,6 @@ void rangingInitDistanceSensors(int xshutID, Dev_t dev)
 {
     // Variables
 	uint8_t status, loop, isReady;
-	VL53L4CD_ResultsData_t 	results;
-	//VL53L4CD_LinuxDev linuxDev;
-	//Dev_t dev = &linuxDev;
-
-	//enum xshutID ID = SENSOR1;
 
 	// Selecting specific sensor with xshut
     if (!rangingSetXshut(xshutID))
@@ -110,43 +112,15 @@ void rangingInitDistanceSensors(int xshutID, Dev_t dev)
 	printf("Range window set to between %d mm and %d mm.\n", RANGING_LIM_LOW, RANGING_LIM_HIGH);
 
 	//Start sensor ranging
-	status = VL53L4CD_StartRanging(dev);
+    status = VL53L4CD_StartRanging(dev);
 	if(status)
-    {
+	{
 		printf("VL53L4CD_StartRanging failed with status %u\n", status);
 		exit(0);
 	}
-	printf("Ranging has started !\n");
 
-	//Independent sensor ranging
-    loop = 0;
-	while(loop < 20)
-	{
-		/* Wait for hardware interrupt raised on GPIO1 pin */
-		//isReady = WaitForL4CDInterrupt(dev);
-
-		//if(isReady)
-		//{
-			/* (Mandatory) Clear HW interrupt to restart measurements */
-			VL53L4CD_ClearInterrupt(dev);
-
-			/* Read measured distance. RangeStatus = 0 means valid data */
-			VL53L4CD_GetResult(dev, &results);
-			printf("Status = %6u, Distance = %6u, Signal = %6u\n",
-				 results.range_status,
-				 results.distance_mm,
-				 results.signal_per_spad_kcps);
-			loop++;
-		//}
-
-		/* Wait a few ms to avoid too high polling (function in platform
-		 * file, not in API) */
-		WaitMs(dev, 5);
-	}
-
-	status = VL53L4CD_StopRanging(dev);
-	printf("End of sensor %d ranging test !\n", xshutID + 1);
-	printf("====================================================");
+	printf("End of sensor %d init !\n", xshutID + 1);
+	printf("====================================================\n");
 }
 
 
@@ -221,6 +195,164 @@ void rangingChangeAddress(Dev_t dev, int xshutID)
     }
 }
 
+/**********************************************\
+Function Name:  rangingInterruptPoll
+Input Args:     Dev_t dev- i2c device
+                int sensorID- which sensor to store
+                data for
+Output Args:    none
+Description:    changes received sensor address
+/**********************************************/
+void rangingInterruptPoll(Dev_t dev, int sensorID)
+{
+	VL53L4CD_ClearInterrupt(dev);
+
+	switch(sensorID)
+	case 1:
+        VL53L4CD_GetResult(dev, &results_Sensor1);
+        break;
+    case 2:
+        VL53L4CD_GetResult(dev, &results_Sensor2);
+        break;
+    case 3:
+        VL53L4CD_GetResult(dev, &results_Sensor3);
+        break;
+    case 4:
+        VL53L4CD_GetResult(dev, &results_Sensor4);
+        break;
+    case 5:
+        VL53L4CD_GetResult(dev, &results_Sensor5);
+        break;
+    case 6:
+        VL53L4CD_GetResult(dev, &results_Sensor6);
+        break;
+    default:
+        break;
+
+}
+
+/**********************************************\
+Function Name:  rangingPollingTestAll
+Input Args:     none
+Output Args:    none
+Description:    polls all sensors simultaneously
+                (not working)
+/**********************************************/
+void rangingPollingTestAll()
+{
+	int loop = 0;
+//	int status1 = 0;
+	int status2 = 0;
+	int status3 = 0;
+	int status4 = 0;
+	int status5 = 0;
+	uint8_t isReady2 = 0;
+	uint8_t isReady3 = 0;
+	uint8_t isReady4 = 0;
+	uint8_t isReady5 = 0;
+//	int status6 = 0;
+
+    //status1 = VL53L4CD_StartRanging(i2cdev_Sensor1);
+
+
+
+
+	//status6 = VL53L4CD_StartRanging(i2cdev_Sensor6);
+
+//        if(status1)
+//    {
+//		printf("VL53L4CD_StartRanging failed on sensor %d with status %u\n", 1, status1);
+//		exit(0);
+//	  }
+//		if(status2)
+//    {
+//		printf("VL53L4CD_StartRanging failed on sensor %d with status %u\n", 2, status2);
+//		exit(0);
+//	}
+//		if(status3)
+//    {
+//		printf("VL53L4CD_StartRanging failed on sensor %d with status %u\n", 3, status3);
+//		exit(0);
+//	}
+//		if(status4)
+//    {
+//		printf("VL53L4CD_StartRanging failed on sensor %d with status %u\n", 4, status4);
+//		exit(0);
+//	}
+//		if(status5)
+//    {
+//		printf("VL53L4CD_StartRanging failed on sensor %d with status %u\n", 5, status5);
+//		exit(0);
+//	}
+//        if(status6)
+//    {
+//		printf("VL53L4CD_StartRanging failed on sensor %d with status %u\n", 6, status6);
+//		exit(0);
+//	}
+
+	while(loop < 2000)
+	{
+		status2 = VL53L4CD_StartRanging(i2cdev_Sensor2);
+		VL53L4CD_CheckForDataReady(i2cdev_Sensor2, &isReady2);
+		if(isReady2)
+		{
+            VL53L4CD_ClearInterrupt(i2cdev_Sensor2);
+            VL53L4CD_GetResult(i2cdev_Sensor2, &results_Sensor2);
+        }
+        VL53L4CD_StopRanging(i2cdev_Sensor2);
+        printf("S2 = %u\t",results_Sensor2.distance_mm);
+
+        status3 = VL53L4CD_StartRanging(i2cdev_Sensor3);
+        VL53L4CD_CheckForDataReady(i2cdev_Sensor3, &isReady3);
+		if(isReady3)
+		{
+            VL53L4CD_ClearInterrupt(i2cdev_Sensor3);
+            VL53L4CD_GetResult(i2cdev_Sensor3, &results_Sensor3);
+        }
+        VL53L4CD_StopRanging(i2cdev_Sensor3);
+        printf("S3 = %u\t",results_Sensor3.distance_mm);
+
+        status4 = VL53L4CD_StartRanging(i2cdev_Sensor4);
+        VL53L4CD_CheckForDataReady(i2cdev_Sensor4, &isReady4);
+       	if(isReady4)
+		{
+            VL53L4CD_ClearInterrupt(i2cdev_Sensor4);
+            VL53L4CD_GetResult(i2cdev_Sensor4, &results_Sensor4);
+        }
+        VL53L4CD_StopRanging(i2cdev_Sensor4);
+        printf("S4 = %u\t",results_Sensor4.distance_mm);
+
+        status5 = VL53L4CD_StartRanging(i2cdev_Sensor5);
+        VL53L4CD_CheckForDataReady(i2cdev_Sensor5, &isReady5);
+		if(isReady5)
+		{
+            VL53L4CD_ClearInterrupt(i2cdev_Sensor5);
+            VL53L4CD_GetResult(i2cdev_Sensor5, &results_Sensor5);
+        }
+        VL53L4CD_StopRanging(i2cdev_Sensor5);
+        printf("S5 = %u\n",results_Sensor5.distance_mm);
+
+//			printf("S1 = %u\tS2 = %u\tS3 = %u\tS4 = %u\tS5 = %u\tS6 = %u\n",
+//				 results_Sensor1.distance_mm,
+//				 results_Sensor2.distance_mm,
+//				 results_Sensor3.distance_mm,
+//				 results_Sensor4.distance_mm,
+//				 results_Sensor5.distance_mm,
+//				 results_Sensor6.distance_mm);
+			loop++;
+
+		/* Wait a few ms to avoid too high polling (function in platform
+		 * file, not in API) */
+		//WaitMs(dev, 5);
+	}
+
+	//VL53L4CD_StopRanging(i2cdev_Sensor1);
+
+
+
+
+	//VL53L4CD_StopRanging(i2cdev_Sensor6);
+}
 
 
 

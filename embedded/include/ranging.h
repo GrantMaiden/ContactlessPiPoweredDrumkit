@@ -69,10 +69,21 @@ void rangingTestDistanceSensors();
 bool rangingSetXshut(int xshutID);
 
 /**
- * changes received sensor address
+ * Changes received sensor address
  * \param dev- Dev_t dev device object
  * \param xshutID- int which sensor to enable
  **/
 void rangingChangeAddress(Dev_t dev, int xshutID);
 
+/**
+ * Gets sensor data after interrupt
+ * \param dev- Dev_t dev device object
+ * \param sensoriD- int which sensor is data stored for
+ **/
+void rangingInterruptPoll(Dev_t dev);
+
+/**
+ * Polls all sensors simultaneously
+ **/
+void rangingPollingTestAll();
 
