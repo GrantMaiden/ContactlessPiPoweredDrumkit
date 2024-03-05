@@ -41,29 +41,42 @@ void ledCreateColorArr(char* outputArr,unsigned led1, unsigned led2, unsigned le
 
 /**********************************************\
 Function Name:  ledFlash
-Input Args:     ledColour, flashTime, flashNum
+Input Args:     ledColour, flashTimeOn, flashTimeOff, flashNum
 Output Args:    void
 Description:    Makes all LED flash an number of times for a given colour at a speed in seconds
 /**********************************************/
-void ledFlash (unsigned ledColour, int flashTime, int flashNum) 
-{
-    for (int i=0;i<flashNum ;i++)
-    {
-        ledCreateColorArr(colorArr, ledColour, ledColour, ledColour, ledColour, ledColour, ledColour);
-        gpioLedSetColor(colorArr);
-        sleep = flashTime;
+void ledFlash(unsigned ledColour, int flashTimeOn, int flashTimeOff, int flashNum)
 
+{
+    gpioInitializeLib();
+    char * colorArr = new char[18]();
+    for (int i=0; i<flashNum; i++)
+    {
         ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
         gpioLedSetColor(colorArr);
-        sleep = flashTime;
+        sleep(flashTimeOff);
+
+        ledCreateColorArr(colorArr, ledColour, ledColour, ledColour, ledColour, ledColour, ledColour);
+        gpioLedSetColor(colorArr);
+        sleep(flashTimeOn);
     }
 }
 
+/**********************************************\
+Function Name:  ledFlash
+Input Args:     ledColour, flashTimeOn, flashTimeOff, flashNum
+Output Args:    void
+Description:    Makes all LED flash an number of times for a given colour at a speed in seconds
+/**********************************************/
+void ledFade()
 
+{
+
+}
 
 /**********************************************\
 Function Name:  hitStrengthFeedback
-Input Args:     
+Input Args:
 Output Args:    void
 Description:    Takes the hit information from the sensor logic and provides LED feeddback depending on the strength
 /**********************************************/
@@ -98,8 +111,10 @@ void ledInitialiseTest()
     //char colorByte = 0x00;
     //int dir = 1;
 
-    while(loops <= 4300)
+    while(loops <= 4000)
     {
+        // Update current state from nextState
+        currentState = nextState;
         switch(currentState)
         {
             case INITIAL1:
@@ -111,10 +126,10 @@ void ledInitialiseTest()
                     loopWait = 0;
                 }
 
-                else if (loops == 2500 )
+                else if (loops == 3000)
                 {
-                  nextState = INITIAL7;
-                  loopWait = 0;
+                 nextState = INITIAL7;
+                 loopWait = 0;
                 }
                 break;
 
@@ -126,12 +141,14 @@ void ledInitialiseTest()
                     nextState = INITIAL3;
                     loopWait = 0;
                 }
-                else if (loops == 2500 )
+
+                else if (loops == 3000)
                 {
-                  nextState = INITIAL7;
-                  loopWait = 0;
+                 nextState = INITIAL7;
+                 loopWait = 0;
                 }
                 break;
+
 
             case INITIAL3:
                 ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, initialColour1, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
@@ -141,10 +158,11 @@ void ledInitialiseTest()
                     nextState = INITIAL4;
                     loopWait = 0;
                 }
-                else if (loops == 2500 )
+
+                else if (loops == 3000)
                 {
-                  nextState = INITIAL7;
-                  loopWait = 0;
+                 nextState = INITIAL7;
+                 loopWait = 0;
                 }
                 break;
 
@@ -156,10 +174,11 @@ void ledInitialiseTest()
                     nextState = INITIAL5;
                     loopWait = 0;
                 }
-                else if (loops == 2500 )
+
+                else if (loops == 3000)
                 {
-                  nextState = INITIAL7;
-                  loopWait = 0;
+                 nextState = INITIAL7;
+                 loopWait = 0;
                 }
                 break;
 
@@ -172,10 +191,10 @@ void ledInitialiseTest()
                     loopWait = 0;
                 }
 
-                else if (loops == 2500 )
+                else if (loops == 3000)
                 {
-                  nextState = INITIAL7;
-                  loopWait = 0;
+                 nextState = INITIAL7;
+                 loopWait = 0;
                 }
                 break;
 
@@ -189,32 +208,35 @@ void ledInitialiseTest()
                     initialColour1 = initialColour1 * 5;
                     loopWait = 0;
                 }
-
-                else if (loops == 2500 )
+                else if (loops == 3000)
                 {
-                  nextState = INITIAL7;
-                  loopWait = 0;
+                 nextState = INITIAL7;
+                 loopWait = 0;
                 }
                 break;
 
             case INITIAL7:
                 ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
                 gpioLedSetColor(colorArr);
-                if (loopWait == 200)
+                if (loopWait = 100)
                 {
                     nextState = INITIAL8;
-                    loopWait = 0;
                 }
                 break;
 
             case INITIAL8:
-                ledFlash (LED_COLOR_RED, 1, 2);
+                ledFlash(LED_COLOR_RED, 1, 1, 2);
                 nextState = INITIAL9;
                 break;
 
             case INITIAL9:
-                ledFlash (LED_COLOR_GREEN, 1, 1);
-                nextState = INITIALISE_FEEDBACK;
+                ledFlash(LED_COLOR_GREEN, 2, 1, 1);
+                nextState = INITIAL10;
+                break;
+
+            case INITIAL10:
+                ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
+                gpioLedSetColor(colorArr);
                 break;
 
             default:
@@ -227,23 +249,24 @@ void ledInitialiseTest()
         // Prepare for next Iteration of SM
         loops = loops+1;
         loopWait = loopWait+1;
-        currentState = nextState;
 
         // Simulate Delay
         gpioDelay(2500);
-        // Turn Leds off
-        ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
-        gpioLedSetColor(colorArr);
     }
+    // Turn Leds off
+    ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
+    gpioLedSetColor(colorArr);
+    printf("ledInitialiseTest Complete.\n");
+
 }
 
 /**********************************************\
 Function Name:  mainLedFeedback
 Input Args:     None
 Output Args:    void
-Description:    Runs Main Function LED Feedback. From a hit detection an LED will provide feedback depending on the strength of the hit. 
+Description:    Runs Main Function LED Feedback. From a hit detection an LED will provide feedback depending on the strength of the hit.
 /**********************************************/
-
+/*
 void mainLedFeedback()
 {
     printf("Beginning mainLedFeedback. Runs Main Function LED Feedback Via SPI Interface\n");
@@ -261,187 +284,187 @@ void mainLedFeedback()
                 gpioLedSetColor(colorArr);
                 if (hitStrengthFeedback == 0)
                 {
-                    nextState = INITIALISE_FEEDBACK; 
+                    nextState = INITIALISE_FEEDBACK;
                 }
                 break;
-                
+
             case DRUM1_HARD:
-                
+
                 if ()
                 {
                     ledCreateColorArr(colorArr, LED_COLOR_RED, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
                     gpioLedSetColor(colorArr);
-                    nextState = INITIALISE_FEEDBACK; 
+                    nextState = INITIALISE_FEEDBACK;
                 }
                 break;
 
             case DRUM1_MID:
-                
+
                 if ()
                 {
                     ledCreateColorArr(colorArr, LED_COLOR_ORANGE_BRIGHT, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
                     gpioLedSetColor(colorArr);
-                    nextState = INITIALISE_FEEDBACK; 
+                    nextState = INITIALISE_FEEDBACK;
                 }
                 break;
 
             case DRUM1_SOFT:
-                
+
                 if ()
                 {
                     ledCreateColorArr(colorArr, LED_COLOR_GREEN, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
                     gpioLedSetColor(colorArr);
-                    nextState = INITIALISE_FEEDBACK; 
+                    nextState = INITIALISE_FEEDBACK;
                 }
                 break;
 
             case DRUM2_HARD:
-                
+
                 if ()
                 {
                     ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_RED, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
                     gpioLedSetColor(colorArr);
-                    nextState = INITIALISE_FEEDBACK; 
+                    nextState = INITIALISE_FEEDBACK;
                 }
                 break;
 
             case DRUM2_MID:
-                
+
                 if ()
                 {
                     ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_ORANGE_BRIGHT, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
                     gpioLedSetColor(colorArr);
-                    nextState = INITIALISE_FEEDBACK; 
+                    nextState = INITIALISE_FEEDBACK;
                 }
                 break;
 
             case DRUM2_SOFT:
-                
+
                 if ()
                 {
                     ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_GREEN, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
                     gpioLedSetColor(colorArr);
-                    nextState = INITIALISE_FEEDBACK; 
+                    nextState = INITIALISE_FEEDBACK;
                 }
                 break;
 
             case DRUM3_HARD:
-                
+
                 if ()
                 {
                     ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_RED, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
                     gpioLedSetColor(colorArr);
-                    nextState = INITIALISE_FEEDBACK; 
+                    nextState = INITIALISE_FEEDBACK;
                 }
                 break;
 
             case DRUM3_MID:
-                
+
                 if ()
                 {
                     ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_ORANGE_BRIGHT, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
                     gpioLedSetColor(colorArr);
-                    nextState = INITIALISE_FEEDBACK; 
+                    nextState = INITIALISE_FEEDBACK;
                 }
                 break;
 
             case DRUM3_SOFT:
-                
+
                 if ()
                 {
                     ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_GREEN, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
                     gpioLedSetColor(colorArr);
-                    nextState = INITIALISE_FEEDBACK; 
+                    nextState = INITIALISE_FEEDBACK;
                 }
                 break;
 
             case DRUM4_HARD:
-                
+
                 if ()
                 {
                     ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_RED, LED_COLOR_OFF, LED_COLOR_OFF);
                     gpioLedSetColor(colorArr);
-                    nextState = INITIALISE_FEEDBACK; 
+                    nextState = INITIALISE_FEEDBACK;
                 }
                 break;
 
             case DRUM4_MID:
-                
+
                 if ()
                 {
                     ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_ORANGE_BRIGHT, LED_COLOR_OFF, LED_COLOR_OFF);
                     gpioLedSetColor(colorArr);
-                    nextState = INITIALISE_FEEDBACK; 
+                    nextState = INITIALISE_FEEDBACK;
                 }
                 break;
 
             case DRUM4_SOFT:
-                
+
                 if ()
                 {
                     ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_GREEN, LED_COLOR_OFF, LED_COLOR_OFF);
                     gpioLedSetColor(colorArr);
-                    nextState = INITIALISE_FEEDBACK; 
+                    nextState = INITIALISE_FEEDBACK;
                 }
                 break;
 
             case DRUM5_HARD:
-                
+
                 if ()
                 {
                     ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_RED, LED_COLOR_OFF);
                     gpioLedSetColor(colorArr);
-                    nextState = INITIALISE_FEEDBACK; 
+                    nextState = INITIALISE_FEEDBACK;
                 }
                 break;
 
             case DRUM5_MID:
-                
+
                 if ()
                 {
                     ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_ORANGE_BRIGHT, LED_COLOR_OFF);
                     gpioLedSetColor(colorArr);
-                    nextState = INITIALISE_FEEDBACK; 
+                    nextState = INITIALISE_FEEDBACK;
                 }
                 break;
 
             case DRUM5_SOFT:
-                
+
                 if ()
                 {
                     ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_GREEN, LED_COLOR_OFF);
                     gpioLedSetColor(colorArr);
-                    nextState = INITIALISE_FEEDBACK; 
+                    nextState = INITIALISE_FEEDBACK;
                 }
                 break;
 
             case DRUM6_HARD:
-                
+
                 if ()
                 {
                     ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_RED);
                     gpioLedSetColor(colorArr);
-                    nextState = INITIALISE_FEEDBACK; 
+                    nextState = INITIALISE_FEEDBACK;
                 }
                 break;
 
             case DRUM6_MID:
-                
+
                 if ()
                 {
                     ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_ORANGE_BRIGHT);
                     gpioLedSetColor(colorArr);
-                    nextState = INITIALISE_FEEDBACK; 
+                    nextState = INITIALISE_FEEDBACK;
                 }
                 break;
 
             case DRUM6_SOFT:
-                
+
                 if ()
                 {
                     ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_GREEN);
                     gpioLedSetColor(colorArr);
-                    nextState = INITIALISE_FEEDBACK; 
+                    nextState = INITIALISE_FEEDBACK;
                 }
                 break;
 
@@ -451,7 +474,7 @@ void mainLedFeedback()
                 break;
         }
     }
-}
+}*/
 
 
 
