@@ -15,11 +15,11 @@ extern "C" {
 // Defines
 #define I2C_ADDRESS_INIT    0x52
 #define D1_I2C_ADDRESS      0x52
-#define D2_I2C_ADDRESS      0x53
-#define D3_I2C_ADDRESS      0x54
-#define D4_I2C_ADDRESS      0x55
-#define D5_I2C_ADDRESS      0x56
-#define D6_I2C_ADDRESS      0x57
+#define D2_I2C_ADDRESS      0x54
+#define D3_I2C_ADDRESS      0x56
+#define D4_I2C_ADDRESS      0x58
+#define D5_I2C_ADDRESS      0x60
+#define D6_I2C_ADDRESS      0x62
 // Change these as desired
 #define RANGE_TIMING_MAX    10
 #define RANGING_LIM_LOW     10
@@ -44,6 +44,11 @@ enum xshutID
 
 //Functions
 /**
+ * Initialize disatance sensor globals
+ **/
+void rangingInit();
+
+/**
  * Runs range test from selected sensor
  * \param dev Dev_t objec that contains sensor identifier and i2c address
  * \returns status enum of sensor
@@ -52,9 +57,9 @@ int getRangeTest(Dev_t dev);
 
 /**
  * Initialize Distance Sensors
- * \param int xshutID whichever sensor to init
+ * \param int id whichever sensor to init
  **/
-void rangingInitDistanceSensors(int xshutID, Dev_t dev);
+void rangingInitDistanceSensors(int id, Dev_t dev);
 
 /**
  * Test Distance Sensors
@@ -63,17 +68,17 @@ void rangingTestDistanceSensors();
 
 /**
  * Toggles Between Sensors
- * \param xshutID- enum which sensor to enable
+ * \param id- enum which sensor to enable
  * \returns bool- True if successfully switched Xshut low, False if failed
  **/
-bool rangingSetXshut(int xshutID);
+bool rangingSetXshut(int id);
 
 /**
  * Changes received sensor address
  * \param dev- Dev_t dev device object
- * \param xshutID- int which sensor to enable
+ * \param id- int which sensor to enable
  **/
-void rangingChangeAddress(Dev_t dev, int xshutID);
+void rangingChangeAddress(Dev_t dev, int id);
 
 /**
  * Gets sensor data after interrupt
