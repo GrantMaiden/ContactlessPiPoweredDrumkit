@@ -198,22 +198,28 @@ void controllerUpdateSensorValue(sensorValues senseValue, sensorID id)
     switch (id)
     {
         case sensorID::SENSOR1:
-            sens1Values = senseValue;
+            sens1Values.rangeStatus = senseValue.rangeStatus;
+            sens1Values.currentDistance_mm = senseValue.rangeStatus;
             break;
         case sensorID::SENSOR2:
-            sens2Values = senseValue;
+            sens2Values.rangeStatus = senseValue.rangeStatus;
+            sens2Values.currentDistance_mm = senseValue.rangeStatus;
             break;
         case sensorID::SENSOR3:
-            sens3Values = senseValue;
+            sens3Values.rangeStatus = senseValue.rangeStatus;
+            sens3Values.currentDistance_mm = senseValue.rangeStatus;
             break;
         case sensorID::SENSOR4:
-            sens4Values = senseValue;
+            sens4Values.rangeStatus = senseValue.rangeStatus;
+            sens4Values.currentDistance_mm = senseValue.rangeStatus;
             break;
         case sensorID::SENSOR5:
-            sens5Values = senseValue;
+            sens5Values.rangeStatus = senseValue.rangeStatus;
+            sens5Values.currentDistance_mm = senseValue.rangeStatus;
             break;
         case sensorID::SENSOR6:
-            sens6Values = senseValue;
+            sens6Values.rangeStatus = senseValue.rangeStatus;
+            sens6Values.currentDistance_mm = senseValue.rangeStatus;
             break;
     }
 }
