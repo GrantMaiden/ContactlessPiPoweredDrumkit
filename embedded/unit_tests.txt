@@ -36,7 +36,15 @@ Description:	Peter's LED test
 Argument:	interruptTest
 Description:	Sets up distance sensors, utilizing interrupts for reading their data. Runs 10seconds.
 
+Argument:	soundTest1
+Description:	Plays Sound linked to TH_LOUD_FOOT_CLOSED 1 time.
 
+Argument:	soundTest2
+Description:	Plays each sound in mixArr, which is an array of all sounds, then loops. Only plays the first
+		"x" amount of sounds in mixArr, where x is number stored in define.h's "TOTAL_INSTRUMENTS_SOUND_TEST2"
+
+Argument:	soundTest3
+Description:	Plays a mix of sounds asynchronously.
 
 
 

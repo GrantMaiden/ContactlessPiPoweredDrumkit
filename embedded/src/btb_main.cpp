@@ -19,6 +19,7 @@ Description:    Entry Point into ENG5228 project for University of Glasgow
 #include "defines.h"
 #include "led.h"
 #include "controller.h"
+#include "sound.h"
 
 
 // global variables
@@ -218,6 +219,18 @@ void runCommandLine(char *argv[])
         // initialize Distance Sensors
         initInterrupts();
         sleep(10);
+    }
+    else if (!strcmp(argv[0], "soundTest1"))
+    {
+        soundTest1();
+    }
+    else if (!strcmp(argv[0], "soundTest2"))
+    {
+        soundTest2();
+    }
+    else if (!strcmp(argv[0], "soundTest3"))
+    {
+        soundTest3();
     }
     else
     {

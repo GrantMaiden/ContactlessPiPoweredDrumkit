@@ -7,6 +7,7 @@ Description:    contains user constants, global enums, and structs
 
 // Test defines
 #define GPIO_TEST_LENGTH_SEC                10
+#define TOTAL_INSTRUMENTS_SOUND_TEST2       3
 
 // Misc
 #define DISTANCE_SENSOR_INTERRUPT_TIMEOUT   12

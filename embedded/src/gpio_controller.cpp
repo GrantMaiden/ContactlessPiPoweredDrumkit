@@ -83,8 +83,8 @@ bool gpioTest(uint seconds)
     long int startTime = clockObj.tv_sec;
     long int currentTime = startTime;
     long int stopTime = seconds + startTime;
-    printf("START TIME= %u\n", startTime);
-    printf("STOP TIME= %u\n", stopTime);
+    printf("START TIME= %lu\n", startTime);
+    printf("STOP TIME= %lu\n", stopTime);
     while (stopTime > currentTime)
     {
         gpioWrite(GPIO4, PI_HIGH);
@@ -118,8 +118,8 @@ bool ledNopAsmTest(uint seconds)
     long int startTime = clockObj.tv_sec;
     long int currentTime = startTime;
     long int stopTime = seconds + startTime;
-    printf("START TIME= %u\n", startTime);
-    printf("STOP TIME= %u\n", stopTime);
+    printf("START TIME= %lu\n", startTime);
+    printf("STOP TIME= %lu\n", stopTime);
     while (stopTime > currentTime)
     {
 

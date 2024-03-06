@@ -74,6 +74,22 @@ void controllerSM()
             break;
     }
 
+/**********************************************\
+Function Name:  controllerSendSound
+Input Args:     id - sensorID which sensor is sending sound
+                detectionValue - int level of hit
+Output Args:    void
+Description:    computes if a hit was detected
+/**********************************************/
+static void controllerSendSound(sensorID id, int detectionValue)
+{
+    if (detectionValue > HARD_HIT)
+        soundTest1(); // TODO: soundPlay(id, HARD_HIT);
+    else if (detectionValue > MEDIUM_HIT)
+        soundTest1(); // TODO: soundPlay(id, MEDIUM_HIT);
+    else if (detectionValue > LIGHT_HIT)
+        soundTest1(); // TODO: soundPlay(id, LIGHT_HIT);
+
 }
 
 /**********************************************\
@@ -131,6 +147,18 @@ static void controllerVelocityCalc()
         sens6Values.currentVelocity = 0;
         sens6Values.averageVelocity = 0;
     }
+  
+    sens1Values.averageVelocity = sens1Values.averageVelocity + (sens1Values.currentVelocity - sens1Values.averageVelocity) / VELOCITY_FACTOR;
+
+    sens2Values.averageVelocity = sens2Values.averageVelocity + (sens2Values.currentVelocity - sens2Values.averageVelocity) / VELOCITY_FACTOR;
+
+    sens3Values.averageVelocity = sens3Values.averageVelocity + (sens3Values.currentVelocity - sens3Values.averageVelocity) / VELOCITY_FACTOR;
+
+    sens4Values.averageVelocity = sens4Values.averageVelocity + (sens4Values.currentVelocity - sens4Values.averageVelocity) / VELOCITY_FACTOR;
+
+    sens5Values.averageVelocity = sens5Values.averageVelocity + (sens5Values.currentVelocity - sens5Values.averageVelocity) / VELOCITY_FACTOR;
+
+    sens6Values.averageVelocity = sens6Values.averageVelocity + (sens6Values.currentVelocity - sens6Values.averageVelocity) / VELOCITY_FACTOR;
 }
 
 /**********************************************\
@@ -169,23 +197,6 @@ static void controllerHitDetection()
 
 }
 
-/**********************************************\
-Function Name:  controllerSendSound
-Input Args:     id - sensorID which sensor is sending sound
-                detectionValue - int level of hit
-Output Args:    void
-Description:    computes if a hit was detected
-/**********************************************/
-static void controllerSendSound(sensorID id, int detectionValue)
-{
-    if (detectionValue > HARD_HIT)
-        ; // TODO: soundPlay(id, HARD_HIT);
-    else if (detectionValue > MEDIUM_HIT)
-        ; // TODO: soundPlay(id, MEDIUM_HIT);
-    else if (detectionValue > LIGHT_HIT)
-        ; // TODO: soundPlay(id, LIGHT_HIT);
-
-}
 /**********************************************\
 Function Name:  controllerUpdateSensorValue
 Input Args:     sensorValue senseValue
