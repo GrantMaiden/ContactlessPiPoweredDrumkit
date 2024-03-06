@@ -1,0 +1,4 @@
+1) Make sure cmake is installed. If not, run $sudo apt install cmake
+2) Navigate to this directory.
+3) via CLI: $cmake .
+4) via CLI: $make

@@ -83,8 +83,8 @@ bool gpioTest(uint seconds)
     long int startTime = clockObj.tv_sec;
     long int currentTime = startTime;
     long int stopTime = seconds + startTime;
-    printf("START TIME= %u\n", startTime);
-    printf("STOP TIME= %u\n", stopTime);
+    printf("START TIME= %lu\n", startTime);
+    printf("STOP TIME= %lu\n", stopTime);
     while (stopTime > currentTime)
     {
         gpioWrite(GPIO4, PI_HIGH);
@@ -118,8 +118,8 @@ bool ledNopAsmTest(uint seconds)
     long int startTime = clockObj.tv_sec;
     long int currentTime = startTime;
     long int stopTime = seconds + startTime;
-    printf("START TIME= %u\n", startTime);
-    printf("STOP TIME= %u\n", stopTime);
+    printf("START TIME= %lu\n", startTime);
+    printf("STOP TIME= %lu\n", stopTime);
     while (stopTime > currentTime)
     {
 
@@ -199,7 +199,7 @@ bool gpioLedSpiTest(char *arr)
 
         clock_gettime(CLOCK_REALTIME, &clockObj);
         currentTime = clockObj.tv_sec;
-        for(long int i=0; i<WAIT_2MS; i++){asm volatile("nop");}
+        gpioDelay(2000); // 2000us wait
 
         if(dir == 1)
         {

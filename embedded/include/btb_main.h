@@ -5,23 +5,6 @@ Author:         Grant Maiden
 Description:    Header file for btb.main.c
 \***************************************************************************/
 
-extern "C" {
-#include "VL53L4CD_api.h"
-#include "platform.h"
-#include "types.h"
-}
-
-/**
- * Runs Example 1 from STM32 Sensor Demo
- * \param dev Dev_t objec that contains sensor identifier and i2c address
- * \returns status enum of sensor
- **/
-int example1(Dev_t dev);
-
-/**
- * Initialize Distance Sensors
- **/
-void initDistanceSensors();
 
 /**
  * Initialize Leds
@@ -53,4 +36,33 @@ void runCommandLine(char *argv[]);
  * \param tick - uint32_t trigger time in microseconds.
  **/
 void rangingISRCallback(int gpio, int level, uint32_t tick);
+
+/**
+ * Callback override virtual run method for btbThread Class
+ **/
+class btbThread : public CppThread {
+    /**
+     * Initializes the Thread
+     **/
+    public:
+        btbThread() {}
+    /**
+     * Starts the Thread
+     **/
+    private:
+        void run();
+};
+
+/**
+ * Callback class to implement custom timer
+ **/
+class btbTimer1 : public CppTimer {
+
+    /**
+    * Timer Event called when timer is triggered. Overriden in cpp.
+    **/
+    private:
+	void timerEvent();
+};
+
 

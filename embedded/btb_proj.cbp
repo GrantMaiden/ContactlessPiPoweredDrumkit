@@ -34,28 +34,36 @@
 		</Compiler>
 		<ResourceCompiler>
 			<Add directory="include" />
+			<Add directory="sounds" />
 		</ResourceCompiler>
 		<Linker>
 			<Add directory="include" />
 		</Linker>
+		<Unit filename="include/CppThread.h" />
+		<Unit filename="include/CppTimer.h" />
 		<Unit filename="include/VL53L4CD_api.h" />
 		<Unit filename="include/btb_main.h" />
+		<Unit filename="include/controller.h" />
 		<Unit filename="include/defines.h" />
 		<Unit filename="include/gpio_controller.h" />
 		<Unit filename="include/led.h" />
+		<Unit filename="include/miniaudio.h" />
 		<Unit filename="include/platform.h" />
 		<Unit filename="include/ranging.h" />
+		<Unit filename="include/sound.h" />
 		<Unit filename="include/types.h" />
 		<Unit filename="src/VL53L4CD_api.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/btb_main.cpp" />
+		<Unit filename="src/controller.cpp" />
 		<Unit filename="src/gpio_controller.cpp" />
 		<Unit filename="src/led.cpp" />
 		<Unit filename="src/platform.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/ranging.cpp" />
+		<Unit filename="src/sound.cpp" />
 		<Extensions />
 	</Project>
 </CodeBlocks_project_file>

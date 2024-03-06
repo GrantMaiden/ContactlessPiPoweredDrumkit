@@ -1,0 +1,52 @@
+############################################
+############## 	Instructions	############
+############################################
+
+After building project, unit test can be run by adding command line arguments after built application.
+For example, the simple unit test named "test" can be ran with the following terminal entry:
+
+	$./btb_proj test
+
+Multiple unit tests can be run sequentially by adding more input parameters. 
+The following terminal entry would run "test" 3 times in unison.
+
+	$./btb_proj test test test
+
+############################################
+############## 	Unit Tests	############
+############################################
+
+Below, find a list of unit test input argument followed by a description.
+
+Argument:	test
+Description:	Simple test command. Prints "Test Argument Received!!"
+
+Argument:	gpioTest
+Description:	GPIO Speed test. Toggles GPIO 4 (pin 7) at maximimum speed for user defined seconds.
+
+Argument:	ledNopAsmTest
+Description:	Spew '1010' pattern to Leds using asm nop for delay. Only works pre-board rework.
+
+Argument:	gpioLedSpiTest
+Description:	Sets led to RGB brightness level via SPI interface
+
+Argument:	ledInitialiseTest
+Description:	Peter's LED test
+
+Argument:	interruptTest
+Description:	Sets up distance sensors, utilizing interrupts for reading their data. Runs 10seconds.
+
+Argument:	soundTest1
+Description:	Plays Sound linked to TH_LOUD_FOOT_CLOSED 1 time.
+
+Argument:	soundTest2
+Description:	Plays each sound in mixArr, which is an array of all sounds, then loops. Only plays the first
+		"x" amount of sounds in mixArr, where x is number stored in define.h's "TOTAL_INSTRUMENTS_SOUND_TEST2"
+
+Argument:	soundTest3
+Description:	Plays a mix of sounds asynchronously.
+
+
+
+
+
