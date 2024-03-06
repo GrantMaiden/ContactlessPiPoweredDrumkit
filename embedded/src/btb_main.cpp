@@ -18,6 +18,7 @@ Description:    Entry Point into ENG5228 project for University of Glasgow
 #include "gpio_controller.h"
 #include "defines.h"
 #include "led.h"
+#include "ranging.h"
 #include "controller.h"
 #include "sound.h"
 
@@ -231,6 +232,10 @@ void runCommandLine(char *argv[])
     else if (!strcmp(argv[0], "soundTest3"))
     {
         soundTest3();
+    }
+    else if (!strcmp(argv[0], "rangingTestDistanceSensors"))
+    {
+        rangingTestDistanceSensors();
     }
     else
     {

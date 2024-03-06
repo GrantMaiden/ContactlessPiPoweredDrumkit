@@ -49,6 +49,7 @@
 		<Unit filename="include/led.h" />
 		<Unit filename="include/miniaudio.h" />
 		<Unit filename="include/platform.h" />
+		<Unit filename="include/ranging.h" />
 		<Unit filename="include/sound.h" />
 		<Unit filename="include/types.h" />
 		<Unit filename="src/VL53L4CD_api.c">
@@ -61,6 +62,7 @@
 		<Unit filename="src/platform.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="src/ranging.cpp" />
 		<Unit filename="src/sound.cpp" />
 		<Extensions />
 	</Project>
