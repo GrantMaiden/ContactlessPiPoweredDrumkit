@@ -5,6 +5,7 @@ Author:         Lucas Zehner
 Description:    contains ranging definitions and headers
 \***************************************************************************/
 
+#define VL53L4CD_I2C_FAST_MODE_PLUS
 // Includes
 extern "C" {
 #include "VL53L4CD_api.h"
@@ -24,20 +25,6 @@ extern "C" {
 #define RANGE_TIMING_MAX    10
 #define RANGING_LIM_LOW     10
 #define RANGING_LIM_HIGH    500
-
-
-// Enums
-enum xshutID
-{
-    SENSOR1 = 0,
-    SENSOR2 = 1,
-    SENSOR3 = 2,
-    SENSOR4 = 3,
-    SENSOR5 = 4,
-    SENSOR6 = 5,
-    SENSORALL = 6
-
-};
 
 // Structs
 
@@ -81,11 +68,11 @@ bool rangingSetXshut(int id);
 void rangingChangeAddress(Dev_t dev, int id);
 
 /**
- * Gets sensor data after interrupt
- * \param dev- Dev_t dev device object
- * \param sensoriD- int which sensor is data stored for
+ * Get data from input dev id
+ * \param sensor - sensorID
+ * \returns sensorValues
  **/
-void rangingInterruptPoll(Dev_t dev);
+sensorValues rangingGetData(sensorID sensor);
 
 /**
  * Polls all sensors simultaneously
