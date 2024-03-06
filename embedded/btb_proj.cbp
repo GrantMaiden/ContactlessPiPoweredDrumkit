@@ -34,6 +34,7 @@
 		</Compiler>
 		<ResourceCompiler>
 			<Add directory="include" />
+			<Add directory="sounds" />
 		</ResourceCompiler>
 		<Linker>
 			<Add directory="include" />
@@ -46,7 +47,9 @@
 		<Unit filename="include/defines.h" />
 		<Unit filename="include/gpio_controller.h" />
 		<Unit filename="include/led.h" />
+		<Unit filename="include/miniaudio.h" />
 		<Unit filename="include/platform.h" />
+		<Unit filename="include/sound.h" />
 		<Unit filename="include/types.h" />
 		<Unit filename="src/VL53L4CD_api.c">
 			<Option compilerVar="CC" />
@@ -58,6 +61,7 @@
 		<Unit filename="src/platform.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="src/sound.cpp" />
 		<Extensions />
 	</Project>
 </CodeBlocks_project_file>

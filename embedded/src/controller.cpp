@@ -179,11 +179,11 @@ Description:    computes if a hit was detected
 static void controllerSendSound(sensorID id, int detectionValue)
 {
     if (detectionValue > HARD_HIT)
-        ; // TODO: soundPlay(id, HARD_HIT);
+        soundTest1(); // TODO: soundPlay(id, HARD_HIT);
     else if (detectionValue > MEDIUM_HIT)
-        ; // TODO: soundPlay(id, MEDIUM_HIT);
+        soundTest1(); // TODO: soundPlay(id, MEDIUM_HIT);
     else if (detectionValue > LIGHT_HIT)
-        ; // TODO: soundPlay(id, LIGHT_HIT);
+        soundTest1(); // TODO: soundPlay(id, LIGHT_HIT);
 
 }
 /**********************************************\

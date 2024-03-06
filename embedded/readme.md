@@ -27,7 +27,7 @@ pigpio download:
 https://abyz.me.uk/rpi/pigpio/download.html  
   
 Setup Codeblocks:  
-Settings-> Compiler -> Linker Settings -> Other linker options -> add to field: -lpigpio -lrt -lpthread  
+Settings-> Compiler -> Linker Settings -> Other linker options -> add to field: -lpigpio -lrt -lpthread -lm -ldl -latomic  
   
 Add Tool Codeblocks:  
 Tools -> Configure Tools -> Add -> Name field: Run as Sudo -> Executable Field: sudo $(TARGET_OUTPUT_FILE)   
@@ -47,3 +47,12 @@ To close lingering pigpio processes:
    $NumberReturned   
    $sudo kill -9 NumberReturned   
   
+Setup Audio by changing user default audio device:  
+   $sudo nano /usr/share/alsa/alsa.conf  
+   defaults.pcm.card 1  
+   defaults.ctl.card 1  
+
+Running Instructions:  
+   After building, preceed all program calls with sudo, as pigpio lib requires sudo access.  
+
+

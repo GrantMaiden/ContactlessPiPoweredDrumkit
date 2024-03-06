@@ -8,13 +8,12 @@ Description:    System controller state machine
 #define LIGHT_HIT       10
 #define MEDIUM_HIT      30
 #define HARD_HIT        50
+
 #define VELOCITY_FACTOR 8
 
 #define SENSOR1_6_DIRECTION         -1
 #define SENSOR2_3_4_5_DIRECTION     1
 
-
-// LED Colors
 /**
  * Controller State Machine enums for state lookup
  **/

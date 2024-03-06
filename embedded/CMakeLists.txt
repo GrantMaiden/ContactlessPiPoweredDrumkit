@@ -4,13 +4,17 @@
 
 cmake_minimum_required(VERSION 3.12)
 project(test)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 include_directories(include)
 file(GLOB SOURCES "src/*.c" "src/*.cpp")
 add_executable(btb_proj ${SOURCES})
-target_link_libraries(btb_proj pigpio)
-
+target_link_libraries(btb_proj pigpio atomic)
+set (CMAKE_SHARED_LINKER_FLAGS "-lpigpio -lrt -lpthread -lm -ldl -latomic")
 target_compile_options(btb_proj PUBLIC -Wall)
-#target_link_options(btb_proj PRIVATE "LINKER: -lpigpio -lrt -lpthread")
+#target_compile_options(btb_proj PUBLIC -Wall -lpigpio -lrt -lpthread -lm -ldl -latomic)
+
+#target_link_options(btb_proj PUBLIC "LINKER: -lpigpio -lrt -lpthread -lm -ldl -latomic")
 
 
 ############################################
