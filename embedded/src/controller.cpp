@@ -39,6 +39,17 @@ void controllerInit()
 }
 
 /**********************************************\
+Function Name:  controllerUpdateState
+Input Args:     none
+Output Args:    void
+Description:    update controller state
+/**********************************************/
+void controllerUpdateState(controllerState newState)
+{
+    nextState = newState;
+}
+
+/**********************************************\
 Function Name:  controllerSM
 Input Args:     none
 Output Args:    void
@@ -68,6 +79,12 @@ void controllerSM()
                 controllerVelocityCalc();
                 controllerHitDetection();
                 controllerUpdateDistanceVelocity();
+            }
+            break;
+        case TEST_DISTANCE_SENSORS:
+            if(controllerSensorsReady())
+            {
+                controllerPrintSensorData();
             }
             break;
         default:
@@ -212,27 +229,27 @@ void controllerUpdateSensorValue(sensorValues senseValue, sensorID id)
     {
         case sensorID::SENSOR1:
             sens1Values.rangeStatus = senseValue.rangeStatus;
-            sens1Values.currentDistance_mm = senseValue.rangeStatus;
+            sens1Values.currentDistance_mm = senseValue.currentDistance_mm;
             break;
         case sensorID::SENSOR2:
             sens2Values.rangeStatus = senseValue.rangeStatus;
-            sens2Values.currentDistance_mm = senseValue.rangeStatus;
+            sens2Values.currentDistance_mm = senseValue.currentDistance_mm;
             break;
         case sensorID::SENSOR3:
             sens3Values.rangeStatus = senseValue.rangeStatus;
-            sens3Values.currentDistance_mm = senseValue.rangeStatus;
+            sens3Values.currentDistance_mm = senseValue.currentDistance_mm;
             break;
         case sensorID::SENSOR4:
             sens4Values.rangeStatus = senseValue.rangeStatus;
-            sens4Values.currentDistance_mm = senseValue.rangeStatus;
+            sens4Values.currentDistance_mm = senseValue.currentDistance_mm;
             break;
         case sensorID::SENSOR5:
             sens5Values.rangeStatus = senseValue.rangeStatus;
-            sens5Values.currentDistance_mm = senseValue.rangeStatus;
+            sens5Values.currentDistance_mm = senseValue.currentDistance_mm;
             break;
         case sensorID::SENSOR6:
             sens6Values.rangeStatus = senseValue.rangeStatus;
-            sens6Values.currentDistance_mm = senseValue.rangeStatus;
+            sens6Values.currentDistance_mm = senseValue.currentDistance_mm;
             break;
     }
 }
@@ -249,7 +266,7 @@ static bool controllerSensorsReady()
     if (sens1Values.rangeStatus != 0)
         sensorsReadyBool = false;
     if (sens2Values.rangeStatus != 0)
-        sensorsReadyBool = false;
+        sensorsReadyBool = true; // TODO: CHANG AFTER REWORK
     if (sens3Values.rangeStatus != 0)
         sensorsReadyBool = false;
     if (sens4Values.rangeStatus != 0)
@@ -291,5 +308,22 @@ static void controllerUpdateDistanceVelocity()
     sens5Values.lastDistance_mm = sens5Values.currentDistance_mm;
 
     sens6Values.lastDistance_mm = sens6Values.currentDistance_mm;
+}
+
+/**********************************************\
+Function Name:  controllerPrintSensorData
+Input Args:     none
+Output Args:    void
+Description:    Prints sensor data to console
+/**********************************************/
+static void controllerPrintSensorData()
+{
+    printf("%u\t%u\t%u\t%u\t%u\t%u\n",
+         sens1Values.currentDistance_mm,
+         sens2Values.currentDistance_mm,
+         sens3Values.currentDistance_mm,
+         sens4Values.currentDistance_mm,
+         sens5Values.currentDistance_mm,
+         sens6Values.currentDistance_mm);
 }
 

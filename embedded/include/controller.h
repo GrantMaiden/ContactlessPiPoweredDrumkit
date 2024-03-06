@@ -17,12 +17,13 @@ Description:    System controller state machine
 /**
  * Controller State Machine enums for state lookup
  **/
-enum controllerState
+typedef enum
 {
     RESET,
     WAIT1,
     POLLING1,
-};
+    TEST_DISTANCE_SENSORS,
+}controllerState;
 
 /**
  * sensorValue structure contains status and distance value of a sensor
@@ -37,6 +38,11 @@ typedef struct
  * initialize controller globals and states
  **/
 void controllerInit();
+
+/**
+ * update controller state
+ **/
+void controllerUpdateState(controllerState newState);
 
 /**
  * Controller State Machine. Handles all system states, inputs, and outputs.
@@ -78,3 +84,8 @@ static void controllerHitDetection();
  * \param detectionValue- strength that sensor has been struck
  **/
 static void controllerSendSound(sensorID id, int detectionValue);
+
+/**
+ * Prints sensor data to console
+ **/
+static void controllerPrintSensorData();

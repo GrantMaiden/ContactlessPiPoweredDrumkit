@@ -112,35 +112,37 @@ void rangingISRCallback(int gpio, int level, uint32_t tick)
 
     if (level == PI_TIMEOUT)
     {
-        printf("GPIO %d returned Interrupt Timeout! Interrupt Exceeded %dms!\nUs tick: %lu\n", gpio, DISTANCE_SENSOR_INTERRUPT_TIMEOUT, tick);
+        //printf("GPIO %d returned Interrupt Timeout! Interrupt Exceeded %dms!\nUs tick: %lu\n", gpio, DISTANCE_SENSOR_INTERRUPT_TIMEOUT, tick);
+        return;
     }
 
+    //printf("GPIO %i\n", gpio);
     // LUCAS ETHAN ADD CODE to return senseValue struct.
     sensorValues senseValues;
     switch(gpio)
     {
         case D1_GPIO1:
-            // TODO: ADD CODE senseValue = someFUNCTION()
+            senseValues = rangingGetData(sensorID::SENSOR1);
             controllerUpdateSensorValue(senseValues, sensorID::SENSOR1);
             break;
         case D2_GPIO1:
-            // TODO: ADD CODE senseValue = someFUNCTION()
+            senseValues = rangingGetData(sensorID::SENSOR2);
             controllerUpdateSensorValue(senseValues, sensorID::SENSOR2);
             break;
         case D3_GPIO1:
-            // TODO: ADD CODE senseValue = someFUNCTION()
+            senseValues = rangingGetData(sensorID::SENSOR3);
             controllerUpdateSensorValue(senseValues, sensorID::SENSOR3);
             break;
         case D4_GPIO1:
-            // TODO: ADD CODE senseValue = someFUNCTION()
+            senseValues = rangingGetData(sensorID::SENSOR4);
             controllerUpdateSensorValue(senseValues, sensorID::SENSOR4);
             break;
         case D5_GPIO1:
-            // TODO: ADD CODE senseValue = someFUNCTION()
+            senseValues = rangingGetData(sensorID::SENSOR5);
             controllerUpdateSensorValue(senseValues, sensorID::SENSOR5);
             break;
         case D6_GPIO1:
-            // TODO: ADD CODE senseValue = someFUNCTION()
+            senseValues = rangingGetData(sensorID::SENSOR6);
             controllerUpdateSensorValue(senseValues, sensorID::SENSOR6);
             break;
 
@@ -218,8 +220,16 @@ void runCommandLine(char *argv[])
     {
         gpioInitializeLib();
         // initialize Distance Sensors
+        rangingInit();
+
+        //// Initialize threads ////
         initInterrupts();
-        sleep(10);
+
+        btbThread btbThread1;
+        btbThread1.start();
+        usleep(3000);
+        controllerUpdateState(controllerState::TEST_DISTANCE_SENSORS);
+        sleep(20);
     }
     else if (!strcmp(argv[0], "soundTest1"))
     {

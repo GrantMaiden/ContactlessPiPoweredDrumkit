@@ -6,6 +6,7 @@ Description:    ranging control for distance sensors
 \***************************************************************************/
 
 #include <stdio.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
@@ -35,13 +36,6 @@ Dev_t i2cdev_Sensor5 = &linuxDev5;
 VL53L4CD_LinuxDev linuxDev6;
 Dev_t i2cdev_Sensor6 = &linuxDev6;
 
-VL53L4CD_ResultsData_t 	results_Sensor1;
-VL53L4CD_ResultsData_t 	results_Sensor2;
-VL53L4CD_ResultsData_t 	results_Sensor3;
-VL53L4CD_ResultsData_t 	results_Sensor4;
-VL53L4CD_ResultsData_t 	results_Sensor5;
-VL53L4CD_ResultsData_t 	results_Sensor6;
-
 /**********************************************\
 Function Name:  rangingInit
 Input Args:     none
@@ -63,6 +57,21 @@ void rangingInit()
     gpioSetOutput(D4_XSHUT, PI_LOW);
     gpioSetOutput(D5_XSHUT, PI_LOW);
     gpioSetOutput(D6_XSHUT, PI_LOW);
+
+    rangingInitDistanceSensors(SENSOR1, i2cdev_Sensor1);
+    rangingInitDistanceSensors(SENSOR2, i2cdev_Sensor2);
+    rangingInitDistanceSensors(SENSOR3, i2cdev_Sensor3);
+    rangingInitDistanceSensors(SENSOR4, i2cdev_Sensor4);
+    rangingInitDistanceSensors(SENSOR5, i2cdev_Sensor5);
+    rangingInitDistanceSensors(SENSOR6, i2cdev_Sensor6);
+
+    VL53L4CD_StartRanging(i2cdev_Sensor1);
+    VL53L4CD_StartRanging(i2cdev_Sensor2);
+    VL53L4CD_StartRanging(i2cdev_Sensor3);
+    VL53L4CD_StartRanging(i2cdev_Sensor4);
+    VL53L4CD_StartRanging(i2cdev_Sensor5);
+    VL53L4CD_StartRanging(i2cdev_Sensor6);
+
 }
 
 
@@ -77,12 +86,7 @@ void rangingTestDistanceSensors()
     printf("Beginning ranging test.\n");
     gpioInitializeLib();
     rangingInit();
-    rangingInitDistanceSensors(SENSOR1, i2cdev_Sensor1);
-    rangingInitDistanceSensors(SENSOR2, i2cdev_Sensor2);
-    rangingInitDistanceSensors(SENSOR3, i2cdev_Sensor3);
-    rangingInitDistanceSensors(SENSOR4, i2cdev_Sensor4);
-    rangingInitDistanceSensors(SENSOR5, i2cdev_Sensor5);
-    rangingInitDistanceSensors(SENSOR6, i2cdev_Sensor6);
+
     rangingPollingTestAll();
 }
 
@@ -142,21 +146,13 @@ void rangingInitDistanceSensors(int id, Dev_t dev)
 	printf("Range timing set to %d ms.\n", RANGE_TIMING_MAX);
 
 	//Setting detection thresholds
-	status = VL53L4CD_SetDetectionThresholds(dev, RANGING_LIM_LOW, RANGING_LIM_HIGH, 3);
+	//status = VL53L4CD_SetDetectionThresholds(dev, RANGING_LIM_LOW, RANGING_LIM_HIGH, 3);
 	if(status)
 	{
 		printf("VL53L4CD_SetDetectionThresholds failed with status %u\n", status);
 		exit(0);
 	}
 	printf("Range window set to between %d mm and %d mm.\n", RANGING_LIM_LOW, RANGING_LIM_HIGH);
-
-//    status = VL53L4CD_StartRanging(dev);
-//    if(status)
-//    {
-//		printf("VL53L4CD_StartRanging failed on sensor %d with status %u\n", id + 1, status);
-//		exit(0);
-//	}
-//    printf("Ranging started for sensor %d !\n", id + 1);
 
 
 	printf("End of sensor %d init !\n", id + 1);
@@ -203,14 +199,6 @@ bool rangingSetXshut(int id)
             gpioSetOutput(D5_XSHUT, PI_HIGH);
             break;
         case SENSOR6:
-            gpioSetOutput(D6_XSHUT, PI_HIGH);
-            break;
-        case SENSORALL:
-            gpioSetOutput(D1_XSHUT, PI_HIGH);
-            gpioSetOutput(D2_XSHUT, PI_HIGH);
-            gpioSetOutput(D3_XSHUT, PI_HIGH);
-            gpioSetOutput(D4_XSHUT, PI_HIGH);
-            gpioSetOutput(D5_XSHUT, PI_HIGH);
             gpioSetOutput(D6_XSHUT, PI_HIGH);
             break;
         default:
@@ -263,38 +251,47 @@ void rangingChangeAddress(Dev_t dev, int id)
 }
 
 /**********************************************\
-Function Name:  rangingInterruptPoll
+Function Name:  rangingGetData
 Input Args:     Dev_t dev- i2c device
-                int sensorID- which sensor to store
-                data for
-Output Args:    none
-Description:    changes received sensor address
+Output Args:    sensorValues - sensorValues object
+Description:    Get data from input dev id
 /**********************************************/
-void rangingInterruptPoll(Dev_t dev, int sensorID)
+sensorValues rangingGetData(sensorID sensor)
 {
-//	VL53L4CD_ClearInterrupt(dev);
-//
-//	switch(sensorID)
-//	case 1:
-//        VL53L4CD_GetResult(dev, &results_Sensor1);
-//        break;
-//    case 2:
-//        VL53L4CD_GetResult(dev, &results_Sensor2);
-//        break;
-//    case 3:
-//        VL53L4CD_GetResult(dev, &results_Sensor3);
-//        break;
-//    case 4:
-//        VL53L4CD_GetResult(dev, &results_Sensor4);
-//        break;
-//    case 5:
-//        VL53L4CD_GetResult(dev, &results_Sensor5);
-//        break;
-//    case 6:
-//        VL53L4CD_GetResult(dev, &results_Sensor6);
-//        break;
-//    default:
-//        break;
+    VL53L4CD_LinuxDev linuxDev1;
+    Dev_t devTemp = &linuxDev1;
+    switch (sensor)
+    {
+        case sensorID::SENSOR1:
+            devTemp = i2cdev_Sensor1;
+            break;
+        case sensorID::SENSOR2:
+            devTemp = i2cdev_Sensor2;
+            break;
+        case sensorID::SENSOR3:
+            devTemp = i2cdev_Sensor3;
+            break;
+        case sensorID::SENSOR4:
+            devTemp = i2cdev_Sensor4;
+            break;
+        case sensorID::SENSOR5:
+            devTemp = i2cdev_Sensor5;
+            break;
+        case sensorID::SENSOR6:
+            devTemp = i2cdev_Sensor6;
+            break;
+        default:
+            break;
+    }
+    VL53L4CD_ResultsData_t temp;
+    sensorValues sensorVals;
+
+    VL53L4CD_ClearInterrupt(devTemp);
+    VL53L4CD_GetResult(devTemp, &temp);
+    sensorVals.rangeStatus = temp.range_status;
+    sensorVals.currentDistance_mm = temp.distance_mm;
+
+    return sensorVals;
 
 }
 
@@ -330,21 +327,22 @@ void rangingPollingTestAll()
 		exit(0);
 	}
     printf("Ranging started for sensor %d !\n", 1);
-
-	while(loop < 2000)
+    VL53L4CD_ResultsData_t temp;
+	while(loop < 400)
 	{
         VL53L4CD_CheckForDataReady(i2cdev_Sensor1, &isReady1);
 		if(isReady1)
 		{
             VL53L4CD_ClearInterrupt(i2cdev_Sensor1);
-            VL53L4CD_GetResult(i2cdev_Sensor1, &results_Sensor1);
+            VL53L4CD_GetResult(i2cdev_Sensor1, &temp);
+
             printf("S1 = %u\tS2 = %u\tS3 = %u\tS4 = %u\tS5 = %u\tS6 = %u\n",
-				 results_Sensor1.distance_mm,
-				 results_Sensor2.distance_mm,
-				 results_Sensor3.distance_mm,
-				 results_Sensor4.distance_mm,
-				 results_Sensor5.distance_mm,
-				 results_Sensor6.distance_mm);
+				 temp.distance_mm,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0);
             loop++;
         }
 
