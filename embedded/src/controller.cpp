@@ -13,6 +13,7 @@ Description:    System controller state machine
 
 #include "defines.h"
 #include "controller.h"
+#include "sound.h"
 
 controllerState currentState = RESET;
 controllerState nextState = currentState;
@@ -73,6 +74,7 @@ void controllerSM()
             nextState = RESET;
             break;
     }
+}
 
 /**********************************************\
 Function Name:  controllerSendSound
@@ -147,7 +149,7 @@ static void controllerVelocityCalc()
         sens6Values.currentVelocity = 0;
         sens6Values.averageVelocity = 0;
     }
-  
+
     sens1Values.averageVelocity = sens1Values.averageVelocity + (sens1Values.currentVelocity - sens1Values.averageVelocity) / VELOCITY_FACTOR;
 
     sens2Values.averageVelocity = sens2Values.averageVelocity + (sens2Values.currentVelocity - sens2Values.averageVelocity) / VELOCITY_FACTOR;
@@ -279,21 +281,15 @@ Description:    updates the distances and velocity that are stored in each senso
 static void controllerUpdateDistanceVelocity()
 {
     sens1Values.lastDistance_mm = sens1Values.currentDistance_mm;
-    sens1Values.averageVelocity = sens1Values.averageVelocity + (sens1Values.currentVelocity - sens1Values.averageVelocity) / VELOCITY_FACTOR;
 
     sens2Values.lastDistance_mm = sens2Values.currentDistance_mm;
-    sens2Values.averageVelocity = sens2Values.averageVelocity + (sens2Values.currentVelocity - sens2Values.averageVelocity) / VELOCITY_FACTOR;
 
     sens3Values.lastDistance_mm = sens3Values.currentDistance_mm;
-    sens3Values.averageVelocity = sens3Values.averageVelocity + (sens3Values.currentVelocity - sens3Values.averageVelocity) / VELOCITY_FACTOR;
 
     sens4Values.lastDistance_mm = sens4Values.currentDistance_mm;
-    sens4Values.averageVelocity = sens4Values.averageVelocity + (sens4Values.currentVelocity - sens4Values.averageVelocity) / VELOCITY_FACTOR;
 
     sens5Values.lastDistance_mm = sens5Values.currentDistance_mm;
-    sens5Values.averageVelocity = sens5Values.averageVelocity + (sens5Values.currentVelocity - sens5Values.averageVelocity) / VELOCITY_FACTOR;
 
     sens6Values.lastDistance_mm = sens6Values.currentDistance_mm;
-    sens6Values.averageVelocity = sens6Values.averageVelocity + (sens6Values.currentVelocity - sens6Values.averageVelocity) / VELOCITY_FACTOR;
 }
 
