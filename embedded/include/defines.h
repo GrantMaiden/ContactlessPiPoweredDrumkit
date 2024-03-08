@@ -31,7 +31,7 @@ Description:    contains user constants, global enums, and structs
 #define LED_SHIFT_3V3   14
 #define D1_GPIO1        18
 #define D1_XSHUT        16
-#define D2_GPIO1        7
+#define D2_GPIO1        22
 #define D2_XSHUT        8
 #define D3_GPIO1        1
 #define D3_XSHUT        23

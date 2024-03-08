@@ -5,14 +5,21 @@ Author:         Grant Maiden
 Description:    System controller state machine
 \***************************************************************************/
 
-#define LIGHT_HIT       10
-#define MEDIUM_HIT      30
-#define HARD_HIT        50
+#define LIGHT_HIT       8
+#define MEDIUM_HIT      18
+#define HARD_HIT        28
 
-#define VELOCITY_FACTOR 8
+#define VELOCITY_FACTOR 4
 
-#define SENSOR1_6_DIRECTION         -1
-#define SENSOR2_3_4_5_DIRECTION     1
+#define SENSOR1_6_DIRECTION                 1
+#define SENSOR2_3_4_5_DIRECTION             -1
+#define DRUM_INTERVAL_TIMEOUT_MS            100 // 100ms
+
+#define DISTANCE_UPPER_THRESHOLD            600
+#define GESTURE_THRESHOLD_VELOCITY          6
+#define GESTURE_THRESHOLD_NUM_SAMPLE_TRUE   4
+#define PAST_AVERAGE_VELOCITY_ARR_SIZE      16
+#define GESTURE_TIME_LIMIT                  1
 
 /**
  * Controller State Machine enums for state lookup
@@ -69,14 +76,15 @@ void controllerUpdateSensorValue(sensorValues senseValue, sensorID id);
 static bool controllerSensorsReady();
 
 /**
- * updates the distances and Velocity that are stored in each sensorValues object.
+ * updates the distances that are stored in each sensorValues object.
  **/
-static void controllerUpdateDistanceVelocity();
+static void controllerUpdateDistance();
 
 /**
  * computes if a hit was detected
+ * \returns bool- returns true if hit was detected.
  **/
-static void controllerHitDetection();
+static bool controllerHitDetection();
 
 /**
  * Requests a sound is played from the corresponding sensor at the input detectionValue level
@@ -86,6 +94,26 @@ static void controllerHitDetection();
 static void controllerSendSound(sensorID id, int detectionValue);
 
 /**
+ * return peak Velocity
+ * \param id- sensorID
+ * \param int- sampleToSearch
+ * \returns int - peak velocity
+ **/
+static int getPeakVelocity(sensorID id, int samplesToSearch);
+
+/**
  * Prints sensor data to console
  **/
-static void controllerPrintSensorData();
+static void controllerPrintSensorCurrentDistance();
+
+/**
+ * Prints sensor velocity data to console
+ **/
+static void controllerPrintSensorAverageVelocity();
+
+/**
+ * Detects Gestures
+ * \param hitDetectedRecently- bool input
+ * \returns bool- returns true if gesture detected
+ **/
+static bool controllerGestureDetect(bool hitDetectedRecently);

@@ -66,10 +66,15 @@ void rangingInit()
     rangingInitDistanceSensors(SENSOR6, i2cdev_Sensor6);
 
     VL53L4CD_StartRanging(i2cdev_Sensor1);
+    //usleep(500);
     VL53L4CD_StartRanging(i2cdev_Sensor2);
+    //usleep(500);
     VL53L4CD_StartRanging(i2cdev_Sensor3);
+    //usleep(500);
     VL53L4CD_StartRanging(i2cdev_Sensor4);
+    //usleep(500);
     VL53L4CD_StartRanging(i2cdev_Sensor5);
+    //usleep(500);
     VL53L4CD_StartRanging(i2cdev_Sensor6);
 
 }
@@ -145,6 +150,7 @@ void rangingInitDistanceSensors(int id, Dev_t dev)
 	}
 	printf("Range timing set to %d ms.\n", RANGE_TIMING_MAX);
 
+	//printf("Signal Threshold set as: %u\n", VL53L4CD_SetSignalThreshold(dev, 200));
 	//Setting detection thresholds
 	//status = VL53L4CD_SetDetectionThresholds(dev, RANGING_LIM_LOW, RANGING_LIM_HIGH, 3);
 	if(status)
@@ -292,6 +298,49 @@ sensorValues rangingGetData(sensorID sensor)
     sensorVals.currentDistance_mm = temp.distance_mm;
 
     return sensorVals;
+
+}
+
+/**********************************************\
+Function Name:  rangingCheckIfReady
+Input Args:     sensor - sensorID
+Output Args:    bool
+Description:    returns if a snesor has data ready
+/**********************************************/
+bool rangingCheckIfReady(sensorID sensor)
+{
+    VL53L4CD_LinuxDev linuxDev1;
+    Dev_t devTemp = &linuxDev1;
+    switch (sensor)
+    {
+        case sensorID::SENSOR1:
+            devTemp = i2cdev_Sensor1;
+            break;
+        case sensorID::SENSOR2:
+            devTemp = i2cdev_Sensor2;
+            break;
+        case sensorID::SENSOR3:
+            devTemp = i2cdev_Sensor3;
+            break;
+        case sensorID::SENSOR4:
+            devTemp = i2cdev_Sensor4;
+            break;
+        case sensorID::SENSOR5:
+            devTemp = i2cdev_Sensor5;
+            break;
+        case sensorID::SENSOR6:
+            devTemp = i2cdev_Sensor6;
+            break;
+        default:
+            break;
+    }
+    uint8_t isReady;
+    VL53L4CD_CheckForDataReady(i2cdev_Sensor1, &isReady);
+
+    if (isReady != 1)
+        return true;
+    else
+        return false;
 
 }
 

@@ -75,6 +75,13 @@ void rangingChangeAddress(Dev_t dev, int id);
 sensorValues rangingGetData(sensorID sensor);
 
 /**
+ * returns if a snesor has data ready
+ * \param sensor - sensorID
+ * \returns bool
+ **/
+bool rangingCheckIfReady(sensorID sensor);
+
+/**
  * Polls all sensors simultaneously
  **/
 void rangingPollingTestAll();
