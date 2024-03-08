@@ -36,18 +36,25 @@ static int * averageVelArrSens4 = new int[PAST_AVERAGE_VELOCITY_ARR_SIZE]();
 static int * averageVelArrSens5 = new int[PAST_AVERAGE_VELOCITY_ARR_SIZE]();
 static int * averageVelArrSens6 = new int[PAST_AVERAGE_VELOCITY_ARR_SIZE]();
 
-static int averageVelArrIndex = 0;
+static int * currentVelArrSens1 = new int[PAST_AVERAGE_VELOCITY_ARR_SIZE]();
+static int * currentVelArrSens2 = new int[PAST_AVERAGE_VELOCITY_ARR_SIZE]();
+static int * currentVelArrSens3 = new int[PAST_AVERAGE_VELOCITY_ARR_SIZE]();
+static int * currentVelArrSens4 = new int[PAST_AVERAGE_VELOCITY_ARR_SIZE]();
+static int * currentVelArrSens5 = new int[PAST_AVERAGE_VELOCITY_ARR_SIZE]();
+static int * currentVelArrSens6 = new int[PAST_AVERAGE_VELOCITY_ARR_SIZE]();
+
+static int averageVelNextArrIndex = 0;
 static bool enableSounds = false;
 
 struct timespec clockObj;
-long int stopTimeGesture;
+unsigned stopTimeGesture;
 
-long int timeoutEndTimeSensor1;
-long int timeoutEndTimeSensor2;
-long int timeoutEndTimeSensor3;
-long int timeoutEndTimeSensor4;
-long int timeoutEndTimeSensor5;
-long int timeoutEndTimeSensor6;
+uint timeoutEndTimeSensor1;
+uint timeoutEndTimeSensor2;
+uint timeoutEndTimeSensor3;
+uint timeoutEndTimeSensor4;
+uint timeoutEndTimeSensor5;
+uint timeoutEndTimeSensor6;
 
 static bool hitDetectedRecently = false;
 
@@ -66,7 +73,7 @@ void controllerInit()
 {
     currentState = RESET;
     nextState = currentState;
-    averageVelArrIndex = 0;
+    averageVelNextArrIndex = 0;
     enableSounds = false;
 
     gesture_detected_sensor5 = false;
@@ -128,13 +135,12 @@ void controllerSM()
                 //controllerPrintSensorAverageVelocity();
                 if(controllerHitDetection())
                 {
-                    printf("Hit Detected\n");
                     hitDetectedRecently = true;
                 }
                 controllerUpdateDistance();
-                if (controllerGestureDetect(hitDetectedRecently))
+                if (controllerGestureDetect())
                 {
-                    printf("Swipe Detect!\n");
+                    //printf("Swipe Detect!\n");
                     enableSounds = ~enableSounds;
                 }
             }
@@ -162,7 +168,7 @@ Description:    computes if a hit was detected
 /**********************************************/
 static void controllerSendSound(sensorID id, int detectionValue)
 {
-    printf("Strength: %i\n", detectionValue);
+    printf("Hit Detected! Strength: %i Sensor: %i\n", detectionValue, id+1);
 //    if (detectionValue > HARD_HIT)
 //        soundTest1(); // TODO: soundPlay(id, HARD_HIT);
 //    else if (detectionValue > MEDIUM_HIT)
@@ -228,28 +234,34 @@ static void controllerVelocityCalc()
         sens6Values.averageVelocity = 0;
     }
 
-    sens1Values.averageVelocity = sens1Values.averageVelocity + (sens1Values.currentVelocity - sens1Values.averageVelocity) / VELOCITY_FACTOR;
+    sens1Values.averageVelocity = sens1Values.averageVelocity + (sens1Values.currentVelocity - sens1Values.averageVelocity) / VELOCITY_FACTOR_AVG;
 
-    sens2Values.averageVelocity = sens2Values.averageVelocity + (sens2Values.currentVelocity - sens2Values.averageVelocity) / VELOCITY_FACTOR;
+    sens2Values.averageVelocity = sens2Values.averageVelocity + (sens2Values.currentVelocity - sens2Values.averageVelocity) / VELOCITY_FACTOR_AVG;
 
-    sens3Values.averageVelocity = sens3Values.averageVelocity + (sens3Values.currentVelocity - sens3Values.averageVelocity) / VELOCITY_FACTOR;
+    sens3Values.averageVelocity = sens3Values.averageVelocity + (sens3Values.currentVelocity - sens3Values.averageVelocity) / VELOCITY_FACTOR_AVG;
 
-    sens4Values.averageVelocity = sens4Values.averageVelocity + (sens4Values.currentVelocity - sens4Values.averageVelocity) / VELOCITY_FACTOR;
+    sens4Values.averageVelocity = sens4Values.averageVelocity + (sens4Values.currentVelocity - sens4Values.averageVelocity) / VELOCITY_FACTOR_AVG;
 
-    sens5Values.averageVelocity = sens5Values.averageVelocity + (sens5Values.currentVelocity - sens5Values.averageVelocity) / VELOCITY_FACTOR;
+    sens5Values.averageVelocity = sens5Values.averageVelocity + (sens5Values.currentVelocity - sens5Values.averageVelocity) / VELOCITY_FACTOR_AVG;
 
-    sens6Values.averageVelocity = sens6Values.averageVelocity + (sens6Values.currentVelocity - sens6Values.averageVelocity) / VELOCITY_FACTOR;
+    sens6Values.averageVelocity = sens6Values.averageVelocity + (sens6Values.currentVelocity - sens6Values.averageVelocity) / VELOCITY_FACTOR_AVG;
 
-    averageVelArrSens1[averageVelArrIndex] = sens1Values.averageVelocity;
-    averageVelArrSens2[averageVelArrIndex] = sens2Values.averageVelocity;
-    averageVelArrSens3[averageVelArrIndex] = sens3Values.averageVelocity;
-    averageVelArrSens4[averageVelArrIndex] = sens4Values.averageVelocity;
-    averageVelArrSens5[averageVelArrIndex] = sens5Values.averageVelocity;
-    averageVelArrSens6[averageVelArrIndex] = sens6Values.averageVelocity;
+    averageVelArrSens1[averageVelNextArrIndex] = sens1Values.averageVelocity;
+    averageVelArrSens2[averageVelNextArrIndex] = sens2Values.averageVelocity;
+    averageVelArrSens3[averageVelNextArrIndex] = sens3Values.averageVelocity;
+    averageVelArrSens4[averageVelNextArrIndex] = sens4Values.averageVelocity;
+    averageVelArrSens5[averageVelNextArrIndex] = sens5Values.averageVelocity;
+    averageVelArrSens6[averageVelNextArrIndex] = sens6Values.averageVelocity;
+    currentVelArrSens1[averageVelNextArrIndex] = sens1Values.currentVelocity;
+    currentVelArrSens2[averageVelNextArrIndex] = sens2Values.currentVelocity;
+    currentVelArrSens3[averageVelNextArrIndex] = sens3Values.currentVelocity;
+    currentVelArrSens4[averageVelNextArrIndex] = sens4Values.currentVelocity;
+    currentVelArrSens5[averageVelNextArrIndex] = sens5Values.currentVelocity;
+    currentVelArrSens6[averageVelNextArrIndex] = sens6Values.currentVelocity;
 
-    averageVelArrIndex = averageVelArrIndex + 1;
-    if (averageVelArrIndex >= PAST_AVERAGE_VELOCITY_ARR_SIZE)
-        averageVelArrIndex = 0;
+    averageVelNextArrIndex = averageVelNextArrIndex + 1;
+    if (averageVelNextArrIndex >= PAST_AVERAGE_VELOCITY_ARR_SIZE)
+        averageVelNextArrIndex = 0;
 }
 
 /**********************************************\
@@ -262,58 +274,68 @@ static bool controllerHitDetection()
 {
     struct timeval stop, start;
     gettimeofday(&start, NULL);
-    int currentTimeMs = (start.tv_sec * 1000000 + start.tv_usec) / 1000;
+    uint currentTimeMs = (start.tv_sec * 1000000 + start.tv_usec) / 1000;
+    int previousVelAvgIndex = averageVelNextArrIndex - 2;
+    if (previousVelAvgIndex < -1)
+        previousVelAvgIndex = PAST_AVERAGE_VELOCITY_ARR_SIZE - 2;
+    else if (previousVelAvgIndex < 0)
+        previousVelAvgIndex = PAST_AVERAGE_VELOCITY_ARR_SIZE - 1;
+
     //printf("CurrTime: %u\n", currentTimeMs);
     int detectionValue = 0;
     bool returnVal = false;
-    if (sens1Values.averageVelocity * SENSOR1_6_DIRECTION > 0 && sens1Values.currentVelocity * SENSOR1_6_DIRECTION < 0)
+    if (averageVelArrSens1[previousVelAvgIndex] * SENSOR1_6_DIRECTION > 0 && sens1Values.currentVelocity * SENSOR1_6_DIRECTION < 0)
         detectionValue = getPeakVelocity(sensorID::SENSOR1, PAST_AVERAGE_VELOCITY_ARR_SIZE);
-    if (timeoutEndTimeSensor1 < currentTimeMs && detectionValue * SENSOR1_6_DIRECTION > LIGHT_HIT)
+    if (timeoutEndTimeSensor1 < currentTimeMs && detectionValue * SENSOR1_6_DIRECTION >= LIGHT_HIT)
     {
         controllerSendSound(sensorID::SENSOR1, detectionValue);
         timeoutEndTimeSensor1 = currentTimeMs + DRUM_INTERVAL_TIMEOUT_MS;
         returnVal = true;
     }
     detectionValue = 0;
-    if (sens2Values.averageVelocity * SENSOR2_3_4_5_DIRECTION > 0 && sens2Values.currentVelocity * SENSOR2_3_4_5_DIRECTION < 0)
+    if (averageVelArrSens2[previousVelAvgIndex] * SENSOR2_3_4_5_DIRECTION > 0 && sens2Values.currentVelocity * SENSOR2_3_4_5_DIRECTION < 0)
         detectionValue = getPeakVelocity(sensorID::SENSOR2, PAST_AVERAGE_VELOCITY_ARR_SIZE);
-    if (timeoutEndTimeSensor2 < currentTimeMs && detectionValue * SENSOR2_3_4_5_DIRECTION > LIGHT_HIT)
+    if (detectionValue * SENSOR2_3_4_5_DIRECTION >= LIGHT_HIT)
     {
+        //printf("timeoutEndTimeSensor2: %u, currentTimeMs: %u SensorID: %i\n", timeoutEndTimeSensor2, currentTimeMs, sensorID::SENSOR2);
+        if(timeoutEndTimeSensor2 < currentTimeMs)
+        {
         timeoutEndTimeSensor2 = currentTimeMs + DRUM_INTERVAL_TIMEOUT_MS;
         controllerSendSound(sensorID::SENSOR2, detectionValue);
         returnVal = true;
+        }
     }
     detectionValue = 0;
-    if (sens3Values.averageVelocity * SENSOR2_3_4_5_DIRECTION > 0 && sens3Values.currentVelocity * SENSOR2_3_4_5_DIRECTION < 0)
+    if (averageVelArrSens3[previousVelAvgIndex]  * SENSOR2_3_4_5_DIRECTION > 0 && sens3Values.currentVelocity * SENSOR2_3_4_5_DIRECTION < 0)
         detectionValue = getPeakVelocity(sensorID::SENSOR3, PAST_AVERAGE_VELOCITY_ARR_SIZE);
-    if (timeoutEndTimeSensor3 < currentTimeMs && detectionValue * SENSOR2_3_4_5_DIRECTION > LIGHT_HIT)
+    if (timeoutEndTimeSensor3 < currentTimeMs && detectionValue * SENSOR2_3_4_5_DIRECTION >= LIGHT_HIT)
     {
         timeoutEndTimeSensor3 = currentTimeMs + DRUM_INTERVAL_TIMEOUT_MS;
         controllerSendSound(sensorID::SENSOR3, detectionValue);
         returnVal = true;
     }
     detectionValue = 0;
-    if (sens4Values.averageVelocity * SENSOR2_3_4_5_DIRECTION > 0 && sens4Values.currentVelocity * SENSOR2_3_4_5_DIRECTION < 0)
+    if (averageVelArrSens4[previousVelAvgIndex]  * SENSOR2_3_4_5_DIRECTION > 0 && sens4Values.currentVelocity * SENSOR2_3_4_5_DIRECTION < 0)
         detectionValue = getPeakVelocity(sensorID::SENSOR4, PAST_AVERAGE_VELOCITY_ARR_SIZE);
-    if (timeoutEndTimeSensor4 < currentTimeMs && detectionValue * SENSOR2_3_4_5_DIRECTION > LIGHT_HIT)
+    if (timeoutEndTimeSensor4 < currentTimeMs && detectionValue * SENSOR2_3_4_5_DIRECTION >= LIGHT_HIT)
     {
         timeoutEndTimeSensor4 = currentTimeMs + DRUM_INTERVAL_TIMEOUT_MS;
         controllerSendSound(sensorID::SENSOR4, detectionValue);
         returnVal = true;
     }
     detectionValue = 0;
-    if (sens5Values.averageVelocity * SENSOR2_3_4_5_DIRECTION > 0 && sens5Values.currentVelocity * SENSOR2_3_4_5_DIRECTION < 0)
+    if (averageVelArrSens5[previousVelAvgIndex]  * SENSOR2_3_4_5_DIRECTION > 0 && sens5Values.currentVelocity * SENSOR2_3_4_5_DIRECTION < 0)
         detectionValue = getPeakVelocity(sensorID::SENSOR5, PAST_AVERAGE_VELOCITY_ARR_SIZE);
-    if (timeoutEndTimeSensor5 < currentTimeMs && detectionValue * SENSOR2_3_4_5_DIRECTION > LIGHT_HIT)
+    if (timeoutEndTimeSensor5 < currentTimeMs && detectionValue * SENSOR2_3_4_5_DIRECTION >= LIGHT_HIT)
     {
         timeoutEndTimeSensor5 = currentTimeMs + DRUM_INTERVAL_TIMEOUT_MS;
         controllerSendSound(sensorID::SENSOR5, detectionValue);
         returnVal = true;
     }
     detectionValue = 0;
-    if (sens6Values.averageVelocity * SENSOR2_3_4_5_DIRECTION > 0 && sens6Values.currentVelocity * SENSOR2_3_4_5_DIRECTION < 0)
+    if (averageVelArrSens6[previousVelAvgIndex]  * SENSOR2_3_4_5_DIRECTION > 0 && sens6Values.currentVelocity * SENSOR2_3_4_5_DIRECTION < 0)
         detectionValue = getPeakVelocity(sensorID::SENSOR6, PAST_AVERAGE_VELOCITY_ARR_SIZE);
-    if (timeoutEndTimeSensor6 < currentTimeMs && detectionValue * SENSOR1_6_DIRECTION > LIGHT_HIT)
+    if (timeoutEndTimeSensor6 < currentTimeMs && detectionValue * SENSOR1_6_DIRECTION >= LIGHT_HIT)
     {
         timeoutEndTimeSensor6 = currentTimeMs + DRUM_INTERVAL_TIMEOUT_MS;
         controllerSendSound(sensorID::SENSOR6, detectionValue);
@@ -327,49 +349,123 @@ static bool controllerHitDetection()
 Function Name:  getPeakVelocity
 Input Args:     sensorID id
                 samplesToSearch
+                noiseCheckingEn - checks for noise with additional arguments. returns zero if noise check fails.
 Output Args:    int
 Description:    return peak Velocity
 /**********************************************/
-static int getPeakVelocity(sensorID id, int samplesToSearch)
+static int getPeakVelocity(sensorID id, int samplesToSearch, bool noiseCheckingEn)
 {
     int * velArr;
+    int * currentVelArr;
+    int returnSign = 0;
     switch (id)
     {
         case sensorID::SENSOR1:
             velArr = averageVelArrSens1;
+            currentVelArr = currentVelArrSens1;
+            returnSign = SENSOR1_6_DIRECTION;
             break;
         case sensorID::SENSOR2:
             velArr = averageVelArrSens2;
+            currentVelArr = currentVelArrSens2;
+            returnSign = SENSOR2_3_4_5_DIRECTION;
             break;
         case sensorID::SENSOR3:
             velArr = averageVelArrSens3;
+            currentVelArr = currentVelArrSens3;
+            returnSign = SENSOR2_3_4_5_DIRECTION;
             break;
         case sensorID::SENSOR4:
             velArr = averageVelArrSens4;
+            currentVelArr = currentVelArrSens4;
+            returnSign = SENSOR2_3_4_5_DIRECTION;
             break;
         case sensorID::SENSOR5:
             velArr = averageVelArrSens5;
+            currentVelArr = currentVelArrSens5;
+            returnSign = SENSOR2_3_4_5_DIRECTION;
             break;
         case sensorID::SENSOR6:
             velArr = averageVelArrSens6;
+            currentVelArr = currentVelArrSens6;
+            returnSign = SENSOR1_6_DIRECTION;
             break;
     }
     int largestNeg = 0;
     int largestPos = 0;
     int largestValue;
+    int peakValueIndexPos = 0;
+    int peakValueIndexNeg = 0;
+    int numSampleNonZero = 0;
+    int currentVelPeakPos = 0;
+    int currentVelPeakNeg = 0;
     for (int i=0; i<PAST_AVERAGE_VELOCITY_ARR_SIZE; i++)
     {
-        if (velArr[i] < 0 && largestNeg > velArr[i])
+        if (largestNeg > velArr[i])
+        {
             largestNeg = velArr[i];
-        if (velArr[i] > 0 && largestPos < velArr[i])
+            peakValueIndexNeg = i;
+        }
+        if (largestPos < velArr[i])
+        {
             largestPos = velArr[i];
+            peakValueIndexPos = i;
+        }
+        if (currentVelPeakNeg > currentVelArr[i])
+        {
+            currentVelPeakNeg = currentVelArr[i];
+        }
+        if (currentVelPeakPos < currentVelArr[i])
+        {
+            currentVelPeakPos = currentVelArr[i];
+        }
+
+        if (velArr[i] != 0)
+            numSampleNonZero = numSampleNonZero+1;
     }
     //printf("largestPos: %i\n", largestPos);
     //printf("largestNeg: %i\n", largestNeg);
-    if (largestNeg*-1 > largestPos)
-            return largestNeg;
-        else
-            return largestPos;
+    int currentVelocityMax = 0;
+    if (currentVelPeakNeg * -1 >= currentVelPeakPos)
+        currentVelocityMax = currentVelPeakNeg * -1;
+    else
+        currentVelocityMax = currentVelPeakPos;
+    int previousIndexPos = peakValueIndexPos - 1;
+    if (previousIndexPos < 0)
+        previousIndexPos = PAST_AVERAGE_VELOCITY_ARR_SIZE -1;
+    int previousIndexNeg = peakValueIndexNeg - 1;
+    if (previousIndexNeg < 0)
+        previousIndexNeg = PAST_AVERAGE_VELOCITY_ARR_SIZE -1;
+    if (noiseCheckingEn)
+    {
+        if (numSampleNonZero < HIT_DETECT_NUM_SAMPLES_MIN)
+        {
+            //printf("NonZeroSamples: %i, SensorID: %i\n", numSampleNonZero, id);
+            largestNeg = 0;
+            largestPos = 0;
+        }
+        if (velArr[previousIndexNeg] == 0)
+            largestNeg = 0;
+        if (velArr[previousIndexPos] == 0)
+            largestPos = 0;
+        //printf("currentVelocityMax: %i\n", currentVelocityMax);
+        if(currentVelocityMax > HIT_DETECT_INSTANEOUS_VELOCITY_LIMIT)
+        {
+            //printf("Velocity Limit Hit With V of : %i\n", currentVelocityMax);
+            largestNeg = 0;
+            largestPos = 0;
+        }
+        if(largestNeg * -1 > HIT_DETECT_AVG_VELOCITY_CEILING)
+            largestNeg = 0;
+        if(largestPos > HIT_DETECT_AVG_VELOCITY_CEILING)
+            largestPos = 0;
+    }
+    //if (id == sensorID::SENSOR2)
+        //printf("LargestNeg: %i, LargestPos: %i SensorID: %i\n", largestNeg, largestPos, id);
+    if (returnSign < 0)
+        return largestNeg;
+    else
+        return largestPos;
 }
 
 /**********************************************\
@@ -502,22 +598,28 @@ Description:    Prints sensor data to console
 static void controllerPrintSensorAverageVelocity()
 {
 
-    printf("%i\t%i\t%i\t%i\t%i\t%i\n",
+    printf("%i\t%i\t%i\t%i\t%i\t%i\t\t%i\t%i\t%i\t%i\t%i\t%i\t\n",
          sens1Values.averageVelocity,
          sens2Values.averageVelocity,
          sens3Values.averageVelocity,
          sens4Values.averageVelocity,
          sens5Values.averageVelocity,
-         sens6Values.averageVelocity);
+         sens6Values.averageVelocity,
+         sens1Values.currentVelocity,
+         sens2Values.currentVelocity,
+         sens3Values.currentVelocity,
+         sens4Values.currentVelocity,
+         sens5Values.currentVelocity,
+         sens6Values.currentVelocity);
 }
 
 /**********************************************\
 Function Name:  controllerGestureDetect
-Input Args:     bool hitDetectedRecently
+Input Args:     none
 Output Args:    bool
 Description:    Detects Gestures
 /**********************************************/
-static bool controllerGestureDetect(bool hitDetectedRecently)
+static bool controllerGestureDetect()
 {
 
     int loop = 0;
@@ -528,12 +630,12 @@ static bool controllerGestureDetect(bool hitDetectedRecently)
     bool returnVal = false;
     clock_gettime(CLOCK_REALTIME, &clockObj);
     long int currentTime = clockObj.tv_sec;
-    currentIndex = averageVelArrIndex - 1;
+    currentIndex = averageVelNextArrIndex - 1;
     if (currentIndex < 0)
         currentIndex = PAST_AVERAGE_VELOCITY_ARR_SIZE - 1;
     if (averageVelArrSens5[currentIndex] != 0)
     {
-        currentIndex = averageVelArrIndex - 1;
+        currentIndex = averageVelNextArrIndex - 1;
         if (currentIndex < 0)
             currentIndex = PAST_AVERAGE_VELOCITY_ARR_SIZE - 1;
         checkVal = averageVelArrSens5[currentIndex];
@@ -559,12 +661,12 @@ static bool controllerGestureDetect(bool hitDetectedRecently)
         }
     }
 SENS4:
-    currentIndex = averageVelArrIndex - 1;
+    currentIndex = averageVelNextArrIndex - 1;
     if (currentIndex < 0)
         currentIndex = PAST_AVERAGE_VELOCITY_ARR_SIZE - 1;
     if (averageVelArrSens4[currentIndex] != 0)
     {
-        currentIndex = averageVelArrIndex - 1;
+        currentIndex = averageVelNextArrIndex - 1;
         if (currentIndex < 0)
             currentIndex = PAST_AVERAGE_VELOCITY_ARR_SIZE - 1;
         checkVal = averageVelArrSens4[currentIndex];
@@ -587,12 +689,12 @@ SENS4:
         //printf("Gesture Detect S4\n");
     }
 SENS3:
-    currentIndex = averageVelArrIndex - 1;
+    currentIndex = averageVelNextArrIndex - 1;
     if (currentIndex < 0)
         currentIndex = PAST_AVERAGE_VELOCITY_ARR_SIZE - 1;
     if (averageVelArrSens3[currentIndex] != 0)
     {
-        currentIndex = averageVelArrIndex - 1;
+        currentIndex = averageVelNextArrIndex - 1;
         if (currentIndex < 0)
             currentIndex = PAST_AVERAGE_VELOCITY_ARR_SIZE - 1;
         checkVal = averageVelArrSens3[currentIndex];
@@ -615,12 +717,12 @@ SENS3:
         //printf("Gesture Detect S3\n");
     }
 SENS2:
-    currentIndex = averageVelArrIndex - 1;
+    currentIndex = averageVelNextArrIndex - 1;
     if (currentIndex < 0)
         currentIndex = PAST_AVERAGE_VELOCITY_ARR_SIZE - 1;
     if (averageVelArrSens2[currentIndex] != 0)
     {
-        currentIndex = averageVelArrIndex - 1;
+        currentIndex = averageVelNextArrIndex - 1;
             if (currentIndex < 0)
                 currentIndex = PAST_AVERAGE_VELOCITY_ARR_SIZE - 1;
         checkVal = averageVelArrSens2[currentIndex];
