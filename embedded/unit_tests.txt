@@ -34,7 +34,7 @@ Argument:	ledInitialiseTest
 Description:	Peter's LED test
 
 Argument:	interruptTest
-Description:	Sets up distance sensors, utilizing interrupts for reading their data. Runs 10seconds.
+Description:	Sets up distance sensors, utilizing interrupts for reading their data. Runs 20seconds.
 
 Argument:	soundTest1
 Description:	Plays Sound linked to TH_LOUD_FOOT_CLOSED 1 time.
