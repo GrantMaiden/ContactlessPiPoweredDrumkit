@@ -6,8 +6,8 @@ Description:    System controller state machine
 \***************************************************************************/
 
 #define LIGHT_HIT       3
-#define MEDIUM_HIT      8
-#define HARD_HIT        15
+#define MEDIUM_HIT      7
+#define HARD_HIT        10
 
 // Distance Filtering
 #define DISTANCE_UPPER_THRESHOLD            600
@@ -17,13 +17,14 @@ Description:    System controller state machine
 #define PAST_AVERAGE_VELOCITY_ARR_SIZE      16
 
 // Hit Detection
-#define HIT_DETECT_NOISE_CHECKING               true
-#define HIT_DETECT_NUM_SAMPLES_MIN              8
-#define DRUM_INTERVAL_TIMEOUT_MS                150
-#define HIT_DETECT_INSTANEOUS_VELOCITY_LIMIT    100
-#define HIT_DETECT_AVG_VELOCITY_CEILING         25
+#define HIT_DETECT_NOISE_CHECKING                   true
+#define HIT_DETECT_NUM_SAMPLES_MIN                  8
+#define DRUM_INTERVAL_TIMEOUT_MS                    120
+#define HIT_DETECT_INSTANEOUS_VELOCITY_LIMIT        100
+#define HIT_DETECT_AVG_VELOCITY_CEILING             25
+#define HIT_DETECT_MIN_SEQUENTIAL_VELOCITY_SAMPLES  6
 
-// Sensor Direction
+// Sensor Detection Direction (-1 = towards sensor, 1 = away from sensor)
 #define SENSOR1_6_DIRECTION                 1
 #define SENSOR2_3_4_5_DIRECTION             -1
 

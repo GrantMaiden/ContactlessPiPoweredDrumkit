@@ -132,7 +132,7 @@ void controllerSM()
             if(controllerSensorsReady())
             {
                 controllerVelocityCalc();
-                //controllerPrintSensorAverageVelocity();
+                controllerPrintSensorAverageVelocity();
                 if(controllerHitDetection())
                 {
                     hitDetectedRecently = true;
@@ -140,7 +140,7 @@ void controllerSM()
                 controllerUpdateDistance();
                 if (controllerGestureDetect())
                 {
-                    //printf("Swipe Detect!\n");
+                    printf("Swipe Detect!\n");
                     enableSounds = ~enableSounds;
                 }
             }
@@ -170,7 +170,7 @@ static void controllerSendSound(sensorID id, int detectionValue)
 {
     printf("Hit Detected! Strength: %i Sensor: %i\n", detectionValue, id+1);
 //    if (detectionValue > HARD_HIT)
-//        soundTest1(); // TODO: soundPlay(id, HARD_HIT);
+        soundTest1(); // TODO: soundPlay(id, HARD_HIT);
 //    else if (detectionValue > MEDIUM_HIT)
 //        soundTest1(); // TODO: soundPlay(id, MEDIUM_HIT);
 //    else if (detectionValue > LIGHT_HIT)
@@ -333,7 +333,7 @@ static bool controllerHitDetection()
         returnVal = true;
     }
     detectionValue = 0;
-    if (averageVelArrSens6[previousVelAvgIndex]  * SENSOR2_3_4_5_DIRECTION > 0 && sens6Values.currentVelocity * SENSOR2_3_4_5_DIRECTION < 0)
+    if (averageVelArrSens6[previousVelAvgIndex]  * SENSOR1_6_DIRECTION > 0 && sens6Values.currentVelocity * SENSOR1_6_DIRECTION < 0)
         detectionValue = getPeakVelocity(sensorID::SENSOR6, PAST_AVERAGE_VELOCITY_ARR_SIZE);
     if (timeoutEndTimeSensor6 < currentTimeMs && detectionValue * SENSOR1_6_DIRECTION >= LIGHT_HIT)
     {
@@ -425,6 +425,12 @@ static int getPeakVelocity(sensorID id, int samplesToSearch, bool noiseCheckingE
     }
     //printf("largestPos: %i\n", largestPos);
     //printf("largestNeg: %i\n", largestNeg);
+    int currentVelArrIndex = averageVelNextArrIndex - 1;
+    if (currentVelArrIndex < 0)
+        currentVelArrIndex = PAST_AVERAGE_VELOCITY_ARR_SIZE -1;
+    int lastVelArrIndex = currentVelArrIndex - 1;
+    if (lastVelArrIndex < 0)
+        currentVelArrIndex = PAST_AVERAGE_VELOCITY_ARR_SIZE -1;
     int currentVelocityMax = 0;
     if (currentVelPeakNeg * -1 >= currentVelPeakPos)
         currentVelocityMax = currentVelPeakNeg * -1;
@@ -436,8 +442,33 @@ static int getPeakVelocity(sensorID id, int samplesToSearch, bool noiseCheckingE
     int previousIndexNeg = peakValueIndexNeg - 1;
     if (previousIndexNeg < 0)
         previousIndexNeg = PAST_AVERAGE_VELOCITY_ARR_SIZE -1;
+    int sequentialVelCount = 0;
+    int sequentialVelIndex = lastVelArrIndex;
     if (noiseCheckingEn)
     {
+        for(int i=0; i<HIT_DETECT_MIN_SEQUENTIAL_VELOCITY_SAMPLES; i++)
+        {
+            if (velArr[sequentialVelIndex] * returnSign <= 0 )
+            {
+                break;
+            }
+            sequentialVelIndex = sequentialVelIndex - 1;
+            if (sequentialVelIndex < 0)
+                sequentialVelIndex = PAST_AVERAGE_VELOCITY_ARR_SIZE - 1;
+            if (currentVelArrIndex == sequentialVelIndex)
+            {
+                break;
+            }
+            sequentialVelCount = sequentialVelCount + 1;
+        }
+        //if (id == sensorID::SENSOR2)
+        //  printf("sequentialVelCount %i, Sensor: %i Pos: %i Neg: %i\n", sequentialVelCount, id + 1, largestPos, largestNeg);
+        if (sequentialVelCount < HIT_DETECT_MIN_SEQUENTIAL_VELOCITY_SAMPLES)
+        {
+            largestNeg = 0;
+            largestPos = 0;
+        }
+
         if (numSampleNonZero < HIT_DETECT_NUM_SAMPLES_MIN)
         {
             //printf("NonZeroSamples: %i, SensorID: %i\n", numSampleNonZero, id);
@@ -598,7 +629,7 @@ Description:    Prints sensor data to console
 static void controllerPrintSensorAverageVelocity()
 {
 
-    printf("%i\t%i\t%i\t%i\t%i\t%i\t\t%i\t%i\t%i\t%i\t%i\t%i\t\n",
+    printf("%i\t%i\t%i\t%i\t%i\t%i\t\t%i\t%i\t%i\t%i\t%i\t%i\t\t%i\t%i\t%i\t%i\t%i\t%i\t\n",
          sens1Values.averageVelocity,
          sens2Values.averageVelocity,
          sens3Values.averageVelocity,
@@ -610,7 +641,13 @@ static void controllerPrintSensorAverageVelocity()
          sens3Values.currentVelocity,
          sens4Values.currentVelocity,
          sens5Values.currentVelocity,
-         sens6Values.currentVelocity);
+         sens6Values.currentVelocity,
+         sens1Values.currentDistance_mm,
+         sens2Values.currentDistance_mm,
+         sens3Values.currentDistance_mm,
+         sens4Values.currentDistance_mm,
+         sens5Values.currentDistance_mm,
+         sens6Values.currentDistance_mm);
 }
 
 /**********************************************\

@@ -87,7 +87,7 @@ void soundTest1()
         return;
     }
 
-    sleep(2);
+    sleep(1);
 
     ma_device_uninit(&device);
     ma_decoder_uninit(&decoder);
