@@ -22,6 +22,7 @@ Description:    contains led definitions and headers
 #define LED_COLOR_GREEN             0x001100
 #define LED_COLOR_OFF               0x000000
 
+
 // LED Speed
 #define INITIAL_SPEED               45
 
@@ -37,7 +38,8 @@ enum TSM:int
     INITIAL7,
     INITIAL8,
     INITIAL9,
-    INITIAL10
+    INITIAL10,
+    INITIAL11
 };
 
 enum LED_FEEDBACK:int
@@ -77,13 +79,20 @@ void ledCreateColorArr(char* outputArr,unsigned led1, unsigned led2, unsigned le
 
 
 /**
- * Makes all LED flash an number of times for a given colour at a speed in seconds
+ * Makes all LEDs flash an number of times for a given colour at a speed in seconds
  * \param ledColour-    unsigned 24bit value RGB color code.
  * \param flashTimeOn-  int number of seconds that LEDs are on
  * \param flashTimeOff- int number of seconds that LEDs are off
  * \param flashNum-     int number of times LEDs are flashed
  **/
-void ledFlash(unsigned ledColour, int flashTimeOn, int flashTimeOff, int flashNum);
+void ledFlashTest(unsigned ledColour, int flashTimeOn, int flashTimeOff, int flashNum);
+
+/**
+ * Makes all LEDs Fade from (0 - 255) an number of times at a given speed
+ * \param fadeStep-     int number of bits step changes in fade
+ * \param fadeNum-      int number of times LEDs fade
+ **/
+void ledFadeTest(int fadeNum, int fadeSpeed);
 
 
 /**
