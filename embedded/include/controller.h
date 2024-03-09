@@ -5,20 +5,32 @@ Author:         Grant Maiden
 Description:    System controller state machine
 \***************************************************************************/
 
-#define LIGHT_HIT       8
-#define MEDIUM_HIT      18
-#define HARD_HIT        28
+#define LIGHT_HIT       3
+#define MEDIUM_HIT      7
+#define HARD_HIT        10
 
-#define VELOCITY_FACTOR 4
+// Distance Filtering
+#define DISTANCE_UPPER_THRESHOLD            600
 
+// Velocity array control
+#define VELOCITY_FACTOR_AVG                 3
+#define PAST_AVERAGE_VELOCITY_ARR_SIZE      16
+
+// Hit Detection
+#define HIT_DETECT_NOISE_CHECKING                   true
+#define HIT_DETECT_NUM_SAMPLES_MIN                  8
+#define DRUM_INTERVAL_TIMEOUT_MS                    120
+#define HIT_DETECT_INSTANEOUS_VELOCITY_LIMIT        100
+#define HIT_DETECT_AVG_VELOCITY_CEILING             25
+#define HIT_DETECT_MIN_SEQUENTIAL_VELOCITY_SAMPLES  6
+
+// Sensor Detection Direction (-1 = towards sensor, 1 = away from sensor)
 #define SENSOR1_6_DIRECTION                 1
 #define SENSOR2_3_4_5_DIRECTION             -1
-#define DRUM_INTERVAL_TIMEOUT_MS            100 // 100ms
 
-#define DISTANCE_UPPER_THRESHOLD            600
+// Gestures
 #define GESTURE_THRESHOLD_VELOCITY          6
 #define GESTURE_THRESHOLD_NUM_SAMPLE_TRUE   4
-#define PAST_AVERAGE_VELOCITY_ARR_SIZE      16
 #define GESTURE_TIME_LIMIT                  1
 
 /**
@@ -96,10 +108,11 @@ static void controllerSendSound(sensorID id, int detectionValue);
 /**
  * return peak Velocity
  * \param id- sensorID
- * \param int- sampleToSearch
+ * \param samplesToSearch- number of previous samples to search
+ * \param noiseCheckingEn- checks for noise with additional arguments. returns zero if noise check fails.
  * \returns int - peak velocity
  **/
-static int getPeakVelocity(sensorID id, int samplesToSearch);
+static int getPeakVelocity(sensorID id, int samplesToSearch, bool noiseCheckingEn = HIT_DETECT_NOISE_CHECKING);
 
 /**
  * Prints sensor data to console
@@ -113,7 +126,6 @@ static void controllerPrintSensorAverageVelocity();
 
 /**
  * Detects Gestures
- * \param hitDetectedRecently- bool input
  * \returns bool- returns true if gesture detected
  **/
-static bool controllerGestureDetect(bool hitDetectedRecently);
+static bool controllerGestureDetect();
