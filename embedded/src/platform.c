@@ -110,7 +110,8 @@ uint8_t VL53L4CD_comms_init(Dev_t dev)
 	LOG("User space com init\n");
 
 	/* Create sensor at default I2C address */
-	dev->address = 0x52;
+	//dev->address = dev->address;
+	//printf("dev address is: %i\n", dev->address);
 	dev->fd = open("/dev/i2c-1", O_RDONLY);
 	if (dev->fd == -1) {
 		LOG("Failed to open /dev/i2c-1\n");
