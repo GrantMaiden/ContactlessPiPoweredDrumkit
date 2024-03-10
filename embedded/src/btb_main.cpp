@@ -248,6 +248,22 @@ void runCommandLine(char *argv[])
     {
         ledInitialiseTest();
     }
+    else if (!strcmp(argv[0], "ledInitialiseTest"))
+    {
+        ledInitialiseTest();
+    }
+    else if (!strcmp(argv[0], "ledFadeTest"))
+    {
+        gpioInitializeLib();
+        char colorByte = 0x00;
+        char * colorArr = new char[18]();
+        ledFadeTest(2, WAIT_5MS);
+    }
+    else if (!strcmp(argv[0], "ledFlash"))
+    {
+        gpioInitializeLib();
+        ledFlashTest(LED_COLOR_RED, 3, 1, 3);
+    }
     else if (!strcmp(argv[0], "interruptTest"))
     {
         gpioInitializeLib();
@@ -286,5 +302,4 @@ void runCommandLine(char *argv[])
         printf("Command: %s Failed to run!!!\n", argv[0]);
     }
 }
-
 
