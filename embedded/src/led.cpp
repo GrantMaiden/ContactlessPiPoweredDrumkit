@@ -183,13 +183,15 @@ void ledInitialiseTest()
 {
     printf("Beginning ledInitialiseTest. Runs Peter's LED Test Via SPI Interface\n");
     gpioInitializeLib();
+
+
     char * colorArr = new char[18]();
-    TSM currentState = TSM::INITIAL1;
+    ledStateMachine currentState = ledStateMachine::INITIAL1;
     unsigned initialColour1 = 0x7;
-    TSM nextState;
+    ledStateMachine nextState;
     int loops = 0;
     int loopWait = 0;
-    int initialSpeed = INITIAL_SPEED;
+    int initialSpeed = INITIAL_LOOP_WAIT;
     char colorByte = 0x00;
     unsigned ColorRed = colorByte << 16;
     unsigned ColorGreen = colorByte << 8;
@@ -294,13 +296,13 @@ void ledInitialiseTest()
                 if (loopWait == initialSpeed)
                 {
                     nextState = INITIAL1;
-                    initialSpeed = initialSpeed - 2;
+                    //initialSpeed = initialSpeed - 2;
                     initialColour1 = initialColour1 * 5;
                     loopWait = 0;
                 }
                 else if (loops == 3000)
                 {
-                 nextState = INITIAL7;
+                 nextState = PRIMARY1;
                  loopWait = 0;
                 }
                 break;
@@ -346,7 +348,6 @@ void ledInitialiseTest()
         }
 
 
-
         // Prepare for next Iteration of SM
         loops = loops+1;
         loopWait = loopWait+1;
@@ -360,6 +361,206 @@ void ledInitialiseTest()
     printf("ledInitialiseTest Complete.\n");
 
 }
+
+/**********************************************\
+Function Name:  ledSM
+Input Args:     None
+Output Args:    void
+Description:    State Machine for LEDs
+/**********************************************/
+
+void ledSM()
+{
+    // Update current state from nextState
+    currentState = nextState;
+    switch(currentState)
+    {
+        case INITIAL1:
+            ledCreateColorArr(colorArr, initialColour1, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
+            gpioLedSetColor(colorArr);
+            if (loopWait == initialSpeed)
+            {
+                nextState = INITIAL2;
+                loopWait = 0;
+            }
+
+            else if (loops == 3000)
+            {
+             nextState = INITIAL7;
+             loopWait = 0;
+            }
+            break;
+
+        case INITIAL2:
+            ledCreateColorArr(colorArr, LED_COLOR_OFF, initialColour1, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
+            gpioLedSetColor(colorArr);
+            if (loopWait == initialSpeed)
+            {
+                nextState = INITIAL3;
+                loopWait = 0;
+            }
+
+            else if (loops == 3000)
+            {
+             nextState = INITIAL7;
+             loopWait = 0;
+            }
+            break;
+
+
+        case INITIAL3:
+            ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, initialColour1, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
+            gpioLedSetColor(colorArr);
+            if (loopWait == initialSpeed)
+            {
+                nextState = INITIAL4;
+                loopWait = 0;
+            }
+
+            else if (loops == 3000)
+            {
+             nextState = INITIAL7;
+             loopWait = 0;
+            }
+            break;
+
+        case INITIAL4:
+            ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, initialColour1, LED_COLOR_OFF, LED_COLOR_OFF);
+            gpioLedSetColor(colorArr);
+            if (loopWait == initialSpeed)
+            {
+                nextState = INITIAL5;
+                loopWait = 0;
+            }
+
+            else if (loops == 3000)
+            {
+             nextState = INITIAL7;
+             loopWait = 0;
+            }
+            break;
+
+        case INITIAL5:
+            ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, initialColour1, LED_COLOR_OFF);
+            gpioLedSetColor(colorArr);
+            if (loopWait == initialSpeed)
+            {
+                nextState = INITIAL6;
+                loopWait = 0;
+            }
+
+            else if (loops == 3000)
+            {
+             nextState = INITIAL7;
+             loopWait = 0;
+            }
+            break;
+
+        case INITIAL6:
+            ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, initialColour1);
+            gpioLedSetColor(colorArr);
+            if (loopWait == initialSpeed)
+            {
+                nextState = INITIAL1;
+                //initialSpeed = initialSpeed - 2;
+                initialColour1 = initialColour1 * 5;
+                loopWait = 0;
+            }
+            else if (loops == 3000)
+            {
+             nextState = PRIMARY1;
+             loopWait = 0;
+            }
+            break;
+
+//            case PRIMARY1:
+//                unsigned color1 = Sensor1Velocity  * 255/80 * 0x010101;
+//                unsigned color2;
+//                if sensorHitRecently()
+//                {
+//                    hitDetectOutputControl(&color1 );
+//                }
+//                ledCreateColorArr(colorArr, color1, color2, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
+//                gpioLedSetColor(colorArr);
+//
+//                break;
+//
+//
+
+
+        case INITIAL7:
+            ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
+            gpioLedSetColor(colorArr);
+            if (loopWait = 100)
+            {
+                nextState = INITIAL8;
+                loopWait = 0;
+            }
+            break;
+
+        case INITIAL8:
+            //ledFlashTest(LED_COLOR_RED, 1, 1, 2);
+            ledFadeTest(2, WAIT_5MS);
+            nextState = INITIAL9;
+            loopWait = 0;
+            break;
+
+        case INITIAL9:
+            ledFlashTest(LED_COLOR_RED, 1, 1, 2);
+            nextState = INITIAL10;
+            loopWait = 0;
+            break;
+
+        case INITIAL10:
+            ledFlashTest(LED_COLOR_GREEN, 2, 1, 1);
+            nextState = INITIAL11;
+            loopWait = 0;
+            break;
+
+        case INITIAL11:
+            ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
+            gpioLedSetColor(colorArr);
+            loopWait = 0;
+            break;
+
+        default:
+            nextState = INITIAL1;
+            break;
+    }
+
+//    bool sensorHit(Sensor, Strength)
+//    {
+//        Switch:
+//        sensor1:
+//            Sensor1Hit = 1;
+//            Sensor1Str = Strength;
+//            sensor1Timloop = 0;
+//    }
+//
+//    bool sensorHitRecently()
+//    {
+//        bool returnVak = false;
+//        if Sensor1Hit == 1
+//            returnvak = true;
+//
+//
+//        true;
+//    }
+
+
+    loopWait = loopWait+1;
+    sensor1Timloop = sensor1Timloop + 1;
+
+
+// Turn Leds off
+ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
+gpioLedSetColor(colorArr);
+printf("ledInitialiseTest Complete.\n");
+}
+
+
+
+
 
 /**********************************************\
 Function Name:  mainLedFeedback
@@ -576,6 +777,18 @@ void mainLedFeedback()
         }
     }
 }*/
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

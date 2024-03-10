@@ -19,7 +19,7 @@ Description:    System controller state machine
 #include "ranging.h"
 #include "sound.h"
 
-controllerState currentState = POLLING1;
+controllerState currentState = RESET;
 controllerState nextState = currentState;
 
 sensorValues sens1Values;

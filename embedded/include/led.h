@@ -24,10 +24,10 @@ Description:    contains led definitions and headers
 
 
 // LED Speed
-#define INITIAL_SPEED               45
+#define INITIAL_LOOP_WAIT           50
 
 
-enum TSM:int
+typedef enum
 {
     INITIAL1,
     INITIAL2,
@@ -39,10 +39,11 @@ enum TSM:int
     INITIAL8,
     INITIAL9,
     INITIAL10,
-    INITIAL11
-};
+    INITIAL11,
+    PRIMARY1
+}ledStateMachine;
 
-enum LED_FEEDBACK:int
+typedef enum
 {
     INITIALISE_FEEDBACK,
     DRUM1_HARD,
@@ -63,7 +64,7 @@ enum LED_FEEDBACK:int
     DRUM6_HARD,
     DRUM6_MID,
     DRUM6_SOFT,
-};
+}LED_FEEDBACK;
 
 /**
  * creates a single color array combined from input arguments. Will fill outputArr memory with combined data. Performs RGB->GRB byteshift
@@ -110,3 +111,12 @@ void ledInitialiseTest();
  * Runs Main Function LED Feedback. From a hit detection an LED will provide feedback depending on the strength of the hit.
  **/
 void mainLedFeedback();
+
+/**
+ * State Machine for LEDs
+ **/
+void ledSM();
+
+
+
+

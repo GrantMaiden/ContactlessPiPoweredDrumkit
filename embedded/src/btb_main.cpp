@@ -75,7 +75,21 @@ Description:    intialize Leds
 /**********************************************/
 void initLeds()
 {
-
+    char * colorArr = new char[18]();
+    ledStateMachine currentState = ledStateMachine::INITIAL1;
+    unsigned initialColour1 = 0x7;
+    ledStateMachine nextState;
+    int loops = 0;
+    int loopWait = 0;
+    int initialSpeed = INITIAL_LOOP_WAIT;
+    char colorByte = 0x00;
+    unsigned ColorRed = colorByte << 16;
+    unsigned ColorGreen = colorByte << 8;
+    unsigned ColorBlue = colorByte << 0;
+    unsigned ColorYellow = ColorRed + ColorGreen;
+    unsigned ColorCyan = ColorGreen + ColorBlue;
+    unsigned ColorPurple = ColorRed + ColorBlue;
+    unsigned ColourWhite = ColorRed + ColorGreen + ColorBlue;
 }
 
 /**********************************************\
@@ -89,7 +103,7 @@ void btbThread::run() {
     {
         if(enableLedSM)
         {
-            // TODO: call led state machine
+            ledSM(); // Calls led state machine
             enableLedSM = false;
         }
 
@@ -243,10 +257,6 @@ void runCommandLine(char *argv[])
         char * arr = new char[18]();
         ledCreateColorArr(arr, LED_COLOR_CYAN_DIM, LED_COLOR_PURPLE_DIM, LED_COLOR_YELLOW_DIM, LED_COLOR_WHITE_DIM, LED_COLOR_BLUE_DIM, LED_COLOR_GREEN_DIM);
         gpioLedSpiTest(arr);
-    }
-    else if (!strcmp(argv[0], "ledInitialiseTest"))
-    {
-        ledInitialiseTest();
     }
     else if (!strcmp(argv[0], "ledInitialiseTest"))
     {

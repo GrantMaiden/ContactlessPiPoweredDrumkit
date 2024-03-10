@@ -17,7 +17,7 @@ Description:    sound control functions and processes
 #include "defines.h"
 
 
-#define EN_AUDIO
+//#define EN_AUDIO
 
 #ifdef EN_AUDIO
 #define MA_NO_ENGINE
