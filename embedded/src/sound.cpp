@@ -4,38 +4,40 @@ Project:        btb
 Author:         Grant Maiden
 Description:    sound control functions and processes
 \***************************************************************************/
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <pigpio.h>
-#include <stdio.h>
-#include <string>
-#include "CppThread.h"
-#include "sound.h"
-#include "defines.h"
-
-
-#define EN_AUDIO
-
-#ifdef EN_AUDIO
 #define MA_NO_ENGINE
 #define MINIAUDIO_IMPLEMENTATION
 extern "C"{
 #include "miniaudio.h"
 }
-#endif
+#include "sound.h"
 
 
+
+//#ifdef EN_AUDIO
+//#define MA_NO_ENGINE
+//#define MINIAUDIO_IMPLEMENTATION
+//extern "C"{
+//#include "miniaudio.h"
+//}
+//#endif
+
+#define EN_AUDIO
 
 #ifdef EN_AUDIO
+//#define MA_NO_ENGINE
+//#define MINIAUDIO_IMPLEMENTATION
+//extern "C"{
+//#include "miniaudio.h"
+//}
+
+
+
+//static char * mixArr[TOTAL_INSTRUMENTS];
+char * mixArr[] = {"%s %s %s",TH_LOUD_FOOT_CLOSED, TH_LOUD_OPEN, DRUM3_LOUD};
+
 static ma_resource_manager_data_source g_dataSources[16];
 static ma_uint32                       g_dataSourceCount;
 
-char * mixArr[] = {"%s %s %s",TH_LOUD_FOOT_CLOSED, TH_LOUD_OPEN, DRUM3_LOUD};
-
-static ma_thread_result MA_THREADCALL custom_job_thread(void* pUserData);
 
 /**********************************************\
 Function Name:  soundInit
@@ -43,7 +45,7 @@ Input Args:     none
 Output Args:    void
 Description:    initialize sound variables
 /**********************************************/
-void soundInit()
+void Sound::soundInit()
 {
 
 }
@@ -54,7 +56,7 @@ Input Args:     none
 Output Args:    void
 Description:    test Sound engine
 /**********************************************/
-void soundTest1()
+void Sound::soundTest1()
 {
     ma_result result;
     ma_decoder decoder;
@@ -99,7 +101,7 @@ Input Args:     ma_device* pDevice, void* pOutput, const void* pInput, ma_uint32
 Output Args:    void
 Description:    data callback for sound engine
 /**********************************************/
-static void data_callback(ma_device* pDevice, void* pOutput, const void* pInput, ma_uint32 frameCount)
+void Sound::data_callback(ma_device* pDevice, void* pOutput, const void* pInput, ma_uint32 frameCount)
 {
     ma_decoder* pDecoder = (ma_decoder*)pDevice->pUserData;
     if (pDecoder == NULL) {
@@ -117,7 +119,7 @@ Input Args:     none
 Output Args:    void
 Description:    test Sound engine
 /**********************************************/
-void soundTest2()
+void Sound::soundTest2()
 {
     ma_result result;
     ma_device_config deviceConfig;
@@ -246,12 +248,12 @@ Input Args:     none
 Output Args:    void
 Description:    test Sound engine
 /**********************************************/
-void soundTest3()
+void Sound::soundTest3()
 {
 
 }
 
-static ma_result ma_data_source_read_pcm_frames_f32_ex(ma_data_source* pDataSource, float* pFramesOut, ma_uint64 frameCount, ma_uint64* pFramesRead, ma_format dataSourceFormat, ma_uint32 dataSourceChannels)
+ma_result Sound::ma_data_source_read_pcm_frames_f32_ex(ma_data_source* pDataSource, float* pFramesOut, ma_uint64 frameCount, ma_uint64* pFramesRead, ma_format dataSourceFormat, ma_uint32 dataSourceChannels)
 {
     /*
     This function is intended to be used when the format and channel count of the data source is
@@ -291,7 +293,7 @@ static ma_result ma_data_source_read_pcm_frames_f32_ex(ma_data_source* pDataSour
     }
 }
 
-MA_API ma_result ma_data_source_read_pcm_frames_f32(ma_data_source* pDataSource, float* pFramesOut, ma_uint64 frameCount, ma_uint64* pFramesRead)
+ma_result Sound::ma_data_source_read_pcm_frames_f32(ma_data_source* pDataSource, float* pFramesOut, ma_uint64 frameCount, ma_uint64* pFramesRead)
 {
     ma_result result;
     ma_format format;
@@ -305,7 +307,7 @@ MA_API ma_result ma_data_source_read_pcm_frames_f32(ma_data_source* pDataSource,
     return ma_data_source_read_pcm_frames_f32_ex(pDataSource, pFramesOut, frameCount, pFramesRead, format, channels);
 }
 
-MA_API ma_result ma_data_source_read_pcm_frames_and_mix_f32(ma_data_source* pDataSource, float* pFramesOut, ma_uint64 frameCount, ma_uint64* pFramesRead, float volume)
+ma_result Sound::ma_data_source_read_pcm_frames_and_mix_f32(ma_data_source* pDataSource, float* pFramesOut, ma_uint64 frameCount, ma_uint64* pFramesRead, float volume)
 {
     ma_result result;
     ma_format format;
@@ -352,7 +354,7 @@ MA_API ma_result ma_data_source_read_pcm_frames_and_mix_f32(ma_data_source* pDat
     return MA_SUCCESS;
 }
 
-void data_callback2(ma_device* pDevice, void* pOutput, const void* pInput, ma_uint32 frameCount)
+void Sound::data_callback2(ma_device* pDevice, void* pOutput, const void* pInput, ma_uint32 frameCount)
 {
     /*
     In this example we're just going to play our data sources layered on top of each other. This
@@ -377,7 +379,7 @@ void data_callback2(ma_device* pDevice, void* pOutput, const void* pInput, ma_ui
 }
 
 
-static ma_thread_result MA_THREADCALL custom_job_thread(void* pUserData)
+ma_thread_result MA_THREADCALL Sound::custom_job_thread(void* pUserData)
 {
     ma_resource_manager* pResourceManager = (ma_resource_manager*)pUserData;
     MA_ASSERT(pResourceManager != NULL);
@@ -434,17 +436,17 @@ static ma_thread_result MA_THREADCALL custom_job_thread(void* pUserData)
 
 #else
 
-void soundTest1()
+void Sound::soundTest1()
 {
     printf("!!! Define EN_SOUND is disabled. Uncomment Define in sound.cpp if sound is desired !!! \n");
 }
 
-void soundTest2()
+void Sound::soundTest2()
 {
     printf("!!! Define EN_SOUND is disabled. Uncomment Define in sound.cpp if sound is desired !!! \n");
 }
 
-void soundTest3()
+void Sound::soundTest3()
 {
     printf("!!! Define EN_SOUND is disabled. Uncomment Define in sound.cpp if sound is desired !!! \n");
 }

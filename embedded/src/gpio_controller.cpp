@@ -4,23 +4,9 @@ Project:        btb
 Author:         Grant Maiden
 Description:    Gpio Control functions and processes
 \***************************************************************************/
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <time.h>
-#include <math.h>
-
-#include <pigpio.h>
-
-#include "defines.h"
 #include "gpio_controller.h"
-#include "led.h"
 
-// Spi Globals
-char * spiLedBuf = new char[SPI_LED_BUF_LENGTH]();
-int spiHandle;
+
 
 /**********************************************\
 Function Name:  gpioInitializeLib
@@ -28,7 +14,7 @@ Input Args:     void
 Output Args:    int- PiGpio library version
 Description:    initialize PiGpio
 /**********************************************/
-int gpioInitializeLib(void)
+int GpioController::gpioInitializeLib(void)
 {
     // init pins
     gpioTerminate();
@@ -68,7 +54,7 @@ Input Args:     seconds- lenght to run
 Output Args:    bool- completion status
 Description:    toggle GPIO4 (pin7) as fast as possible
 /**********************************************/
-bool gpioTest(uint seconds)
+bool GpioController::gpioTest(uint seconds)
 {
     printf("Beginning gpioTest. gpioTest Toggles GPIO4 as fast as possible, testing frequency limitations of piGPIO library\n");
     gpioInitializeLib();
@@ -103,7 +89,7 @@ Input Args:     seconds- lenght to run
 Output Args:    bool- completion status
 Description:    Spew '1010' pattern to Leds using asm nop for delay
 /**********************************************/
-bool ledNopAsmTest(uint seconds)
+bool GpioController::ledNopAsmTest(uint seconds)
 {
     printf("Beginning ledNopAsmTest. Spew '1010' pattern to Leds using asm nop for delay\n");
     gpioInitializeLib();
@@ -154,15 +140,17 @@ Input Args:     char array 144 bits to be programmed to Leds
 Output Args:    bool- completion status
 Description:    Test command- sets led RGB brightness level via SPI interface
 /**********************************************/
-bool gpioLedSpiTest(char *arr)
+bool GpioController::gpioLedSpiTest(char *arr)
 {
     printf("Beginning gpioLedSpiTest. sets led RGB brightness level via SPI interface\n");
     for (int l=0;l<18;l++)
     {
         printf("Led Color buffer index: %i\nValue: %i\n", l, arr[l]);
     }
-    gpioInitializeLib();
 
+    gpioInitializeLib();
+    LedControl ledControlInstance;
+    ledControlInstance;
 
     // blink test
     int loops = 0;
@@ -174,7 +162,7 @@ bool gpioLedSpiTest(char *arr)
 
         // Turn Leds off
         char * colorArr = new char[18]();
-        ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
+        ledControlInstance.ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
         gpioLedSetColor(colorArr);
         sleep(1);
 
@@ -194,7 +182,7 @@ bool gpioLedSpiTest(char *arr)
         unsigned ColorRed = colorByte << 16;
         unsigned ColorGreen = colorByte << 8;
         unsigned ColorBlue = colorByte << 0;
-        ledCreateColorArr(colorArr, ColorRed, ColorGreen, ColorBlue, ColorRed, ColorGreen, ColorBlue);
+        ledControlInstance.ledCreateColorArr(colorArr, ColorRed, ColorGreen, ColorBlue, ColorRed, ColorGreen, ColorBlue);
         gpioLedSetColor(colorArr);
 
         clock_gettime(CLOCK_REALTIME, &clockObj);
@@ -216,7 +204,7 @@ bool gpioLedSpiTest(char *arr)
     }
 
     // Turn Leds off
-    ledCreateColorArr(arr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
+    ledControlInstance.ledCreateColorArr(arr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
     gpioLedSetColor(arr);
 
     printf("gpioLedSpiTest Completed.\n");
@@ -232,7 +220,7 @@ Input Args:     char *buf
 Output Args:    int- PiGpio success or failure
 Description:    Sends Data at Baudrate required for leds.
 /**********************************************/
-int gpioSpiSendData(char *buf, unsigned length, int repeatSendData)
+int GpioController::gpioSpiSendData(char *buf, unsigned length, int repeatSendData)
 {
     // Send Reset Command
     //gpioSetMode(LED_SHIFT_3V3, PI_OUTPUT);
@@ -274,7 +262,7 @@ Input Args:     char *arr[]
 Output Args:    none
 Description:    Sets Led Color Array to input 144bits (18bytes). Led<->Byte Order D1-D2-D3-D4-D5-D6
 /**********************************************/
-void gpioLedSetColor(char *arr)
+void GpioController::gpioLedSetColor(char *arr)
 {
     int index = 0;
     char outputByte = 0;
@@ -306,7 +294,7 @@ Input Args:     GPIOnumber- gpio number that is being modified.
 Output Args:    int- PiGpio success or failure
 Description:    Sets Output level of GPIO
 /**********************************************/
-int gpioSetOutput(int GPIOnumber, int logicLevel)
+int GpioController::gpioSetOutput(int GPIOnumber, int logicLevel)
 {
     return gpioWrite(GPIOnumber, logicLevel);
 }

@@ -20,8 +20,14 @@ Description:    Entry Point into ENG5228 project for University of Glasgow
 #include "led.h"
 #include "ranging.h"
 #include "controller.h"
+//#define CONTEXT_H
 #include "sound.h"
 
+
+
+
+Controller controller;
+VL53L4CD    vl53l4cd;
 
 // global variables
 bool enableLedSM = false;
@@ -46,23 +52,32 @@ int main(int argc, char *argv[])
 	parseCommandLine(argc, argv);
 
     sleep(1);
-    gpioInitializeLib();
+
+    GpioController gpiocontroller;
+    gpiocontroller.gpioInitializeLib();
+
+    // initialize Controller
+    Controller controllerInstance;
+    controller = controllerInstance;
 
     // initialize Distance Sensors
-    rangingInit();
+    VL53L4CD vl53l4cdInstance;
+    vl53l4cd = vl53l4cdInstance;
+    vl53l4cd.rangingInit();
+
+    initInterrupts();
+    initLeds();
 
     // Initialize threads ////
-    initInterrupts();
-    //intiLeds();
-
     btbThread btbThread1;
     btbThread1.start();
 
     //// Initialize Timers ////
-	//btbTimer1 btbTimer_2p5ms;
-	//btbTimer_2p5ms.startns(BTB_TIMER_1_INTERVAL_NS);
+	btbTimer1 btbTimer_2p5ms;
+	btbTimer_2p5ms.startns(BTB_TIMER_1_INTERVAL_NS);
     while(1)
     {
+        //controller.primaryStateMachine();
     }
 
 }
@@ -87,14 +102,14 @@ Description:    override virtual run method for btbThread Class. Calls Statemach
 void btbThread::run() {
     while(1)
     {
-        if(enableLedSM)
+        //if(enableLedSM)
         {
             // TODO: call led state machine
-            enableLedSM = false;
+            //enableLedSM = false;
         }
 
         // controller Statemachine
-        controllerSM();
+        controller.primaryStateMachine();
     }
 }
 
@@ -121,62 +136,40 @@ void rangingISRCallback(int gpio, int level, uint32_t tick)
 {
     //printf("GPIO %d became %d at %d\n", gpio, level, tick); //COMMENT ME OUT WHEN WORKING
 
-    if (level == PI_TIMEOUT)
-    {
+    //if (level == PI_TIMEOUT)
+    //{
         //printf("GPIO %d returned Interrupt Timeout! Interrupt Exceeded %dms!\nUs tick: %lu\n", gpio, DISTANCE_SENSOR_INTERRUPT_TIMEOUT, tick);
-        ;
-    }
+    //    ;
+    //}
 
     //printf("GPIO %i\n", gpio);
-
-//    switch(gpio)
-//    {
-//        case D1_GPIO1:
-//            sens1DataReady = 1;
-//            break;
-//        case D2_GPIO1:
-//            sens2DataReady = 1;
-//            break;
-//        case D3_GPIO1:
-//            sens3DataReady = 1;
-//            break;
-//        case D4_GPIO1:
-//            sens4DataReady = 1;
-//            break;
-//        case D5_GPIO1:
-//            sens5DataReady = 1;
-//            break;
-//        case D6_GPIO1:
-//            sens6DataReady = 1;
-//            break;
-//    }
 
     sensorValues senseValues;
     switch(gpio)
     {
         case D1_GPIO1:
-            senseValues = rangingGetData(sensorID::SENSOR1);
-            controllerUpdateSensorValue(senseValues, sensorID::SENSOR1);
+            senseValues = vl53l4cd.rangingGetData(sensorID::SENSOR1);
+            controller.updateSensorValue(senseValues, sensorID::SENSOR1);
             break;
         case D2_GPIO1:
-            senseValues = rangingGetData(sensorID::SENSOR2);
-            controllerUpdateSensorValue(senseValues, sensorID::SENSOR2);
+            senseValues = vl53l4cd.rangingGetData(sensorID::SENSOR2);
+            controller.updateSensorValue(senseValues, sensorID::SENSOR2);
             break;
         case D3_GPIO1:
-            senseValues = rangingGetData(sensorID::SENSOR3);
-            controllerUpdateSensorValue(senseValues, sensorID::SENSOR3);
+            senseValues = vl53l4cd.rangingGetData(sensorID::SENSOR3);
+            controller.updateSensorValue(senseValues, sensorID::SENSOR3);
             break;
         case D4_GPIO1:
-            senseValues = rangingGetData(sensorID::SENSOR4);
-            controllerUpdateSensorValue(senseValues, sensorID::SENSOR4);
+            senseValues = vl53l4cd.rangingGetData(sensorID::SENSOR4);
+            controller.updateSensorValue(senseValues, sensorID::SENSOR4);
             break;
         case D5_GPIO1:
-            senseValues = rangingGetData(sensorID::SENSOR5);
-            controllerUpdateSensorValue(senseValues, sensorID::SENSOR5);
+            senseValues = vl53l4cd.rangingGetData(sensorID::SENSOR5);
+            controller.updateSensorValue(senseValues, sensorID::SENSOR5);
             break;
         case D6_GPIO1:
-            senseValues = rangingGetData(sensorID::SENSOR6);
-            controllerUpdateSensorValue(senseValues, sensorID::SENSOR6);
+            senseValues = vl53l4cd.rangingGetData(sensorID::SENSOR6);
+            controller.updateSensorValue(senseValues, sensorID::SENSOR6);
             break;
     }
 }
@@ -228,7 +221,8 @@ void runCommandLine(char *argv[])
 {
     if(!strcmp(argv[0], "gpioTest"))
     {
-        gpioTest(GPIO_TEST_LENGTH_SEC);
+        GpioController gpiocontroller;
+        gpiocontroller.gpioTest(GPIO_TEST_LENGTH_SEC);
     }
     else if (!strcmp(argv[0], "test"))
     {
@@ -236,50 +230,62 @@ void runCommandLine(char *argv[])
     }
     else if (!strcmp(argv[0], "ledNopAsmTest"))
     {
-        ledNopAsmTest(GPIO_TEST_LENGTH_SEC);
+        GpioController gpiocontroller;
+        gpiocontroller.ledNopAsmTest(GPIO_TEST_LENGTH_SEC);
     }
     else if (!strcmp(argv[0], "gpioLedSpiTest"))
     {
+        GpioController gpiocontroller;
+        LedControl ledControl;
         char * arr = new char[18]();
-        ledCreateColorArr(arr, LED_COLOR_CYAN_DIM, LED_COLOR_PURPLE_DIM, LED_COLOR_YELLOW_DIM, LED_COLOR_WHITE_DIM, LED_COLOR_BLUE_DIM, LED_COLOR_GREEN_DIM);
-        gpioLedSpiTest(arr);
+        ledControl.ledCreateColorArr(arr, LED_COLOR_CYAN_DIM, LED_COLOR_PURPLE_DIM, LED_COLOR_YELLOW_DIM, LED_COLOR_WHITE_DIM, LED_COLOR_BLUE_DIM, LED_COLOR_GREEN_DIM);
+        gpiocontroller.gpioLedSpiTest(arr);
     }
     else if (!strcmp(argv[0], "ledInitialiseTest"))
     {
-        ledInitialiseTest();
+        LedControl ledControl;
+        ledControl.ledInitialiseTest();
     }
     else if (!strcmp(argv[0], "interruptTest"))
     {
-        gpioInitializeLib();
+        GpioController gpiocontroller;
+        gpiocontroller.gpioInitializeLib();
+        Controller controllerInstance;
+        controller = controllerInstance;
 
         // initialize Distance Sensors
-        rangingInit();
+        VL53L4CD vl53l4cdInstance;
+        vl53l4cd = vl53l4cdInstance;
+        vl53l4cd.rangingInit();
 
         // Initialize threads ////
         initInterrupts();
 
         btbThread btbThread1;
         btbThread1.start();
-        //usleep(3000);
-        controllerUpdateState(controllerState::TEST_DISTANCE_SENSORS);
+        controller.updateState(controllerState::TEST_DISTANCE_SENSORS);
 
         sleep(20);
     }
     else if (!strcmp(argv[0], "soundTest1"))
     {
-        soundTest1();
+        Sound sound;
+        sound.soundTest1();
     }
     else if (!strcmp(argv[0], "soundTest2"))
     {
-        soundTest2();
+        Sound sound;
+        sound.soundTest2();
     }
     else if (!strcmp(argv[0], "soundTest3"))
     {
-        soundTest3();
+        Sound sound;
+        sound.soundTest3();
     }
     else if (!strcmp(argv[0], "rangingTestDistanceSensors"))
     {
-        rangingTestDistanceSensors();
+        VL53L4CD vl54l4cd;
+        vl54l4cd.rangingTestDistanceSensors();
     }
     else
     {

@@ -4,6 +4,31 @@ Project:        btb
 Author:         Grant Maiden
 Description:    contains sound definitions and headers
 \***************************************************************************/
+#ifndef SOUND_H
+#define SOUND_H
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <pigpio.h>
+#include <stdio.h>
+#include <string>
+#include "CppThread.h"
+#include "defines.h"
+
+#define EN_AUDIO
+
+#ifdef EN_AUDIO
+
+//#include "context.h"
+//#define MA_NO_ENGINE
+//#define MINIAUDIO_IMPLEMENTATION
+#define MA_THREADCALL
+//typedef unsigned long ma_thread_result;
+typedef void* ma_thread_result;
+typedef ma_thread_result (MA_THREADCALL * ma_thread_entry_proc)(void* pData);
+
 extern "C"{
 #include "miniaudio.h"
 }
@@ -15,36 +40,85 @@ extern "C"{
 
 
 
-/**
- * Initialize Sound Variables
- **/
-void soundInit();
-/**
- * Tests sound engine
- **/
-void soundTest1();
+using namespace std;
+class Sound
+{
+    public:
+        /**
+         * Initialize Sound Variables
+         **/
+        void soundInit();
 
-/**
- * Tests sound engine
- **/
-void soundTest2();
+        /**
+         * Tests sound engine
+         **/
+        static void soundTest1();
 
-/**
- * Tests sound engine
- **/
-void soundTest3();
+        /**
+         * Tests sound engine
+         **/
+        static void soundTest2();
 
-/**
- * data callback for sound engine
- * @param ma_device* pDevice, void* pOutput, const void* pInput, ma_uint32 frameCount
- **/
-static void data_callback(ma_device* pDevice, void* pOutput, const void* pInput, ma_uint32 frameCount);
+        /**
+         * Tests sound engine
+         **/
+        void soundTest3();
+    private:
 
-static ma_result ma_data_source_read_pcm_frames_f32_ex(ma_data_source* pDataSource, float* pFramesOut, ma_uint64 frameCount, ma_uint64* pFramesRead, ma_format dataSourceFormat, ma_uint32 dataSourceChannels);
+        //char * mixArr = new char[TOTAL_INSTRUMENTS]();
+        //char * mixArr[] = {"%s %s %s",TH_LOUD_FOOT_CLOSED, TH_LOUD_OPEN, DRUM3_LOUD};
 
-MA_API ma_result ma_data_source_read_pcm_frames_f32(ma_data_source* pDataSource, float* pFramesOut, ma_uint64 frameCount, ma_uint64* pFramesRead);
+        //static ma_thread_result custom_job_thread(void* pUserData);
 
-MA_API ma_result ma_data_source_read_pcm_frames_and_mix_f32(ma_data_source* pDataSource, float* pFramesOut, ma_uint64 frameCount, ma_uint64* pFramesRead, float volume);
+        static ma_thread_result MA_THREADCALL custom_job_thread(void* pUserData);
 
-void data_callback2(ma_device* pDevice, void* pOutput, const void* pInput, ma_uint32 frameCount);
+        /**
+         * data callback for sound engine
+         * @param ma_device* pDevice, void* pOutput, const void* pInput, ma_uint32 frameCount
+         **/
+        static inline void data_callback(ma_device* pDevice, void* pOutput, const void* pInput, ma_uint32 frameCount);
+
+        static inline ma_result ma_data_source_read_pcm_frames_f32_ex(ma_data_source* pDataSource, float* pFramesOut, ma_uint64 frameCount, ma_uint64* pFramesRead, ma_format dataSourceFormat, ma_uint32 dataSourceChannels);
+
+        static inline ma_result ma_data_source_read_pcm_frames_f32(ma_data_source* pDataSource, float* pFramesOut, ma_uint64 frameCount, ma_uint64* pFramesRead);
+
+        static inline ma_result ma_data_source_read_pcm_frames_and_mix_f32(ma_data_source* pDataSource, float* pFramesOut, ma_uint64 frameCount, ma_uint64* pFramesRead, float volume);
+
+        static inline void data_callback2(ma_device* pDevice, void* pOutput, const void* pInput, ma_uint32 frameCount);
+};
+#endif
+
+#ifndef EN_AUDIO
+using namespace std;
+class Sound
+{
+    public:
+        /**
+         * Initialize Sound Variables
+         **/
+        void soundInit();
+
+        /**
+         * Tests sound engine
+         **/
+        static void soundTest1();
+
+        /**
+         * Tests sound engine
+         **/
+        static void soundTest2();
+
+        /**
+         * Tests sound engine
+         **/
+        void soundTest3();
+};
+#endif
+
+#endif // SOUND_H
+
+
+
+
+
 

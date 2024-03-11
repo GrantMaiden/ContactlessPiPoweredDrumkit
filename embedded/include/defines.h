@@ -4,13 +4,15 @@ Project:        btb
 Author:         Grant Maiden
 Description:    contains user constants, global enums, and structs
 \***************************************************************************/
+#ifndef DEFINES_H
+#define DEFINES_H
 
 // Test defines
 #define GPIO_TEST_LENGTH_SEC                10
 #define TOTAL_INSTRUMENTS_SOUND_TEST2       3
 
 // Misc
-#define DISTANCE_SENSOR_INTERRUPT_TIMEOUT   40
+#define DISTANCE_SENSOR_INTERRUPT_TIMEOUT   50
 #define BTB_TIMER_1_INTERVAL_NS             2.5*1000000
 
 // Gpio Controller Defines
@@ -66,6 +68,6 @@ typedef struct
     int averageVelocity;
 }sensorValues;
 
-
+#endif
 
 
