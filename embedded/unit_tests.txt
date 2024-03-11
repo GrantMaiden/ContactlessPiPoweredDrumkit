@@ -44,7 +44,8 @@ Description:	Plays each sound in mixArr, which is an array of all sounds, then l
 		"x" amount of sounds in mixArr, where x is number stored in define.h's "TOTAL_INSTRUMENTS_SOUND_TEST2"
 
 Argument:	soundTest3
-Description:	Plays a mix of sounds asynchronously.
+Description:	Plays a mix of sounds asynchronously, using the soundInit() function to initialize all sound files, and playSound()
+		to play the sound samples.
 
 
 
