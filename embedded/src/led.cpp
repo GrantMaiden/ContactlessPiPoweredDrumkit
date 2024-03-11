@@ -4,16 +4,10 @@ Project:        btb
 Author:         Grant Maiden
 Description:    led control functions and processes
 \***************************************************************************/
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <pigpio.h>
-
-#include "defines.h"
-#include "gpio_controller.h"
 #include "led.h"
+
+
+
 
 
 /**********************************************\
@@ -22,7 +16,7 @@ Input Args:     outputArr, led1, led2, led3, led4, led5, led6
 Output Args:    void
 Description:    creates a single color array combined from input arguments. Will fill outputArr memory with combined data. Performs RGB->GRB byteshift
 /**********************************************/
-void ledCreateColorArr(char* outputArr,unsigned led1, unsigned led2, unsigned led3, unsigned led4, unsigned led5, unsigned led6)
+void LedControl::ledCreateColorArr(char* outputArr,unsigned led1, unsigned led2, unsigned led3, unsigned led4, unsigned led5, unsigned led6)
 {
     unsigned arr[6] = {led1,led2,led3,led4,led5,led6};
 
@@ -47,10 +41,11 @@ Output Args:    void
 Description:    Peter's LED test
 /**********************************************/
 
-void ledInitialiseTest()
+void LedControl::ledInitialiseTest()
 {
     printf("Beginning ledInitialiseTest. Runs Peter's LED Test Via SPI Interface\n");
-    gpioInitializeLib();
+    GpioController gpioController;
+    gpioController.gpioInitializeLib();
     char * colorArr = new char[18]();
     TSM currentState = TSM::INITIAL1;
     unsigned initialColour1 = 0x7;
@@ -66,7 +61,7 @@ void ledInitialiseTest()
         {
             case INITIAL1:
                 ledCreateColorArr(colorArr, initialColour1, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
-                gpioLedSetColor(colorArr);
+                gpioController.gpioLedSetColor(colorArr);
                 if (loopWait == INITIAL_SPEED)
                 {
                     nextState = INITIAL2;
@@ -76,7 +71,7 @@ void ledInitialiseTest()
 
             case INITIAL2:
                 ledCreateColorArr(colorArr, LED_COLOR_OFF, initialColour1, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
-                gpioLedSetColor(colorArr);
+                gpioController.gpioLedSetColor(colorArr);
                 if (loopWait == INITIAL_SPEED)
                 {
                     nextState = INITIAL3;
@@ -86,7 +81,7 @@ void ledInitialiseTest()
 
             case INITIAL3:
                 ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, initialColour1, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
-                gpioLedSetColor(colorArr);
+                gpioController.gpioLedSetColor(colorArr);
                 if (loopWait == INITIAL_SPEED)
                 {
                     nextState = INITIAL4;
@@ -96,7 +91,7 @@ void ledInitialiseTest()
 
             case INITIAL4:
                 ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, initialColour1, LED_COLOR_OFF, LED_COLOR_OFF);
-                gpioLedSetColor(colorArr);
+                gpioController.gpioLedSetColor(colorArr);
                 if (loopWait == INITIAL_SPEED)
                 {
                     nextState = INITIAL5;
@@ -106,7 +101,7 @@ void ledInitialiseTest()
 
             case INITIAL5:
                 ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, initialColour1, LED_COLOR_OFF);
-                gpioLedSetColor(colorArr);
+                gpioController.gpioLedSetColor(colorArr);
                 if (loopWait == INITIAL_SPEED)
                 {
                     nextState = INITIAL6;
@@ -116,7 +111,7 @@ void ledInitialiseTest()
 
             case INITIAL6:
                 ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, initialColour1);
-                gpioLedSetColor(colorArr);
+                gpioController.gpioLedSetColor(colorArr);
                 if (loopWait == INITIAL_SPEED)
                 {
                     nextState = INITIAL1;
@@ -145,7 +140,7 @@ void ledInitialiseTest()
     }
     // Turn Leds off
     ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
-    gpioLedSetColor(colorArr);
+    gpioController.gpioLedSetColor(colorArr);
     printf("ledInitialiseTest Complete.\n");
 
 }

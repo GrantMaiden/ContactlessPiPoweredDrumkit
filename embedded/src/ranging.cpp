@@ -16,25 +16,6 @@ Description:    ranging control for distance sensors
 #include "gpio_controller.h"
 #include "ranging.h"
 
-// VL53l4CD ULD Includes
-//extern "C" {
-//#include "VL53L4CD_api.h"
-//#include "platform.h"
-//#include "types.h"
-//}
-
-VL53L4CD_LinuxDev linuxDev1;
-Dev_t i2cdev_Sensor1 = &linuxDev1;
-VL53L4CD_LinuxDev linuxDev2;
-Dev_t i2cdev_Sensor2 = &linuxDev2;
-VL53L4CD_LinuxDev linuxDev3;
-Dev_t i2cdev_Sensor3 = &linuxDev3;
-VL53L4CD_LinuxDev linuxDev4;
-Dev_t i2cdev_Sensor4 = &linuxDev4;
-VL53L4CD_LinuxDev linuxDev5;
-Dev_t i2cdev_Sensor5 = &linuxDev5;
-VL53L4CD_LinuxDev linuxDev6;
-Dev_t i2cdev_Sensor6 = &linuxDev6;
 
 /**********************************************\
 Function Name:  rangingInit
@@ -42,8 +23,11 @@ Input Args:     none
 Output Args:    none
 Description:    Initialize disatance sensor globals
 /**********************************************/
-void rangingInit()
+void VL53L4CD::rangingInit()
 {
+    GpioController gpioController;
+    gpioController.gpioInitializeLib();
+
     i2cdev_Sensor1->address = I2C_ADDRESS_INIT;
     i2cdev_Sensor2->address = I2C_ADDRESS_INIT;
     i2cdev_Sensor3->address = I2C_ADDRESS_INIT;
@@ -51,19 +35,19 @@ void rangingInit()
     i2cdev_Sensor5->address = I2C_ADDRESS_INIT;
     i2cdev_Sensor6->address = I2C_ADDRESS_INIT;
 
-    gpioSetOutput(D1_XSHUT, PI_LOW);
-    gpioSetOutput(D2_XSHUT, PI_LOW);
-    gpioSetOutput(D3_XSHUT, PI_LOW);
-    gpioSetOutput(D4_XSHUT, PI_LOW);
-    gpioSetOutput(D5_XSHUT, PI_LOW);
-    gpioSetOutput(D6_XSHUT, PI_LOW);
+    gpioController.gpioSetOutput(D1_XSHUT, PI_LOW);
+    gpioController.gpioSetOutput(D2_XSHUT, PI_LOW);
+    gpioController.gpioSetOutput(D3_XSHUT, PI_LOW);
+    gpioController.gpioSetOutput(D4_XSHUT, PI_LOW);
+    gpioController.gpioSetOutput(D5_XSHUT, PI_LOW);
+    gpioController.gpioSetOutput(D6_XSHUT, PI_LOW);
 
-    rangingInitDistanceSensors(SENSOR1, i2cdev_Sensor1);
-    rangingInitDistanceSensors(SENSOR2, i2cdev_Sensor2);
-    rangingInitDistanceSensors(SENSOR3, i2cdev_Sensor3);
-    rangingInitDistanceSensors(SENSOR4, i2cdev_Sensor4);
-    rangingInitDistanceSensors(SENSOR5, i2cdev_Sensor5);
-    rangingInitDistanceSensors(SENSOR6, i2cdev_Sensor6);
+    rangingInitDistanceSensor(SENSOR1, i2cdev_Sensor1);
+    rangingInitDistanceSensor(SENSOR2, i2cdev_Sensor2);
+    rangingInitDistanceSensor(SENSOR3, i2cdev_Sensor3);
+    rangingInitDistanceSensor(SENSOR4, i2cdev_Sensor4);
+    rangingInitDistanceSensor(SENSOR5, i2cdev_Sensor5);
+    rangingInitDistanceSensor(SENSOR6, i2cdev_Sensor6);
 
     VL53L4CD_StartRanging(i2cdev_Sensor1);
     //usleep(500);
@@ -86,10 +70,9 @@ Input Args:     none
 Output Args:    none
 Description:    tests distance sensors
 /**********************************************/
-void rangingTestDistanceSensors()
+void VL53L4CD::rangingTestDistanceSensors()
 {
     printf("Beginning ranging test.\n");
-    gpioInitializeLib();
     rangingInit();
 
     rangingPollingTestAll();
@@ -102,7 +85,7 @@ Input Args:     int id: whichever sensor to init
 Output Args:    none
 Description:    intializes distance sensors
 /**********************************************/
-void rangingInitDistanceSensors(int id, Dev_t dev)
+void VL53L4CD::rangingInitDistanceSensor(int id, Dev_t dev)
 {
     // Variables
 	uint8_t status, loop, isReady;
@@ -174,38 +157,29 @@ Output Args:    bool True if successfully switched Xshut low, False if failed
 Description:    toggles distance sensors by setting Xshut pins
 /**********************************************/
 
-bool rangingSetXshut(int id)
+bool VL53L4CD::rangingSetXshut(int id)
 {
-//    int status = 0;
-//    pins = 0xff & (0b0 << id);
-//    if (id == SENSORALL)
-//        pins = 0x00;
-//    status = status | gpioSetOutput(D1_XSHUT, pins & 0b1);
-//    status = status | gpioSetOutput(D2_XSHUT, (pins & 0b10) >> 1);
-//    status = status | gpioSetOutput(D3_XSHUT, (pins & 0b100) >> 2);
-//    status = status | gpioSetOutput(D4_XSHUT, (pins & 0b1000) >> 3);
-//    status = status | gpioSetOutput(D5_XSHUT, (pins & 0b10000) >> 4);
-//    status = status | gpioSetOutput(D6_XSHUT, (pins & 0b100000) >> 5);
+    GpioController gpioController;
 
     switch(id)
     {
         case SENSOR1:
-            gpioSetOutput(D1_XSHUT, PI_HIGH);
+            gpioController.gpioSetOutput(D1_XSHUT, PI_HIGH);
             break;
         case SENSOR2:
-            gpioSetOutput(D2_XSHUT, PI_HIGH);
+            gpioController.gpioSetOutput(D2_XSHUT, PI_HIGH);
             break;
         case SENSOR3:
-            gpioSetOutput(D3_XSHUT, PI_HIGH);
+            gpioController.gpioSetOutput(D3_XSHUT, PI_HIGH);
             break;
         case SENSOR4:
-            gpioSetOutput(D4_XSHUT, PI_HIGH);
+            gpioController.gpioSetOutput(D4_XSHUT, PI_HIGH);
             break;
         case SENSOR5:
-            gpioSetOutput(D5_XSHUT, PI_HIGH);
+            gpioController.gpioSetOutput(D5_XSHUT, PI_HIGH);
             break;
         case SENSOR6:
-            gpioSetOutput(D6_XSHUT, PI_HIGH);
+            gpioController.gpioSetOutput(D6_XSHUT, PI_HIGH);
             break;
         default:
             break;
@@ -226,7 +200,7 @@ Input Args:     Dev_t dev
 Output Args:    none
 Description:    changes received sensor address
 /**********************************************/
-void rangingChangeAddress(Dev_t dev, int id)
+void VL53L4CD::rangingChangeAddress(Dev_t dev, int id)
 {
     VL53L4CD_LinuxDev linuxDev;
     Dev_t devExpected = &linuxDev;
@@ -262,7 +236,7 @@ Input Args:     Dev_t dev- i2c device
 Output Args:    sensorValues - sensorValues object
 Description:    Get data from input dev id
 /**********************************************/
-sensorValues rangingGetData(sensorID sensor)
+sensorValues VL53L4CD::rangingGetData(sensorID sensor)
 {
     VL53L4CD_LinuxDev linuxDev1;
     Dev_t devTemp = &linuxDev1;
@@ -307,7 +281,7 @@ Input Args:     sensor - sensorID
 Output Args:    bool
 Description:    returns if a snesor has data ready
 /**********************************************/
-bool rangingCheckIfReady(sensorID sensor)
+bool VL53L4CD::rangingCheckIfReady(sensorID sensor)
 {
     VL53L4CD_LinuxDev linuxDev1;
     Dev_t devTemp = &linuxDev1;
@@ -351,7 +325,7 @@ Output Args:    none
 Description:    polls all sensors simultaneously
                 (not working)
 /**********************************************/
-void rangingPollingTestAll()
+void VL53L4CD::rangingPollingTestAll()
 {
 	int loop = 0;
 	int status1 = 0;

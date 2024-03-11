@@ -19,57 +19,15 @@ Description:    System controller state machine
 #include "ranging.h"
 #include "sound.h"
 
-controllerState currentState = POLLING1;
-controllerState nextState = currentState;
 
-sensorValues sens1Values;
-sensorValues sens2Values;
-sensorValues sens3Values;
-sensorValues sens4Values;
-sensorValues sens5Values;
-sensorValues sens6Values;
-
-static int * averageVelArrSens1 = new int[PAST_AVERAGE_VELOCITY_ARR_SIZE]();
-static int * averageVelArrSens2 = new int[PAST_AVERAGE_VELOCITY_ARR_SIZE]();
-static int * averageVelArrSens3 = new int[PAST_AVERAGE_VELOCITY_ARR_SIZE]();
-static int * averageVelArrSens4 = new int[PAST_AVERAGE_VELOCITY_ARR_SIZE]();
-static int * averageVelArrSens5 = new int[PAST_AVERAGE_VELOCITY_ARR_SIZE]();
-static int * averageVelArrSens6 = new int[PAST_AVERAGE_VELOCITY_ARR_SIZE]();
-
-static int * currentVelArrSens1 = new int[PAST_AVERAGE_VELOCITY_ARR_SIZE]();
-static int * currentVelArrSens2 = new int[PAST_AVERAGE_VELOCITY_ARR_SIZE]();
-static int * currentVelArrSens3 = new int[PAST_AVERAGE_VELOCITY_ARR_SIZE]();
-static int * currentVelArrSens4 = new int[PAST_AVERAGE_VELOCITY_ARR_SIZE]();
-static int * currentVelArrSens5 = new int[PAST_AVERAGE_VELOCITY_ARR_SIZE]();
-static int * currentVelArrSens6 = new int[PAST_AVERAGE_VELOCITY_ARR_SIZE]();
-
-static int averageVelNextArrIndex = 0;
-static bool enableSounds = false;
-
-struct timespec clockObj;
-unsigned stopTimeGesture;
-
-uint timeoutEndTimeSensor1;
-uint timeoutEndTimeSensor2;
-uint timeoutEndTimeSensor3;
-uint timeoutEndTimeSensor4;
-uint timeoutEndTimeSensor5;
-uint timeoutEndTimeSensor6;
-
-static bool hitDetectedRecently = false;
-
-bool gesture_detected_sensor5 = false;
-bool gesture_detected_sensor4 = false;
-bool gesture_detected_sensor3 = false;
-bool gesture_detected_sensor2 = false;
 
 /**********************************************\
-Function Name:  controllerInit
+Function Name:  initialize
 Input Args:     none
 Output Args:    void
 Description:    initialize controller globals and states
 /**********************************************/
-void controllerInit()
+void Controller::initialize()
 {
     currentState = RESET;
     nextState = currentState;
@@ -94,30 +52,30 @@ void controllerInit()
 }
 
 /**********************************************\
-Function Name:  controllerUpdateState
+Function Name:  updateState
 Input Args:     none
 Output Args:    void
 Description:    update controller state
 /**********************************************/
-void controllerUpdateState(controllerState newState)
+void Controller::updateState(controllerState newState)
 {
     nextState = newState;
 }
 
 /**********************************************\
-Function Name:  controllerSM
+Function Name:  primaryStateMachine
 Input Args:     none
 Output Args:    void
 Description:    Controller State Machine. Handles all system states, inputs, and outputs.
 /**********************************************/
-void controllerSM()
+void Controller::primaryStateMachine()
 {
     // Update current state from nextState
     currentState = nextState;
     switch(currentState)
     {
         case RESET:
-            controllerInit();
+            initialize();
             nextState = WAIT1;
             // TODO: add initDistanceSensors
             break;
@@ -129,16 +87,16 @@ void controllerSM()
             }
             break;
         case POLLING1:
-            if(controllerSensorsReady())
+            if(sensorsReady())
             {
-                controllerVelocityCalc();
-                controllerPrintSensorAverageVelocity();
-                if(controllerHitDetection())
+                velocityCalc();
+                printSensorAvgVelocity();
+                if(hitDetection())
                 {
                     hitDetectedRecently = true;
                 }
-                controllerUpdateDistance();
-                if (controllerGestureDetect())
+                updateDistance();
+                if (gestureDetect())
                 {
                     printf("Swipe Detect!\n");
                     enableSounds = ~enableSounds;
@@ -146,11 +104,11 @@ void controllerSM()
             }
             break;
         case TEST_DISTANCE_SENSORS:
-            if(controllerSensorsReady())
+            if(sensorsReady())
             {
-                controllerVelocityCalc();
-                controllerUpdateDistance();
-                controllerPrintSensorCurrentDistance();
+                velocityCalc();
+                updateDistance();
+                printSensorCurrentDistance();
             }
             break;
         default:
@@ -160,17 +118,17 @@ void controllerSM()
 }
 
 /**********************************************\
-Function Name:  controllerSendSound
+Function Name:  sendSound
 Input Args:     id - sensorID which sensor is sending sound
                 detectionValue - int level of hit
 Output Args:    void
 Description:    computes if a hit was detected
 /**********************************************/
-static void controllerSendSound(sensorID id, int detectionValue)
+void Controller::sendSound(sensorID id, int detectionValue)
 {
     printf("Hit Detected! Strength: %i Sensor: %i\n", detectionValue, id+1);
 //    if (detectionValue > HARD_HIT)
-        soundTest1(); // TODO: soundPlay(id, HARD_HIT);
+//        soundTest1(); // TODO: soundPlay(id, HARD_HIT);
 //    else if (detectionValue > MEDIUM_HIT)
 //        soundTest1(); // TODO: soundPlay(id, MEDIUM_HIT);
 //    else if (detectionValue > LIGHT_HIT)
@@ -179,12 +137,12 @@ static void controllerSendSound(sensorID id, int detectionValue)
 }
 
 /**********************************************\
-Function Name:  controllerVelocityCalc
+Function Name:  velocityCalc
 Input Args:     none
 Output Args:    void
 Description:    calculates most recent velocity of each sensor
 /**********************************************/
-static void controllerVelocityCalc()
+void Controller::velocityCalc()
 {
     if (sens1Values.lastDistance_mm != 0 && sens1Values.currentDistance_mm != 0)
         sens1Values.currentVelocity = sens1Values.currentDistance_mm - sens1Values.lastDistance_mm;
@@ -265,12 +223,12 @@ static void controllerVelocityCalc()
 }
 
 /**********************************************\
-Function Name:  controllerHitDetection
+Function Name:  hitDetection
 Input Args:     none
 Output Args:    bool
 Description:    computes if a hit was detected
 /**********************************************/
-static bool controllerHitDetection()
+bool Controller::hitDetection()
 {
     struct timeval stop, start;
     gettimeofday(&start, NULL);
@@ -288,7 +246,7 @@ static bool controllerHitDetection()
         detectionValue = getPeakVelocity(sensorID::SENSOR1, PAST_AVERAGE_VELOCITY_ARR_SIZE);
     if (timeoutEndTimeSensor1 < currentTimeMs && detectionValue * SENSOR1_6_DIRECTION >= LIGHT_HIT)
     {
-        controllerSendSound(sensorID::SENSOR1, detectionValue);
+        sendSound(sensorID::SENSOR1, detectionValue);
         timeoutEndTimeSensor1 = currentTimeMs + DRUM_INTERVAL_TIMEOUT_MS;
         returnVal = true;
     }
@@ -301,7 +259,7 @@ static bool controllerHitDetection()
         if(timeoutEndTimeSensor2 < currentTimeMs)
         {
         timeoutEndTimeSensor2 = currentTimeMs + DRUM_INTERVAL_TIMEOUT_MS;
-        controllerSendSound(sensorID::SENSOR2, detectionValue);
+        sendSound(sensorID::SENSOR2, detectionValue);
         returnVal = true;
         }
     }
@@ -311,7 +269,7 @@ static bool controllerHitDetection()
     if (timeoutEndTimeSensor3 < currentTimeMs && detectionValue * SENSOR2_3_4_5_DIRECTION >= LIGHT_HIT)
     {
         timeoutEndTimeSensor3 = currentTimeMs + DRUM_INTERVAL_TIMEOUT_MS;
-        controllerSendSound(sensorID::SENSOR3, detectionValue);
+        sendSound(sensorID::SENSOR3, detectionValue);
         returnVal = true;
     }
     detectionValue = 0;
@@ -320,7 +278,7 @@ static bool controllerHitDetection()
     if (timeoutEndTimeSensor4 < currentTimeMs && detectionValue * SENSOR2_3_4_5_DIRECTION >= LIGHT_HIT)
     {
         timeoutEndTimeSensor4 = currentTimeMs + DRUM_INTERVAL_TIMEOUT_MS;
-        controllerSendSound(sensorID::SENSOR4, detectionValue);
+        sendSound(sensorID::SENSOR4, detectionValue);
         returnVal = true;
     }
     detectionValue = 0;
@@ -329,7 +287,7 @@ static bool controllerHitDetection()
     if (timeoutEndTimeSensor5 < currentTimeMs && detectionValue * SENSOR2_3_4_5_DIRECTION >= LIGHT_HIT)
     {
         timeoutEndTimeSensor5 = currentTimeMs + DRUM_INTERVAL_TIMEOUT_MS;
-        controllerSendSound(sensorID::SENSOR5, detectionValue);
+        sendSound(sensorID::SENSOR5, detectionValue);
         returnVal = true;
     }
     detectionValue = 0;
@@ -338,7 +296,7 @@ static bool controllerHitDetection()
     if (timeoutEndTimeSensor6 < currentTimeMs && detectionValue * SENSOR1_6_DIRECTION >= LIGHT_HIT)
     {
         timeoutEndTimeSensor6 = currentTimeMs + DRUM_INTERVAL_TIMEOUT_MS;
-        controllerSendSound(sensorID::SENSOR6, detectionValue);
+        sendSound(sensorID::SENSOR6, detectionValue);
         returnVal = true;
     }
 
@@ -353,7 +311,7 @@ Input Args:     sensorID id
 Output Args:    int
 Description:    return peak Velocity
 /**********************************************/
-static int getPeakVelocity(sensorID id, int samplesToSearch, bool noiseCheckingEn)
+int Controller::getPeakVelocity(sensorID id, int samplesToSearch, bool noiseCheckingEn)
 {
     int * velArr;
     int * currentVelArr;
@@ -500,13 +458,13 @@ static int getPeakVelocity(sensorID id, int samplesToSearch, bool noiseCheckingE
 }
 
 /**********************************************\
-Function Name:  controllerUpdateSensorValue
+Function Name:  updateSensorValue
 Input Args:     sensorValue senseValue
                 sensorID id
 Output Args:    void
 Description:    updates sensor value
 /**********************************************/
-void controllerUpdateSensorValue(sensorValues senseValue, sensorID id)
+void Controller::updateSensorValue(sensorValues senseValue, sensorID id)
 {
     switch (id)
     {
@@ -551,12 +509,12 @@ void controllerUpdateSensorValue(sensorValues senseValue, sensorID id)
 }
 
 /**********************************************\
-Function Name:  controllerSensorsReady
+Function Name:  sensorsReady
 Input Args:     none
 Output Args:    bool- True if sensors are ready
 Description:    Checks to see if sensor values are ready. if they are, changes status value to not ready.
 /**********************************************/
-static bool controllerSensorsReady()
+bool Controller::sensorsReady()
 {
     bool sensorsReadyBool = false;
     if (sens1Values.rangeStatus != 1)
@@ -583,12 +541,12 @@ static bool controllerSensorsReady()
 }
 
 /**********************************************\
-Function Name:  controllerUpdateDistance
+Function Name:  updateDistance
 Input Args:     none
 Output Args:    void
 Description:    updates the distances that are stored in each sensorValues object.
 /**********************************************/
-static void controllerUpdateDistance()
+void Controller::updateDistance()
 {
     sens1Values.lastDistance_mm = sens1Values.currentDistance_mm;
 
@@ -604,12 +562,12 @@ static void controllerUpdateDistance()
 }
 
 /**********************************************\
-Function Name:  controllerPrintSensorCurrentDistance
+Function Name:  printSensorCurrentDistance
 Input Args:     none
 Output Args:    void
 Description:    Prints sensor data to console
 /**********************************************/
-static void controllerPrintSensorCurrentDistance()
+void Controller::printSensorCurrentDistance()
 {
     printf("%u\t%u\t%u\t%u\t%u\t%u\n",
          sens1Values.currentDistance_mm,
@@ -621,12 +579,12 @@ static void controllerPrintSensorCurrentDistance()
 }
 
 /**********************************************\
-Function Name:  controllerPrintSensorAverageVelocity
+Function Name:  printSensorAvgVelocity
 Input Args:     none
 Output Args:    void
 Description:    Prints sensor data to console
 /**********************************************/
-static void controllerPrintSensorAverageVelocity()
+void Controller::printSensorAvgVelocity()
 {
 
     printf("%i\t%i\t%i\t%i\t%i\t%i\t\t%i\t%i\t%i\t%i\t%i\t%i\t\t%i\t%i\t%i\t%i\t%i\t%i\t\n",
@@ -651,12 +609,12 @@ static void controllerPrintSensorAverageVelocity()
 }
 
 /**********************************************\
-Function Name:  controllerGestureDetect
+Function Name:  gestureDetect
 Input Args:     none
 Output Args:    bool
 Description:    Detects Gestures
 /**********************************************/
-static bool controllerGestureDetect()
+bool Controller::gestureDetect()
 {
 
     int loop = 0;
@@ -803,4 +761,172 @@ LOGIC:
     return returnVal;
 
 }
+
+///**********************************************\
+//Function Name:  rangingISRCallback()
+//Input Args:     int gpio :Triggered Gpio number
+//                int level: GPIO input level at time of ISR
+//                uint32_t tick: trigger time in microseconds.
+//Output Args:    none
+//Description:    callback that is triggered on DistanceSensors Interrupt Falling Edge.
+///**********************************************/
+//void Controller::rangingISRCallback(int gpio, int level, uint32_t tick)
+//{
+//    //printf("GPIO %d became %d at %d\n", gpio, level, tick); //COMMENT ME OUT WHEN WORKING
+//
+//    if (level == PI_TIMEOUT)
+//    {
+//        //printf("GPIO %d returned Interrupt Timeout! Interrupt Exceeded %dms!\nUs tick: %lu\n", gpio, DISTANCE_SENSOR_INTERRUPT_TIMEOUT, tick);
+//        ;
+//    }
+//
+//    //printf("GPIO %i\n", gpio);
+//
+//    sensorValues senseValues;
+//    switch(gpio)
+//    {
+//        case D1_GPIO1:
+//            senseValues = rangingGetData(sensorID::SENSOR1);
+//            updateSensorValue(senseValues, sensorID::SENSOR1);
+//            break;
+//        case D2_GPIO1:
+//            senseValues = rangingGetData(sensorID::SENSOR2);
+//            updateSensorValue(senseValues, sensorID::SENSOR2);
+//            break;
+//        case D3_GPIO1:
+//            senseValues = rangingGetData(sensorID::SENSOR3);
+//            updateSensorValue(senseValues, sensorID::SENSOR3);
+//            break;
+//        case D4_GPIO1:
+//            senseValues = rangingGetData(sensorID::SENSOR4);
+//            updateSensorValue(senseValues, sensorID::SENSOR4);
+//            break;
+//        case D5_GPIO1:
+//            senseValues = rangingGetData(sensorID::SENSOR5);
+//            updateSensorValue(senseValues, sensorID::SENSOR5);
+//            break;
+//        case D6_GPIO1:
+//            senseValues = rangingGetData(sensorID::SENSOR6);
+//            updateSensorValue(senseValues, sensorID::SENSOR6);
+//            break;
+//    }
+//}
+//
+///**********************************************\
+//Function Name:  isrCallback()
+//Input Args:     none
+//Output Args:    none
+//Description:
+///**********************************************/
+//static void isrCallback(void*obj)
+//{
+//    //static_cast<Controller *>(obj)->rangingISRCallback();
+//}
+//
+///**********************************************\
+//Function Name:  initInterrupts()
+//Input Args:     none
+//Output Args:    none
+//Description:    intialize interrupts and timers
+///**********************************************/
+//void Controller::initInterrupts()
+//{
+//    gpioSetISRFunc(D1_GPIO1, FALLING_EDGE, DISTANCE_SENSOR_INTERRUPT_TIMEOUT, *rangingISRCallback);
+//    gpioSetISRFunc(D2_GPIO1, FALLING_EDGE, DISTANCE_SENSOR_INTERRUPT_TIMEOUT, typedef void (*rangingISRCallback));
+//    gpioSetISRFunc(D3_GPIO1, FALLING_EDGE, DISTANCE_SENSOR_INTERRUPT_TIMEOUT, rangingISRCallback);
+//    gpioSetISRFunc(D4_GPIO1, FALLING_EDGE, DISTANCE_SENSOR_INTERRUPT_TIMEOUT, rangingISRCallback);
+//    gpioSetISRFunc(D5_GPIO1, FALLING_EDGE, DISTANCE_SENSOR_INTERRUPT_TIMEOUT, rangingISRCallback);
+//    gpioSetISRFunc(D6_GPIO1, FALLING_EDGE, DISTANCE_SENSOR_INTERRUPT_TIMEOUT, rangingISRCallback);
+//}
+
+///**********************************************\
+//Function Name:  parseCommandLine()
+//Input Args:     int argc        arguement count
+//                char *argv[]    arguement values
+//Output Args:    none
+//Description:    Parses Command line arguements. Command line inputs are used primarily for unit tests.
+///**********************************************/
+//void Controller::parseCommandLine(int argc,char *argv[])
+//{
+//    if (argc > 1)
+//    {
+//        printf("Found %i additional input arguments\n\n", argc-1);
+//        for(int i=1; i<argc; i++)
+//        {
+//            printf("Attempting to run Command: %s\n", argv[i]);
+//            runCommandLine(&argv[i]);
+//        }
+//        exit(0);
+//    }
+//}
+//
+///**********************************************\
+//Function Name:  runCommandLine()
+//Input Args:     string arg   arguement values
+//Output Args:    none
+//Description:    Runs Command Line arguements
+///**********************************************/
+//void Controller::runCommandLine(char *argv[])
+//{
+//    if(!strcmp(argv[0], "gpioTest"))
+//    {
+//
+//        gpioTest(GPIO_TEST_LENGTH_SEC);
+//    }
+//    else if (!strcmp(argv[0], "test"))
+//    {
+//        printf("Test Argument Received!!\n");
+//    }
+//    else if (!strcmp(argv[0], "ledNopAsmTest"))
+//    {
+//        ledNopAsmTest(GPIO_TEST_LENGTH_SEC);
+//    }
+//    else if (!strcmp(argv[0], "gpioLedSpiTest"))
+//    {
+//        char * arr = new char[18]();
+//        ledCreateColorArr(arr, LED_COLOR_CYAN_DIM, LED_COLOR_PURPLE_DIM, LED_COLOR_YELLOW_DIM, LED_COLOR_WHITE_DIM, LED_COLOR_BLUE_DIM, LED_COLOR_GREEN_DIM);
+//        gpioLedSpiTest(arr);
+//    }
+//    else if (!strcmp(argv[0], "ledInitialiseTest"))
+//    {
+//        ledInitialiseTest();
+//    }
+//    else if (!strcmp(argv[0], "interruptTest"))
+//    {
+//        gpioInitializeLib();
+//
+//        // initialize Distance Sensors
+//        rangingInit();
+//
+//        // Initialize threads ////
+//        initInterrupts();
+//
+//        btbThread btbThread1;
+//        btbThread1.start();
+//        //usleep(3000);
+//        primaryUpdateState(controllerState::TEST_DISTANCE_SENSORS);
+//
+//        sleep(20);
+//    }
+//    else if (!strcmp(argv[0], "soundTest1"))
+//    {
+//        soundTest1();
+//    }
+//    else if (!strcmp(argv[0], "soundTest2"))
+//    {
+//        soundTest2();
+//    }
+//    else if (!strcmp(argv[0], "soundTest3"))
+//    {
+//        soundTest3();
+//    }
+//    else if (!strcmp(argv[0], "rangingTestDistanceSensors"))
+//    {
+//        rangingTestDistanceSensors();
+//    }
+//    else
+//    {
+//        printf("Command: %s Failed to run!!!\n", argv[0]);
+//    }
+//}
 
