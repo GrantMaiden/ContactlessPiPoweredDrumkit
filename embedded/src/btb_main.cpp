@@ -20,7 +20,6 @@ Description:    Entry Point into ENG5228 project for University of Glasgow
 #include "led.h"
 #include "ranging.h"
 #include "controller.h"
-//#define CONTEXT_H
 #include "sound.h"
 
 

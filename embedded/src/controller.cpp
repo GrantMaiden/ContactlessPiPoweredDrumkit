@@ -20,7 +20,7 @@ Description:    System controller state machine
 #include "sound.h"
 
 
-
+Sound soundController;
 /**********************************************\
 Function Name:  initialize
 Input Args:     none
@@ -33,6 +33,7 @@ void Controller::initialize()
     nextState = currentState;
     averageVelNextArrIndex = 0;
     enableSounds = false;
+    soundController.soundInit();
 
     gesture_detected_sensor5 = false;
     gesture_detected_sensor4 = false;
@@ -90,16 +91,20 @@ void Controller::primaryStateMachine()
             if(sensorsReady())
             {
                 velocityCalc();
-                printSensorAvgVelocity();
-                if(hitDetection())
+                //printSensorAvgVelocity();
+                if(enableSounds)
                 {
-                    hitDetectedRecently = true;
+                    if(hitDetection())
+                        hitDetectedRecently = true;
                 }
                 updateDistance();
                 if (gestureDetect())
                 {
-                    printf("Swipe Detect!\n");
-                    enableSounds = ~enableSounds;
+                    enableSounds = !enableSounds;
+                    if (enableSounds)
+                        soundController.playSound(PATH_SOUND_ENABLED_WAV);
+                    else
+                        soundController.playSound(PATH_SOUND_DISABLED_WAV);
                 }
             }
             break;
@@ -127,12 +132,58 @@ Description:    computes if a hit was detected
 void Controller::sendSound(sensorID id, int detectionValue)
 {
     printf("Hit Detected! Strength: %i Sensor: %i\n", detectionValue, id+1);
-//    if (detectionValue > HARD_HIT)
-//        soundTest1(); // TODO: soundPlay(id, HARD_HIT);
-//    else if (detectionValue > MEDIUM_HIT)
-//        soundTest1(); // TODO: soundPlay(id, MEDIUM_HIT);
-//    else if (detectionValue > LIGHT_HIT)
-//        soundTest1(); // TODO: soundPlay(id, LIGHT_HIT);
+
+    switch (id)
+    {
+        case sensorID::SENSOR1:
+            if (detectionValue > HARD_HIT)
+                soundController.playSound(DRUM6_LOUD);
+            else if (detectionValue > MEDIUM_HIT)
+                soundController.playSound(DRUM6_MEDIUM);
+            else if (detectionValue > LIGHT_HIT)
+                soundController.playSound(DRUM6_LOW);
+            break;
+        case sensorID::SENSOR2:
+            if (detectionValue > HARD_HIT)
+                soundController.playSound(DRUM5_LOUD);
+            else if (detectionValue > MEDIUM_HIT)
+                soundController.playSound(DRUM5_MEDIUM);
+            else if (detectionValue > LIGHT_HIT)
+                soundController.playSound(DRUM5_LOW);
+            break;
+        case sensorID::SENSOR3:
+            if (detectionValue > HARD_HIT)
+                soundController.playSound(DRUM3_LOUD);
+            else if (detectionValue > MEDIUM_HIT)
+                soundController.playSound(DRUM3_MEDIUM);
+            else if (detectionValue > LIGHT_HIT)
+                soundController.playSound(DRUM3_LOW);
+            break;
+        case sensorID::SENSOR4:
+            if (detectionValue > HARD_HIT)
+                soundController.playSound(DRUM4_LOUD);
+            else if (detectionValue > MEDIUM_HIT)
+                soundController.playSound(DRUM4_MEDIUM);
+            else if (detectionValue > LIGHT_HIT)
+                soundController.playSound(DRUM4_LOW);
+            break;
+        case sensorID::SENSOR5:
+            if (detectionValue > HARD_HIT)
+                soundController.playSound(TH_LOUD_OPEN);
+            else if (detectionValue > MEDIUM_HIT)
+                soundController.playSound(TH_MEDIUM_OPEN);
+            else if (detectionValue > LIGHT_HIT)
+                soundController.playSound(TH_LOW_OPEN);
+            break;
+        case sensorID::SENSOR6:
+            if (detectionValue > HARD_HIT)
+                soundController.playSound(TH_LOUD_FOOT_CLOSED);
+            else if (detectionValue > MEDIUM_HIT)
+                soundController.playSound(TH_MEDIUM_FOOT_CLOSED);
+            else if (detectionValue > LIGHT_HIT)
+                soundController.playSound(TH_LOW_FOOT_CLOSED);
+            break;
+    }
 
 }
 
@@ -246,7 +297,7 @@ bool Controller::hitDetection()
         detectionValue = getPeakVelocity(sensorID::SENSOR1, PAST_AVERAGE_VELOCITY_ARR_SIZE);
     if (timeoutEndTimeSensor1 < currentTimeMs && detectionValue * SENSOR1_6_DIRECTION >= LIGHT_HIT)
     {
-        sendSound(sensorID::SENSOR1, detectionValue);
+        sendSound(sensorID::SENSOR1, SENSOR1_6_DIRECTION*detectionValue);
         timeoutEndTimeSensor1 = currentTimeMs + DRUM_INTERVAL_TIMEOUT_MS;
         returnVal = true;
     }
@@ -259,7 +310,7 @@ bool Controller::hitDetection()
         if(timeoutEndTimeSensor2 < currentTimeMs)
         {
         timeoutEndTimeSensor2 = currentTimeMs + DRUM_INTERVAL_TIMEOUT_MS;
-        sendSound(sensorID::SENSOR2, detectionValue);
+        sendSound(sensorID::SENSOR2, SENSOR2_3_4_5_DIRECTION*detectionValue);
         returnVal = true;
         }
     }
@@ -269,7 +320,7 @@ bool Controller::hitDetection()
     if (timeoutEndTimeSensor3 < currentTimeMs && detectionValue * SENSOR2_3_4_5_DIRECTION >= LIGHT_HIT)
     {
         timeoutEndTimeSensor3 = currentTimeMs + DRUM_INTERVAL_TIMEOUT_MS;
-        sendSound(sensorID::SENSOR3, detectionValue);
+        sendSound(sensorID::SENSOR3, SENSOR2_3_4_5_DIRECTION*detectionValue);
         returnVal = true;
     }
     detectionValue = 0;
@@ -278,7 +329,7 @@ bool Controller::hitDetection()
     if (timeoutEndTimeSensor4 < currentTimeMs && detectionValue * SENSOR2_3_4_5_DIRECTION >= LIGHT_HIT)
     {
         timeoutEndTimeSensor4 = currentTimeMs + DRUM_INTERVAL_TIMEOUT_MS;
-        sendSound(sensorID::SENSOR4, detectionValue);
+        sendSound(sensorID::SENSOR4, SENSOR2_3_4_5_DIRECTION*detectionValue);
         returnVal = true;
     }
     detectionValue = 0;
@@ -287,7 +338,7 @@ bool Controller::hitDetection()
     if (timeoutEndTimeSensor5 < currentTimeMs && detectionValue * SENSOR2_3_4_5_DIRECTION >= LIGHT_HIT)
     {
         timeoutEndTimeSensor5 = currentTimeMs + DRUM_INTERVAL_TIMEOUT_MS;
-        sendSound(sensorID::SENSOR5, detectionValue);
+        sendSound(sensorID::SENSOR5, SENSOR2_3_4_5_DIRECTION*detectionValue);
         returnVal = true;
     }
     detectionValue = 0;
@@ -296,7 +347,7 @@ bool Controller::hitDetection()
     if (timeoutEndTimeSensor6 < currentTimeMs && detectionValue * SENSOR1_6_DIRECTION >= LIGHT_HIT)
     {
         timeoutEndTimeSensor6 = currentTimeMs + DRUM_INTERVAL_TIMEOUT_MS;
-        sendSound(sensorID::SENSOR6, detectionValue);
+        sendSound(sensorID::SENSOR6, SENSOR1_6_DIRECTION*detectionValue);
         returnVal = true;
     }
 
