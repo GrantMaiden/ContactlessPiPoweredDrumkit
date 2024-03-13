@@ -4,6 +4,10 @@ Project:        btb
 Author:         Lucas Zehner
 Description:    contains ranging definitions and headers
 \***************************************************************************/
+#ifndef RANGING_H
+#define RANGING_H
+class GpioController;
+
 
 #define VL53L4CD_I2C_FAST_MODE_PLUS
 // Includes
@@ -26,63 +30,89 @@ extern "C" {
 #define RANGING_LIM_LOW     10
 #define RANGING_LIM_HIGH    500
 
-// Structs
+using namespace std;
+class VL53L4CD
+{
+    public:
+        //Functions
+
+        /**
+         * Initialize disatance sensor globals
+         **/
+        void rangingInit();
+
+        /**
+         * Test Distance Sensors
+         **/
+        void rangingTestDistanceSensors();
+
+        /**
+         * Get data from input dev id
+         * \param sensor - sensorID
+         * \returns sensorValues
+         **/
+        sensorValues rangingGetData(sensorID sensor);
+
+        /**
+         * returns if a snesor has data ready
+         * \param sensor - sensorID
+         * \returns bool
+         **/
+        bool rangingCheckIfReady(sensorID sensor);
+
+    private:
+        // private global variables
+        VL53L4CD_LinuxDev linuxDev1;
+        Dev_t i2cdev_Sensor1 = &linuxDev1;
+        VL53L4CD_LinuxDev linuxDev2;
+        Dev_t i2cdev_Sensor2 = &linuxDev2;
+        VL53L4CD_LinuxDev linuxDev3;
+        Dev_t i2cdev_Sensor3 = &linuxDev3;
+        VL53L4CD_LinuxDev linuxDev4;
+        Dev_t i2cdev_Sensor4 = &linuxDev4;
+        VL53L4CD_LinuxDev linuxDev5;
+        Dev_t i2cdev_Sensor5 = &linuxDev5;
+        VL53L4CD_LinuxDev linuxDev6;
+        Dev_t i2cdev_Sensor6 = &linuxDev6;
 
 
-//Functions
-/**
- * Initialize disatance sensor globals
- **/
-void rangingInit();
+        /**
+         * Initialize Distance Sensors
+         * \param int id whichever sensor to init
+         **/
+        void rangingInitDistanceSensor(int id, Dev_t dev);
 
-/**
- * Runs range test from selected sensor
- * \param dev Dev_t objec that contains sensor identifier and i2c address
- * \returns status enum of sensor
- **/
-int getRangeTest(Dev_t dev);
+        /**
+         * Toggles Between Sensors
+         * \param id- enum which sensor to enable
+         * \returns bool- True if successfully switched Xshut low, False if failed
+         **/
+        bool rangingSetXshut(int id);
 
-/**
- * Initialize Distance Sensors
- * \param int id whichever sensor to init
- **/
-void rangingInitDistanceSensors(int id, Dev_t dev);
+        /**
+         * Changes received sensor address
+         * \param dev- Dev_t dev device object
+         * \param id- int which sensor to enable
+         **/
+        void rangingChangeAddress(Dev_t dev, int id);
 
-/**
- * Test Distance Sensors
- **/
-void rangingTestDistanceSensors();
+        /**
+         * Polls all sensors simultaneously
+         **/
+        void rangingPollingTestAll();
 
-/**
- * Toggles Between Sensors
- * \param id- enum which sensor to enable
- * \returns bool- True if successfully switched Xshut low, False if failed
- **/
-bool rangingSetXshut(int id);
 
-/**
- * Changes received sensor address
- * \param dev- Dev_t dev device object
- * \param id- int which sensor to enable
- **/
-void rangingChangeAddress(Dev_t dev, int id);
+};
 
-/**
- * Get data from input dev id
- * \param sensor - sensorID
- * \returns sensorValues
- **/
-sensorValues rangingGetData(sensorID sensor);
 
-/**
- * returns if a snesor has data ready
- * \param sensor - sensorID
- * \returns bool
- **/
-bool rangingCheckIfReady(sensorID sensor);
+#endif // RANGING_H
 
-/**
- * Polls all sensors simultaneously
- **/
-void rangingPollingTestAll();
+
+
+
+
+
+
+
+
 

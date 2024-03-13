@@ -4,6 +4,10 @@ Project:        btb
 Author:         Grant Maiden
 Description:    System controller state machine
 \***************************************************************************/
+#ifndef CONTROLLER_H
+#define CONTROLLER_H
+
+#include <pigpio.h>
 
 #define LIGHT_HIT       3
 #define MEDIUM_HIT      7
@@ -33,6 +37,7 @@ Description:    System controller state machine
 #define GESTURE_THRESHOLD_NUM_SAMPLE_TRUE   4
 #define GESTURE_TIME_LIMIT                  1
 
+
 /**
  * Controller State Machine enums for state lookup
  **/
@@ -53,79 +58,168 @@ typedef struct
     int hitStrength;
 }sensorHit;
 
-/**
- * initialize controller globals and states
- **/
-void controllerInit();
 
-/**
- * update controller state
- **/
-void controllerUpdateState(controllerState newState);
+using namespace std;
+class Controller
+{
+    public:
+        /**
+         * Controller State Machine. Handles all system states, inputs, and outputs.
+         **/
+        void primaryStateMachine();
 
-/**
- * Controller State Machine. Handles all system states, inputs, and outputs.
- **/
-void controllerSM();
+        /**
+         * update controller state
+         **/
+        void updateState(controllerState newState);
 
-/**
- * calculates most recent velocity of each sensor
- **/
-static void controllerVelocityCalc();
+        /**
+         * updates sensor value
+         * \param senseValue- sensorValues struct
+         * \param senseID- id of current sensor
+         **/
+        void updateSensorValue(sensorValues senseValue, sensorID id);
+
+//        /**
+//         * isrCallback
+//         **/
+//        static void isrCallback(void*obj);
+//
+//        /**
+//         * Callback that is triggered on DistanceSensors Interrupt Falling Edge.
+//         * \param gpio - int gpio Triggered Gpio number
+//         * \param level - int level GPIO input level at time of ISR
+//         * \param tick - uint32_t trigger time in microseconds.
+//         **/
+//        static void rangingISRCallback(int gpio, int level, uint32_t tick);
+
+    private:
+        controllerState currentState = RESET;
+        controllerState nextState = currentState;
+
+        sensorValues sens1Values;
+        sensorValues sens2Values;
+        sensorValues sens3Values;
+        sensorValues sens4Values;
+        sensorValues sens5Values;
+        sensorValues sens6Values;
+
+        int * averageVelArrSens1 = new int[PAST_AVERAGE_VELOCITY_ARR_SIZE]();
+        int * averageVelArrSens2 = new int[PAST_AVERAGE_VELOCITY_ARR_SIZE]();
+        int * averageVelArrSens3 = new int[PAST_AVERAGE_VELOCITY_ARR_SIZE]();
+        int * averageVelArrSens4 = new int[PAST_AVERAGE_VELOCITY_ARR_SIZE]();
+        int * averageVelArrSens5 = new int[PAST_AVERAGE_VELOCITY_ARR_SIZE]();
+        int * averageVelArrSens6 = new int[PAST_AVERAGE_VELOCITY_ARR_SIZE]();
+
+        int * currentVelArrSens1 = new int[PAST_AVERAGE_VELOCITY_ARR_SIZE]();
+        int * currentVelArrSens2 = new int[PAST_AVERAGE_VELOCITY_ARR_SIZE]();
+        int * currentVelArrSens3 = new int[PAST_AVERAGE_VELOCITY_ARR_SIZE]();
+        int * currentVelArrSens4 = new int[PAST_AVERAGE_VELOCITY_ARR_SIZE]();
+        int * currentVelArrSens5 = new int[PAST_AVERAGE_VELOCITY_ARR_SIZE]();
+        int * currentVelArrSens6 = new int[PAST_AVERAGE_VELOCITY_ARR_SIZE]();
+
+        int averageVelNextArrIndex = 0;
+        bool enableSounds = false;
+
+        struct timespec clockObj;
+        unsigned stopTimeGesture;
+
+        uint timeoutEndTimeSensor1;
+        uint timeoutEndTimeSensor2;
+        uint timeoutEndTimeSensor3;
+        uint timeoutEndTimeSensor4;
+        uint timeoutEndTimeSensor5;
+        uint timeoutEndTimeSensor6;
+
+        bool hitDetectedRecently = false;
+
+        bool gesture_detected_sensor5 = false;
+        bool gesture_detected_sensor4 = false;
+        bool gesture_detected_sensor3 = false;
+        bool gesture_detected_sensor2 = false;
+        /**
+         * initialize controller globals and states
+         **/
+        void initialize();
 
 
-/**
- * updates sensor value
- * \param senseValue- sensorValues struct
- * \param senseID- id of current sensor
- **/
-void controllerUpdateSensorValue(sensorValues senseValue, sensorID id);
+        /**
+         * calculates most recent velocity of each sensor
+         **/
+        void velocityCalc();
 
-/**
- * Checks to see if sensor values are ready. if they are, changes status value to not ready.
- * \returns bool- returns true if sensors are ready.
- **/
-static bool controllerSensorsReady();
+        /**
+         * Checks to see if sensor values are ready. if they are, changes status value to not ready.
+         * \returns bool- returns true if sensors are ready.
+         **/
+        bool sensorsReady();
 
-/**
- * updates the distances that are stored in each sensorValues object.
- **/
-static void controllerUpdateDistance();
+        /**
+         * updates the distances that are stored in each sensorValues object.
+         **/
+        void updateDistance();
 
-/**
- * computes if a hit was detected
- * \returns bool- returns true if hit was detected.
- **/
-static bool controllerHitDetection();
+        /**
+         * computes if a hit was detected
+         * \returns bool- returns true if hit was detected.
+         **/
+        bool hitDetection();
 
-/**
- * Requests a sound is played from the corresponding sensor at the input detectionValue level
- * \param id- sensorID
- * \param detectionValue- strength that sensor has been struck
- **/
-static void controllerSendSound(sensorID id, int detectionValue);
+        /**
+         * Requests a sound is played from the corresponding sensor at the input detectionValue level
+         * \param id- sensorID
+         * \param detectionValue- strength that sensor has been struck
+         **/
+        void sendSound(sensorID id, int detectionValue);
 
-/**
- * return peak Velocity
- * \param id- sensorID
- * \param samplesToSearch- number of previous samples to search
- * \param noiseCheckingEn- checks for noise with additional arguments. returns zero if noise check fails.
- * \returns int - peak velocity
- **/
-static int getPeakVelocity(sensorID id, int samplesToSearch, bool noiseCheckingEn = HIT_DETECT_NOISE_CHECKING);
+        /**
+         * return peak Velocity
+         * \param id- sensorID
+         * \param samplesToSearch- number of previous samples to search
+         * \param noiseCheckingEn- checks for noise with additional arguments. returns zero if noise check fails.
+         * \returns int - peak velocity
+         **/
+        int getPeakVelocity(sensorID id, int samplesToSearch, bool noiseCheckingEn = HIT_DETECT_NOISE_CHECKING);
 
-/**
- * Prints sensor data to console
- **/
-static void controllerPrintSensorCurrentDistance();
+        /**
+         * Prints sensor data to console
+         **/
+        void printSensorCurrentDistance();
 
-/**
- * Prints sensor velocity data to console
- **/
-static void controllerPrintSensorAverageVelocity();
+        /**
+         * Prints sensor velocity data to console
+         **/
+        void printSensorAvgVelocity();
 
-/**
- * Detects Gestures
- * \returns bool- returns true if gesture detected
- **/
-static bool controllerGestureDetect();
+        /**
+         * Detects Gestures
+         * \returns bool- returns true if gesture detected
+         **/
+        bool gestureDetect();
+
+        /**
+         * Initialize Leds
+         **/
+        void initLeds();
+
+//        /**
+//         * Initialize Interrupts
+//         **/
+//        void initInterrupts();
+
+        /**
+         * Parses Command line arguements. Command line inputs are used primarily for unit tests
+         * \param argc - int containging the number of command line arguements
+         * \param *argv[] - char* to an array of characters containing the input commands
+         **/
+        void parseCommandLine(int argc,char *argv[]);
+
+        /**
+         * Runs command line arguements
+         * \param argv - char array input of characters containing the input command
+         **/
+        void runCommandLine(char *argv[]);
+
+};
+
+#endif // CONTROLLER_H

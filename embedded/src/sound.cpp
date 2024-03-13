@@ -4,38 +4,101 @@ Project:        btb
 Author:         Grant Maiden
 Description:    sound control functions and processes
 \***************************************************************************/
+/*
+This file is developed using resources and exmaples available as part of the
+miniAudio library. These examples are available on the corresponding github
+page for the miniAudio library. For full transparancy, the miniaudio license
+is displayed below, in full.
+*/
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <pigpio.h>
-#include <stdio.h>
-#include <string>
-#include "CppThread.h"
-#include "sound.h"
-#include "defines.h"
+/*
+This software is available as a choice of the following licenses. Choose
+whichever you prefer.
 
+===============================================================================
+ALTERNATIVE 1 - Public Domain (www.unlicense.org)
+===============================================================================
+This is free and unencumbered software released into the public domain.
 
-//#define EN_AUDIO
+Anyone is free to copy, modify, publish, use, compile, sell, or distribute this
+software, either in source code form or as a compiled binary, for any purpose,
+commercial or non-commercial, and by any means.
 
-#ifdef EN_AUDIO
-#define MA_NO_ENGINE
+In jurisdictions that recognize copyright laws, the author or authors of this
+software dedicate any and all copyright interest in the software to the public
+domain. We make this dedication for the benefit of the public at large and to
+the detriment of our heirs and successors. We intend this dedication to be an
+overt act of relinquishment in perpetuity of all present and future rights to
+this software under copyright law.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+For more information, please refer to <http://unlicense.org/>
+
+===============================================================================
+ALTERNATIVE 2 - MIT No Attribution
+===============================================================================
+Copyright 2023 David Reid
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+#include <time.h>
+
 #define MINIAUDIO_IMPLEMENTATION
 extern "C"{
 #include "miniaudio.h"
 }
-#endif
+#include "sound.h"
 
 
+
+//#ifdef EN_AUDIO
+//#define MA_NO_ENGINE
+//#define MINIAUDIO_IMPLEMENTATION
+//extern "C"{
+//#include "miniaudio.h"
+//}
+//#endif
+
+#define EN_AUDIO
 
 #ifdef EN_AUDIO
+//#define MA_NO_ENGINE
+//#define MINIAUDIO_IMPLEMENTATION
+//extern "C"{
+//#include "miniaudio.h"
+//}
+
+
+
+//static char * mixArr[TOTAL_INSTRUMENTS];
+char * mixArr[] = {"%s %s %s",TH_LOUD_FOOT_CLOSED, TH_LOUD_OPEN, DRUM3_LOUD};
+
 static ma_resource_manager_data_source g_dataSources[16];
 static ma_uint32                       g_dataSourceCount;
 
-char * mixArr[] = {"%s %s %s",TH_LOUD_FOOT_CLOSED, TH_LOUD_OPEN, DRUM3_LOUD};
-
-static ma_thread_result MA_THREADCALL custom_job_thread(void* pUserData);
+ma_engine audio_engine;
+ma_engine_config engineConfig;
+ma_sound * pPreloadedSounds;
 
 /**********************************************\
 Function Name:  soundInit
@@ -43,9 +106,58 @@ Input Args:     none
 Output Args:    void
 Description:    initialize sound variables
 /**********************************************/
-void soundInit()
+void Sound::soundInit()
 {
+    ma_result result;
 
+    result = ma_engine_init(NULL, &audio_engine);
+    if (result != MA_SUCCESS) {
+        printf("Error initing engine...");
+    }
+
+    ma_sound_init_from_file(&audio_engine, PATH_SOUND_ENABLED_WAV, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, PATH_SOUND_DISABLED_WAV, 0, NULL, NULL, &pPreloadedSounds[0]);
+
+    ma_sound_init_from_file(&audio_engine, TH_LOW_OPEN, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, TH_MEDIUM_OPEN, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, TH_LOUD_OPEN, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, TH_LOW_CLOSED, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, TH_MEDIUM_CLOSED, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, TH_LOUD_CLOSED, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, TH_LOW_FOOT_OPEN, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, TH_MEDIUM_FOOT_OPEN, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, TH_LOUD_FOOT_OPEN, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, TH_LOW_FOOT_CLOSED, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, TH_MEDIUM_FOOT_CLOSED, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, TH_LOUD_FOOT_CLOSED, 0, NULL, NULL, &pPreloadedSounds[0]);
+
+    ma_sound_init_from_file(&audio_engine, DRUM3_LOW, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, DRUM3_MEDIUM, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, DRUM3_LOUD, 0, NULL, NULL, &pPreloadedSounds[0]);
+
+    ma_sound_init_from_file(&audio_engine, DRUM4_LOW, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, DRUM4_MEDIUM, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, DRUM4_LOUD, 0, NULL, NULL, &pPreloadedSounds[0]);
+
+    ma_sound_init_from_file(&audio_engine, DRUM5_LOW, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, DRUM5_MEDIUM, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, DRUM5_LOUD, 0, NULL, NULL, &pPreloadedSounds[0]);
+
+    ma_sound_init_from_file(&audio_engine, DRUM6_LOW, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, DRUM6_MEDIUM, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, DRUM6_LOUD, 0, NULL, NULL, &pPreloadedSounds[0]);
+}
+
+
+/**********************************************\
+Function Name:  playSound
+Input Args:     path - path of wave file to be played
+Output Args:    void
+Description:    Plays sound at a path. Sound must be preloaded in sound init.
+/**********************************************/
+void Sound::playSound(const char * path)
+{
+    ma_engine_play_sound(&audio_engine, path, NULL);
 }
 
 /**********************************************\
@@ -54,7 +166,7 @@ Input Args:     none
 Output Args:    void
 Description:    test Sound engine
 /**********************************************/
-void soundTest1()
+void Sound::soundTest1()
 {
     ma_result result;
     ma_decoder decoder;
@@ -99,7 +211,7 @@ Input Args:     ma_device* pDevice, void* pOutput, const void* pInput, ma_uint32
 Output Args:    void
 Description:    data callback for sound engine
 /**********************************************/
-static void data_callback(ma_device* pDevice, void* pOutput, const void* pInput, ma_uint32 frameCount)
+void Sound::data_callback(ma_device* pDevice, void* pOutput, const void* pInput, ma_uint32 frameCount)
 {
     ma_decoder* pDecoder = (ma_decoder*)pDevice->pUserData;
     if (pDecoder == NULL) {
@@ -117,8 +229,9 @@ Input Args:     none
 Output Args:    void
 Description:    test Sound engine
 /**********************************************/
-void soundTest2()
+void Sound::soundTest2()
 {
+
     ma_result result;
     ma_device_config deviceConfig;
     ma_device device;
@@ -238,6 +351,136 @@ void soundTest2()
     ma_resource_manager_uninit(&resourceManager);
 
     return;
+
+}
+/**********************************************\
+Function Name:  soundTest2
+Input Args:     none
+Output Args:    void
+Description:    test Sound engine
+/**********************************************/
+void Sound::soundTest2Helper()
+{
+    ma_result result;
+    ma_device_config deviceConfig;
+    ma_device device;
+    ma_resource_manager_config resourceManagerConfig;
+    ma_resource_manager resourceManager;
+    ma_thread jobThread;
+    int iFile;
+
+    deviceConfig = ma_device_config_init(ma_device_type_playback);
+    deviceConfig.playback.format = ma_format_f32;
+    deviceConfig.dataCallback    = data_callback2;
+    deviceConfig.pUserData       = NULL;
+
+    result = ma_device_init(NULL, &deviceConfig, &device);
+    if (result != MA_SUCCESS) {
+        printf("Failed to initialize device.");
+        return;
+    }
+
+
+    /* We can start the device before loading any sounds. We'll just end up outputting silence. */
+    result = ma_device_start(&device);
+    if (result != MA_SUCCESS) {
+        ma_device_uninit(&device);
+        printf("Failed to start device.");
+        return;
+    }
+
+
+    /*
+    We have the device so now we want to initialize the resource manager. We'll use the resource manager to load some
+    sounds based on the command line.
+    */
+    resourceManagerConfig = ma_resource_manager_config_init();
+
+    /*
+    We'll set a standard decoding format to save us to processing time at mixing time. If you're wanting to use
+    spatialization with your decoded sounds, you may want to consider leaving this as 0 to ensure the file's native
+    channel count is used so you can do proper spatialization.
+    */
+    resourceManagerConfig.decodedFormat     = device.playback.format;
+    resourceManagerConfig.decodedChannels   = device.playback.channels;
+    resourceManagerConfig.decodedSampleRate = device.sampleRate;
+
+    /* The number of job threads to be managed internally. Set this to 0 if you want to self-manage your job threads */
+    resourceManagerConfig.jobThreadCount = 4;
+
+    result = ma_resource_manager_init(&resourceManagerConfig, &resourceManager);
+    if (result != MA_SUCCESS) {
+        ma_device_uninit(&device);
+        printf("Failed to initialize the resource manager.");
+        return;
+    }
+
+    /*
+    Now that we have a resource manager we can set up our custom job thread. This is optional. Normally when doing
+    self-managed job threads you would set the internal job thread count to zero. We're doing both internal and
+    self-managed job threads in this example just for demonstration purposes.
+    */
+    ma_thread_create(&jobThread, ma_thread_priority_default, 0, custom_job_thread, &resourceManager, NULL);
+
+    /* Create each data source from the resource manager. Note that the caller is the owner. */
+    for (iFile = 0; iFile < ma_countof(g_dataSources) && iFile < TOTAL_INSTRUMENTS_SOUND_TEST2; iFile += 1) {
+        result = ma_resource_manager_data_source_init(
+            &resourceManager,
+            mixArr[iFile+1],
+            MA_RESOURCE_MANAGER_DATA_SOURCE_FLAG_DECODE | MA_RESOURCE_MANAGER_DATA_SOURCE_FLAG_ASYNC /*| MA_RESOURCE_MANAGER_DATA_SOURCE_FLAG_STREAM*/,
+            NULL,   /* Async notification. */
+            &g_dataSources[iFile]);
+
+        if (result != MA_SUCCESS) {
+            break;
+        }
+
+        /* Use looping in this example. */
+        ma_data_source_set_looping(&g_dataSources[iFile], 0);
+
+        g_dataSourceCount += 1;
+    }
+
+    //printf("Press Enter to quit...");
+    //getchar();
+
+
+
+    /* Teardown. */
+
+    /*
+    Uninitialize the device first to ensure the data callback is stopped and doesn't try to access
+    any data.
+    */
+    ma_device_uninit(&device);
+
+    /*
+    Our data sources need to be explicitly uninitialized. ma_resource_manager_uninit() will not do
+    it for us. This needs to be done before posting the quit event and uninitializing the resource
+    manager or else we'll get stuck in a deadlock because ma_resource_manager_data_source_uninit()
+    will be waiting for the job thread(s) to finish work, which will never happen because they were
+    just terminated.
+    */
+    for (iFile = 0; (size_t)iFile < g_dataSourceCount; iFile += 1) {
+        ma_resource_manager_data_source_uninit(&g_dataSources[iFile]);
+    }
+
+    /*
+    Before uninitializing the resource manager we need to make sure a quit event has been posted to
+    ensure we can get out of our custom thread. The call to ma_resource_manager_uninit() will also
+    do this, but we need to call it explicitly so that our self-managed thread can exit naturally.
+    You only need to post a quit job if you're using that as the exit indicator. You can instead
+    use whatever variable you want to terminate your job thread, but since this example is using a
+    quit job we need to post one. Note that you don't need to do this if you're not managing your
+    own threads - ma_resource_manager_uninit() alone will suffice in that case.
+    */
+    ma_resource_manager_post_job_quit(&resourceManager);
+    ma_thread_wait(&jobThread); /* Wait for the custom job thread to finish so it doesn't try to access any data. */
+
+    /* Uninitialize the resource manager after each data source. */
+    ma_resource_manager_uninit(&resourceManager);
+
+    return;
 }
 
 /**********************************************\
@@ -246,12 +489,28 @@ Input Args:     none
 Output Args:    void
 Description:    test Sound engine
 /**********************************************/
-void soundTest3()
+void Sound::soundTest3()
 {
+    soundInit();
 
+    for (int i = 0; i <= 10; i++)
+    {
+        playSound(TH_LOUD_FOOT_CLOSED);
+        playSound(TH_LOUD_OPEN);
+        playSound(DRUM3_LOUD);
+        usleep(200000);
+    }
+
+
+
+    printf("Press Enter to quit...");
+    getchar();
+
+    ma_sound_uninit(&pPreloadedSounds[0]);
+    ma_engine_uninit(&audio_engine);
 }
 
-static ma_result ma_data_source_read_pcm_frames_f32_ex(ma_data_source* pDataSource, float* pFramesOut, ma_uint64 frameCount, ma_uint64* pFramesRead, ma_format dataSourceFormat, ma_uint32 dataSourceChannels)
+ma_result Sound::ma_data_source_read_pcm_frames_f32_ex(ma_data_source* pDataSource, float* pFramesOut, ma_uint64 frameCount, ma_uint64* pFramesRead, ma_format dataSourceFormat, ma_uint32 dataSourceChannels)
 {
     /*
     This function is intended to be used when the format and channel count of the data source is
@@ -291,7 +550,7 @@ static ma_result ma_data_source_read_pcm_frames_f32_ex(ma_data_source* pDataSour
     }
 }
 
-MA_API ma_result ma_data_source_read_pcm_frames_f32(ma_data_source* pDataSource, float* pFramesOut, ma_uint64 frameCount, ma_uint64* pFramesRead)
+ma_result Sound::ma_data_source_read_pcm_frames_f32(ma_data_source* pDataSource, float* pFramesOut, ma_uint64 frameCount, ma_uint64* pFramesRead)
 {
     ma_result result;
     ma_format format;
@@ -305,7 +564,7 @@ MA_API ma_result ma_data_source_read_pcm_frames_f32(ma_data_source* pDataSource,
     return ma_data_source_read_pcm_frames_f32_ex(pDataSource, pFramesOut, frameCount, pFramesRead, format, channels);
 }
 
-MA_API ma_result ma_data_source_read_pcm_frames_and_mix_f32(ma_data_source* pDataSource, float* pFramesOut, ma_uint64 frameCount, ma_uint64* pFramesRead, float volume)
+ma_result Sound::ma_data_source_read_pcm_frames_and_mix_f32(ma_data_source* pDataSource, float* pFramesOut, ma_uint64 frameCount, ma_uint64* pFramesRead, float volume)
 {
     ma_result result;
     ma_format format;
@@ -352,7 +611,7 @@ MA_API ma_result ma_data_source_read_pcm_frames_and_mix_f32(ma_data_source* pDat
     return MA_SUCCESS;
 }
 
-void data_callback2(ma_device* pDevice, void* pOutput, const void* pInput, ma_uint32 frameCount)
+void Sound::data_callback2(ma_device* pDevice, void* pOutput, const void* pInput, ma_uint32 frameCount)
 {
     /*
     In this example we're just going to play our data sources layered on top of each other. This
@@ -377,7 +636,7 @@ void data_callback2(ma_device* pDevice, void* pOutput, const void* pInput, ma_ui
 }
 
 
-static ma_thread_result MA_THREADCALL custom_job_thread(void* pUserData)
+ma_thread_result MA_THREADCALL Sound::custom_job_thread(void* pUserData)
 {
     ma_resource_manager* pResourceManager = (ma_resource_manager*)pUserData;
     MA_ASSERT(pResourceManager != NULL);
@@ -434,17 +693,22 @@ static ma_thread_result MA_THREADCALL custom_job_thread(void* pUserData)
 
 #else
 
-void soundTest1()
+void Sound::soundTest1()
 {
     printf("!!! Define EN_SOUND is disabled. Uncomment Define in sound.cpp if sound is desired !!! \n");
 }
 
-void soundTest2()
+void Sound::soundTest2()
 {
     printf("!!! Define EN_SOUND is disabled. Uncomment Define in sound.cpp if sound is desired !!! \n");
 }
 
-void soundTest3()
+void Sound::soundTest3()
+{
+    printf("!!! Define EN_SOUND is disabled. Uncomment Define in sound.cpp if sound is desired !!! \n");
+}
+
+void Sound::soundInit()
 {
     printf("!!! Define EN_SOUND is disabled. Uncomment Define in sound.cpp if sound is desired !!! \n");
 }
