@@ -1,6 +1,6 @@
 
 # [<img src="./docs/Instagram_icon.png.webp" width="35"/>](https://www.instagram.com/byte.thebeat/) byte_theBeat  
-**byte_theBeat** is a contactless, Pi-Powered Drumkit, being developed for the Real Time Embedded Programming course (ENG5228) at the University of Glasgow.  
+**byte_theBeat** is a contactless, Pi-powered drumkit, being developed for the Real Time Embedded Programming course (ENG5228) at the University of Glasgow.  
 
 <img src="./docs/ByteThisBeat.jpg" alt="Alt text" title="(byte)this.beat; PCB">
 
