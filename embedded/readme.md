@@ -44,7 +44,8 @@ Change lines:
    defaults.ctl.card 1  
 ```
 ### PiGPIO
-[pigpio download]("https://abyz.me.uk/rpi/pigpio/download.html")  
+pigpio [download]("https://abyz.me.uk/rpi/pigpio/download.html")  
+  
 To close lingering pigpio processes:  
 ```
    $cat /var/run/pigpio.pid  
@@ -63,7 +64,7 @@ Tools -> Configure Tools -> Add -> Name field: Run as Sudo -> Executable Field: 
   
 Self Documenting Code Format: [DoxyGen]("https://www.doxygen.nl/manual/docblocks.html")    
   
-[Kernel Documentation]("https://www.kernel.org/doc/Documentation/")  
+Kernel [Documentation]("https://www.kernel.org/doc/Documentation/")  
   
 Sys Libraries location:  
 ```
