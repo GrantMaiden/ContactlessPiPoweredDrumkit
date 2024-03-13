@@ -5,7 +5,7 @@ byte_theBeat is a contactless, Pi-Powered Drumkit, being developed for the Real 
   <img src="./docs/Instagram_icon.png.webp" width="48" />
  </a>
 <img src="./docs/ByteThisBeat.jpg" alt="Alt text" title="(byte)this.beat; PCB">
-[<img src="./docs/Instagram_icon.png.webp" width="48">](https://www.instagram.com/byte.thebeat?igsh=MXY4cWJuN2d1OGJhcA%3D%3D&utm_source=qr)
+[<img src="./docs/Instagram_icon.png.webp" width="48"/>](https://www.instagram.com/byte.thebeat?igsh=MXY4cWJuN2d1OGJhcA%3D%3D&utm_source=qr)
 
 ## So what's the tempo?
 
