@@ -5,12 +5,6 @@ Author:         Grant Maiden
 Description:    Header file for btb.main.c
 \***************************************************************************/
 
-
-/**
- * Initialize Leds
- **/
-void initLeds();
-
 /**
  * Initialize Interrupts
  **/

@@ -22,6 +22,8 @@ Description:    contains led definitions and headers
 #define LED_COLOR_GREEN             0x001100
 #define LED_COLOR_OFF               0x000000
 
+//conversion factor (velocity-> brightness)
+#define BRIGHTNESS_LIMIT            255/80
 
 // LED Speed
 #define INITIAL_LOOP_WAIT           50
@@ -29,6 +31,7 @@ Description:    contains led definitions and headers
 
 typedef enum
 {
+    RESET_LEDS,
     INITIAL1,
     INITIAL2,
     INITIAL3,
@@ -43,28 +46,7 @@ typedef enum
     PRIMARY1
 }ledStateMachine;
 
-typedef enum
-{
-    INITIALISE_FEEDBACK,
-    DRUM1_HARD,
-    DRUM1_MID,
-    DRUM1_SOFT,
-    DRUM2_HARD,
-    DRUM2_MID,
-    DRUM2_SOFT,
-    DRUM3_HARD,
-    DRUM3_MID,
-    DRUM3_SOFT,
-    DRUM4_HARD,
-    DRUM4_MID,
-    DRUM4_SOFT,
-    DRUM5_HARD,
-    DRUM5_MID,
-    DRUM5_SOFT,
-    DRUM6_HARD,
-    DRUM6_MID,
-    DRUM6_SOFT,
-}LED_FEEDBACK;
+
 
 /**
  * creates a single color array combined from input arguments. Will fill outputArr memory with combined data. Performs RGB->GRB byteshift
@@ -78,6 +60,10 @@ typedef enum
  **/
 void ledCreateColorArr(char* outputArr,unsigned led1, unsigned led2, unsigned led3, unsigned led4, unsigned led5, unsigned led6);
 
+/**
+ * Initialize LED globals
+ **/
+void initLeds();
 
 /**
  * Makes all LEDs flash an number of times for a given colour at a speed in seconds
@@ -103,19 +89,16 @@ void ledFadeTest(int fadeNum, int fadeSpeed);
 //void hitStrengthFeedback()
 
 /**
+ * State Machine for LEDs
+ **/
+void ledSM();
+
+/**
  * Peter's LED test
  **/
 void ledInitialiseTest();
 
-/**
- * Runs Main Function LED Feedback. From a hit detection an LED will provide feedback depending on the strength of the hit.
- **/
-void mainLedFeedback();
 
-/**
- * State Machine for LEDs
- **/
-void ledSM();
 
 
 
