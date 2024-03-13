@@ -2,7 +2,7 @@
 <p align="center">
  <a href="(https://www.instagram.com/byte.thebeat?igsh=MXY4cWJuN2d1OGJhcA%3D%3D&utm_source=qr)" target="blank" />
   <img src="./docs/Instagram_icon.png.webp" width="48" />
- </a>
+ </a>  
 byte_theBeat is a contactless, Pi-Powered Drumkit, being developed for the Real Time Embedded Programming course (ENG5228) at the University of Glasgow.
 <img src="./docs/ByteThisBeat.jpg" alt="Alt text" title="(byte)this.beat; PCB">
 
@@ -20,10 +20,10 @@ This link is accessible by anyone with a University of Glasgow account.
 
 ## Authors
 
-Grant Maiden\n
-Peter O'Hanlon\n
-Ethan Travers\n
-Lucas Zehner\n
+Grant Maiden  
+Peter O'Hanlon  
+Ethan Travers  
+Lucas Zehner  
 
 ## Acknowledgments
 
