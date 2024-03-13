@@ -13,7 +13,7 @@ After building, preceed all program calls with _sudo_, as pigpio lib requires su
   
 ## Project Setup  
   
-Recommended Operating System for compilation: Bookworm "12", v6.1 https://downloads.raspberrypi.com/raspios_full_armhf/images/raspios_full_armhf-2023-12-06/2023-12-05-raspios-bookworm-armhf-full.img.xz
+Recommended Operating System for compilation: [Bookworm 12, v6.1](https://downloads.raspberrypi.com/raspios_full_armhf/images/raspios_full_armhf-2023-12-06/2023-12-05-raspios-bookworm-armhf-full.img.xz)
   
 ### Project is managed using codeblocks.  
 To install codeblocks, run the following from console:  
@@ -44,7 +44,7 @@ Change lines:
    defaults.ctl.card 1  
 ```
 ### PiGPIO
-pigpio [download](https://abyz.me.uk/rpi/pigpio/download.html)  
+[pigpio download](https://abyz.me.uk/rpi/pigpio/download.html)  
   
 To close lingering pigpio processes:  
 ```
@@ -64,7 +64,7 @@ Tools -> Configure Tools -> Add -> Name field: Run as Sudo -> Executable Field: 
   
 Self Documenting Code Format: [DoxyGen](https://www.doxygen.nl/manual/docblocks.html)    
   
-Kernel [Documentation](https://www.kernel.org/doc/Documentation/)  
+[Kernel Documentation](https://www.kernel.org/doc/Documentation/)  
   
 Sys Libraries location:  
 ```
