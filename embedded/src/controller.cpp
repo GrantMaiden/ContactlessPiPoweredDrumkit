@@ -18,6 +18,52 @@ Description:    System controller state machine
 #include "controller.h"
 #include "ranging.h"
 #include "sound.h"
+#include "led.h"
+
+
+controllerState currentState = RESET;
+controllerState nextState = currentState;
+
+sensorValues sens1Values;
+sensorValues sens2Values;
+sensorValues sens3Values;
+sensorValues sens4Values;
+sensorValues sens5Values;
+sensorValues sens6Values;
+
+static int * averageVelArrSens1 = new int[PAST_AVERAGE_VELOCITY_ARR_SIZE]();
+static int * averageVelArrSens2 = new int[PAST_AVERAGE_VELOCITY_ARR_SIZE]();
+static int * averageVelArrSens3 = new int[PAST_AVERAGE_VELOCITY_ARR_SIZE]();
+static int * averageVelArrSens4 = new int[PAST_AVERAGE_VELOCITY_ARR_SIZE]();
+static int * averageVelArrSens5 = new int[PAST_AVERAGE_VELOCITY_ARR_SIZE]();
+static int * averageVelArrSens6 = new int[PAST_AVERAGE_VELOCITY_ARR_SIZE]();
+
+static int * currentVelArrSens1 = new int[PAST_AVERAGE_VELOCITY_ARR_SIZE]();
+static int * currentVelArrSens2 = new int[PAST_AVERAGE_VELOCITY_ARR_SIZE]();
+static int * currentVelArrSens3 = new int[PAST_AVERAGE_VELOCITY_ARR_SIZE]();
+static int * currentVelArrSens4 = new int[PAST_AVERAGE_VELOCITY_ARR_SIZE]();
+static int * currentVelArrSens5 = new int[PAST_AVERAGE_VELOCITY_ARR_SIZE]();
+static int * currentVelArrSens6 = new int[PAST_AVERAGE_VELOCITY_ARR_SIZE]();
+
+static int averageVelNextArrIndex = 0;
+static bool enableSounds = false;
+
+struct timespec clockObj;
+unsigned stopTimeGesture;
+
+uint timeoutEndTimeSensor1;
+uint timeoutEndTimeSensor2;
+uint timeoutEndTimeSensor3;
+uint timeoutEndTimeSensor4;
+uint timeoutEndTimeSensor5;
+uint timeoutEndTimeSensor6;
+
+static bool hitDetectedRecently = false;
+
+bool gesture_detected_sensor5 = false;
+bool gesture_detected_sensor4 = false;
+bool gesture_detected_sensor3 = false;
+bool gesture_detected_sensor2 = false;
 
 
 Sound soundController;
@@ -84,7 +130,7 @@ void Controller::primaryStateMachine()
             //if(ledGetCurrentState() == MAINSTATE) // TODO: IMPLEMENT FUNTION AND CORRECT STATE NAME
             {
                 nextState = POLLING1;
-                //soundPlay(introSound); // TODO: implement Soundplay function
+                //soundPlay(introSound); // TODO: implementsensorValues sens1Values.averageVelocity; Soundplay function
             }
             break;
         case POLLING1:
@@ -295,6 +341,7 @@ bool Controller::hitDetection()
     bool returnVal = false;
     if (averageVelArrSens1[previousVelAvgIndex] * SENSOR1_6_DIRECTION > 0 && sens1Values.currentVelocity * SENSOR1_6_DIRECTION < 0)
         detectionValue = getPeakVelocity(sensorID::SENSOR1, PAST_AVERAGE_VELOCITY_ARR_SIZE);
+        sensorHitLed(SENSOR1, sens1Values.currentVelocity);
     if (timeoutEndTimeSensor1 < currentTimeMs && detectionValue * SENSOR1_6_DIRECTION >= LIGHT_HIT)
     {
         sendSound(sensorID::SENSOR1, SENSOR1_6_DIRECTION*detectionValue);
@@ -304,6 +351,7 @@ bool Controller::hitDetection()
     detectionValue = 0;
     if (averageVelArrSens2[previousVelAvgIndex] * SENSOR2_3_4_5_DIRECTION > 0 && sens2Values.currentVelocity * SENSOR2_3_4_5_DIRECTION < 0)
         detectionValue = getPeakVelocity(sensorID::SENSOR2, PAST_AVERAGE_VELOCITY_ARR_SIZE);
+        sensorHitLed(SENSOR2, sens2Values.currentVelocity);
     if (detectionValue * SENSOR2_3_4_5_DIRECTION >= LIGHT_HIT)
     {
         //printf("timeoutEndTimeSensor2: %u, currentTimeMs: %u SensorID: %i\n", timeoutEndTimeSensor2, currentTimeMs, sensorID::SENSOR2);
@@ -317,6 +365,7 @@ bool Controller::hitDetection()
     detectionValue = 0;
     if (averageVelArrSens3[previousVelAvgIndex]  * SENSOR2_3_4_5_DIRECTION > 0 && sens3Values.currentVelocity * SENSOR2_3_4_5_DIRECTION < 0)
         detectionValue = getPeakVelocity(sensorID::SENSOR3, PAST_AVERAGE_VELOCITY_ARR_SIZE);
+        sensorHitLed(SENSOR3, sens3Values.currentVelocity);
     if (timeoutEndTimeSensor3 < currentTimeMs && detectionValue * SENSOR2_3_4_5_DIRECTION >= LIGHT_HIT)
     {
         timeoutEndTimeSensor3 = currentTimeMs + DRUM_INTERVAL_TIMEOUT_MS;
@@ -326,6 +375,7 @@ bool Controller::hitDetection()
     detectionValue = 0;
     if (averageVelArrSens4[previousVelAvgIndex]  * SENSOR2_3_4_5_DIRECTION > 0 && sens4Values.currentVelocity * SENSOR2_3_4_5_DIRECTION < 0)
         detectionValue = getPeakVelocity(sensorID::SENSOR4, PAST_AVERAGE_VELOCITY_ARR_SIZE);
+        sensorHitLed(SENSOR4, sens4Values.currentVelocity);
     if (timeoutEndTimeSensor4 < currentTimeMs && detectionValue * SENSOR2_3_4_5_DIRECTION >= LIGHT_HIT)
     {
         timeoutEndTimeSensor4 = currentTimeMs + DRUM_INTERVAL_TIMEOUT_MS;
@@ -335,6 +385,7 @@ bool Controller::hitDetection()
     detectionValue = 0;
     if (averageVelArrSens5[previousVelAvgIndex]  * SENSOR2_3_4_5_DIRECTION > 0 && sens5Values.currentVelocity * SENSOR2_3_4_5_DIRECTION < 0)
         detectionValue = getPeakVelocity(sensorID::SENSOR5, PAST_AVERAGE_VELOCITY_ARR_SIZE);
+        sensorHitLed(SENSOR5, sens5Values.currentVelocity);
     if (timeoutEndTimeSensor5 < currentTimeMs && detectionValue * SENSOR2_3_4_5_DIRECTION >= LIGHT_HIT)
     {
         timeoutEndTimeSensor5 = currentTimeMs + DRUM_INTERVAL_TIMEOUT_MS;
@@ -344,6 +395,7 @@ bool Controller::hitDetection()
     detectionValue = 0;
     if (averageVelArrSens6[previousVelAvgIndex]  * SENSOR1_6_DIRECTION > 0 && sens6Values.currentVelocity * SENSOR1_6_DIRECTION < 0)
         detectionValue = getPeakVelocity(sensorID::SENSOR6, PAST_AVERAGE_VELOCITY_ARR_SIZE);
+        sensorHitLed(SENSOR6, sens6Values.currentVelocity);
     if (timeoutEndTimeSensor6 < currentTimeMs && detectionValue * SENSOR1_6_DIRECTION >= LIGHT_HIT)
     {
         timeoutEndTimeSensor6 = currentTimeMs + DRUM_INTERVAL_TIMEOUT_MS;

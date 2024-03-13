@@ -47,7 +47,6 @@ Description:    main function/application entry
 /**********************************************/
 int main(int argc, char *argv[])
 {
-	//// Parse Unit Tests and Other Command Line Args ////
 	parseCommandLine(argc, argv);
 
     sleep(1);
@@ -81,15 +80,25 @@ int main(int argc, char *argv[])
 
 }
 
+
 /**********************************************\
-Function Name:  initLeds()
+Function Name:  btbThread::run
 Input Args:     none
 Output Args:    none
-Description:    intialize Leds
+Description:    override virtual run method for btbThread Class. Calls Statemachines for output control
 /**********************************************/
-void initLeds()
-{
+void btbThread::run() {
+    while(1)
+    {
+        if(enableLedSM)
+        {
+            ledSM(); // Calls led state machine
+            enableLedSM = false;
+        }
 
+        // controller Statemachine
+        controllerSM();
+    }
 }
 
 /**********************************************\
@@ -133,15 +142,6 @@ Description:    callback that is triggered on DistanceSensors Interrupt Falling 
 /**********************************************/
 void rangingISRCallback(int gpio, int level, uint32_t tick)
 {
-    //printf("GPIO %d became %d at %d\n", gpio, level, tick); //COMMENT ME OUT WHEN WORKING
-
-    //if (level == PI_TIMEOUT)
-    //{
-        //printf("GPIO %d returned Interrupt Timeout! Interrupt Exceeded %dms!\nUs tick: %lu\n", gpio, DISTANCE_SENSOR_INTERRUPT_TIMEOUT, tick);
-    //    ;
-    //}
-
-    //printf("GPIO %i\n", gpio);
 
     sensorValues senseValues;
     switch(gpio)
@@ -291,5 +291,4 @@ void runCommandLine(char *argv[])
         printf("Command: %s Failed to run!!!\n", argv[0]);
     }
 }
-
 
