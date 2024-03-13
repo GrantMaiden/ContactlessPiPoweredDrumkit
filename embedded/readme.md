@@ -35,11 +35,21 @@ dtparam=i2c_baudrate=400000
 ```  
 ### Setup Audio by changing user default audio device:  
 ```
-   $sudo nano /usr/share/alsa/alsa.conf  
+   $sudo nano /usr/share/alsa/alsa.conf
+```
+Change lines:
+```
    defaults.pcm.card 1  
    defaults.ctl.card 1  
-```  
-### [pigpio download]("https://abyz.me.uk/rpi/pigpio/download.html")  
+```
+### PiGPIO
+[pigpio download]("https://abyz.me.uk/rpi/pigpio/download.html")  
+To close lingering pigpio processes:  
+```
+   $cat /var/run/pigpio.pid  
+   $NumberReturned   
+   $sudo kill -9 NumberReturned
+```
   
 ### Setup Codeblocks:  
 Settings-> Compiler -> Linker Settings -> Other linker options -> add to field: -lpigpio -lrt -lpthread -lm -ldl -latomic  
@@ -57,10 +67,4 @@ Self Documenting Code Format: [DoxyGen]("https://www.doxygen.nl/manual/docblocks
 Sys Libraries location:  
 ```
 /usr/include/arm-linux-gnueabihf/sys
-```
-To close lingering pigpio processes:  
-```
-   $cat /var/run/pigpio.pid  
-   $NumberReturned   
-   $sudo kill -9 NumberReturned
 ```
