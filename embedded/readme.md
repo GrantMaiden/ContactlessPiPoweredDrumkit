@@ -36,21 +36,21 @@ dtparam=i2c_baudrate=400000
 ```  
 ### Setup Audio by changing user default audio device:  
 ```
-   $sudo nano /usr/share/alsa/alsa.conf
+$sudo nano /usr/share/alsa/alsa.conf
 ```
 Change lines:
 ```
-   defaults.pcm.card 1  
-   defaults.ctl.card 1  
+defaults.pcm.card 1  
+defaults.ctl.card 1  
 ```
 ### PiGPIO
 [pigpio download](https://abyz.me.uk/rpi/pigpio/download.html)  
   
 To close lingering pigpio processes:  
 ```
-   $cat /var/run/pigpio.pid  
-   $NumberReturned   
-   $sudo kill -9 NumberReturned
+$cat /var/run/pigpio.pid  
+$NumberReturned   
+$sudo kill -9 NumberReturned
 ```
   
 ### Setup Codeblocks:  
