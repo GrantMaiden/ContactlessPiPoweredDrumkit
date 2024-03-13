@@ -27,7 +27,7 @@ Description:    contains led definitions and headers
 
 // LED Speed
 #define INITIAL_LOOP_WAIT           50
-
+#define HIT_FLASH_DURATION          40
 
 typedef enum
 {
@@ -84,9 +84,17 @@ void ledFadeTest(int fadeNum, int fadeSpeed);
 
 /**
  * Takes the hit information from the sensor logic and provides LED feeddback depending on the strength
+ * \param sensorID-     enum which sensor
+ * \param velocity-     int current velocity measured by sensor
+ **/
+void sensorHitLed(sensorID sensor, int velocity);
+
+
+/**
+ * Generates color for a sensor for a given amount of time when hit
  *
  **/
-//void hitStrengthFeedback()
+void hitDetectOutputControl();
 
 /**
  * State Machine for LEDs
@@ -97,7 +105,6 @@ void ledSM();
  * Peter's LED test
  **/
 void ledInitialiseTest();
-
 
 
 

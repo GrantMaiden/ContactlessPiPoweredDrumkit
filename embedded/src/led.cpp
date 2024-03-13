@@ -18,6 +18,27 @@ Description:    led control functions and processes
 static ledStateMachine currentState = RESET_LEDS;
 static ledStateMachine nextState = currentState;
 
+int sensor1Hit = 0;
+int sensor2Hit = 0;
+int sensor3Hit = 0;
+int sensor4Hit = 0;
+int sensor5Hit = 0;
+int sensor6Hit = 0;
+
+int sensor1Str = 0;
+int sensor2Str = 0;
+int sensor3Str = 0;
+int sensor4Str = 0;
+int sensor5Str = 0;
+int sensor6Str = 0;
+
+int sensor1Timloop = 0;
+int sensor2Timloop = 0;
+int sensor3Timloop = 0;
+int sensor4Timloop = 0;
+int sensor5Timloop = 0;
+int sensor6Timloop = 0;
+
 /**********************************************\
 Function Name:  ledCreateColorArr
 Input Args:     outputArr, led1, led2, led3, led4, led5, led6
@@ -74,9 +95,11 @@ Description:    Makes all LED flash an number of times for a given colour at a s
 void ledFlashTest(unsigned ledColour, int flashTimeOn, int flashTimeOff, int flashNum)
 
 {
+
     char * colorArr = new char[18]();
     for (int i=0; i<flashNum; i++)
     {
+
         ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
         gpioLedSetColor(colorArr);
         sleep(flashTimeOff);
@@ -152,55 +175,61 @@ void ledFadeTest(int fadeNum, int fadeSpeed)
 }
 
 /**********************************************\
-Function Name:  sensorHit
+Function Name:  sensorHitLed
 Input Args:
 Output Args:    void
 Description:    Takes the hit information from the sensor logic and provides LED feeddback depending on the strength and starts loop timer for light
 /**********************************************/
 
-bool sensorHit(sensorID sensor, sensorValues)
+void sensorHitLed(sensorID sensor, int velocity)
 {
+    int vel = velocity;
     switch (sensor)
     {
-    case sensorID::SENSOR1:
-        int Sensor1Hit = 1;
-        int Sensor1Str = sensorValues sens1Values.averageVelocity;
-        int sensor1Timloop = 0;
+    case SENSOR1:
+    {
+        sensor1Hit = 1;
+        sensor1Str = vel;
+        sensor1Timloop = 0;
         break;
-
-    case sensorID::SENSOR2:
-        Sensor2Hit = 1;
-        Sensor2Str = Strength;
+    }
+    case SENSOR2:
+    {
+        sensor2Hit = 1;
+        sensor2Str = vel;
         sensor2Timloop = 0;
         break;
-
-    case sensorID::SENSOR3:
-        Sensor3Hit = 1;
-        Sensor3Str = Strength;
+    }
+    case SENSOR3:
+    {
+        sensor3Hit = 1;
+        sensor3Str = vel;
         sensor3Timloop = 0;
         break;
-
-    case sensorID::SENSOR4:
-        Sensor4Hit = 1;
-        Sensor4Str = Strength;
+    }
+    case SENSOR4:
+    {
+        sensor4Hit = 1;
+        sensor4Str = vel;
         sensor4Timloop = 0;
         break;
-
-    case sensorID::SENSOR5:
-        Sensor5Hit = 1;
-        Sensor5Str = Strength;
+    }
+    case SENSOR5:
+    {
+        sensor5Hit = 1;
+        sensor5Str = vel;
         sensor5Timloop = 0;
         break;
-
-    case sensorID::SENSOR6:
-        Sensor6Hit = 1;
-        Sensor6Str = Strength;
+    }
+    case SENSOR6:
+    {
+        sensor6Hit = 1;
+        sensor6Str = vel;
         sensor6Timloop = 0;
         break;
     }
+    }
 }
-
-
 
 /**********************************************\
 Function Name:  sensorHitRecently
@@ -211,14 +240,53 @@ Description:    Checks if a sensor has been hit recently
 bool sensorHitRecently()
 {
     bool returnVal = false;
-    if Sensor1Hit == 1
+    if (sensor1Hit == 1)
         returnVal = true;
-
-
-    true;
+    if (sensor2Hit == 1)
+        returnVal = true;
+    if (sensor3Hit == 1)
+        returnVal = true;
+    if (sensor4Hit == 1)
+        returnVal = true;
+    if (sensor5Hit == 1)
+        returnVal = true;
+    if (sensor6Hit == 1)
+        returnVal = true;
 }
 
-
+/**********************************************\
+Function Name:  hitDetectOutputControl
+Input Args:
+Output Args:    void
+Description:    Generates color for a sensor for a given amount of time when hit
+/**********************************************/
+void hitDetectOutputControl()
+{
+    if (sensor1Timloop > HIT_FLASH_DURATION)
+        {
+            sensor1Hit = 0;
+        }
+        if (sensor2Timloop > HIT_FLASH_DURATION)
+        {
+            sensor2Hit = 0;
+        }
+        if (sensor3Timloop > HIT_FLASH_DURATION)
+        {
+            sensor3Hit = 0;
+        }
+        if (sensor4Timloop > HIT_FLASH_DURATION)
+        {
+            sensor4Hit = 0;
+        }
+        if (sensor5Timloop > HIT_FLASH_DURATION)
+        {
+            sensor5Hit = 0;
+        }
+        if (sensor6Timloop > HIT_FLASH_DURATION)
+        {
+            sensor6Hit = 0;
+        }
+}
 /**********************************************\
 Function Name:  ledSM
 Input Args:     None
@@ -384,48 +452,43 @@ void ledSM()
             nextState = INITIAL1;
             break;
 
+        // Main drumming mode
         case PRIMARY1:
-            unsigned color1 = Sensor1Velocity  * BRIGHTNESS_LIMIT * LED_COLOR_PURPLE_DIM;
-            unsigned color2 = Sensor2Velocity  * BRIGHTNESS_LIMIT * LED_COLOR_PURPLE_DIM;
-            unsigned color3 = Sensor3Velocity  * BRIGHTNESS_LIMIT * LED_COLOR_PURPLE_DIM;
-            unsigned color4 = Sensor4Velocity  * BRIGHTNESS_LIMIT * LED_COLOR_PURPLE_DIM;
-            unsigned color5 = Sensor5Velocity  * BRIGHTNESS_LIMIT * LED_COLOR_PURPLE_DIM;
-            unsigned color6 = Sensor6Velocity  * BRIGHTNESS_LIMIT * LED_COLOR_PURPLE_DIM;
+            unsigned color1 = sensor1Str  * BRIGHTNESS_LIMIT * LED_COLOR_PURPLE_DIM;
+            unsigned color2 = sensor2Str  * BRIGHTNESS_LIMIT * LED_COLOR_PURPLE_DIM;
+            unsigned color3 = sensor3Str  * BRIGHTNESS_LIMIT * LED_COLOR_PURPLE_DIM;
+            unsigned color4 = sensor4Str  * BRIGHTNESS_LIMIT * LED_COLOR_PURPLE_DIM;
+            unsigned color5 = sensor5Str  * BRIGHTNESS_LIMIT * LED_COLOR_PURPLE_DIM;
+            unsigned color6 = sensor6Str  * BRIGHTNESS_LIMIT * LED_COLOR_PURPLE_DIM;
 
-            if sensorHitRecently()
+            if (sensorHitRecently())
             {
-                hitDetectOutputControl(&color1 );
+                hitDetectOutputControl();
+                color1 = sensor1Hit * LED_COLOR_RED;
+                color2 = sensor2Hit * LED_COLOR_RED;
+                color3 = sensor3Hit * LED_COLOR_RED;
+                color4 = sensor4Hit * LED_COLOR_RED;
+                color5 = sensor5Hit * LED_COLOR_RED;
+                color6 = sensor6Hit * LED_COLOR_RED;
             }
             ledCreateColorArr(colorArr, color1, color2, color3, color4, color5, color6);
             gpioLedSetColor(colorArr);
-
-            else
-            {
-                ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
-                gpioLedSetColor(colorArr);
-            }
-
             break;
-//
-//
-
-
-
-
 
     loopWait = loopWait+1;
-    //sensor1Timloop = sensor1Timloop + 1;
+    sensor1Timloop = sensor1Timloop + 1;
+    sensor2Timloop = sensor2Timloop + 1;
+    sensor3Timloop = sensor3Timloop + 1;
+    sensor4Timloop = sensor4Timloop + 1;
+    sensor5Timloop = sensor5Timloop + 1;
+    sensor6Timloop = sensor6Timloop + 1;
 
-
-// Turn Leds off
-ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
-gpioLedSetColor(colorArr);
-printf("ledInitialiseTest Complete.\n");
+    // Turn Leds off
+    ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
+    gpioLedSetColor(colorArr);
+    printf("ledInitialiseTest Complete.\n");
+    }
 }
-
-
-
-
 
 /**********************************************\
 Function Name:  ledInitialiseTest
