@@ -5,7 +5,7 @@ byte_theBeat is a contactless, Pi-Powered Drumkit, being developed for the Real 
 Insta: https://www.instagram.com/byte.thebeat?igsh=MXY4cWJuN2d1OGJhcA%3D%3D&utm_source=qr
 <p align="center">
  <a href="https://www.instagram.com/byte.thebeat?igsh=MXY4cWJuN2d1OGJhcA%3D%3D&utm_source=qr" target="blank">
-  <img src=""/>
+  <img src="./docs/Instagram_icon.png.webp"/>
  </a>
 
 ## So what's the tempo?
