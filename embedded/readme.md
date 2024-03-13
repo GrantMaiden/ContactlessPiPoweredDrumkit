@@ -9,10 +9,11 @@ For Unit Test Parameters, refer to [unit_tests.txt]("./embedded/unit_tests.txt")
 Before proceeding, make sure to complete build setup, otherwise compilation will not be successful.  
   
 ### Running Instructions:  
-   After building, preceed all program calls with _sudo_, as pigpio lib requires sudo access.  
+After building, preceed all program calls with _sudo_, as pigpio lib requires sudo access.  
   
 ## Project Setup  
-Recommended Operating System for compilation: [Bookworm]("https://downloads.raspberrypi.com/raspios_full_armhf/images/raspios_full_armhf-2023-12-06/2023-12-05-raspios-bookworm-armhf-full.img.xz")  
+  
+Recommended Operating System for compilation: Bookworm "12", v6.1 "https://downloads.raspberrypi.com/raspios_full_armhf/images/raspios_full_armhf-2023-12-06/2023-12-05-raspios-bookworm-armhf-full.img.xz"  
   
 ### Project is managed using codeblocks.  
 To install codeblocks, run the following from console:  
