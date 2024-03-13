@@ -7,8 +7,7 @@ byte_theBeat is a contactless, Pi-Powered Drumkit, being developed for the Real 
 ## So what's the tempo?
 
 * The challenge set for this course was to develop any real time embedded project, using a Raspberry Pi 3 and a £50 budget.  
-* We found these awesome time-of-flight sensors from ST: [VL53L4CD](https://www.st.com/en/imaging-and-photonics-solutions/vl53l4cd.html)  
-and decided to turn them into "invisible" drum modules so that you can jam out in thin air!  
+* We found these awesome time-of-flight sensors from ST: [VL53L4CD](https://www.st.com/en/imaging-and-photonics-solutions/vl53l4cd.html), and decided to turn them into "invisible" drum modules so that you can jam out in thin air!  
 * The distance values measured by the sensors are used to calculate a velocity - which in turn is used for "hit detection", so the timing and intensity of each drum hit can be determined.
 
 ## Team docs
