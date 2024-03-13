@@ -40,13 +40,15 @@ int sensor4Timloop = 0;
 int sensor5Timloop = 0;
 int sensor6Timloop = 0;
 
+GpioController gpioController;
+
 /**********************************************\
 Function Name:  ledCreateColorArr
 Input Args:     outputArr, led1, led2, led3, led4, led5, led6
 Output Args:    void
 Description:    creates a single color array combined from input arguments. Will fill outputArr memory with combined data. Performs RGB->GRB byteshift
 /**********************************************/
-void ledCreateColorArr(char* outputArr,unsigned led1, unsigned led2, unsigned led3, unsigned led4, unsigned led5, unsigned led6)
+void LedControl::ledCreateColorArr(char* outputArr,unsigned led1, unsigned led2, unsigned led3, unsigned led4, unsigned led5, unsigned led6)
 {
     unsigned arr[6] = {led1,led2,led3,led4,led5,led6};
 
@@ -69,7 +71,7 @@ Input Args:     none
 Output Args:    none
 Description:    intialize Leds globals
 /**********************************************/
-void initLeds()
+void LedControl::initLeds()
 {
     ledStateMachine currentState = ledStateMachine::INITIAL1;
     ledStateMachine nextState;
@@ -86,31 +88,28 @@ void initLeds()
     unsigned ColourWhite = ColorRed + ColorGreen + ColorBlue;
 }
 
-
 /**********************************************\
 Function Name:  ledFlash
 Input Args:     ledColour, flashTimeOn, flashTimeOff, flashNum
 Output Args:    void
 Description:    Makes all LED flash an number of times for a given colour at a speed in seconds
 /**********************************************/
-void ledFlashTest(unsigned ledColour, int flashTimeOn, int flashTimeOff, int flashNum)
+void LedControl::ledFlashTest(unsigned ledColour, int flashTimeOn, int flashTimeOff, int flashNum)
 
 {
-
     char * colorArr = new char[18]();
     for (int i=0; i<flashNum; i++)
     {
-
         ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
-        gpioLedSetColor(colorArr);
+        gpioController.gpioLedSetColor(colorArr);
         sleep(flashTimeOff);
 
         ledCreateColorArr(colorArr, ledColour, ledColour, ledColour, ledColour, ledColour, ledColour);
-        gpioLedSetColor(colorArr);
+        gpioController.gpioLedSetColor(colorArr);
         sleep(flashTimeOn);
     }
     ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
-    gpioLedSetColor(colorArr);
+    gpioController.gpioLedSetColor(colorArr);
 }
 
 /**********************************************\
@@ -124,7 +123,7 @@ Description:    Makes all LED fade to full brightness an number of times
 // Brightness incremented with timer count
 // start from 0x00 - off end at max colour
 
-void ledFadeTest(int fadeNum, int fadeSpeed)
+void LedControl::ledFadeTest(int fadeNum, int fadeSpeed)
 {
     printf("Beginning ledFadeTest. Runs Peter's LED Test Via SPI Interface\n");
     struct timespec clockObj;
@@ -145,7 +144,7 @@ void ledFadeTest(int fadeNum, int fadeSpeed)
         unsigned ColourWhite = ColorRed + ColorGreen + ColorBlue;
 
         ledCreateColorArr(colorArr, ColorYellow, ColorYellow, ColorYellow, ColorYellow, ColorYellow, ColorYellow);
-        gpioLedSetColor(colorArr);
+        gpioController.gpioLedSetColor(colorArr);
 
         clock_gettime(CLOCK_REALTIME, &clockObj);
         currentTime = clockObj.tv_sec;
@@ -158,13 +157,13 @@ void ledFadeTest(int fadeNum, int fadeSpeed)
             if (colorByte == 0xff)
             {
                 ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
-                gpioLedSetColor(colorArr);
+                gpioController.gpioLedSetColor(colorArr);
                 sleep(2);
             }
             else
             {
                 ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
-                gpioLedSetColor(colorArr);
+                gpioController.gpioLedSetColor(colorArr);
             }
 
         }
@@ -172,7 +171,7 @@ void ledFadeTest(int fadeNum, int fadeSpeed)
 
     // Turn Leds off
     ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
-    gpioLedSetColor(colorArr);
+    gpioController.gpioLedSetColor(colorArr);
 }
 
 /**********************************************\
@@ -182,7 +181,7 @@ Output Args:    void
 Description:    Takes the hit information from the sensor logic and provides LED feeddback depending on the strength and starts loop timer for light
 /**********************************************/
 
-void sensorHitLed(sensorID sensor, int velocity)
+void LedControl::sensorHitLed(sensorID sensor, int velocity)
 {
     int vel = velocity;
     switch (sensor)
@@ -261,7 +260,7 @@ Input Args:
 Output Args:    void
 Description:    Generates color for a sensor for a given amount of time when hit
 /**********************************************/
-void hitDetectOutputControl()
+void LedControl::hitDetectOutputControl()
 {
     if (sensor1Timloop > HIT_FLASH_DURATION)
         {
@@ -295,7 +294,7 @@ Output Args:    void
 Description:    State Machine for LEDs
 /**********************************************/
 
-void ledSM()
+void LedControl::ledSM()
 {
     // Update current state from nextState
     //ledStateMachine currentState = ledStateMachine::INITIAL1;
@@ -307,7 +306,6 @@ void ledSM()
     int loopWait = 0;
     int initialSpeed = INITIAL_LOOP_WAIT;
     char colorByte = 0x00;
-
     initLeds();
     switch(currentState)
     {
@@ -318,7 +316,7 @@ void ledSM()
 
         case INITIAL1:
             ledCreateColorArr(colorArr, initialColour1, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
-            gpioLedSetColor(colorArr);
+            gpioController.gpioLedSetColor(colorArr);
             if (loopWait == initialSpeed)
             {
                 nextState = INITIAL2;
@@ -334,7 +332,7 @@ void ledSM()
 
         case INITIAL2:
             ledCreateColorArr(colorArr, LED_COLOR_OFF, initialColour1, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
-            gpioLedSetColor(colorArr);
+            gpioController.gpioLedSetColor(colorArr);
             if (loopWait == initialSpeed)
             {
                 nextState = INITIAL3;
@@ -351,7 +349,7 @@ void ledSM()
 
         case INITIAL3:
             ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, initialColour1, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
-            gpioLedSetColor(colorArr);
+            gpioController.gpioLedSetColor(colorArr);
             if (loopWait == initialSpeed)
             {
                 nextState = INITIAL4;
@@ -367,7 +365,7 @@ void ledSM()
 
         case INITIAL4:
             ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, initialColour1, LED_COLOR_OFF, LED_COLOR_OFF);
-            gpioLedSetColor(colorArr);
+            gpioController.gpioLedSetColor(colorArr);
             if (loopWait == initialSpeed)
             {
                 nextState = INITIAL5;
@@ -383,7 +381,7 @@ void ledSM()
 
         case INITIAL5:
             ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, initialColour1, LED_COLOR_OFF);
-            gpioLedSetColor(colorArr);
+            gpioController.gpioLedSetColor(colorArr);
             if (loopWait == initialSpeed)
             {
                 nextState = INITIAL6;
@@ -399,7 +397,7 @@ void ledSM()
 
         case INITIAL6:
             ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, initialColour1);
-            gpioLedSetColor(colorArr);
+            gpioController.gpioLedSetColor(colorArr);
             if (loopWait == initialSpeed)
             {
                 nextState = INITIAL1;
@@ -416,7 +414,7 @@ void ledSM()
 
         case INITIAL7:
             ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
-            gpioLedSetColor(colorArr);
+            gpioController.gpioLedSetColor(colorArr);
             if (loopWait = 100)
             {
                 nextState = INITIAL8;
@@ -445,7 +443,7 @@ void ledSM()
 
         case INITIAL11:
             ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
-            gpioLedSetColor(colorArr);
+            gpioController.gpioLedSetColor(colorArr);
             loopWait = 0;
             break;
 
@@ -473,7 +471,7 @@ void ledSM()
                 color6 = sensor6Hit * LED_COLOR_RED;
             }
             ledCreateColorArr(colorArr, color1, color2, color3, color4, color5, color6);
-            gpioLedSetColor(colorArr);
+            gpioController.gpioLedSetColor(colorArr);
             break;
 
     loopWait = loopWait+1;
@@ -486,7 +484,7 @@ void ledSM()
 
     // Turn Leds off
     ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
-    gpioLedSetColor(colorArr);
+    gpioController.gpioLedSetColor(colorArr);
     printf("ledInitialiseTest Complete.\n");
     }
 }

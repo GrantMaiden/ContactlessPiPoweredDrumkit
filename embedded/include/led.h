@@ -58,76 +58,11 @@ typedef enum
     PRIMARY1
 }ledStateMachine;
 
-
-
-/**
- * creates a single color array combined from input arguments. Will fill outputArr memory with combined data. Performs RGB->GRB byteshift
- * \param outputArr- char* this needs to be 18char long empty array
- * \param led1- unsigned 24bit value RGB color code.
- * \param led2- unsigned 24bit value RGB color code.
- * \param led3- unsigned 24bit value RGB color code.
- * \param led4- unsigned 24bit value RGB color code.
- * \param led5- unsigned 24bit value RGB color code.
- * \param led6- unsigned 24bit value RGB color code.
- **/
-void ledCreateColorArr(char* outputArr,unsigned led1, unsigned led2, unsigned led3, unsigned led4, unsigned led5, unsigned led6);
-
-/**
- * Initialize LED globals
- **/
-void initLeds();
-
-/**
- * Makes all LEDs flash an number of times for a given colour at a speed in seconds
- * \param ledColour-    unsigned 24bit value RGB color code.
- * \param flashTimeOn-  int number of seconds that LEDs are on
- * \param flashTimeOff- int number of seconds that LEDs are off
- * \param flashNum-     int number of times LEDs are flashed
- **/
-void ledFlashTest(unsigned ledColour, int flashTimeOn, int flashTimeOff, int flashNum);
-
-/**
- * Makes all LEDs Fade from (0 - 255) an number of times at a given speed
- * \param fadeStep-     int number of bits step changes in fade
- * \param fadeNum-      int number of times LEDs fade
- **/
-void ledFadeTest(int fadeNum, int fadeSpeed);
-
-
-/**
- * Takes the hit information from the sensor logic and provides LED feeddback depending on the strength
- * \param sensorID-     enum which sensor
- * \param velocity-     int current velocity measured by sensor
- **/
-void sensorHitLed(sensorID sensor, int velocity);
-
-
-/**
- * Generates color for a sensor for a given amount of time when hit
- *
- **/
-void hitDetectOutputControl();
-
-/**
- * State Machine for LEDs
- **/
-void ledSM();
-
-/**
- * Peter's LED test
- **/
-void ledInitialiseTest();
-
-
-
-    INITIAL6
-}TSM;
-
-
 using namespace std;
 class LedControl
 {
     public:
+
         /**
          * creates a single color array combined from input arguments. Will fill outputArr memory with combined data. Performs RGB->GRB byteshift
          * \param outputArr- char* this needs to be 18char long empty array
@@ -140,6 +75,46 @@ class LedControl
          **/
         void ledCreateColorArr(char* outputArr,unsigned led1, unsigned led2, unsigned led3, unsigned led4, unsigned led5, unsigned led6);
 
+        /**
+         * Initialize LED globals
+         **/
+        void initLeds();
+
+        /**
+         * Makes all LEDs flash an number of times for a given colour at a speed in seconds
+         * \param ledColour-    unsigned 24bit value RGB color code.
+         * \param flashTimeOn-  int number of seconds that LEDs are on
+         * \param flashTimeOff- int number of seconds that LEDs are off
+         * \param flashNum-     int number of times LEDs are flashed
+         **/
+        void ledFlashTest(unsigned ledColour, int flashTimeOn, int flashTimeOff, int flashNum);
+
+        /**
+         * Makes all LEDs Fade from (0 - 255) an number of times at a given speed
+         * \param fadeStep-     int number of bits step changes in fade
+         * \param fadeNum-      int number of times LEDs fade
+         **/
+        void ledFadeTest(int fadeNum, int fadeSpeed);
+
+
+        /**
+         * Takes the hit information from the sensor logic and provides LED feeddback depending on the strength
+         * \param sensorID-     enum which sensor
+         * \param velocity-     int current velocity measured by sensor
+         **/
+        void sensorHitLed(sensorID sensor, int velocity);
+
+
+        /**
+         * Generates color for a sensor for a given amount of time when hit
+         *
+         **/
+        void hitDetectOutputControl();
+
+        /**
+         * State Machine for LEDs
+         **/
+        void ledSM();
 
         /**
          * Peter's LED test
@@ -148,8 +123,9 @@ class LedControl
 
     private:
 
-
 };
+
+
 
 #endif // LED_H
 

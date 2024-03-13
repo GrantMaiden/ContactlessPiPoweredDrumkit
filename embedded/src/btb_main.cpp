@@ -27,6 +27,7 @@ Description:    Entry Point into ENG5228 project for University of Glasgow
 
 Controller controller;
 VL53L4CD    vl53l4cd;
+LedControl ledControl;
 
 // global variables
 bool enableLedSM = false;
@@ -58,13 +59,16 @@ int main(int argc, char *argv[])
     Controller controllerInstance;
     controller = controllerInstance;
 
+
     // initialize Distance Sensors
     VL53L4CD vl53l4cdInstance;
     vl53l4cd = vl53l4cdInstance;
     vl53l4cd.rangingInit();
 
     initInterrupts();
-    initLeds();
+
+    // initialize LEDS
+    ledControl.initLeds();
 
     // Initialize threads ////
     btbThread btbThread1;
@@ -80,27 +84,6 @@ int main(int argc, char *argv[])
 
 }
 
-
-/**********************************************\
-Function Name:  btbThread::run
-Input Args:     none
-Output Args:    none
-Description:    override virtual run method for btbThread Class. Calls Statemachines for output control
-/**********************************************/
-void btbThread::run() {
-    while(1)
-    {
-        if(enableLedSM)
-        {
-            ledSM(); // Calls led state machine
-            enableLedSM = false;
-        }
-
-        // controller Statemachine
-        controllerSM();
-    }
-}
-
 /**********************************************\
 Function Name:  btbThread::run
 Input Args:     none
@@ -112,8 +95,8 @@ void btbThread::run() {
     {
         //if(enableLedSM)
         {
-            // TODO: call led state machine
-            //enableLedSM = false;
+            ledControl.ledSM();
+            enableLedSM = false;
         }
 
         // controller Statemachine
