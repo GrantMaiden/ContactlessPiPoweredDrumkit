@@ -179,7 +179,7 @@ Description:    computes if a hit was detected
 void Controller::sendSound(sensorID id, int detectionValue)
 {
     printf("Hit Detected! Strength: %i Sensor: %i\n", detectionValue, id+1);
-
+    instledControl.sensorHitLed(id, detectionValue);
     switch (id)
     {
         case sensorID::SENSOR1:
@@ -342,7 +342,6 @@ bool Controller::hitDetection()
     bool returnVal = false;
     if (averageVelArrSens1[previousVelAvgIndex] * SENSOR1_6_DIRECTION > 0 && sens1Values.currentVelocity * SENSOR1_6_DIRECTION < 0)
         detectionValue = getPeakVelocity(sensorID::SENSOR1, PAST_AVERAGE_VELOCITY_ARR_SIZE);
-        instledControl.sensorHitLed(SENSOR1, sens1Values.currentVelocity);
     if (timeoutEndTimeSensor1 < currentTimeMs && detectionValue * SENSOR1_6_DIRECTION >= LIGHT_HIT)
     {
         sendSound(sensorID::SENSOR1, SENSOR1_6_DIRECTION*detectionValue);
@@ -352,7 +351,6 @@ bool Controller::hitDetection()
     detectionValue = 0;
     if (averageVelArrSens2[previousVelAvgIndex] * SENSOR2_3_4_5_DIRECTION > 0 && sens2Values.currentVelocity * SENSOR2_3_4_5_DIRECTION < 0)
         detectionValue = getPeakVelocity(sensorID::SENSOR2, PAST_AVERAGE_VELOCITY_ARR_SIZE);
-        instledControl.sensorHitLed(SENSOR2, sens2Values.currentVelocity);
     if (detectionValue * SENSOR2_3_4_5_DIRECTION >= LIGHT_HIT)
     {
         //printf("timeoutEndTimeSensor2: %u, currentTimeMs: %u SensorID: %i\n", timeoutEndTimeSensor2, currentTimeMs, sensorID::SENSOR2);
@@ -366,7 +364,6 @@ bool Controller::hitDetection()
     detectionValue = 0;
     if (averageVelArrSens3[previousVelAvgIndex]  * SENSOR2_3_4_5_DIRECTION > 0 && sens3Values.currentVelocity * SENSOR2_3_4_5_DIRECTION < 0)
         detectionValue = getPeakVelocity(sensorID::SENSOR3, PAST_AVERAGE_VELOCITY_ARR_SIZE);
-        instledControl.sensorHitLed(SENSOR3, sens3Values.currentVelocity);
     if (timeoutEndTimeSensor3 < currentTimeMs && detectionValue * SENSOR2_3_4_5_DIRECTION >= LIGHT_HIT)
     {
         timeoutEndTimeSensor3 = currentTimeMs + DRUM_INTERVAL_TIMEOUT_MS;
@@ -376,7 +373,6 @@ bool Controller::hitDetection()
     detectionValue = 0;
     if (averageVelArrSens4[previousVelAvgIndex]  * SENSOR2_3_4_5_DIRECTION > 0 && sens4Values.currentVelocity * SENSOR2_3_4_5_DIRECTION < 0)
         detectionValue = getPeakVelocity(sensorID::SENSOR4, PAST_AVERAGE_VELOCITY_ARR_SIZE);
-        instledControl.sensorHitLed(SENSOR4, sens4Values.currentVelocity);
     if (timeoutEndTimeSensor4 < currentTimeMs && detectionValue * SENSOR2_3_4_5_DIRECTION >= LIGHT_HIT)
     {
         timeoutEndTimeSensor4 = currentTimeMs + DRUM_INTERVAL_TIMEOUT_MS;
@@ -386,7 +382,6 @@ bool Controller::hitDetection()
     detectionValue = 0;
     if (averageVelArrSens5[previousVelAvgIndex]  * SENSOR2_3_4_5_DIRECTION > 0 && sens5Values.currentVelocity * SENSOR2_3_4_5_DIRECTION < 0)
         detectionValue = getPeakVelocity(sensorID::SENSOR5, PAST_AVERAGE_VELOCITY_ARR_SIZE);
-        instledControl.sensorHitLed(SENSOR5, sens5Values.currentVelocity);
     if (timeoutEndTimeSensor5 < currentTimeMs && detectionValue * SENSOR2_3_4_5_DIRECTION >= LIGHT_HIT)
     {
         timeoutEndTimeSensor5 = currentTimeMs + DRUM_INTERVAL_TIMEOUT_MS;
@@ -396,7 +391,6 @@ bool Controller::hitDetection()
     detectionValue = 0;
     if (averageVelArrSens6[previousVelAvgIndex]  * SENSOR1_6_DIRECTION > 0 && sens6Values.currentVelocity * SENSOR1_6_DIRECTION < 0)
         detectionValue = getPeakVelocity(sensorID::SENSOR6, PAST_AVERAGE_VELOCITY_ARR_SIZE);
-        instledControl.sensorHitLed(SENSOR6, sens6Values.currentVelocity);
     if (timeoutEndTimeSensor6 < currentTimeMs && detectionValue * SENSOR1_6_DIRECTION >= LIGHT_HIT)
     {
         timeoutEndTimeSensor6 = currentTimeMs + DRUM_INTERVAL_TIMEOUT_MS;
