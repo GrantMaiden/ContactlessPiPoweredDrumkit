@@ -291,7 +291,7 @@ void Controller::velocityCalc()
     }
 
     sens1Values.averageVelocity = sens1Values.averageVelocity + (sens1Values.currentVelocity - sens1Values.averageVelocity) / VELOCITY_FACTOR_AVG;
-
+    
     sens2Values.averageVelocity = sens2Values.averageVelocity + (sens2Values.currentVelocity - sens2Values.averageVelocity) / VELOCITY_FACTOR_AVG;
 
     sens3Values.averageVelocity = sens3Values.averageVelocity + (sens3Values.currentVelocity - sens3Values.averageVelocity) / VELOCITY_FACTOR_AVG;
@@ -318,6 +318,12 @@ void Controller::velocityCalc()
     averageVelNextArrIndex = averageVelNextArrIndex + 1;
     if (averageVelNextArrIndex >= PAST_AVERAGE_VELOCITY_ARR_SIZE)
         averageVelNextArrIndex = 0;
+    setLedVelocity(0, sens1Values.averageVelocity);
+    setLedVelocity(1, sens2Values.averageVelocity);
+    setLedVelocity(2, sens3Values.averageVelocity);
+    setLedVelocity(3, sens4Values.averageVelocity);
+    setLedVelocity(4, sens5Values.averageVelocity);
+    setLedVelocity(5, sens6Values.averageVelocity);
 }
 
 /**********************************************\
