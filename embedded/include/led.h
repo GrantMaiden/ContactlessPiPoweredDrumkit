@@ -38,8 +38,8 @@ Description:    contains led definitions and headers
 #define BRIGHTNESS_LIMIT            255/80
 
 // LED Speed
-#define INITIAL_LOOP_WAIT           50
-#define HIT_FLASH_DURATION          40
+#define INITIAL_LOOP_WAIT           200
+#define HIT_FLASH_DURATION          60
 
 typedef enum
 {
@@ -54,7 +54,6 @@ typedef enum
     INITIAL8,
     INITIAL9,
     INITIAL10,
-    INITIAL11,
     PRIMARY1
 }ledStateMachine;
 
@@ -104,6 +103,10 @@ class LedControl
          **/
         void sensorHitLed(sensorID sensor, int velocity);
 
+        /**
+         * Checks if a sensor has been hit recently
+         **/
+        bool sensorHitRecently();
 
         /**
          * Generates color for a sensor for a given amount of time when hit
@@ -117,7 +120,7 @@ class LedControl
         void ledSM();
 
         /**
-         * Peter's LED test
+         * Peter's LED Initializer test
          **/
         void ledInitialiseTest();
 

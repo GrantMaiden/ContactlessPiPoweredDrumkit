@@ -30,7 +30,7 @@ Description:    System controller state machine
 
 // Sensor Detection Direction (-1 = towards sensor, 1 = away from sensor)
 #define SENSOR1_6_DIRECTION                 1
-#define SENSOR2_3_4_5_DIRECTION             -1
+#define SENSOR2_3_4_5_DIRECTION            -1
 
 // Gestures
 #define GESTURE_THRESHOLD_VELOCITY          6

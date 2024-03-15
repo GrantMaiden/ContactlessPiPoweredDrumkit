@@ -40,7 +40,13 @@ int sensor4Timloop = 0;
 int sensor5Timloop = 0;
 int sensor6Timloop = 0;
 
+int loops = 0;
+int loopWait = 0;
+
+char * colorArr = new char[18]();
+
 GpioController gpioController;
+unsigned initialColour1 = 0x7;
 
 /**********************************************\
 Function Name:  ledCreateColorArr
@@ -73,11 +79,6 @@ Description:    intialize Leds globals
 /**********************************************/
 void LedControl::initLeds()
 {
-    ledStateMachine currentState = ledStateMachine::INITIAL1;
-    ledStateMachine nextState;
-    int loops = 0;
-    int loopWait = 0;
-    int initialSpeed = INITIAL_LOOP_WAIT;
     char colorByte = 0x00;
     unsigned ColorRed = colorByte << 16;
     unsigned ColorGreen = colorByte << 8;
@@ -95,7 +96,6 @@ Output Args:    void
 Description:    Makes all LED flash an number of times for a given colour at a speed in seconds
 /**********************************************/
 void LedControl::ledFlashTest(unsigned ledColour, int flashTimeOn, int flashTimeOff, int flashNum)
-
 {
     char * colorArr = new char[18]();
     for (int i=0; i<flashNum; i++)
@@ -178,7 +178,7 @@ void LedControl::ledFadeTest(int fadeNum, int fadeSpeed)
 Function Name:  sensorHitLed
 Input Args:
 Output Args:    void
-Description:    Takes the hit information from the sensor logic and provides LED feeddback depending on the strength and starts loop timer for light
+Description:    Takes the hit information from the sensor controller and provides LED feeddback depending on the strength and starts loop timer for light
 /**********************************************/
 
 void LedControl::sensorHitLed(sensorID sensor, int velocity)
@@ -186,48 +186,48 @@ void LedControl::sensorHitLed(sensorID sensor, int velocity)
     int vel = velocity;
     switch (sensor)
     {
-    case SENSOR1:
-    {
-        sensor1Hit = 1;
-        sensor1Str = vel;
-        sensor1Timloop = 0;
-        break;
-    }
-    case SENSOR2:
-    {
-        sensor2Hit = 1;
-        sensor2Str = vel;
-        sensor2Timloop = 0;
-        break;
-    }
-    case SENSOR3:
-    {
-        sensor3Hit = 1;
-        sensor3Str = vel;
-        sensor3Timloop = 0;
-        break;
-    }
-    case SENSOR4:
-    {
-        sensor4Hit = 1;
-        sensor4Str = vel;
-        sensor4Timloop = 0;
-        break;
-    }
-    case SENSOR5:
-    {
-        sensor5Hit = 1;
-        sensor5Str = vel;
-        sensor5Timloop = 0;
-        break;
-    }
-    case SENSOR6:
-    {
-        sensor6Hit = 1;
-        sensor6Str = vel;
-        sensor6Timloop = 0;
-        break;
-    }
+        case SENSOR1:
+        {
+            sensor1Hit = 1;
+            sensor1Str = vel * ((vel > 0) - (vel < 0));
+            sensor1Timloop = 0;
+            break;
+        }
+        case SENSOR2:
+        {
+            sensor2Hit = 1;
+            sensor2Str = vel * ((vel > 0) - (vel < 0));
+            sensor2Timloop = 0;
+            break;
+        }
+        case SENSOR3:
+        {
+            sensor3Hit = 1;
+            sensor3Str = vel * ((vel > 0) - (vel < 0));
+            sensor3Timloop = 0;
+            break;
+        }
+        case SENSOR4:
+        {
+            sensor4Hit = 1;
+            sensor4Str = vel * ((vel > 0) - (vel < 0));
+            sensor4Timloop = 0;
+            break;
+        }
+        case SENSOR5:
+        {
+            sensor5Hit = 1;
+            sensor5Str = vel * ((vel > 0) - (vel < 0));
+            sensor5Timloop = 0;
+            break;
+        }
+        case SENSOR6:
+        {
+            sensor6Hit = 1;
+            sensor6Str = vel * ((vel > 0) - (vel < 0));
+            sensor6Timloop = 0;
+            break;
+        }
     }
 }
 
@@ -237,7 +237,7 @@ Input Args:
 Output Args:    void
 Description:    Checks if a sensor has been hit recently
 /**********************************************/
-bool sensorHitRecently()
+bool LedControl::sensorHitRecently()
 {
     bool returnVal = false;
     if (sensor1Hit == 1)
@@ -296,126 +296,127 @@ Description:    State Machine for LEDs
 
 void LedControl::ledSM()
 {
-    // Update current state from nextState
-    //ledStateMachine currentState = ledStateMachine::INITIAL1;
-    //ledStateMachine nextState;
-    //currentState = nextState;
-    char * colorArr = new char[18]();
-    unsigned initialColour1 = 0x7;
-    int loops = 0;
-    int loopWait = 0;
-    int initialSpeed = INITIAL_LOOP_WAIT;
-    char colorByte = 0x00;
-    initLeds();
+    currentState = nextState;
     switch(currentState)
     {
+        default:
+            nextState = RESET_LEDS;
+            break;
+
         case RESET_LEDS:
-            initLeds();
+            ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
+            gpioController.gpioLedSetColor(colorArr);
             nextState = INITIAL1;
             break;
 
         case INITIAL1:
-            ledCreateColorArr(colorArr, initialColour1, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
+            ledCreateColorArr(colorArr, initialColour1, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, initialColour1);
             gpioController.gpioLedSetColor(colorArr);
-            if (loopWait == initialSpeed)
+            loopWait = loopWait+1;
+            if (loopWait >= INITIAL_LOOP_WAIT)
             {
                 nextState = INITIAL2;
                 loopWait = 0;
             }
 
-            else if (loops == 3000)
-            {
-             nextState = INITIAL7;
-             loopWait = 0;
-            }
+//            else if (loops >= 3000)
+//            {
+//             nextState = INITIAL7;
+//             loopWait = 0;
+//            }
             break;
 
         case INITIAL2:
-            ledCreateColorArr(colorArr, LED_COLOR_OFF, initialColour1, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
+            ledCreateColorArr(colorArr, LED_COLOR_OFF, initialColour1, LED_COLOR_OFF, LED_COLOR_OFF, initialColour1, LED_COLOR_OFF);
             gpioController.gpioLedSetColor(colorArr);
-            if (loopWait == initialSpeed)
+            loopWait = loopWait+1;
+            if (loopWait >= INITIAL_LOOP_WAIT)
             {
                 nextState = INITIAL3;
                 loopWait = 0;
             }
 
-            else if (loops == 3000)
-            {
-             nextState = INITIAL7;
-             loopWait = 0;
-            }
+//            else if (loops >= 3000)
+//            {
+//             nextState = INITIAL7;
+//             loopWait = 0;
+//            }
             break;
 
-
         case INITIAL3:
-            ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, initialColour1, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
+            ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, initialColour1, initialColour1, LED_COLOR_OFF, LED_COLOR_OFF);
             gpioController.gpioLedSetColor(colorArr);
-            if (loopWait == initialSpeed)
+            loopWait = loopWait+1;
+            if (loopWait >= INITIAL_LOOP_WAIT/2)
             {
                 nextState = INITIAL4;
                 loopWait = 0;
             }
 
-            else if (loops == 3000)
-            {
-             nextState = INITIAL7;
-             loopWait = 0;
-            }
+//            else if (loops >= 3000)
+//            {
+//             nextState = INITIAL7;
+//             loopWait = 0;
+//            }
             break;
 
         case INITIAL4:
-            ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, initialColour1, LED_COLOR_OFF, LED_COLOR_OFF);
+            ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, initialColour1, initialColour1, LED_COLOR_OFF, LED_COLOR_OFF);
             gpioController.gpioLedSetColor(colorArr);
-            if (loopWait == initialSpeed)
+            loopWait = loopWait+1;
+            if (loopWait >= INITIAL_LOOP_WAIT/2)
             {
                 nextState = INITIAL5;
                 loopWait = 0;
             }
 
-            else if (loops == 3000)
-            {
-             nextState = INITIAL7;
-             loopWait = 0;
-            }
+//            else if (loops >= 3000)
+//            {
+//             nextState = INITIAL7;
+//             loopWait = 0;
+//            }
             break;
 
         case INITIAL5:
-            ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, initialColour1, LED_COLOR_OFF);
+            ledCreateColorArr(colorArr, LED_COLOR_OFF, initialColour1, LED_COLOR_OFF, LED_COLOR_OFF, initialColour1, LED_COLOR_OFF);
             gpioController.gpioLedSetColor(colorArr);
-            if (loopWait == initialSpeed)
+            loopWait = loopWait+1;
+            if (loopWait >= INITIAL_LOOP_WAIT)
             {
                 nextState = INITIAL6;
                 loopWait = 0;
             }
 
-            else if (loops == 3000)
-            {
-             nextState = INITIAL7;
-             loopWait = 0;
-            }
+//            else if (loops >= 3000)
+//            {
+//             nextState = INITIAL7;
+//             loopWait = 0;
+//            }
             break;
 
         case INITIAL6:
-            ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, initialColour1);
+            ledCreateColorArr(colorArr, initialColour1, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, initialColour1);
             gpioController.gpioLedSetColor(colorArr);
-            if (loopWait == initialSpeed)
+            loopWait = loopWait+1;
+            if (loopWait >= INITIAL_LOOP_WAIT)
             {
-                nextState = INITIAL1;
+                nextState = INITIAL7;
                 //initialSpeed = initialSpeed - 2;
                 initialColour1 = initialColour1 * 5;
                 loopWait = 0;
             }
-            else if (loops == 3000)
-            {
-             nextState = PRIMARY1;
-             loopWait = 0;
-            }
+//            else if (loops >= 3000)
+//            {
+//             nextState = INITIAL7;
+//             loopWait = 0;
+//            }
             break;
 
         case INITIAL7:
             ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
             gpioController.gpioLedSetColor(colorArr);
-            if (loopWait = 100)
+            loopWait = loopWait+1;
+            if (loopWait >= INITIAL_LOOP_WAIT)
             {
                 nextState = INITIAL8;
                 loopWait = 0;
@@ -423,58 +424,50 @@ void LedControl::ledSM()
             break;
 
         case INITIAL8:
-            //ledFlashTest(LED_COLOR_RED, 1, 1, 2);
-            ledFadeTest(2, WAIT_5MS);
+            ledFlashTest(LED_COLOR_RED, 1, 1, 2);
+            //ledFadeTest(2, WAIT_5MS);
             nextState = INITIAL9;
             loopWait = 0;
             break;
 
         case INITIAL9:
-            ledFlashTest(LED_COLOR_RED, 1, 1, 2);
+            ledFlashTest(LED_COLOR_GREEN, 2, 1, 1);
             nextState = INITIAL10;
             loopWait = 0;
             break;
 
         case INITIAL10:
-            ledFlashTest(LED_COLOR_GREEN, 2, 1, 1);
-            nextState = INITIAL11;
-            loopWait = 0;
-            break;
-
-        case INITIAL11:
-            ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
+            ledCreateColorArr(colorArr, LED_COLOR_GREEN, LED_COLOR_GREEN, LED_COLOR_GREEN, LED_COLOR_GREEN, LED_COLOR_GREEN, LED_COLOR_GREEN);
             gpioController.gpioLedSetColor(colorArr);
+            nextState = PRIMARY1;
+            printf("LED intro over!\n");
             loopWait = 0;
-            break;
-
-        default:
-            nextState = INITIAL1;
             break;
 
         // Main drumming mode
         case PRIMARY1:
-            unsigned color1 = sensor1Str  * BRIGHTNESS_LIMIT * LED_COLOR_PURPLE_DIM;
-            unsigned color2 = sensor2Str  * BRIGHTNESS_LIMIT * LED_COLOR_PURPLE_DIM;
-            unsigned color3 = sensor3Str  * BRIGHTNESS_LIMIT * LED_COLOR_PURPLE_DIM;
-            unsigned color4 = sensor4Str  * BRIGHTNESS_LIMIT * LED_COLOR_PURPLE_DIM;
-            unsigned color5 = sensor5Str  * BRIGHTNESS_LIMIT * LED_COLOR_PURPLE_DIM;
-            unsigned color6 = sensor6Str  * BRIGHTNESS_LIMIT * LED_COLOR_PURPLE_DIM;
+            //printf("Sensor 2 Strength: %i\n", sensor1Str);
+            unsigned color1 = sensor1Str  * BRIGHTNESS_LIMIT * LED_COLOR_GREEN;
+            unsigned color2 = sensor2Str  * BRIGHTNESS_LIMIT * LED_COLOR_GREEN;
+            unsigned color3 = sensor3Str  * BRIGHTNESS_LIMIT * LED_COLOR_GREEN;
+            unsigned color4 = sensor4Str  * BRIGHTNESS_LIMIT * LED_COLOR_GREEN;
+            unsigned color5 = sensor5Str  * BRIGHTNESS_LIMIT * LED_COLOR_GREEN;
+            unsigned color6 = sensor6Str  * BRIGHTNESS_LIMIT * LED_COLOR_GREEN;
 
             if (sensorHitRecently())
             {
                 hitDetectOutputControl();
-                color1 = sensor1Hit * LED_COLOR_RED;
-                color2 = sensor2Hit * LED_COLOR_RED;
-                color3 = sensor3Hit * LED_COLOR_RED;
-                color4 = sensor4Hit * LED_COLOR_RED;
-                color5 = sensor5Hit * LED_COLOR_RED;
-                color6 = sensor6Hit * LED_COLOR_RED;
+                color1 = sensor1Hit * LED_COLOR_BLUE_DIM;
+                color2 = sensor2Hit * LED_COLOR_BLUE_DIM;
+                color3 = sensor3Hit * LED_COLOR_BLUE_DIM;
+                color4 = sensor4Hit * LED_COLOR_BLUE_DIM;
+                color5 = sensor5Hit * LED_COLOR_BLUE_DIM;
+                color6 = sensor6Hit * LED_COLOR_BLUE_DIM;
             }
             ledCreateColorArr(colorArr, color1, color2, color3, color4, color5, color6);
             gpioController.gpioLedSetColor(colorArr);
             break;
 
-    loopWait = loopWait+1;
     sensor1Timloop = sensor1Timloop + 1;
     sensor2Timloop = sensor2Timloop + 1;
     sensor3Timloop = sensor3Timloop + 1;
@@ -485,7 +478,6 @@ void LedControl::ledSM()
     // Turn Leds off
     ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
     gpioController.gpioLedSetColor(colorArr);
-    printf("ledInitialiseTest Complete.\n");
     }
 }
 

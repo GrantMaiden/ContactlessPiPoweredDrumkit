@@ -22,9 +22,6 @@ Description:    Entry Point into ENG5228 project for University of Glasgow
 #include "controller.h"
 #include "sound.h"
 
-
-
-
 Controller controller;
 VL53L4CD    vl53l4cd;
 LedControl ledControl;
@@ -93,7 +90,7 @@ Description:    override virtual run method for btbThread Class. Calls Statemach
 void btbThread::run() {
     while(1)
     {
-        //if(enableLedSM)
+        if(enableLedSM)
         {
             ledControl.ledSM();
             enableLedSM = false;
@@ -112,7 +109,7 @@ Description:    override timerEvent from btbTimer1 class. Enables LED statemachi
 /**********************************************/
 void btbTimer1::timerEvent(){
     enableLedSM = true;
-    //printf("TimerRunningCB\n");
+    //printf("LEDTimerRunningCB\n");
 }
 
 /**********************************************\
@@ -226,7 +223,7 @@ void runCommandLine(char *argv[])
     else if (!strcmp(argv[0], "ledInitialiseTest"))
     {
         LedControl ledControl;
-        ledControl.ledInitialiseTest();
+        //ledControl.ledInitialiseTest();
     }
     else if (!strcmp(argv[0], "interruptTest"))
     {

@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1710341849 source:/home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/src/controller.cpp
+1710527773 source:/home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/src/controller.cpp
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -12,24 +12,26 @@
 	"controller.h"
 	"ranging.h"
 	"sound.h"
+	"led.h"
 
-1710336882 /home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/include/defines.h
+1710355528 /home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/include/defines.h
 
-1710336882 /home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/include/controller.h
+1710527541 /home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/include/controller.h
+	<pigpio.h>
 
-1710336882 /home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/include/ranging.h
+1710355528 /home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/include/ranging.h
 	"VL53L4CD_api.h"
 	"platform.h"
 	"types.h"
 
-1710336869 /home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/include/VL53L4CD_api.h
+1710355528 /home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/include/VL53L4CD_api.h
 	"platform.h"
 
-1710336870 /home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/include/platform.h
+1710355528 /home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/include/platform.h
 	<stdint.h>
 	<string.h>
 
-1710336870 /home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/include/types.h
+1710355528 /home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/include/types.h
 	<stdint.h>
 	<stddef.h>
 	<string.h>
@@ -37,10 +39,19 @@
 	<stdlib.h>
 	<stdbool.h>
 
-1710336882 /home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/include/sound.h
+1710355528 /home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/include/sound.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<unistd.h>
+	<pigpio.h>
+	<stdio.h>
+	<string>
+	"CppThread.h"
+	"defines.h"
 	"miniaudio.h"
 
-1710336870 /home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/include/miniaudio.h
+1710355528 /home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/include/miniaudio.h
 	"miniaudio.h"
 	"miniaudio.h"
 	<stddef.h>
@@ -141,7 +152,10 @@
 	<stdio.h>
 	<wchar.h>
 
-1710336882 source:/home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/src/gpio_controller.cpp
+1710355528 source:/home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/src/gpio_controller.cpp
+	"gpio_controller.h"
+
+1710355528 /home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/include/gpio_controller.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -149,15 +163,19 @@
 	<time.h>
 	<math.h>
 	<pigpio.h>
+	"led.h"
+	"defines.h"
+
+1710527506 /home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/include/led.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<unistd.h>
+	<pigpio.h>
 	"defines.h"
 	"gpio_controller.h"
-	"led.h"
 
-1710336882 /home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/include/gpio_controller.h
-
-1710341423 /home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/include/led.h
-
-1710339616 source:/home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/src/led.cpp
+1710527694 source:/home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/src/led.cpp
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -167,7 +185,7 @@
 	"gpio_controller.h"
 	"led.h"
 
-1710336870 source:/home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/src/platform.c
+1710355528 source:/home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/src/platform.c
 	<fcntl.h>
 	<unistd.h>
 	<time.h>
@@ -177,7 +195,7 @@
 	"platform.h"
 	"types.h"
 
-1710336882 source:/home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/src/ranging.cpp
+1710355858 source:/home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/src/ranging.cpp
 	<stdio.h>
 	<stdint.h>
 	<stdlib.h>
@@ -188,29 +206,21 @@
 	"gpio_controller.h"
 	"ranging.h"
 
-1710336870 source:/home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/src/VL53L4CD_api.c
+1710355528 source:/home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/src/VL53L4CD_api.c
 	<string.h>
 	<math.h>
 	"VL53L4CD_api.h"
 	"platform.h"
 
-1710341639 source:/home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/src/sound.cpp
-	<stdio.h>
-	<stdlib.h>
-	<string.h>
-	<unistd.h>
-	<pigpio.h>
-	<stdio.h>
-	<string>
-	"CppThread.h"
-	"sound.h"
-	"defines.h"
+1710357647 source:/home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/src/sound.cpp
+	<time.h>
 	"miniaudio.h"
+	"sound.h"
 
-1710336869 /home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/include/CppThread.h
+1710355528 /home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/include/CppThread.h
 	<thread>
 
-1710339641 source:/home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/src/btb_main.cpp
+1710527373 source:/home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/src/btb_main.cpp
 	<stdlib.h>
 	<string.h>
 	<stdio.h>
@@ -227,7 +237,7 @@
 	"controller.h"
 	"sound.h"
 
-1710336869 /home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/include/CppTimer.h
+1710355528 /home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/include/CppTimer.h
 	<stdlib.h>
 	<unistd.h>
 	<stdio.h>
@@ -235,5 +245,5 @@
 	<thread>
 	<sys/timerfd.h>
 
-1710338542 /home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/include/btb_main.h
+1710355528 /home/lucas/Documents/GitHub/ContactlessPiPoweredDrumkit/embedded/include/btb_main.h
 
