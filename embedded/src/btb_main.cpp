@@ -24,7 +24,6 @@ Description:    Entry Point into ENG5228 project for University of Glasgow
 
 Controller controller;
 VL53L4CD    vl53l4cd;
-LedControl ledControl;
 
 // global variables
 bool enableLedSM = false;
@@ -65,7 +64,7 @@ int main(int argc, char *argv[])
     initInterrupts();
 
     // initialize LEDS
-    ledControl.initLeds();
+    initLeds();
 
     // Initialize threads ////
     btbThread btbThread1;
@@ -92,7 +91,7 @@ void btbThread::run() {
     {
         if(enableLedSM)
         {
-            ledControl.ledSM();
+            ledSM();
             enableLedSM = false;
         }
 
@@ -215,15 +214,13 @@ void runCommandLine(char *argv[])
     else if (!strcmp(argv[0], "gpioLedSpiTest"))
     {
         GpioController gpiocontroller;
-        LedControl ledControl;
         char * arr = new char[18]();
-        ledControl.ledCreateColorArr(arr, LED_COLOR_CYAN_DIM, LED_COLOR_PURPLE_DIM, LED_COLOR_YELLOW_DIM, LED_COLOR_WHITE_DIM, LED_COLOR_BLUE_DIM, LED_COLOR_GREEN_DIM);
+        ledCreateColorArr(arr, LED_COLOR_CYAN_DIM, LED_COLOR_PURPLE_DIM, LED_COLOR_YELLOW_DIM, LED_COLOR_WHITE_DIM, LED_COLOR_BLUE_DIM, LED_COLOR_GREEN_DIM);
         gpiocontroller.gpioLedSpiTest(arr);
     }
     else if (!strcmp(argv[0], "ledInitialiseTest"))
     {
-        LedControl ledControl;
-        //ledControl.ledInitialiseTest();
+        //ledInitialiseTest();
     }
     else if (!strcmp(argv[0], "interruptTest"))
     {

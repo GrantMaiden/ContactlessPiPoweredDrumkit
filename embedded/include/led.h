@@ -16,7 +16,6 @@ Description:    contains led definitions and headers
 #include "defines.h"
 #include "gpio_controller.h"
 
-
 // LED Colors
 #define LED_COLOR_WHITE_DIM         0x010101
 #define LED_COLOR_WHITE_MAX         0x111111
@@ -34,12 +33,15 @@ Description:    contains led definitions and headers
 #define LED_COLOR_GREEN             0x001100
 #define LED_COLOR_OFF               0x000000
 
+#define FLASH_COLOR                 LED_COLOR_ORANGE_BRIGHT
+#define DRUMMING_COLOR              LED_COLOR_GREEN
+
 //conversion factor (velocity-> brightness)
 #define BRIGHTNESS_LIMIT            255/80
 
 // LED Speed
 #define INITIAL_LOOP_WAIT           200
-#define HIT_FLASH_DURATION          60
+#define HIT_FLASH_DURATION          100
 
 typedef enum
 {
@@ -57,77 +59,72 @@ typedef enum
     PRIMARY1
 }ledStateMachine;
 
-using namespace std;
-class LedControl
-{
-    public:
+/**
+ * creates a single color array combined from input arguments. Will fill outputArr memory with combined data. Performs RGB->GRB byteshift
+ * \param outputArr- char* this needs to be 18char long empty array
+ * \param led1- unsigned 24bit value RGB color code.
+ * \param led2- unsigned 24bit value RGB color code.
+ * \param led3- unsigned 24bit value RGB color code.
+ * \param led4- unsigned 24bit value RGB color code.
+ * \param led5- unsigned 24bit value RGB color code.
+ * \param led6- unsigned 24bit value RGB color code.
+ **/
+void ledCreateColorArr(char* outputArr,unsigned led1, unsigned led2, unsigned led3, unsigned led4, unsigned led5, unsigned led6);
 
-        /**
-         * creates a single color array combined from input arguments. Will fill outputArr memory with combined data. Performs RGB->GRB byteshift
-         * \param outputArr- char* this needs to be 18char long empty array
-         * \param led1- unsigned 24bit value RGB color code.
-         * \param led2- unsigned 24bit value RGB color code.
-         * \param led3- unsigned 24bit value RGB color code.
-         * \param led4- unsigned 24bit value RGB color code.
-         * \param led5- unsigned 24bit value RGB color code.
-         * \param led6- unsigned 24bit value RGB color code.
-         **/
-        void ledCreateColorArr(char* outputArr,unsigned led1, unsigned led2, unsigned led3, unsigned led4, unsigned led5, unsigned led6);
+/**
+ * Initialize LED globals
+ **/
+void initLeds();
 
-        /**
-         * Initialize LED globals
-         **/
-        void initLeds();
+/**
+ * Makes all LEDs flash an number of times for a given colour at a speed in seconds
+ * \param ledColour-    unsigned 24bit value RGB color code.
+ * \param flashTimeOn-  int number of seconds that LEDs are on
+ * \param flashTimeOff- int number of seconds that LEDs are off
+ * \param flashNum-     int number of times LEDs are flashed
+ **/
+void ledFlashTest(unsigned ledColour, int flashTimeOn, int flashTimeOff, int flashNum);
 
-        /**
-         * Makes all LEDs flash an number of times for a given colour at a speed in seconds
-         * \param ledColour-    unsigned 24bit value RGB color code.
-         * \param flashTimeOn-  int number of seconds that LEDs are on
-         * \param flashTimeOff- int number of seconds that LEDs are off
-         * \param flashNum-     int number of times LEDs are flashed
-         **/
-        void ledFlashTest(unsigned ledColour, int flashTimeOn, int flashTimeOff, int flashNum);
+/**
+ * Makes all LEDs Fade from (0 - 255) an number of times at a given speed
+ * \param fadeStep-     int number of bits step changes in fade
+ * \param fadeNum-      int number of times LEDs fade
+ **/
+void ledFadeTest(int fadeNum, int fadeSpeed);
 
-        /**
-         * Makes all LEDs Fade from (0 - 255) an number of times at a given speed
-         * \param fadeStep-     int number of bits step changes in fade
-         * \param fadeNum-      int number of times LEDs fade
-         **/
-        void ledFadeTest(int fadeNum, int fadeSpeed);
+/**
+ * Takes filtered velocity from controller and gives it to led state machine
+ * \param id-           enum which sensor
+ * \param avgVelocity-  int current average velocity measured by sensor
+ **/
+void setLedVelocity(sensorID sensor, int avgVelocity);
 
+/**
+ * Takes the hit information from the sensor logic and provides LED feeddback depending on the strength
+ * \param sensorID-         enum which sensor
+ * \param hitStrength-      int hit strength velocity measured by sensor
+ **/
+void sensorHitLed(sensorID sensor, int hitStrength);
 
-        /**
-         * Takes the hit information from the sensor logic and provides LED feeddback depending on the strength
-         * \param sensorID-     enum which sensor
-         * \param velocity-     int current velocity measured by sensor
-         **/
-        void sensorHitLed(sensorID sensor, int velocity);
+/**
+ * Checks if a sensor has been hit recently
+ **/
+bool sensorHitRecently();
 
-        /**
-         * Checks if a sensor has been hit recently
-         **/
-        bool sensorHitRecently();
+/**
+ * Generates color for a sensor for a given amount of time when hit
+ **/
+void hitDetectOutputControl();
 
-        /**
-         * Generates color for a sensor for a given amount of time when hit
-         *
-         **/
-        void hitDetectOutputControl();
+/**
+ * State Machine for LEDs
+ **/
+void ledSM();
 
-        /**
-         * State Machine for LEDs
-         **/
-        void ledSM();
-
-        /**
-         * Peter's LED Initializer test
-         **/
-        void ledInitialiseTest();
-
-    private:
-
-};
-
+/**
+ * Peter's LED Initializer test
+ **/
+void ledInitialiseTest();
 
 
 #endif // LED_H

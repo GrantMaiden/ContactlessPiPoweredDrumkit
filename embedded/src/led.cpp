@@ -2,7 +2,7 @@
 /****************************** Module Header ******************************\
 Module Name:    led.cpp
 Project:        btb
-Author:         Grant Maiden
+Author:         Grant Maiden and Lucas Zehner
 Description:    led control functions and processes
 \***************************************************************************/
 
@@ -40,13 +40,27 @@ int sensor4Timloop = 0;
 int sensor5Timloop = 0;
 int sensor6Timloop = 0;
 
+unsigned color1 = LED_COLOR_OFF;
+unsigned color2 = LED_COLOR_OFF;
+unsigned color3 = LED_COLOR_OFF;
+unsigned color4 = LED_COLOR_OFF;
+unsigned color5 = LED_COLOR_OFF;
+unsigned color6 = LED_COLOR_OFF;
+
 int loops = 0;
 int loopWait = 0;
+int sensor1VelConfirm = 0;
+int sensor2VelConfirm = 0;
+int sensor3VelConfirm = 0;
+int sensor4VelConfirm = 0;
+int sensor5VelConfirm = 0;
+int sensor6VelConfirm = 0;
 
 char * colorArr = new char[18]();
+unsigned initialColour1 = 0x7;
 
 GpioController gpioController;
-unsigned initialColour1 = 0x7;
+
 
 /**********************************************\
 Function Name:  ledCreateColorArr
@@ -54,7 +68,7 @@ Input Args:     outputArr, led1, led2, led3, led4, led5, led6
 Output Args:    void
 Description:    creates a single color array combined from input arguments. Will fill outputArr memory with combined data. Performs RGB->GRB byteshift
 /**********************************************/
-void LedControl::ledCreateColorArr(char* outputArr,unsigned led1, unsigned led2, unsigned led3, unsigned led4, unsigned led5, unsigned led6)
+void ledCreateColorArr(char* outputArr,unsigned led1, unsigned led2, unsigned led3, unsigned led4, unsigned led5, unsigned led6)
 {
     unsigned arr[6] = {led1,led2,led3,led4,led5,led6};
 
@@ -77,7 +91,7 @@ Input Args:     none
 Output Args:    none
 Description:    intialize Leds globals
 /**********************************************/
-void LedControl::initLeds()
+void initLeds()
 {
     char colorByte = 0x00;
     unsigned ColorRed = colorByte << 16;
@@ -95,7 +109,7 @@ Input Args:     ledColour, flashTimeOn, flashTimeOff, flashNum
 Output Args:    void
 Description:    Makes all LED flash an number of times for a given colour at a speed in seconds
 /**********************************************/
-void LedControl::ledFlashTest(unsigned ledColour, int flashTimeOn, int flashTimeOff, int flashNum)
+void ledFlashTest(unsigned ledColour, int flashTimeOn, int flashTimeOff, int flashNum)
 {
     char * colorArr = new char[18]();
     for (int i=0; i<flashNum; i++)
@@ -123,7 +137,7 @@ Description:    Makes all LED fade to full brightness an number of times
 // Brightness incremented with timer count
 // start from 0x00 - off end at max colour
 
-void LedControl::ledFadeTest(int fadeNum, int fadeSpeed)
+void ledFadeTest(int fadeNum, int fadeSpeed)
 {
     printf("Beginning ledFadeTest. Runs Peter's LED Test Via SPI Interface\n");
     struct timespec clockObj;
@@ -175,56 +189,117 @@ void LedControl::ledFadeTest(int fadeNum, int fadeSpeed)
 }
 
 /**********************************************\
+Function Name:  setLedVelocity
+Input Args:     sensorID sensor-    enum which sensor
+                avgVelocity-        int current avgerage velocity measured by sensor
+Output Args:    void
+Description:    Takes filtered velocity from controller and gives it to led state machine
+/**********************************************/
+void setLedVelocity(sensorID sensor, int avgVelocity)
+{
+//    if (sensor == 2)
+//        printf("Sensor: %i \t Avg Velocity: %i\n", sensor, avgVelocity);
+    if (-2 < avgVelocity < 2)
+        avgVelocity = 0;
+        sensor1VelConfirm = 0;
+        sensor2VelConfirm = 0;
+        sensor3VelConfirm = 0;
+        sensor4VelConfirm = 0;
+        sensor5VelConfirm = 0;
+        sensor6VelConfirm = 0;
+
+    switch (sensor)
+    {
+        case SENSOR1:
+        {
+            sensor1Str = avgVelocity;
+            sensor1VelConfirm = 1;
+            break;
+        }
+        case SENSOR2:
+        {
+            sensor2Str = avgVelocity;
+            sensor2VelConfirm = 1;
+            break;
+        }
+        case SENSOR3:
+        {
+            sensor3Str = avgVelocity;
+            sensor3VelConfirm = 1;
+            break;
+        }
+        case SENSOR4:
+        {
+            sensor4Str = avgVelocity;
+            sensor4VelConfirm = 1;
+            break;
+        }
+        case SENSOR5:
+        {
+            sensor5Str = avgVelocity;
+            sensor5VelConfirm = 1;
+            break;
+        }
+        case SENSOR6:
+        {
+            sensor6Str = avgVelocity;
+            sensor6VelConfirm = 1;
+            break;
+        }
+    }
+    //printf("Sensor 1 Strength: %i \t Sensor 2 Strength: %i \t Sensor 3 Strength: %i \t Sensor 4 Strength: %i \n ",sensor1Str, sensor2Str, sensor3Str, sensor4Str);
+}
+
+/**********************************************\
 Function Name:  sensorHitLed
-Input Args:
+Input Args:     sensorID sensor-    enum which sensor
+                hitStrength-        int hit strength velocity measured by sensor
 Output Args:    void
 Description:    Takes the hit information from the sensor controller and provides LED feeddback depending on the strength and starts loop timer for light
 /**********************************************/
-
-void LedControl::sensorHitLed(sensorID sensor, int velocity)
+void sensorHitLed(sensorID sensor, int hitStrength)
 {
-    int vel = velocity;
     switch (sensor)
     {
         case SENSOR1:
         {
             sensor1Hit = 1;
-            sensor1Str = vel * ((vel > 0) - (vel < 0));
+            sensor1Str = hitStrength;
             sensor1Timloop = 0;
             break;
         }
         case SENSOR2:
         {
             sensor2Hit = 1;
-            sensor2Str = vel * ((vel > 0) - (vel < 0));
+            sensor2Str = hitStrength;
             sensor2Timloop = 0;
             break;
         }
         case SENSOR3:
         {
             sensor3Hit = 1;
-            sensor3Str = vel * ((vel > 0) - (vel < 0));
+            sensor3Str = hitStrength;
             sensor3Timloop = 0;
             break;
         }
         case SENSOR4:
         {
             sensor4Hit = 1;
-            sensor4Str = vel * ((vel > 0) - (vel < 0));
+            sensor4Str = hitStrength;
             sensor4Timloop = 0;
             break;
         }
         case SENSOR5:
         {
             sensor5Hit = 1;
-            sensor5Str = vel * ((vel > 0) - (vel < 0));
+            sensor5Str = hitStrength;
             sensor5Timloop = 0;
             break;
         }
         case SENSOR6:
         {
             sensor6Hit = 1;
-            sensor6Str = vel * ((vel > 0) - (vel < 0));
+            sensor6Str = hitStrength;
             sensor6Timloop = 0;
             break;
         }
@@ -237,7 +312,7 @@ Input Args:
 Output Args:    void
 Description:    Checks if a sensor has been hit recently
 /**********************************************/
-bool LedControl::sensorHitRecently()
+bool sensorHitRecently()
 {
     bool returnVal = false;
     if (sensor1Hit == 1)
@@ -252,6 +327,7 @@ bool LedControl::sensorHitRecently()
         returnVal = true;
     if (sensor6Hit == 1)
         returnVal = true;
+    return returnVal;
 }
 
 /**********************************************\
@@ -260,31 +336,72 @@ Input Args:
 Output Args:    void
 Description:    Generates color for a sensor for a given amount of time when hit
 /**********************************************/
-void LedControl::hitDetectOutputControl()
+void hitDetectOutputControl()
 {
-    if (sensor1Timloop > HIT_FLASH_DURATION)
+    if (sensor1Timloop < HIT_FLASH_DURATION & sensor1Hit == 1)
+        {
+            sensor1Timloop = sensor1Timloop +1;
+            color1 = sensor1Str + FLASH_COLOR;
+        }
+    else
         {
             sensor1Hit = 0;
+            sensor1Timloop = 0;
         }
-        if (sensor2Timloop > HIT_FLASH_DURATION)
+
+    if (sensor2Timloop < HIT_FLASH_DURATION & sensor2Hit == 1)
         {
-            sensor2Hit = 0;
+            sensor2Timloop = sensor2Timloop +1;
+            color2 = sensor2Str + FLASH_COLOR;
         }
-        if (sensor3Timloop > HIT_FLASH_DURATION)
+    else
         {
-            sensor3Hit = 0;
+        sensor2Hit = 0;
+        sensor2Timloop = 0;
         }
-        if (sensor4Timloop > HIT_FLASH_DURATION)
+
+    if (sensor3Timloop < HIT_FLASH_DURATION & sensor3Hit == 1)
         {
-            sensor4Hit = 0;
+        sensor3Timloop = sensor3Timloop +1;
+        color3 = sensor3Str + FLASH_COLOR;
         }
-        if (sensor5Timloop > HIT_FLASH_DURATION)
+    else
         {
-            sensor5Hit = 0;
+        sensor3Hit = 0;
+        sensor3Timloop = 0;
         }
-        if (sensor6Timloop > HIT_FLASH_DURATION)
+
+    if (sensor4Timloop < HIT_FLASH_DURATION & sensor4Hit == 1)
         {
-            sensor6Hit = 0;
+        sensor4Timloop = sensor4Timloop +1;
+        color4 = sensor4Str + FLASH_COLOR;
+        }
+    else
+        {
+        sensor4Hit = 0;
+        sensor4Timloop = 0;
+        }
+
+    if (sensor5Timloop < HIT_FLASH_DURATION & sensor5Hit == 1)
+        {
+        sensor5Timloop = sensor5Timloop +1;
+        color5 = sensor5Str + FLASH_COLOR;
+        }
+    else
+        {
+        sensor5Hit = 0;
+        sensor5Timloop = 0;
+        }
+
+    if (sensor6Timloop < HIT_FLASH_DURATION & sensor6Hit == 1)
+        {
+        sensor6Timloop = sensor6Timloop +1;
+        color6 = sensor6Str + FLASH_COLOR;
+        }
+    else
+        {
+        sensor6Hit = 0;
+        sensor6Timloop = 0;
         }
 }
 /**********************************************\
@@ -293,8 +410,7 @@ Input Args:     None
 Output Args:    void
 Description:    State Machine for LEDs
 /**********************************************/
-
-void LedControl::ledSM()
+void ledSM()
 {
     currentState = nextState;
     switch(currentState)
@@ -418,7 +534,7 @@ void LedControl::ledSM()
             loopWait = loopWait+1;
             if (loopWait >= INITIAL_LOOP_WAIT)
             {
-                nextState = INITIAL8;
+                nextState = INITIAL9;  //CHANGE FOR COMPLETE LED INTRO
                 loopWait = 0;
             }
             break;
@@ -446,34 +562,20 @@ void LedControl::ledSM()
 
         // Main drumming mode
         case PRIMARY1:
-            //printf("Sensor 2 Strength: %i\n", sensor1Str);
-            unsigned color1 = sensor1Str  * BRIGHTNESS_LIMIT * LED_COLOR_GREEN;
-            unsigned color2 = sensor2Str  * BRIGHTNESS_LIMIT * LED_COLOR_GREEN;
-            unsigned color3 = sensor3Str  * BRIGHTNESS_LIMIT * LED_COLOR_GREEN;
-            unsigned color4 = sensor4Str  * BRIGHTNESS_LIMIT * LED_COLOR_GREEN;
-            unsigned color5 = sensor5Str  * BRIGHTNESS_LIMIT * LED_COLOR_GREEN;
-            unsigned color6 = sensor6Str  * BRIGHTNESS_LIMIT * LED_COLOR_GREEN;
-
+            color1 = sensor1Str + DRUMMING_COLOR * sensor1VelConfirm;
+            color2 = sensor2Str + DRUMMING_COLOR * sensor2VelConfirm;
+            color3 = sensor3Str + DRUMMING_COLOR * sensor3VelConfirm;
+            color4 = sensor4Str + DRUMMING_COLOR * sensor4VelConfirm;
+            color5 = sensor5Str + DRUMMING_COLOR * sensor5VelConfirm;
+            color6 = sensor6Str + DRUMMING_COLOR * sensor6VelConfirm;
             if (sensorHitRecently())
             {
                 hitDetectOutputControl();
-                color1 = sensor1Hit * LED_COLOR_BLUE_DIM;
-                color2 = sensor2Hit * LED_COLOR_BLUE_DIM;
-                color3 = sensor3Hit * LED_COLOR_BLUE_DIM;
-                color4 = sensor4Hit * LED_COLOR_BLUE_DIM;
-                color5 = sensor5Hit * LED_COLOR_BLUE_DIM;
-                color6 = sensor6Hit * LED_COLOR_BLUE_DIM;
             }
             ledCreateColorArr(colorArr, color1, color2, color3, color4, color5, color6);
             gpioController.gpioLedSetColor(colorArr);
             break;
 
-    sensor1Timloop = sensor1Timloop + 1;
-    sensor2Timloop = sensor2Timloop + 1;
-    sensor3Timloop = sensor3Timloop + 1;
-    sensor4Timloop = sensor4Timloop + 1;
-    sensor5Timloop = sensor5Timloop + 1;
-    sensor6Timloop = sensor6Timloop + 1;
 
     // Turn Leds off
     ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);

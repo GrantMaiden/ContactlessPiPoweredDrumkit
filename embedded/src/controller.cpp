@@ -23,8 +23,6 @@ Description:    System controller state machine
 controllerState currentState = RESET;
 controllerState nextState = currentState;
 
-LedControl instledControl;
-
 sensorValues sens1Values;
 sensorValues sens2Values;
 sensorValues sens3Values;
@@ -178,8 +176,8 @@ Description:    computes if a hit was detected
 /**********************************************/
 void Controller::sendSound(sensorID id, int detectionValue)
 {
-    printf("Hit Detected! Strength: %i Sensor: %i\n", detectionValue, id+1);
-    instledControl.sensorHitLed(id, detectionValue);
+    //printf("Hit Detected! Strength: %i Sensor: %i\n", detectionValue, id+1);
+    sensorHitLed(id, detectionValue);
     switch (id)
     {
         case sensorID::SENSOR1:
@@ -291,7 +289,7 @@ void Controller::velocityCalc()
     }
 
     sens1Values.averageVelocity = sens1Values.averageVelocity + (sens1Values.currentVelocity - sens1Values.averageVelocity) / VELOCITY_FACTOR_AVG;
-    
+
     sens2Values.averageVelocity = sens2Values.averageVelocity + (sens2Values.currentVelocity - sens2Values.averageVelocity) / VELOCITY_FACTOR_AVG;
 
     sens3Values.averageVelocity = sens3Values.averageVelocity + (sens3Values.currentVelocity - sens3Values.averageVelocity) / VELOCITY_FACTOR_AVG;
@@ -318,14 +316,14 @@ void Controller::velocityCalc()
     averageVelNextArrIndex = averageVelNextArrIndex + 1;
     if (averageVelNextArrIndex >= PAST_AVERAGE_VELOCITY_ARR_SIZE)
         averageVelNextArrIndex = 0;
-    setLedVelocity(0, sens1Values.averageVelocity);
-    setLedVelocity(1, sens2Values.averageVelocity);
-    setLedVelocity(2, sens3Values.averageVelocity);
-    setLedVelocity(3, sens4Values.averageVelocity);
-    setLedVelocity(4, sens5Values.averageVelocity);
-    setLedVelocity(5, sens6Values.averageVelocity);
-}
 
+    setLedVelocity(SENSOR1, sens1Values.averageVelocity);
+    setLedVelocity(SENSOR2, sens2Values.averageVelocity);
+    setLedVelocity(SENSOR3, sens3Values.averageVelocity);
+    setLedVelocity(SENSOR4, sens4Values.averageVelocity);
+    setLedVelocity(SENSOR5, sens5Values.averageVelocity);
+    setLedVelocity(SENSOR6, sens6Values.averageVelocity);
+}
 /**********************************************\
 Function Name:  hitDetection
 Input Args:     none
