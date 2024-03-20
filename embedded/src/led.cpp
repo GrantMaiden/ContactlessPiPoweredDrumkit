@@ -40,6 +40,7 @@ int sensor4Timloop = 0;
 int sensor5Timloop = 0;
 int sensor6Timloop = 0;
 
+unsigned colorSet = LED_COLOR_OFF;
 unsigned color1 = LED_COLOR_OFF;
 unsigned color2 = LED_COLOR_OFF;
 unsigned color3 = LED_COLOR_OFF;
@@ -308,7 +309,7 @@ void sensorHitLed(sensorID sensor, int hitStrength)
 
 /**********************************************\
 Function Name:  sensorHitRecently
-Input Args:
+Input Args:     None
 Output Args:    void
 Description:    Checks if a sensor has been hit recently
 /**********************************************/
@@ -331,8 +332,29 @@ bool sensorHitRecently()
 }
 
 /**********************************************\
+Function Name:  hitColorSetter
+Input Args:     sensorStr-        int hit strength velocity measured by sensor
+Output Args:    void
+Description:    Generates color for a sensor for a given hit strength
+/**********************************************/
+unsigned hitColorSetter(int sensorStr)
+{
+    if (sensorStr > HIT_HARD)
+        colorSet = FLASH_COLOR_HARD;
+    else if (sensorStr > HIT_MID_HARD)
+        colorSet = FLASH_COLOR_MID_HARD;
+    else if (sensorStr > HIT_MID)
+        colorSet = FLASH_COLOR_MID;
+    else if (sensorStr > HIT_MID_SOFT)
+        colorSet = FLASH_COLOR_MID_SOFT;
+    else if (sensorStr > HIT_SOFT)
+        colorSet = FLASH_COLOR_SOFT;
+    return colorSet;
+}
+
+/**********************************************\
 Function Name:  hitDetectOutputControl
-Input Args:
+Input Args:     None
 Output Args:    void
 Description:    Generates color for a sensor for a given amount of time when hit
 /**********************************************/
@@ -341,7 +363,7 @@ void hitDetectOutputControl()
     if (sensor1Timloop < HIT_FLASH_DURATION & sensor1Hit == 1)
         {
             sensor1Timloop = sensor1Timloop +1;
-            color1 = sensor1Str + FLASH_COLOR;
+            color1 = hitColorSetter(sensor1Str);
         }
     else
         {
@@ -352,7 +374,7 @@ void hitDetectOutputControl()
     if (sensor2Timloop < HIT_FLASH_DURATION & sensor2Hit == 1)
         {
             sensor2Timloop = sensor2Timloop +1;
-            color2 = sensor2Str + FLASH_COLOR;
+            color2 = hitColorSetter(sensor2Str);
         }
     else
         {
@@ -363,7 +385,7 @@ void hitDetectOutputControl()
     if (sensor3Timloop < HIT_FLASH_DURATION & sensor3Hit == 1)
         {
         sensor3Timloop = sensor3Timloop +1;
-        color3 = sensor3Str + FLASH_COLOR;
+        color3 = hitColorSetter(sensor3Str);
         }
     else
         {
@@ -374,7 +396,7 @@ void hitDetectOutputControl()
     if (sensor4Timloop < HIT_FLASH_DURATION & sensor4Hit == 1)
         {
         sensor4Timloop = sensor4Timloop +1;
-        color4 = sensor4Str + FLASH_COLOR;
+        color4 = hitColorSetter(sensor4Str);
         }
     else
         {
@@ -385,7 +407,7 @@ void hitDetectOutputControl()
     if (sensor5Timloop < HIT_FLASH_DURATION & sensor5Hit == 1)
         {
         sensor5Timloop = sensor5Timloop +1;
-        color5 = sensor5Str + FLASH_COLOR;
+        color5 = hitColorSetter(sensor5Str);
         }
     else
         {
@@ -396,7 +418,7 @@ void hitDetectOutputControl()
     if (sensor6Timloop < HIT_FLASH_DURATION & sensor6Hit == 1)
         {
         sensor6Timloop = sensor6Timloop +1;
-        color6 = sensor6Str + FLASH_COLOR;
+        color6 = hitColorSetter(sensor6Str);
         }
     else
         {
@@ -404,6 +426,7 @@ void hitDetectOutputControl()
         sensor6Timloop = 0;
         }
 }
+
 /**********************************************\
 Function Name:  ledSM
 Input Args:     None
@@ -562,12 +585,12 @@ void ledSM()
 
         // Main drumming mode
         case PRIMARY1:
-            color1 = sensor1Str + DRUMMING_COLOR * sensor1VelConfirm;
-            color2 = sensor2Str + DRUMMING_COLOR * sensor2VelConfirm;
-            color3 = sensor3Str + DRUMMING_COLOR * sensor3VelConfirm;
-            color4 = sensor4Str + DRUMMING_COLOR * sensor4VelConfirm;
-            color5 = sensor5Str + DRUMMING_COLOR * sensor5VelConfirm;
-            color6 = sensor6Str + DRUMMING_COLOR * sensor6VelConfirm;
+            color1 = LED_COLOR_BLUE_DIM;//sensor1Str + DRUMMING_COLOR * sensor1VelConfirm;
+            color2 = LED_COLOR_BLUE_DIM;//sensor2Str + DRUMMING_COLOR * sensor2VelConfirm;
+            color3 = LED_COLOR_BLUE_DIM;//sensor3Str + DRUMMING_COLOR * sensor3VelConfirm;
+            color4 = LED_COLOR_BLUE_DIM;//sensor4Str + DRUMMING_COLOR * sensor4VelConfirm;
+            color5 = LED_COLOR_BLUE_DIM;//sensor5Str + DRUMMING_COLOR * sensor5VelConfirm;
+            color6 = LED_COLOR_BLUE_DIM;//sensor6Str + DRUMMING_COLOR * sensor6VelConfirm;
             if (sensorHitRecently())
             {
                 hitDetectOutputControl();

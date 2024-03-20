@@ -28,19 +28,26 @@ Description:    contains led definitions and headers
 #define LED_COLOR_BLUE_DIM          0x000001
 #define LED_COLOR_PURPLE_DIM        0x010001
 #define LED_COLOR_YELLOW_DIM        0x010100
+#define LED_COLOR_YELLOW_BRIGHT     0x111100
 #define LED_COLOR_CYAN_DIM          0x000101
 #define LED_COLOR_ORANGE_BRIGHT     0xCC8400
 #define LED_COLOR_GREEN             0x001100
 #define LED_COLOR_OFF               0x000000
 
-#define FLASH_COLOR                 LED_COLOR_ORANGE_BRIGHT
-#define DRUMMING_COLOR              LED_COLOR_GREEN
+// Define flash settings
+#define FLASH_COLOR_SOFT            LED_COLOR_GREEN_DIM
+#define FLASH_COLOR_MID_SOFT        LED_COLOR_GREEN_MID
+#define FLASH_COLOR_MID             LED_COLOR_GREEN
+#define FLASH_COLOR_MID_HARD        LED_COLOR_YELLOW_BRIGHT
+#define FLASH_COLOR_HARD            LED_COLOR_RED
+
+//#define DRUMMING_COLOR              LED_COLOR_GREEN
 
 //conversion factor (velocity-> brightness)
 #define BRIGHTNESS_LIMIT            255/80
 
 // LED Speed
-#define INITIAL_LOOP_WAIT           200
+#define INITIAL_LOOP_WAIT           100
 #define HIT_FLASH_DURATION          100
 
 typedef enum
@@ -110,6 +117,12 @@ void sensorHitLed(sensorID sensor, int hitStrength);
  * Checks if a sensor has been hit recently
  **/
 bool sensorHitRecently();
+
+/**
+ * Generates color for a sensor for a given hit strength
+ * \param sensorStr-        int hit strength velocity measured by sensor
+ **/
+unsigned hitColorSetter(int sensorStr);
 
 /**
  * Generates color for a sensor for a given amount of time when hit

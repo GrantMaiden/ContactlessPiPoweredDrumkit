@@ -181,51 +181,75 @@ void Controller::sendSound(sensorID id, int detectionValue)
     switch (id)
     {
         case sensorID::SENSOR1:
-            if (detectionValue > HARD_HIT)
+            if (detectionValue > HIT_HARD)
                 soundController.playSound(DRUM6_LOUD);
-            else if (detectionValue > MEDIUM_HIT)
+            else if (detectionValue > HIT_MID_HARD)
                 soundController.playSound(DRUM6_MEDIUM);
-            else if (detectionValue > LIGHT_HIT)
+            else if (detectionValue > HIT_MID)
+                soundController.playSound(DRUM6_MEDIUM);
+            else if (detectionValue > HIT_MID_SOFT)
+                soundController.playSound(DRUM6_MEDIUM);
+            else if (detectionValue > HIT_SOFT)
                 soundController.playSound(DRUM6_LOW);
             break;
         case sensorID::SENSOR2:
-            if (detectionValue > HARD_HIT)
+            if (detectionValue > HIT_HARD)
                 soundController.playSound(DRUM5_LOUD);
-            else if (detectionValue > MEDIUM_HIT)
+            else if (detectionValue > HIT_MID_HARD)
                 soundController.playSound(DRUM5_MEDIUM);
-            else if (detectionValue > LIGHT_HIT)
+            else if (detectionValue > HIT_MID)
+                soundController.playSound(DRUM5_MEDIUM);
+            else if (detectionValue > HIT_MID_SOFT)
+                soundController.playSound(DRUM5_MEDIUM);
+            else if (detectionValue > HIT_SOFT)
                 soundController.playSound(DRUM5_LOW);
             break;
         case sensorID::SENSOR3:
-            if (detectionValue > HARD_HIT)
-                soundController.playSound(DRUM3_LOUD);
-            else if (detectionValue > MEDIUM_HIT)
-                soundController.playSound(DRUM3_MEDIUM);
-            else if (detectionValue > LIGHT_HIT)
-                soundController.playSound(DRUM3_LOW);
-            break;
-        case sensorID::SENSOR4:
-            if (detectionValue > HARD_HIT)
+            if (detectionValue > HIT_HARD)
                 soundController.playSound(DRUM4_LOUD);
-            else if (detectionValue > MEDIUM_HIT)
+            else if (detectionValue > HIT_MID_HARD)
                 soundController.playSound(DRUM4_MEDIUM);
-            else if (detectionValue > LIGHT_HIT)
+            else if (detectionValue > HIT_MID)
+                soundController.playSound(DRUM4_MEDIUM);
+            else if (detectionValue > HIT_MID_SOFT)
+                soundController.playSound(DRUM4_MEDIUM);
+            else if (detectionValue > HIT_SOFT)
                 soundController.playSound(DRUM4_LOW);
             break;
+        case sensorID::SENSOR4:
+            if (detectionValue > HIT_HARD)
+                soundController.playSound(DRUM3_LOUD);
+            else if (detectionValue > HIT_MID_HARD)
+                soundController.playSound(DRUM3_MEDIUM);
+            else if (detectionValue > HIT_MID)
+                soundController.playSound(DRUM3_MEDIUM);
+            else if (detectionValue > HIT_MID_SOFT)
+                soundController.playSound(DRUM3_MEDIUM);
+            else if (detectionValue > HIT_SOFT)
+                soundController.playSound(DRUM3_LOW);
+            break;
         case sensorID::SENSOR5:
-            if (detectionValue > HARD_HIT)
+            if (detectionValue > HIT_HARD)
                 soundController.playSound(TH_LOUD_OPEN);
-            else if (detectionValue > MEDIUM_HIT)
+            else if (detectionValue > HIT_MID_HARD)
                 soundController.playSound(TH_MEDIUM_OPEN);
-            else if (detectionValue > LIGHT_HIT)
+            else if (detectionValue > HIT_MID)
+                soundController.playSound(TH_MEDIUM_OPEN);
+            else if (detectionValue > HIT_MID_SOFT)
+                soundController.playSound(TH_MEDIUM_OPEN);
+            else if (detectionValue > HIT_SOFT)
                 soundController.playSound(TH_LOW_OPEN);
             break;
         case sensorID::SENSOR6:
-            if (detectionValue > HARD_HIT)
+            if (detectionValue > HIT_HARD)
                 soundController.playSound(TH_LOUD_FOOT_CLOSED);
-            else if (detectionValue > MEDIUM_HIT)
+            else if (detectionValue > HIT_MID_HARD)
                 soundController.playSound(TH_MEDIUM_FOOT_CLOSED);
-            else if (detectionValue > LIGHT_HIT)
+            else if (detectionValue > HIT_MID)
+                soundController.playSound(TH_MEDIUM_FOOT_CLOSED);
+            else if (detectionValue > HIT_MID_SOFT)
+                soundController.playSound(TH_MEDIUM_FOOT_CLOSED);
+            else if (detectionValue > HIT_SOFT)
                 soundController.playSound(TH_LOW_FOOT_CLOSED);
             break;
     }
@@ -687,7 +711,6 @@ Description:    Prints sensor data to console
 /**********************************************/
 void Controller::printSensorAvgVelocity()
 {
-
     printf("%i\t%i\t%i\t%i\t%i\t%i\t\t%i\t%i\t%i\t%i\t%i\t%i\t\t%i\t%i\t%i\t%i\t%i\t%i\t\n",
          sens1Values.averageVelocity,
          sens2Values.averageVelocity,
@@ -717,7 +740,6 @@ Description:    Detects Gestures
 /**********************************************/
 bool Controller::gestureDetect()
 {
-
     int loop = 0;
     int currentIndex = 0;
     int lastVal = 0;

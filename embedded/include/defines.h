@@ -44,6 +44,15 @@ Description:    contains user constants, global enums, and structs
 #define D6_GPIO1        21
 #define D6_XSHUT        15
 
+
+// Hit Strength Defines
+#define HIT_SOFT        3
+#define HIT_MID_SOFT    5
+#define HIT_MID         7
+#define HIT_MID_HARD    9
+#define HIT_HARD        11
+
+
 typedef enum
 {
     SENSOR1,

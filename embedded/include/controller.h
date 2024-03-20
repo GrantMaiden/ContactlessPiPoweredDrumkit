@@ -9,10 +9,6 @@ Description:    System controller state machine
 
 #include <pigpio.h>
 
-#define LIGHT_HIT       3
-#define MEDIUM_HIT      7
-#define HARD_HIT        10
-
 // Distance Filtering
 #define DISTANCE_UPPER_THRESHOLD            600
 
