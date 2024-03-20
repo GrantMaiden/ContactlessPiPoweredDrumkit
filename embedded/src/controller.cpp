@@ -218,15 +218,15 @@ void Controller::sendSound(sensorID id, int detectionValue)
             break;
         case sensorID::SENSOR4:
             if (detectionValue > HIT_HARD)
-                soundController.playSound(DRUM3_LOUD);
+                soundController.playSound(SNARE_HARD);
             else if (detectionValue > HIT_MID_HARD)
-                soundController.playSound(DRUM3_MEDIUM);
+                soundController.playSound(SNARE_MID_HARD);
             else if (detectionValue > HIT_MID)
-                soundController.playSound(DRUM3_MEDIUM);
+                soundController.playSound(SNARE_MID);
             else if (detectionValue > HIT_MID_SOFT)
-                soundController.playSound(DRUM3_MEDIUM);
+                soundController.playSound(SNARE_MID_SOFT);
             else if (detectionValue > HIT_SOFT)
-                soundController.playSound(DRUM3_LOW);
+                soundController.playSound(SNARE_SOFT);
             break;
         case sensorID::SENSOR5:
             if (detectionValue > HIT_HARD)
@@ -370,7 +370,7 @@ bool Controller::hitDetection()
     bool returnVal = false;
     if (averageVelArrSens1[previousVelAvgIndex] * SENSOR1_6_DIRECTION > 0 && sens1Values.currentVelocity * SENSOR1_6_DIRECTION < 0)
         detectionValue = getPeakVelocity(sensorID::SENSOR1, PAST_AVERAGE_VELOCITY_ARR_SIZE);
-    if (timeoutEndTimeSensor1 < currentTimeMs && detectionValue * SENSOR1_6_DIRECTION >= LIGHT_HIT)
+    if (timeoutEndTimeSensor1 < currentTimeMs && detectionValue * SENSOR1_6_DIRECTION >= HIT_SOFT)
     {
         sendSound(sensorID::SENSOR1, SENSOR1_6_DIRECTION*detectionValue);
         timeoutEndTimeSensor1 = currentTimeMs + DRUM_INTERVAL_TIMEOUT_MS;
@@ -379,7 +379,7 @@ bool Controller::hitDetection()
     detectionValue = 0;
     if (averageVelArrSens2[previousVelAvgIndex] * SENSOR2_3_4_5_DIRECTION > 0 && sens2Values.currentVelocity * SENSOR2_3_4_5_DIRECTION < 0)
         detectionValue = getPeakVelocity(sensorID::SENSOR2, PAST_AVERAGE_VELOCITY_ARR_SIZE);
-    if (detectionValue * SENSOR2_3_4_5_DIRECTION >= LIGHT_HIT)
+    if (detectionValue * SENSOR2_3_4_5_DIRECTION >= HIT_SOFT)
     {
         //printf("timeoutEndTimeSensor2: %u, currentTimeMs: %u SensorID: %i\n", timeoutEndTimeSensor2, currentTimeMs, sensorID::SENSOR2);
         if(timeoutEndTimeSensor2 < currentTimeMs)
@@ -392,7 +392,7 @@ bool Controller::hitDetection()
     detectionValue = 0;
     if (averageVelArrSens3[previousVelAvgIndex]  * SENSOR2_3_4_5_DIRECTION > 0 && sens3Values.currentVelocity * SENSOR2_3_4_5_DIRECTION < 0)
         detectionValue = getPeakVelocity(sensorID::SENSOR3, PAST_AVERAGE_VELOCITY_ARR_SIZE);
-    if (timeoutEndTimeSensor3 < currentTimeMs && detectionValue * SENSOR2_3_4_5_DIRECTION >= LIGHT_HIT)
+    if (timeoutEndTimeSensor3 < currentTimeMs && detectionValue * SENSOR2_3_4_5_DIRECTION >= HIT_SOFT)
     {
         timeoutEndTimeSensor3 = currentTimeMs + DRUM_INTERVAL_TIMEOUT_MS;
         sendSound(sensorID::SENSOR3, SENSOR2_3_4_5_DIRECTION*detectionValue);
@@ -401,7 +401,7 @@ bool Controller::hitDetection()
     detectionValue = 0;
     if (averageVelArrSens4[previousVelAvgIndex]  * SENSOR2_3_4_5_DIRECTION > 0 && sens4Values.currentVelocity * SENSOR2_3_4_5_DIRECTION < 0)
         detectionValue = getPeakVelocity(sensorID::SENSOR4, PAST_AVERAGE_VELOCITY_ARR_SIZE);
-    if (timeoutEndTimeSensor4 < currentTimeMs && detectionValue * SENSOR2_3_4_5_DIRECTION >= LIGHT_HIT)
+    if (timeoutEndTimeSensor4 < currentTimeMs && detectionValue * SENSOR2_3_4_5_DIRECTION >= HIT_SOFT)
     {
         timeoutEndTimeSensor4 = currentTimeMs + DRUM_INTERVAL_TIMEOUT_MS;
         sendSound(sensorID::SENSOR4, SENSOR2_3_4_5_DIRECTION*detectionValue);
@@ -410,7 +410,7 @@ bool Controller::hitDetection()
     detectionValue = 0;
     if (averageVelArrSens5[previousVelAvgIndex]  * SENSOR2_3_4_5_DIRECTION > 0 && sens5Values.currentVelocity * SENSOR2_3_4_5_DIRECTION < 0)
         detectionValue = getPeakVelocity(sensorID::SENSOR5, PAST_AVERAGE_VELOCITY_ARR_SIZE);
-    if (timeoutEndTimeSensor5 < currentTimeMs && detectionValue * SENSOR2_3_4_5_DIRECTION >= LIGHT_HIT)
+    if (timeoutEndTimeSensor5 < currentTimeMs && detectionValue * SENSOR2_3_4_5_DIRECTION >= HIT_SOFT)
     {
         timeoutEndTimeSensor5 = currentTimeMs + DRUM_INTERVAL_TIMEOUT_MS;
         sendSound(sensorID::SENSOR5, SENSOR2_3_4_5_DIRECTION*detectionValue);
@@ -419,7 +419,7 @@ bool Controller::hitDetection()
     detectionValue = 0;
     if (averageVelArrSens6[previousVelAvgIndex]  * SENSOR1_6_DIRECTION > 0 && sens6Values.currentVelocity * SENSOR1_6_DIRECTION < 0)
         detectionValue = getPeakVelocity(sensorID::SENSOR6, PAST_AVERAGE_VELOCITY_ARR_SIZE);
-    if (timeoutEndTimeSensor6 < currentTimeMs && detectionValue * SENSOR1_6_DIRECTION >= LIGHT_HIT)
+    if (timeoutEndTimeSensor6 < currentTimeMs && detectionValue * SENSOR1_6_DIRECTION >= HIT_SOFT)
     {
         timeoutEndTimeSensor6 = currentTimeMs + DRUM_INTERVAL_TIMEOUT_MS;
         sendSound(sensorID::SENSOR6, SENSOR1_6_DIRECTION*detectionValue);
