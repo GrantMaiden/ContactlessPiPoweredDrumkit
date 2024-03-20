@@ -121,11 +121,11 @@ extern "C"{
 #define HI_HAT_CLOSED_MID_HARD                  "./sounds/PI_KIT_SOUNDS/Hi Hat/Closed/Hi-Hat Closed Mid-Hard.wav"
 #define HI_HAT_CLOSED_HARD                      "./sounds/PI_KIT_SOUNDS/Hi Hat/Closed/Hi-Hat Closed Hard.wav"
 
-#define HI_HAT_FOOT_CLOSED_SOFT                 "./sounds/PI_KIT_SOUNDS/Hi Hat/Foot/Hi-Hat Foot Soft.wav" 
-#define HI_HAT_FOOT_CLOSED_MID_SOFT             "./sounds/PI_KIT_SOUNDS/Hi Hat/Foot/Hi-Hat Foot Mid-Soft.wav"
-#define HI_HAT_FOOT_CLOSED_MID                  "./sounds/PI_KIT_SOUNDS/Hi Hat/Foot/Hi-Hat Foot Mid.wav"
-#define HI_HAT_FOOT_CLOSED_MID_HARD             "./sounds/PI_KIT_SOUNDS/Hi Hat/Foot/Hi-Hat Foot Mid-Hard.wav"
-#define HI_HAT_FOOT_CLOSED_HARD                 "./sounds/PI_KIT_SOUNDS/Hi Hat/Foot/Hi-Hat Foot Hard.wav"
+#define HI_HAT_FOOT_SOFT                 "./sounds/PI_KIT_SOUNDS/Hi Hat/Foot/Hi-Hat Foot Soft.wav" 
+#define HI_HAT_FOOT_MID_SOFT             "./sounds/PI_KIT_SOUNDS/Hi Hat/Foot/Hi-Hat Foot Mid-Soft.wav"
+#define HI_HAT_FOOT_MID                  "./sounds/PI_KIT_SOUNDS/Hi Hat/Foot/Hi-Hat Foot Mid.wav"
+#define HI_HAT_FOOT_MID_HARD             "./sounds/PI_KIT_SOUNDS/Hi Hat/Foot/Hi-Hat Foot Mid-Hard.wav"
+#define HI_HAT_FOOT_HARD                 "./sounds/PI_KIT_SOUNDS/Hi Hat/Foot/Hi-Hat Foot Hard.wav"
 
 #define CRASH_SOFT                              "./sounds/PI_KIT_SOUNDS/Crash/Crash Soft.wav" 
 #define CRASH_MID_SOFT                          "./sounds/PI_KIT_SOUNDS/Crash/Crash Mid-Soft.wav"
