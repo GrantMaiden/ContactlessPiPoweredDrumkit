@@ -182,39 +182,39 @@ void Controller::sendSound(sensorID id, int detectionValue)
     {
         case sensorID::SENSOR1:
             if (detectionValue > HIT_HARD)
-                soundController.playSound(DRUM6_LOUD);
+                soundController.playSound(KICK_HARD);
             else if (detectionValue > HIT_MID_HARD)
-                soundController.playSound(DRUM6_MEDIUM);
+                soundController.playSound(KICK_MID_HARD);
             else if (detectionValue > HIT_MID)
-                soundController.playSound(DRUM6_MEDIUM);
+                soundController.playSound(KICK_MID);
             else if (detectionValue > HIT_MID_SOFT)
-                soundController.playSound(DRUM6_MEDIUM);
+                soundController.playSound(KICK_MID_SOFT);
             else if (detectionValue > HIT_SOFT)
-                soundController.playSound(DRUM6_LOW);
+                soundController.playSound(KICK_SOFT);
             break;
         case sensorID::SENSOR2:
             if (detectionValue > HIT_HARD)
-                soundController.playSound(DRUM5_LOUD);
+                soundController.playSound(CRASH_HARD);
             else if (detectionValue > HIT_MID_HARD)
-                soundController.playSound(DRUM5_MEDIUM);
+                soundController.playSound(CRASH_MID_HARD);
             else if (detectionValue > HIT_MID)
-                soundController.playSound(DRUM5_MEDIUM);
+                soundController.playSound(CRASH_MID);
             else if (detectionValue > HIT_MID_SOFT)
-                soundController.playSound(DRUM5_MEDIUM);
+                soundController.playSound(CRASH_MID_SOFT);
             else if (detectionValue > HIT_SOFT)
-                soundController.playSound(DRUM5_LOW);
+                soundController.playSound(CRASH_SOFT);
             break;
         case sensorID::SENSOR3:
             if (detectionValue > HIT_HARD)
-                soundController.playSound(DRUM4_LOUD);
+                soundController.playSound(COWBELL_HARD);
             else if (detectionValue > HIT_MID_HARD)
-                soundController.playSound(DRUM4_MEDIUM);
+                soundController.playSound(COWBELL_MID_HARD);
             else if (detectionValue > HIT_MID)
-                soundController.playSound(DRUM4_MEDIUM);
+                soundController.playSound(COWBELL_MID);
             else if (detectionValue > HIT_MID_SOFT)
-                soundController.playSound(DRUM4_MEDIUM);
+                soundController.playSound(COWBELL_MID_SOFT);
             else if (detectionValue > HIT_SOFT)
-                soundController.playSound(DRUM4_LOW);
+                soundController.playSound(COWBELL_SOFT);
             break;
         case sensorID::SENSOR4:
             if (detectionValue > HIT_HARD)
@@ -230,27 +230,27 @@ void Controller::sendSound(sensorID id, int detectionValue)
             break;
         case sensorID::SENSOR5:
             if (detectionValue > HIT_HARD)
-                soundController.playSound(TH_LOUD_OPEN);
+                soundController.playSound(HI_HAT_CLOSED_HARD);
             else if (detectionValue > HIT_MID_HARD)
-                soundController.playSound(TH_MEDIUM_OPEN);
+                soundController.playSound(HI_HAT_CLOSED_MID_HARD);
             else if (detectionValue > HIT_MID)
-                soundController.playSound(TH_MEDIUM_OPEN);
+                soundController.playSound(HI_HAT_CLOSED_MID);
             else if (detectionValue > HIT_MID_SOFT)
-                soundController.playSound(TH_MEDIUM_OPEN);
+                soundController.playSound(HI_HAT_CLOSED_MID_SOFT);
             else if (detectionValue > HIT_SOFT)
-                soundController.playSound(TH_LOW_OPEN);
+                soundController.playSound(HI_HAT_CLOSED_SOFT);
             break;
         case sensorID::SENSOR6:
             if (detectionValue > HIT_HARD)
-                soundController.playSound(TH_LOUD_FOOT_CLOSED);
+                soundController.playSound(HI_HAT_FOOT_HARD);
             else if (detectionValue > HIT_MID_HARD)
-                soundController.playSound(TH_MEDIUM_FOOT_CLOSED);
+                soundController.playSound(HI_HAT_FOOT_MID_HARD);
             else if (detectionValue > HIT_MID)
-                soundController.playSound(TH_MEDIUM_FOOT_CLOSED);
+                soundController.playSound(HI_HAT_FOOT_MID);
             else if (detectionValue > HIT_MID_SOFT)
-                soundController.playSound(TH_MEDIUM_FOOT_CLOSED);
+                soundController.playSound(HI_HAT_FOOT_MID_SOFT);
             else if (detectionValue > HIT_SOFT)
-                soundController.playSound(TH_LOW_FOOT_CLOSED);
+                soundController.playSound(HI_HAT_FOOT_SOFT);
             break;
     }
 
