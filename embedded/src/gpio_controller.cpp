@@ -149,8 +149,6 @@ bool GpioController::gpioLedSpiTest(char *arr)
     }
 
     gpioInitializeLib();
-    LedControl ledControlInstance;
-    ledControlInstance;
 
     // blink test
     int loops = 0;
@@ -162,7 +160,7 @@ bool GpioController::gpioLedSpiTest(char *arr)
 
         // Turn Leds off
         char * colorArr = new char[18]();
-        ledControlInstance.ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
+        ledCreateColorArr(colorArr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
         gpioLedSetColor(colorArr);
         sleep(1);
 
@@ -182,7 +180,7 @@ bool GpioController::gpioLedSpiTest(char *arr)
         unsigned ColorRed = colorByte << 16;
         unsigned ColorGreen = colorByte << 8;
         unsigned ColorBlue = colorByte << 0;
-        ledControlInstance.ledCreateColorArr(colorArr, ColorRed, ColorGreen, ColorBlue, ColorRed, ColorGreen, ColorBlue);
+        ledCreateColorArr(colorArr, ColorRed, ColorGreen, ColorBlue, ColorRed, ColorGreen, ColorBlue);
         gpioLedSetColor(colorArr);
 
         clock_gettime(CLOCK_REALTIME, &clockObj);
@@ -204,7 +202,7 @@ bool GpioController::gpioLedSpiTest(char *arr)
     }
 
     // Turn Leds off
-    ledControlInstance.ledCreateColorArr(arr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
+    ledCreateColorArr(arr, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF, LED_COLOR_OFF);
     gpioLedSetColor(arr);
 
     printf("gpioLedSpiTest Completed.\n");

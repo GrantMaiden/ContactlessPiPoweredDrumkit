@@ -22,9 +22,6 @@ Description:    Entry Point into ENG5228 project for University of Glasgow
 #include "controller.h"
 #include "sound.h"
 
-
-
-
 Controller controller;
 VL53L4CD    vl53l4cd;
 
@@ -47,7 +44,6 @@ Description:    main function/application entry
 /**********************************************/
 int main(int argc, char *argv[])
 {
-	//// Parse Unit Tests and Other Command Line Args ////
 	parseCommandLine(argc, argv);
 
     sleep(1);
@@ -59,12 +55,15 @@ int main(int argc, char *argv[])
     Controller controllerInstance;
     controller = controllerInstance;
 
+
     // initialize Distance Sensors
     VL53L4CD vl53l4cdInstance;
     vl53l4cd = vl53l4cdInstance;
     vl53l4cd.rangingInit();
 
     initInterrupts();
+
+    // initialize LEDS
     initLeds();
 
     // Initialize threads ////
@@ -82,17 +81,6 @@ int main(int argc, char *argv[])
 }
 
 /**********************************************\
-Function Name:  initLeds()
-Input Args:     none
-Output Args:    none
-Description:    intialize Leds
-/**********************************************/
-void initLeds()
-{
-
-}
-
-/**********************************************\
 Function Name:  btbThread::run
 Input Args:     none
 Output Args:    none
@@ -101,10 +89,10 @@ Description:    override virtual run method for btbThread Class. Calls Statemach
 void btbThread::run() {
     while(1)
     {
-        //if(enableLedSM)
+        if(enableLedSM)
         {
-            // TODO: call led state machine
-            //enableLedSM = false;
+            ledSM();
+            enableLedSM = false;
         }
 
         // controller Statemachine
@@ -120,7 +108,7 @@ Description:    override timerEvent from btbTimer1 class. Enables LED statemachi
 /**********************************************/
 void btbTimer1::timerEvent(){
     enableLedSM = true;
-    //printf("TimerRunningCB\n");
+    //printf("LEDTimerRunningCB\n");
 }
 
 /**********************************************\
@@ -133,15 +121,6 @@ Description:    callback that is triggered on DistanceSensors Interrupt Falling 
 /**********************************************/
 void rangingISRCallback(int gpio, int level, uint32_t tick)
 {
-    //printf("GPIO %d became %d at %d\n", gpio, level, tick); //COMMENT ME OUT WHEN WORKING
-
-    //if (level == PI_TIMEOUT)
-    //{
-        //printf("GPIO %d returned Interrupt Timeout! Interrupt Exceeded %dms!\nUs tick: %lu\n", gpio, DISTANCE_SENSOR_INTERRUPT_TIMEOUT, tick);
-    //    ;
-    //}
-
-    //printf("GPIO %i\n", gpio);
 
     sensorValues senseValues;
     switch(gpio)
@@ -235,15 +214,13 @@ void runCommandLine(char *argv[])
     else if (!strcmp(argv[0], "gpioLedSpiTest"))
     {
         GpioController gpiocontroller;
-        LedControl ledControl;
         char * arr = new char[18]();
-        ledControl.ledCreateColorArr(arr, LED_COLOR_CYAN_DIM, LED_COLOR_PURPLE_DIM, LED_COLOR_YELLOW_DIM, LED_COLOR_WHITE_DIM, LED_COLOR_BLUE_DIM, LED_COLOR_GREEN_DIM);
+        ledCreateColorArr(arr, LED_COLOR_CYAN_DIM, LED_COLOR_PURPLE_DIM, LED_COLOR_YELLOW_DIM, LED_COLOR_WHITE_DIM, LED_COLOR_BLUE_DIM, LED_COLOR_GREEN_DIM);
         gpiocontroller.gpioLedSpiTest(arr);
     }
     else if (!strcmp(argv[0], "ledInitialiseTest"))
     {
-        LedControl ledControl;
-        ledControl.ledInitialiseTest();
+        //ledInitialiseTest();
     }
     else if (!strcmp(argv[0], "interruptTest"))
     {
@@ -291,5 +268,4 @@ void runCommandLine(char *argv[])
         printf("Command: %s Failed to run!!!\n", argv[0]);
     }
 }
-
 

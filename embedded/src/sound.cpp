@@ -69,8 +69,6 @@ extern "C"{
 }
 #include "sound.h"
 
-
-
 //#ifdef EN_AUDIO
 //#define MA_NO_ENGINE
 //#define MINIAUDIO_IMPLEMENTATION
@@ -91,7 +89,7 @@ extern "C"{
 
 
 //static char * mixArr[TOTAL_INSTRUMENTS];
-char * mixArr[] = {"%s %s %s",TH_LOUD_FOOT_CLOSED, TH_LOUD_OPEN, DRUM3_LOUD};
+char * mixArr[] = {"%s %s %s",TH_LOUD_FOOT_CLOSED_GRANT, TH_LOUD_OPEN_GRANT, DRUM3_LOUD_GRANT};
 
 static ma_resource_manager_data_source g_dataSources[16];
 static ma_uint32                       g_dataSourceCount;
@@ -114,38 +112,139 @@ void Sound::soundInit()
     if (result != MA_SUCCESS) {
         printf("Error initing engine...");
     }
-
+    // Sound Enabled Initialised//
     ma_sound_init_from_file(&audio_engine, PATH_SOUND_ENABLED_WAV, 0, NULL, NULL, &pPreloadedSounds[0]);
     ma_sound_init_from_file(&audio_engine, PATH_SOUND_DISABLED_WAV, 0, NULL, NULL, &pPreloadedSounds[0]);
 
-    ma_sound_init_from_file(&audio_engine, TH_LOW_OPEN, 0, NULL, NULL, &pPreloadedSounds[0]);
-    ma_sound_init_from_file(&audio_engine, TH_MEDIUM_OPEN, 0, NULL, NULL, &pPreloadedSounds[0]);
-    ma_sound_init_from_file(&audio_engine, TH_LOUD_OPEN, 0, NULL, NULL, &pPreloadedSounds[0]);
-    ma_sound_init_from_file(&audio_engine, TH_LOW_CLOSED, 0, NULL, NULL, &pPreloadedSounds[0]);
-    ma_sound_init_from_file(&audio_engine, TH_MEDIUM_CLOSED, 0, NULL, NULL, &pPreloadedSounds[0]);
-    ma_sound_init_from_file(&audio_engine, TH_LOUD_CLOSED, 0, NULL, NULL, &pPreloadedSounds[0]);
-    ma_sound_init_from_file(&audio_engine, TH_LOW_FOOT_OPEN, 0, NULL, NULL, &pPreloadedSounds[0]);
-    ma_sound_init_from_file(&audio_engine, TH_MEDIUM_FOOT_OPEN, 0, NULL, NULL, &pPreloadedSounds[0]);
-    ma_sound_init_from_file(&audio_engine, TH_LOUD_FOOT_OPEN, 0, NULL, NULL, &pPreloadedSounds[0]);
-    ma_sound_init_from_file(&audio_engine, TH_LOW_FOOT_CLOSED, 0, NULL, NULL, &pPreloadedSounds[0]);
-    ma_sound_init_from_file(&audio_engine, TH_MEDIUM_FOOT_CLOSED, 0, NULL, NULL, &pPreloadedSounds[0]);
-    ma_sound_init_from_file(&audio_engine, TH_LOUD_FOOT_CLOSED, 0, NULL, NULL, &pPreloadedSounds[0]);
+    // Grant Kit Initialised//
+    ma_sound_init_from_file(&audio_engine, TH_LOW_OPEN_GRANT, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, TH_MEDIUM_OPEN_GRANT, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, TH_LOUD_OPEN_GRANT, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, TH_LOW_CLOSED_GRANT, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, TH_MEDIUM_CLOSED_GRANT, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, TH_LOUD_CLOSED_GRANT, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, TH_LOW_FOOT_OPEN_GRANT, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, TH_MEDIUM_FOOT_OPEN_GRANT, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, TH_LOUD_FOOT_OPEN_GRANT, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, TH_LOW_FOOT_CLOSED_GRANT, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, TH_MEDIUM_FOOT_CLOSED_GRANT, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, TH_LOUD_FOOT_CLOSED_GRANT, 0, NULL, NULL, &pPreloadedSounds[0]);
 
-    ma_sound_init_from_file(&audio_engine, DRUM3_LOW, 0, NULL, NULL, &pPreloadedSounds[0]);
-    ma_sound_init_from_file(&audio_engine, DRUM3_MEDIUM, 0, NULL, NULL, &pPreloadedSounds[0]);
-    ma_sound_init_from_file(&audio_engine, DRUM3_LOUD, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, DRUM3_LOW_GRANT, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, DRUM3_MEDIUM_GRANT, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, DRUM3_LOUD_GRANT, 0, NULL, NULL, &pPreloadedSounds[0]);
 
-    ma_sound_init_from_file(&audio_engine, DRUM4_LOW, 0, NULL, NULL, &pPreloadedSounds[0]);
-    ma_sound_init_from_file(&audio_engine, DRUM4_MEDIUM, 0, NULL, NULL, &pPreloadedSounds[0]);
-    ma_sound_init_from_file(&audio_engine, DRUM4_LOUD, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, DRUM4_LOW_GRANT, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, DRUM4_MEDIUM_GRANT, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, DRUM4_LOUD_GRANT, 0, NULL, NULL, &pPreloadedSounds[0]);
 
-    ma_sound_init_from_file(&audio_engine, DRUM5_LOW, 0, NULL, NULL, &pPreloadedSounds[0]);
-    ma_sound_init_from_file(&audio_engine, DRUM5_MEDIUM, 0, NULL, NULL, &pPreloadedSounds[0]);
-    ma_sound_init_from_file(&audio_engine, DRUM5_LOUD, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, DRUM5_LOW_GRANT, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, DRUM5_MEDIUM_GRANT, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, DRUM5_LOUD_GRANT, 0, NULL, NULL, &pPreloadedSounds[0]);
 
-    ma_sound_init_from_file(&audio_engine, DRUM6_LOW, 0, NULL, NULL, &pPreloadedSounds[0]);
-    ma_sound_init_from_file(&audio_engine, DRUM6_MEDIUM, 0, NULL, NULL, &pPreloadedSounds[0]);
-    ma_sound_init_from_file(&audio_engine, DRUM6_LOUD, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, DRUM6_LOW_GRANT, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, DRUM6_MEDIUM_GRANT, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, DRUM6_LOUD_GRANT, 0, NULL, NULL, &pPreloadedSounds[0]);
+
+    // PI Kit Initialised//
+
+    //Drum Sounds//
+
+    //Snare Sound
+    ma_sound_init_from_file(&audio_engine, SNARE_HARD, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, SNARE_MID_HARD, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, SNARE_MID, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, SNARE_MID_SOFT, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, SNARE_SOFT, 0, NULL, NULL, &pPreloadedSounds[0]);
+
+    //Hi Tom Sound
+    ma_sound_init_from_file(&audio_engine, HI_TOM_HARD, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, HI_TOM_MID_HARD, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, HI_TOM_MID, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, HI_TOM_MID_SOFT, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, HI_TOM_SOFT, 0, NULL, NULL, &pPreloadedSounds[0]);
+
+    //Mid Tom Sound
+    ma_sound_init_from_file(&audio_engine, MID_TOM_HARD, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, MID_TOM_MID_HARD, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, MID_TOM_MID, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, MID_TOM_MID_SOFT, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, MID_TOM_SOFT, 0, NULL, NULL, &pPreloadedSounds[0]);
+
+    //Low Tom Sound
+    ma_sound_init_from_file(&audio_engine, LOW_TOM_HARD, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, LOW_TOM_MID_HARD, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, LOW_TOM_MID, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, LOW_TOM_MID_SOFT, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, LOW_TOM_SOFT, 0, NULL, NULL, &pPreloadedSounds[0]);
+
+    //Kick Sound
+    ma_sound_init_from_file(&audio_engine, KICK_HARD, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, KICK_MID_HARD, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, KICK_MID, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, KICK_MID_SOFT, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, KICK_SOFT, 0, NULL, NULL, &pPreloadedSounds[0]);
+
+    //Cymbal Sounds//
+
+    //Hi Hat Sounds//
+    //Hi Hat Open
+    ma_sound_init_from_file(&audio_engine, HI_HAT_OPEN_HARD, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, HI_HAT_OPEN_MID_HARD, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, HI_HAT_OPEN_MID, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, HI_HAT_OPEN_MID_SOFT, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, HI_HAT_OPEN_SOFT, 0, NULL, NULL, &pPreloadedSounds[0]);
+
+    //Hi Hat Closed
+    ma_sound_init_from_file(&audio_engine, HI_HAT_CLOSED_HARD, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, HI_HAT_CLOSED_MID_HARD, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, HI_HAT_CLOSED_MID, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, HI_HAT_CLOSED_MID_SOFT, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, HI_HAT_CLOSED_SOFT, 0, NULL, NULL, &pPreloadedSounds[0]);
+
+    //Hi Hat Foot
+    ma_sound_init_from_file(&audio_engine, HI_HAT_FOOT_HARD, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, HI_HAT_FOOT_MID_HARD, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, HI_HAT_FOOT_MID, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, HI_HAT_FOOT_MID_SOFT, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, HI_HAT_FOOT_SOFT, 0, NULL, NULL, &pPreloadedSounds[0]);
+
+    //Other Cymbals//
+    //Crash Sound
+    ma_sound_init_from_file(&audio_engine, CRASH_HARD, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, CRASH_MID_HARD, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, CRASH_MID, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, CRASH_MID_SOFT, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, CRASH_SOFT, 0, NULL, NULL, &pPreloadedSounds[0]);
+
+    //Ride Sound
+    ma_sound_init_from_file(&audio_engine, RIDE_HARD, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, RIDE_MID_HARD, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, RIDE_MID, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, RIDE_MID_SOFT, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, RIDE_SOFT, 0, NULL, NULL, &pPreloadedSounds[0]);
+
+    //AUX Percussion Sounds//
+    //Clap Sound
+    ma_sound_init_from_file(&audio_engine, CLAP_HARD, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, CLAP_MID_HARD, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, CLAP_MID, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, CLAP_MID_SOFT, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, CLAP_SOFT, 0, NULL, NULL, &pPreloadedSounds[0]);
+
+    //Bell Sound
+    ma_sound_init_from_file(&audio_engine, BELL_HARD, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, BELL_MID_HARD, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, BELL_MID, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, BELL_MID_SOFT, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, BELL_SOFT, 0, NULL, NULL, &pPreloadedSounds[0]);
+
+    //Cowbell Sound
+    ma_sound_init_from_file(&audio_engine, COWBELL_HARD, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, COWBELL_MID_HARD, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, COWBELL_MID, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, COWBELL_MID_SOFT, 0, NULL, NULL, &pPreloadedSounds[0]);
+    ma_sound_init_from_file(&audio_engine, COWBELL_SOFT, 0, NULL, NULL, &pPreloadedSounds[0]);
 }
 
 
@@ -173,9 +272,9 @@ void Sound::soundTest1()
     ma_device_config deviceConfig;
     ma_device device;
 
-    result = ma_decoder_init_file(TH_LOUD_FOOT_CLOSED, NULL, &decoder);
+    result = ma_decoder_init_file(TH_LOUD_FOOT_CLOSED_GRANT, NULL, &decoder);
     if (result != MA_SUCCESS) {
-        printf("Could not load file: %s\n", TH_LOUD_FOOT_CLOSED);
+        printf("Could not load file: %s\n", TH_LOUD_FOOT_CLOSED_GRANT);
         return;
     }
 
@@ -495,9 +594,9 @@ void Sound::soundTest3()
 
     for (int i = 0; i <= 10; i++)
     {
-        playSound(TH_LOUD_FOOT_CLOSED);
-        playSound(TH_LOUD_OPEN);
-        playSound(DRUM3_LOUD);
+        playSound(TH_LOUD_FOOT_CLOSED_GRANT);
+        playSound(TH_LOUD_OPEN_GRANT);
+        playSound(DRUM3_LOUD_GRANT);
         usleep(200000);
     }
 
