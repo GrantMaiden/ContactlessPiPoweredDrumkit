@@ -66,6 +66,52 @@ typedef enum
     PRIMARY1
 }ledStateMachine;
 
+static ledStateMachine currentState = RESET_LEDS;
+static ledStateMachine nextState = currentState;
+
+int sensor1Hit = 0;
+int sensor2Hit = 0;
+int sensor3Hit = 0;
+int sensor4Hit = 0;
+int sensor5Hit = 0;
+int sensor6Hit = 0;
+
+int sensor1Str = 0;
+int sensor2Str = 0;
+int sensor3Str = 0;
+int sensor4Str = 0;
+int sensor5Str = 0;
+int sensor6Str = 0;
+
+int sensor1Timloop = 0;
+int sensor2Timloop = 0;
+int sensor3Timloop = 0;
+int sensor4Timloop = 0;
+int sensor5Timloop = 0;
+int sensor6Timloop = 0;
+
+unsigned colorSet = LED_COLOR_OFF;
+unsigned color1 = LED_COLOR_OFF;
+unsigned color2 = LED_COLOR_OFF;
+unsigned color3 = LED_COLOR_OFF;
+unsigned color4 = LED_COLOR_OFF;
+unsigned color5 = LED_COLOR_OFF;
+unsigned color6 = LED_COLOR_OFF;
+
+int loops = 0;
+int loopWait = 0;
+int sensor1VelConfirm = 0;
+int sensor2VelConfirm = 0;
+int sensor3VelConfirm = 0;
+int sensor4VelConfirm = 0;
+int sensor5VelConfirm = 0;
+int sensor6VelConfirm = 0;
+
+char * colorArr = new char[18]();
+unsigned initialColour1 = 0x7;
+
+GpioController gpioController;
+
 /**
  * creates a single color array combined from input arguments. Will fill outputArr memory with combined data. Performs RGB->GRB byteshift
  * \param outputArr- char* this needs to be 18char long empty array
