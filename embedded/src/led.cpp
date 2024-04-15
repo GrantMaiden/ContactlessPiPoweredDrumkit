@@ -503,12 +503,13 @@ void ledSM()
 
         // Main drumming mode
         case PRIMARY1:
-            color1 = LED_COLOR_BLUE_DIM;//sensor1Str + DRUMMING_COLOR * sensor1VelConfirm;
-            color2 = LED_COLOR_BLUE_DIM;//sensor2Str + DRUMMING_COLOR * sensor2VelConfirm;
-            color3 = LED_COLOR_BLUE_DIM;//sensor3Str + DRUMMING_COLOR * sensor3VelConfirm;
-            color4 = LED_COLOR_BLUE_DIM;//sensor4Str + DRUMMING_COLOR * sensor4VelConfirm;
-            color5 = LED_COLOR_BLUE_DIM;//sensor5Str + DRUMMING_COLOR * sensor5VelConfirm;
-            color6 = LED_COLOR_BLUE_DIM;//sensor6Str + DRUMMING_COLOR * sensor6VelConfirm;
+            // Uncomment lines to change LED lights from constantly on, to only turning on when hit
+            color1 = LED_COLOR_BLUE_DIM;//* sensor1VelConfirm;
+            color2 = LED_COLOR_BLUE_DIM;//* sensor2VelConfirm;
+            color3 = LED_COLOR_BLUE_DIM;//* sensor3VelConfirm;
+            color4 = LED_COLOR_BLUE_DIM;//* sensor4VelConfirm;
+            color5 = LED_COLOR_BLUE_DIM;//* sensor5VelConfirm;
+            color6 = LED_COLOR_BLUE_DIM;//* sensor6VelConfirm;
             if (sensorHitRecently())
             {
                 hitDetectOutputControl();
