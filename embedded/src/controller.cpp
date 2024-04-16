@@ -18,9 +18,11 @@ Description:    System controller state machine
 #include "ranging.h"
 #include "controller.h"
 #include "sound.h"
+#include "led.h"
 
 
 Sound soundController;
+LedControl ledController;
 
 /**********************************************\
 Function Name:  initialize
@@ -134,56 +136,80 @@ Description:    computes if a hit was detected
 void Controller::sendSound(sensorID id, int detectionValue)
 {
     printf("Hit Detected! Strength: %i Sensor: %i\n", detectionValue, id+1);
-
+    ledController.sensorHitLed(id, detectionValue);
     switch (id)
     {
         case sensorID::SENSOR1:
-            if (detectionValue > HARD_HIT)
-                soundController.playSound(DRUM6_LOUD);
-            else if (detectionValue > MEDIUM_HIT)
-                soundController.playSound(DRUM6_MEDIUM);
-            else if (detectionValue > LIGHT_HIT)
-                soundController.playSound(DRUM6_LOW);
+            if (detectionValue >= HIT_HARD)
+                soundController.playSound(KICK_HARD);
+            else if (detectionValue >= HIT_MID_HARD)
+                soundController.playSound(KICK_MID_HARD);
+            else if (detectionValue >= HIT_MID)
+                soundController.playSound(KICK_MID);
+            else if (detectionValue >= HIT_MID_SOFT)
+                soundController.playSound(KICK_MID_SOFT);
+            else if (detectionValue >= HIT_SOFT)
+                soundController.playSound(KICK_SOFT);
             break;
         case sensorID::SENSOR2:
-            if (detectionValue > HARD_HIT)
-                soundController.playSound(DRUM5_LOUD);
-            else if (detectionValue > MEDIUM_HIT)
-                soundController.playSound(DRUM5_MEDIUM);
-            else if (detectionValue > LIGHT_HIT)
-                soundController.playSound(DRUM5_LOW);
+            if (detectionValue >= HIT_HARD)
+                soundController.playSound(CRASH_HARD);
+            else if (detectionValue >= HIT_MID_HARD)
+                soundController.playSound(CRASH_MID_HARD);
+            else if (detectionValue >= HIT_MID)
+                soundController.playSound(CRASH_MID);
+            else if (detectionValue >= HIT_MID_SOFT)
+                soundController.playSound(CRASH_MID_SOFT);
+            else if (detectionValue >= HIT_SOFT)
+                soundController.playSound(CRASH_SOFT);
             break;
         case sensorID::SENSOR3:
-            if (detectionValue > HARD_HIT)
-                soundController.playSound(DRUM3_LOUD);
-            else if (detectionValue > MEDIUM_HIT)
-                soundController.playSound(DRUM3_MEDIUM);
-            else if (detectionValue > LIGHT_HIT)
-                soundController.playSound(DRUM3_LOW);
+            if (detectionValue >= HIT_HARD)
+                soundController.playSound(COWBELL_HARD);
+            else if (detectionValue >= HIT_MID_HARD)
+                soundController.playSound(COWBELL_MID_HARD);
+            else if (detectionValue >= HIT_MID)
+                soundController.playSound(COWBELL_MID);
+            else if (detectionValue >= HIT_MID_SOFT)
+                soundController.playSound(COWBELL_MID_SOFT);
+            else if (detectionValue >= HIT_SOFT)
+                soundController.playSound(COWBELL_SOFT);
             break;
         case sensorID::SENSOR4:
-            if (detectionValue > HARD_HIT)
-                soundController.playSound(DRUM4_LOUD);
-            else if (detectionValue > MEDIUM_HIT)
-                soundController.playSound(DRUM4_MEDIUM);
-            else if (detectionValue > LIGHT_HIT)
-                soundController.playSound(DRUM4_LOW);
+            if (detectionValue >= HIT_HARD)
+                soundController.playSound(SNARE_HARD);
+            else if (detectionValue >= HIT_MID_HARD)
+                soundController.playSound(SNARE_MID_HARD);
+            else if (detectionValue >= HIT_MID)
+                soundController.playSound(SNARE_MID);
+            else if (detectionValue >= HIT_MID_SOFT)
+                soundController.playSound(SNARE_MID_SOFT);
+            else if (detectionValue >= HIT_SOFT)
+                soundController.playSound(SNARE_SOFT);
             break;
         case sensorID::SENSOR5:
-            if (detectionValue > HARD_HIT)
-                soundController.playSound(TH_LOUD_OPEN);
-            else if (detectionValue > MEDIUM_HIT)
-                soundController.playSound(TH_MEDIUM_OPEN);
-            else if (detectionValue > LIGHT_HIT)
-                soundController.playSound(TH_LOW_OPEN);
+            if (detectionValue >= HIT_HARD)
+                soundController.playSound(HI_HAT_CLOSED_HARD);
+            else if (detectionValue >= HIT_MID_HARD)
+                soundController.playSound(HI_HAT_CLOSED_MID_HARD);
+            else if (detectionValue >= HIT_MID)
+                soundController.playSound(HI_HAT_CLOSED_MID);
+            else if (detectionValue >= HIT_MID_SOFT)
+                soundController.playSound(HI_HAT_CLOSED_MID_SOFT);
+            else if (detectionValue >= HIT_SOFT)
+                soundController.playSound(HI_HAT_CLOSED_SOFT);
             break;
         case sensorID::SENSOR6:
-            if (detectionValue > HARD_HIT)
-                soundController.playSound(TH_LOUD_FOOT_CLOSED);
-            else if (detectionValue > MEDIUM_HIT)
-                soundController.playSound(TH_MEDIUM_FOOT_CLOSED);
-            else if (detectionValue > LIGHT_HIT)
-                soundController.playSound(TH_LOW_FOOT_CLOSED);
+            if (detectionValue >= HIT_HARD)
+                soundController.playSound(HI_HAT_FOOT_HARD);
+            else if (detectionValue >= HIT_MID_HARD)
+                soundController.playSound(HI_HAT_FOOT_MID_HARD);
+            else if (detectionValue >= HIT_MID)
+                soundController.playSound(HI_HAT_FOOT_MID);
+            else if (detectionValue >= HIT_MID_SOFT)
+                soundController.playSound(HI_HAT_FOOT_MID_SOFT);
+            else if (detectionValue >= HIT_SOFT)
+                soundController.playSound(HI_HAT_FOOT_SOFT);
             break;
     }
 

@@ -3,7 +3,7 @@
 # [<img src="./docs/Instagram_icon.png.webp" width="35"/>](https://www.instagram.com/byte.thebeat/) (byte)this.beat  
 Welcome to the github landing page for the first prototype of the **(byte)this.beat** drumkit!
 
-(byte)this.beat is an innovative, contactless, raspberry pi-powered drumkit being developed for  Real Time Embedded Programming (ENG5228) at the University of Glasgow.  The contactless drumkit aims to be a simple, easy-to-use interface that accommodates entry level users---being a introductory device to jam out on---as well as a device for professional musicians, conforming to sub 20ms latency requirements and high quality, 48000khz drum samples.
+(byte)this.beat is an innovative, contactless, raspberry pi-powered drumkit being developed for  Real Time Embedded Programming (ENG5220) at the University of Glasgow.  The contactless drumkit aims to be a simple, easy-to-use interface that accommodates entry level users---being a introductory device to jam out on---as well as a device for professional musicians, conforming to sub 20ms latency requirements and high quality, 48000khz drum samples.
 
 Please download the latest release to access the most recent stable version of the source code. Keep in mind that hardware is required to run this project!
 
@@ -70,6 +70,7 @@ The controller class is initialised by the Main function, which on program boot 
 I2C was used as the communication protocol for each sensor. All sensors share the same bus, but are initialised with the same address. An initialization procedure had to be crafted to disable all sensors on program start, then bring-up each sensor sequentially, reprogramming the I2C bus address for the sensor, and configuring it for our high sample rate requirements.
 
 <img src="./docs/VL53L4CD bringup.png" alt="Alt text" title="(byte)this.beat; ranging bringup">
+Note: From VL53L4CD Datasheet
 
 The SPI protocol uses custom bitshift operations to drive 6*24bits of RGB data to our addressable LEDs. The GPIO controller class handles the sending of the SPI data.
 ### Digital Signal Processing
@@ -81,7 +82,7 @@ The outgoing data from the ranging sensors is inherently quite noisy, and lots o
 * HIT_DETECT_AVG_VELOCITY_CEILING -- An average velocity is taken of all previous detection samples. If this average is above this threshold, then the drum detect event is negated
 * HIT_DETECT_MIN_SEQUENTIAL_VELOCITY_SAMPLES  --  Minimum number of previous velocity samples below the HIT_DETECT_AVG_VELOCITY_CEILING required for a hit detect
 ## Unit Testing Framework
-A custom unit testing framework was designed to accommodate the needs of our team collaborative efforts. When the application launches, the first code that is ran is a search to see if an input arguments are supplied. The input arguments are the inputs to our custom unit testing framework; it was deemed necessary to have a more advanced testing methodology in place as the many different blocks of our project required separate entry points depending on use case. In example, a unit test was designed to benchmark and initialise the LEDs. After the unit test was completed, the functions designed during test were integrated into the rest of the project. This design methodology was enacted in all facets of our software development. 
+A custom unit testing framework was designed to accommodate the needs of our team collaborative efforts. When the application launches, the first code that is ran is a search to see if any input arguments are supplied. The input arguments are the inputs to our custom unit testing framework; it was deemed necessary to have a more advanced testing methodology in place as the many different blocks of our project required separate entry points depending on use case. In example, a unit test was designed to benchmark and initialise the LEDs. After the unit test was completed, the functions designed during test were integrated into the rest of the project. This design methodology was enacted in all facets of our software development. 
 
 A list of all unit tests, their associated functions, and more specific usage instructions can be found [here](https://github.com/GrantMaiden/ContactlessPiPoweredDrumkit/blob/main/embedded/unit_tests.txt).
 

@@ -1,0 +1,110 @@
+\hypertarget{led_8h_source}{}\doxysubsection{led.\+h}
+\label{led_8h_source}\index{include/led.h@{include/led.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{/****************************** Module Header ******************************\(\backslash\)}}
+\DoxyCodeLine{2 \textcolor{comment}{Module Name:    led.h}}
+\DoxyCodeLine{3 \textcolor{comment}{Project:        btb}}
+\DoxyCodeLine{4 \textcolor{comment}{Author:         Grant Maiden}}
+\DoxyCodeLine{5 \textcolor{comment}{Description:    contains led definitions and headers}}
+\DoxyCodeLine{6 \textcolor{comment}{\(\backslash\)***************************************************************************/}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#ifndef LED\_H}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#define LED\_H}}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <stdio.h>}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <stdlib.h>}}
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#include <string.h>}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#include <unistd.h>}}
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#include <pigpio.h>}}
+\DoxyCodeLine{15 \textcolor{preprocessor}{\#include <CppThread.h>}}
+\DoxyCodeLine{16 }
+\DoxyCodeLine{17 \textcolor{preprocessor}{\#include "{}CppThread.h"{}}}
+\DoxyCodeLine{18 \textcolor{preprocessor}{\#include "{}CppTimer.h"{}}}
+\DoxyCodeLine{19 }
+\DoxyCodeLine{20 \textcolor{preprocessor}{\#include "{}defines.h"{}}}
+\DoxyCodeLine{21 \textcolor{preprocessor}{\#include "{}gpio\_controller.h"{}}}
+\DoxyCodeLine{22 }
+\DoxyCodeLine{23 \textcolor{comment}{// LED Colors}}
+\DoxyCodeLine{24 \textcolor{preprocessor}{\#define LED\_COLOR\_WHITE\_DIM         0x010101}}
+\DoxyCodeLine{25 \textcolor{preprocessor}{\#define LED\_COLOR\_WHITE\_MAX         0x111111}}
+\DoxyCodeLine{26 \textcolor{preprocessor}{\#define LED\_COLOR\_RED\_DIM           0x010000}}
+\DoxyCodeLine{27 \textcolor{preprocessor}{\#define LED\_COLOR\_RED\_MID           0x100000}}
+\DoxyCodeLine{28 \textcolor{preprocessor}{\#define LED\_COLOR\_RED               0x110000}}
+\DoxyCodeLine{29 \textcolor{preprocessor}{\#define LED\_COLOR\_GREEN\_DIM         0x000100}}
+\DoxyCodeLine{30 \textcolor{preprocessor}{\#define LED\_COLOR\_GREEN\_MID         0x001000}}
+\DoxyCodeLine{31 \textcolor{preprocessor}{\#define LED\_COLOR\_GREEN             0x001100}}
+\DoxyCodeLine{32 \textcolor{preprocessor}{\#define LED\_COLOR\_BLUE\_DIM          0x000001}}
+\DoxyCodeLine{33 \textcolor{preprocessor}{\#define LED\_COLOR\_PURPLE\_DIM        0x010001}}
+\DoxyCodeLine{34 \textcolor{preprocessor}{\#define LED\_COLOR\_YELLOW\_DIM        0x010100}}
+\DoxyCodeLine{35 \textcolor{preprocessor}{\#define LED\_COLOR\_YELLOW\_BRIGHT     0x111100}}
+\DoxyCodeLine{36 \textcolor{preprocessor}{\#define LED\_COLOR\_CYAN\_DIM          0x000101}}
+\DoxyCodeLine{37 \textcolor{preprocessor}{\#define LED\_COLOR\_ORANGE\_BRIGHT     0xCC8400}}
+\DoxyCodeLine{38 \textcolor{preprocessor}{\#define LED\_COLOR\_GREEN             0x001100}}
+\DoxyCodeLine{39 \textcolor{preprocessor}{\#define LED\_COLOR\_OFF               0x000000}}
+\DoxyCodeLine{40 }
+\DoxyCodeLine{41 \textcolor{comment}{// Define flash settings}}
+\DoxyCodeLine{42 \textcolor{preprocessor}{\#define FLASH\_COLOR\_SOFT            LED\_COLOR\_GREEN\_DIM}}
+\DoxyCodeLine{43 \textcolor{preprocessor}{\#define FLASH\_COLOR\_MID\_SOFT        LED\_COLOR\_GREEN\_MID}}
+\DoxyCodeLine{44 \textcolor{preprocessor}{\#define FLASH\_COLOR\_MID             LED\_COLOR\_GREEN}}
+\DoxyCodeLine{45 \textcolor{preprocessor}{\#define FLASH\_COLOR\_MID\_HARD        LED\_COLOR\_YELLOW\_BRIGHT}}
+\DoxyCodeLine{46 \textcolor{preprocessor}{\#define FLASH\_COLOR\_HARD            LED\_COLOR\_RED}}
+\DoxyCodeLine{47 }
+\DoxyCodeLine{48 \textcolor{comment}{//\#define DRUMMING\_COLOR              LED\_COLOR\_GREEN}}
+\DoxyCodeLine{49 }
+\DoxyCodeLine{50 \textcolor{comment}{//conversion factor (velocity-\/> brightness)}}
+\DoxyCodeLine{51 \textcolor{preprocessor}{\#define BRIGHTNESS\_LIMIT            255/80}}
+\DoxyCodeLine{52 }
+\DoxyCodeLine{53 \textcolor{comment}{// LED Speed}}
+\DoxyCodeLine{54 \textcolor{preprocessor}{\#define INITIAL\_LOOP\_WAIT           100}}
+\DoxyCodeLine{55 \textcolor{preprocessor}{\#define HIT\_FLASH\_DURATION          100}}
+\DoxyCodeLine{56 }
+\DoxyCodeLine{57 \textcolor{keyword}{typedef} \textcolor{keyword}{enum}}
+\DoxyCodeLine{58 \{}
+\DoxyCodeLine{59     RESET\_LEDS,}
+\DoxyCodeLine{60     INITIAL1,}
+\DoxyCodeLine{61     INITIAL2,}
+\DoxyCodeLine{62     INITIAL3,}
+\DoxyCodeLine{63     INITIAL4,}
+\DoxyCodeLine{64     INITIAL5,}
+\DoxyCodeLine{65     INITIAL6,}
+\DoxyCodeLine{66     INITIAL7,}
+\DoxyCodeLine{67     INITIAL8,}
+\DoxyCodeLine{68     INITIAL9,}
+\DoxyCodeLine{69     INITIAL10,}
+\DoxyCodeLine{70     PRIMARY1}
+\DoxyCodeLine{71 \}ledStateMachine;}
+\DoxyCodeLine{72 }
+\DoxyCodeLine{73 \textcolor{keyword}{class }\mbox{\hyperlink{classLedControl}{LedControl}} :  \textcolor{keyword}{public} \mbox{\hyperlink{classCppTimer}{CppTimer}}}
+\DoxyCodeLine{74 \{}
+\DoxyCodeLine{75     \textcolor{keyword}{public}:}
+\DoxyCodeLine{86         \textcolor{keywordtype}{void} \mbox{\hyperlink{classLedControl_a11c2879b60fc34cdaa30dda36ca95fe5}{ledCreateColorArr}}(\textcolor{keywordtype}{char}* outputArr,\textcolor{keywordtype}{unsigned} led1, \textcolor{keywordtype}{unsigned} led2, \textcolor{keywordtype}{unsigned} led3, \textcolor{keywordtype}{unsigned} led4, \textcolor{keywordtype}{unsigned} led5, \textcolor{keywordtype}{unsigned} led6);}
+\DoxyCodeLine{87 }
+\DoxyCodeLine{91         \textcolor{keywordtype}{void} \mbox{\hyperlink{classLedControl_a607f4f10ad59ed50061f486af65b8be8}{initLeds}}();}
+\DoxyCodeLine{92 }
+\DoxyCodeLine{100         \textcolor{keywordtype}{void} \mbox{\hyperlink{classLedControl_acfcbbfe2acbb7b4763d09e10a96be8b8}{ledFlashTest}}(\textcolor{keywordtype}{unsigned} ledColour, \textcolor{keywordtype}{int} flashTimeOn, \textcolor{keywordtype}{int} flashTimeOff, \textcolor{keywordtype}{int} flashNum);}
+\DoxyCodeLine{101 }
+\DoxyCodeLine{107         \textcolor{keywordtype}{void} \mbox{\hyperlink{classLedControl_a09c4e34192a7991d04f7dc7f3265b201}{ledFadeTest}}(\textcolor{keywordtype}{int} fadeNum, \textcolor{keywordtype}{int} fadeSpeed);}
+\DoxyCodeLine{108 }
+\DoxyCodeLine{114         \textcolor{keywordtype}{void} \mbox{\hyperlink{classLedControl_ad8c83b69dd491d5ca8fd806aa0ac198b}{setLedVelocity}}(sensorID sensor, \textcolor{keywordtype}{int} avgVelocity);}
+\DoxyCodeLine{115 }
+\DoxyCodeLine{121         \textcolor{keywordtype}{void} \mbox{\hyperlink{classLedControl_aa156a9966b9b372b23a9d3d6931c8178}{sensorHitLed}}(sensorID sensor, \textcolor{keywordtype}{int} hitStrength);}
+\DoxyCodeLine{122 }
+\DoxyCodeLine{126         \textcolor{keywordtype}{bool} \mbox{\hyperlink{classLedControl_a84017bdd96fb715988e2dd86a2a94056}{sensorHitRecently}}();}
+\DoxyCodeLine{127 }
+\DoxyCodeLine{132         \textcolor{keywordtype}{unsigned} \mbox{\hyperlink{classLedControl_a1106eac568e543ed3a8f156ff3c805df}{hitColorSetter}}(\textcolor{keywordtype}{int} sensorStr);}
+\DoxyCodeLine{133 }
+\DoxyCodeLine{137         \textcolor{keywordtype}{void} \mbox{\hyperlink{classLedControl_a339d33f66690cbff3d3ba49c2123f8f4}{hitDetectOutputControl}}();}
+\DoxyCodeLine{138 }
+\DoxyCodeLine{142         \textcolor{keywordtype}{void} \mbox{\hyperlink{classLedControl_a67a905403c6b62da32c1c0a2c361a841}{ledSM}}();}
+\DoxyCodeLine{143 }
+\DoxyCodeLine{147         \textcolor{keywordtype}{void} \mbox{\hyperlink{classLedControl_af339507803651d408c47162dfddf2c6e}{ledInitialiseTest}}();}
+\DoxyCodeLine{148 }
+\DoxyCodeLine{149     \textcolor{keyword}{private}:}
+\DoxyCodeLine{153         \textcolor{keywordtype}{void} timerEvent();}
+\DoxyCodeLine{154 \};}
+\DoxyCodeLine{155 }
+\DoxyCodeLine{156 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// LED\_H}}
+\DoxyCodeLine{157 }
+\DoxyCodeLine{158 }
+
+\end{DoxyCode}

@@ -6,21 +6,6 @@ Description:    Header file for btb.main.c
 \***************************************************************************/
 
 /**
- * Main btb_class, is called from main
- **/
-class Btb_main
-{
-
-    private:
-
-
-    public:
-
-
-
-};
-
-/**
  * Initialize Interrupts
  **/
 inline void initInterrupts();
@@ -52,33 +37,6 @@ inline void parseCommandLine(int argc,char *argv[]);
 inline void runCommandLine(char *argv[]);
 
 
-/**
- * Callback override virtual run method for btbThread Class
- **/
-class btbThread : public CppThread {
-    /**
-     * Initializes the Thread
-     **/
-    public:
-        btbThread() {}
-    /**
-     * Starts the Thread
-     **/
-    private:
-        void run();
-};
-
-/**
- * Callback class to implement custom timer
- **/
-class btbTimer1 : public CppTimer {
-
-    /**
-    * Timer Event called when timer is triggered. Overriden in cpp.
-    **/
-    private:
-        void timerEvent();
-};
 
 
 

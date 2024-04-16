@@ -1,0 +1,49 @@
+\hypertarget{classPlatformVL53l4CD}{}\doxysubsection{Platform\+VL53l4\+CD Class Reference}
+\label{classPlatformVL53l4CD}\index{PlatformVL53l4CD@{PlatformVL53l4CD}}
+
+
+If the macro below is defined, the device will be programmed to run with I2C Fast Mode Plus (up to 1MHz). Otherwise, default max value is 400k\+Hz.  
+
+
+
+
+{\ttfamily \#include $<$platform.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classPlatformVL53l4CD_a43c0603ac6b4f26de68e199ee86f9caa}\label{classPlatformVL53l4CD_a43c0603ac6b4f26de68e199ee86f9caa}} 
+uint8\+\_\+t {\bfseries VL53\+L4\+CD\+\_\+comms\+\_\+init} (\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\+\_\+t}} dev)
+\begin{DoxyCompactList}\small\item\em Init communication. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classPlatformVL53l4CD_a858fc5217712d93c931a990275248e39}\label{classPlatformVL53l4CD_a858fc5217712d93c931a990275248e39}} 
+uint8\+\_\+t {\bfseries VL53\+L4\+CD\+\_\+comms\+\_\+close} (\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\+\_\+t}} dev)
+\begin{DoxyCompactList}\small\item\em Close communication. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classPlatformVL53l4CD_abe1879b94ec170d9f870420e9555dc0b}\label{classPlatformVL53l4CD_abe1879b94ec170d9f870420e9555dc0b}} 
+uint8\+\_\+t {\bfseries VL53\+L4\+CD\+\_\+\+Rd\+DWord} (\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\+\_\+t}} dev, uint16\+\_\+t register\+Addr, uint32\+\_\+t $\ast$value)
+\begin{DoxyCompactList}\small\item\em Read 32 bits through I2C. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classPlatformVL53l4CD_a7c696355d0b7c2111ff834644a217c6d}\label{classPlatformVL53l4CD_a7c696355d0b7c2111ff834644a217c6d}} 
+uint8\+\_\+t {\bfseries VL53\+L4\+CD\+\_\+\+Rd\+Word} (\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\+\_\+t}} dev, uint16\+\_\+t register\+Addr, uint16\+\_\+t $\ast$value)
+\begin{DoxyCompactList}\small\item\em Read 16 bits through I2C. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classPlatformVL53l4CD_a7c1cf9a39727a030fe9feb9590d8f446}\label{classPlatformVL53l4CD_a7c1cf9a39727a030fe9feb9590d8f446}} 
+uint8\+\_\+t {\bfseries VL53\+L4\+CD\+\_\+\+Rd\+Byte} (\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\+\_\+t}} dev, uint16\+\_\+t register\+Addr, uint8\+\_\+t $\ast$value)
+\begin{DoxyCompactList}\small\item\em Read 8 bits through I2C. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classPlatformVL53l4CD_a4f78fa368a8b81f06c0dd6d817c6fc48}\label{classPlatformVL53l4CD_a4f78fa368a8b81f06c0dd6d817c6fc48}} 
+uint8\+\_\+t {\bfseries VL53\+L4\+CD\+\_\+\+Wr\+Byte} (\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\+\_\+t}} dev, uint16\+\_\+t register\+Addr, uint8\+\_\+t value)
+\begin{DoxyCompactList}\small\item\em Write 8 bits through I2C. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classPlatformVL53l4CD_ad15ab9a4659490f935684e074b93df56}\label{classPlatformVL53l4CD_ad15ab9a4659490f935684e074b93df56}} 
+uint8\+\_\+t {\bfseries VL53\+L4\+CD\+\_\+\+Wr\+Word} (\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\+\_\+t}} dev, uint16\+\_\+t Register\+Adress, uint16\+\_\+t value)
+\begin{DoxyCompactList}\small\item\em Write 16 bits through I2C. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classPlatformVL53l4CD_af66c025b0858dfdce35baa290d1f7e2c}\label{classPlatformVL53l4CD_af66c025b0858dfdce35baa290d1f7e2c}} 
+uint8\+\_\+t {\bfseries VL53\+L4\+CD\+\_\+\+Wr\+DWord} (\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\+\_\+t}} dev, uint16\+\_\+t Register\+Adress, uint32\+\_\+t value)
+\begin{DoxyCompactList}\small\item\em Write 32 bits through I2C. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classPlatformVL53l4CD_aeabbe4aa4fe2471ea72081e4e03366e1}\label{classPlatformVL53l4CD_aeabbe4aa4fe2471ea72081e4e03366e1}} 
+uint8\+\_\+t {\bfseries Wait\+Ms} (\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\+\_\+t}} dev, uint32\+\_\+t Time\+Ms)
+\begin{DoxyCompactList}\small\item\em Wait during N milliseconds. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsubsection{Detailed Description}
+If the macro below is defined, the device will be programmed to run with I2C Fast Mode Plus (up to 1MHz). Otherwise, default max value is 400k\+Hz. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/platform.\+h\end{DoxyCompactItemize}

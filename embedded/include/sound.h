@@ -41,36 +41,125 @@ extern "C"{
 #define PATH_SOUND_ENABLED_WAV          "./sounds/sound_enabled.wav"
 #define PATH_SOUND_DISABLED_WAV         "./sounds/sound_disabled.wav"
 
-// Top Hat Sounds... Drums 1 and 2
-#define TH_LOW_OPEN                     "./sounds/grant_th_open_low.wav"
-#define TH_MEDIUM_OPEN                  "./sounds/grant_th_open_medium.wav"
-#define TH_LOUD_OPEN                    "./sounds/grant_th_open_loud.wav"
-#define TH_LOW_CLOSED                   "./sounds/grant_th_closed_low.wav"
-#define TH_MEDIUM_CLOSED                "./sounds/grant_th_closed_medium.wav"
-#define TH_LOUD_CLOSED                  "./sounds/grant_th_closed_loud.wav"
-#define TH_LOW_FOOT_OPEN                "./sounds/grant_th_foot_open_low.wav"
-#define TH_MEDIUM_FOOT_OPEN             "./sounds/grant_th_foot_open_medium.wav"
-#define TH_LOUD_FOOT_OPEN               "./sounds/grant_th_foot_open_loud.wav"
-#define TH_LOW_FOOT_CLOSED              "./sounds/grant_th_foot_closed_low.wav"
-#define TH_MEDIUM_FOOT_CLOSED           "./sounds/grant_th_foot_closed_medium.wav"
-#define TH_LOUD_FOOT_CLOSED             "./sounds/grant_th_foot_closed_loud.wav"
+// Top Hat Sounds/GRANT_KIT... Drums 1 and 2
+#define TH_LOW_OPEN_GRANT                    "./sounds/GRANT_KIT/grant_th_open_loud.wav"
+#define TH_MEDIUM_OPEN_GRANT                  "./sounds/GRANT_KIT/grant_th_open_medium.wav"
+#define TH_LOUD_OPEN_GRANT                    "./sounds/GRANT_KIT/grant_th_open_loud.wav"
+#define TH_LOW_CLOSED_GRANT                   "./sounds/GRANT_KIT/grant_th_closed_low.wav"
+#define TH_MEDIUM_CLOSED_GRANT                "./sounds/GRANT_KIT/grant_th_closed_medium.wav"
+#define TH_LOUD_CLOSED_GRANT                  "./sounds/GRANT_KIT/grant_th_closed_loud.wav"
+#define TH_LOW_FOOT_OPEN_GRANT                "./sounds/GRANT_KIT/grant_th_foot_open_low.wav"
+#define TH_MEDIUM_FOOT_OPEN_GRANT             "./sounds/GRANT_KIT/grant_th_foot_open_medium.wav"
+#define TH_LOUD_FOOT_OPEN_GRANT               "./sounds/GRANT_KIT/grant_th_foot_open_loud.wav"
+#define TH_LOW_FOOT_CLOSED_GRANT              "./sounds/GRANT_KIT/grant_th_foot_closed_low.wav"
+#define TH_MEDIUM_FOOT_CLOSED_GRANT           "./sounds/GRANT_KIT/grant_th_foot_closed_medium.wav"
+#define TH_LOUD_FOOT_CLOSED_GRANT             "./sounds/GRANT_KIT/grant_th_foot_closed_loud.wav"
 
-#define DRUM3_LOW                       "./sounds/grant_metal_ting_low.wav"
-#define DRUM3_MEDIUM                    "./sounds/grant_metal_ting_medium.wav"
-#define DRUM3_LOUD                      "./sounds/grant_metal_ting_loud.wav"
+#define DRUM3_LOW_GRANT                       "./sounds/GRANT_KIT/grant_metal_ting_low.wav"
+#define DRUM3_MEDIUM_GRANT                    "./sounds/GRANT_KIT/grant_metal_ting_medium.wav"
+#define DRUM3_LOUD_GRANT                      "./sounds/GRANT_KIT/grant_metal_ting_loud.wav"
 
-#define DRUM4_LOW                       "./sounds/grant_pop_low.wav"
-#define DRUM4_MEDIUM                    "./sounds/grant_pop_medium.wav"
-#define DRUM4_LOUD                      "./sounds/grant_pop_loud.wav"
+#define DRUM4_LOW_GRANT                       "./sounds/GRANT_KIT/grant_pop_low.wav"
+#define DRUM4_MEDIUM_GRANT                    "./sounds/GRANT_KIT/grant_pop_medium.wav"
+#define DRUM4_LOUD_GRANT                      "./sounds/GRANT_KIT/grant_pop_loud.wav"
 
-#define DRUM5_LOW                       "./sounds/grant_clap_low.wav"
-#define DRUM5_MEDIUM                    "./sounds/grant_clap_medium.wav"
-#define DRUM5_LOUD                      "./sounds/grant_clap_loud.wav"
+#define DRUM5_LOW_GRANT                       "./sounds/GRANT_KIT/grant_clap_low.wav"
+#define DRUM5_MEDIUM_GRANT                    "./sounds/GRANT_KIT/grant_clap_medium.wav"
+#define DRUM5_LOUD_GRANT                      "./sounds/GRANT_KIT/grant_clap_loud.wav"
 
-#define DRUM6_LOW                       "./sounds/grant_bass_low.wav"
-#define DRUM6_MEDIUM                    "./sounds/grant_bass_medium.wav"
-#define DRUM6_LOUD                      "./sounds/grant_bass_loud.wav"
+#define DRUM6_LOW_GRANT                       "./sounds/GRANT_KIT/grant_bass_low.wav"
+#define DRUM6_MEDIUM_GRANT                    "./sounds/GRANT_KIT/grant_bass_medium.wav"
+#define DRUM6_LOUD_GRANT                      "./sounds/GRANT_KIT/grant_bass_loud.wav"
 
+
+// Drumkit sounds for Byte The Beat//
+
+
+// Drum Sounds (Snare, Hi Tom, Mid Tom, Low Tom, Kick//
+#define SNARE_SOFT                             "./sounds/PI_KIT_SOUNDS/Snare/Center/Snare Center Soft.wav"
+#define SNARE_MID_SOFT                         "./sounds/PI_KIT_SOUNDS/Snare/Center/Snare Center Mid-Soft.wav"
+#define SNARE_MID                              "./sounds/PI_KIT_SOUNDS/Snare/Center/Snare Center Mid.wav"
+#define SNARE_MID_HARD                         "./sounds/PI_KIT_SOUNDS/Snare/Center/Snare Center Mid-Hard.wav"
+#define SNARE_HARD                             "./sounds/PI_KIT_SOUNDS/Snare/Center/Snare Center Hard.wav"
+
+#define HI_TOM_SOFT                            "./sounds/PI_KIT_SOUNDS/Hi Tom/Hi Tom Soft.wav"
+#define HI_TOM_MID_SOFT                        "./sounds/PI_KIT_SOUNDS/Hi Tom/Hi Tom Mid-Soft.wav"
+#define HI_TOM_MID                             "./sounds/PI_KIT_SOUNDS/Hi Tom/Hi Tom Mid.wav"
+#define HI_TOM_MID_HARD                        "./sounds/PI_KIT_SOUNDS/Hi Tom/Hi Tom Mid-Hard.wav"
+#define HI_TOM_HARD                            "./sounds/PI_KIT_SOUNDS/Hi Tom/Hi Tom Hard.wav"
+
+#define MID_TOM_SOFT                           "./sounds/PI_KIT_SOUNDS/Mid Tom/Mid Tom Soft.wav"
+#define MID_TOM_MID_SOFT                       "./sounds/PI_KIT_SOUNDS/Mid Tom/Mid Tom Mid-Soft.wav"
+#define MID_TOM_MID                            "./sounds/PI_KIT_SOUNDS/Mid Tom/Mid Tom Mid.wav"
+#define MID_TOM_MID_HARD                       "./sounds/PI_KIT_SOUNDS/Mid Tom/Mid Tom Mid-Hard.wav"
+#define MID_TOM_HARD                           "./sounds/PI_KIT_SOUNDS/Mid Tom/Mid Tom Hard.wav"
+
+#define LOW_TOM_SOFT                           "./sounds/PI_KIT_SOUNDS/Low Tom/Low Tom Soft.wav"
+#define LOW_TOM_MID_SOFT                       "./sounds/PI_KIT_SOUNDS/Low Tom/Low Tom Mid-Soft.wav"
+#define LOW_TOM_MID                            "./sounds/PI_KIT_SOUNDS/Low Tom/Low Tom Mid.wav"
+#define LOW_TOM_MID_HARD                       "./sounds/PI_KIT_SOUNDS/Low Tom/Low Tom Mid-Hard.wav"
+#define LOW_TOM_HARD                           "./sounds/PI_KIT_SOUNDS/Low Tom/Low Tom Hard.wav"
+
+#define KICK_SOFT                              "./sounds/PI_KIT_SOUNDS/Kick/Kick Soft.wav"
+#define KICK_MID_SOFT                          "./sounds/PI_KIT_SOUNDS/Kick/Kick Mid-Soft.wav"
+#define KICK_MID                               "./sounds/PI_KIT_SOUNDS/Kick/Kick Mid.wav"
+#define KICK_MID_HARD                          "./sounds/PI_KIT_SOUNDS/Kick/Kick Mid-Hard.wav"
+#define KICK_HARD                              "./sounds/PI_KIT_SOUNDS/Kick/Kick Hard.wav"
+
+//Cymbal Sounds//
+
+//Hi Hat//
+#define HI_HAT_OPEN_SOFT                        "./sounds/PI_KIT_SOUNDS/Hi Hat/Open/Hi-Hat Open Soft.wav"
+#define HI_HAT_OPEN_MID_SOFT                    "./sounds/PI_KIT_SOUNDS/Hi Hat/Open/Hi-Hat Open Mid-Soft.wav"
+#define HI_HAT_OPEN_MID                         "./sounds/PI_KIT_SOUNDS/Hi Hat/Open/Hi-Hat Open Mid.wav"
+#define HI_HAT_OPEN_MID_HARD                    "./sounds/PI_KIT_SOUNDS/Hi Hat/Open/Hi-Hat Open Mid-Hard.wav"
+#define HI_HAT_OPEN_HARD                        "./sounds/PI_KIT_SOUNDS/Hi Hat/Open/Hi-Hat Open Hard.wav"
+
+#define HI_HAT_CLOSED_SOFT                      "./sounds/PI_KIT_SOUNDS/Hi Hat/Closed/Hi-Hat Closed Soft.wav"
+#define HI_HAT_CLOSED_MID_SOFT                  "./sounds/PI_KIT_SOUNDS/Hi Hat/Closed/Hi-Hat Closed Mid-Soft.wav"
+#define HI_HAT_CLOSED_MID                       "./sounds/PI_KIT_SOUNDS/Hi Hat/Closed/Hi-Hat Closed Mid.wav"
+#define HI_HAT_CLOSED_MID_HARD                  "./sounds/PI_KIT_SOUNDS/Hi Hat/Closed/Hi-Hat Closed Mid-Hard.wav"
+#define HI_HAT_CLOSED_HARD                      "./sounds/PI_KIT_SOUNDS/Hi Hat/Closed/Hi-Hat Closed Hard.wav"
+
+#define HI_HAT_FOOT_SOFT                        "./sounds/PI_KIT_SOUNDS/Hi Hat/Foot/Hi-Hat Foot Soft.wav"
+#define HI_HAT_FOOT_MID_SOFT                    "./sounds/PI_KIT_SOUNDS/Hi Hat/Foot/Hi-Hat Foot Mid-Soft.wav"
+#define HI_HAT_FOOT_MID                         "./sounds/PI_KIT_SOUNDS/Hi Hat/Foot/Hi-Hat Foot Mid.wav"
+#define HI_HAT_FOOT_MID_HARD                    "./sounds/PI_KIT_SOUNDS/Hi Hat/Foot/Hi-Hat Foot Mid-Hard.wav"
+#define HI_HAT_FOOT_HARD                        "./sounds/PI_KIT_SOUNDS/Hi Hat/Foot/Hi-Hat foot Hard.wav"
+
+#define CRASH_SOFT                              "./sounds/PI_KIT_SOUNDS/Crash Cymbal/Crash Soft.wav"
+#define CRASH_MID_SOFT                          "./sounds/PI_KIT_SOUNDS/Crash Cymbal/Crash Mid Soft.wav"
+#define CRASH_MID                               "./sounds/PI_KIT_SOUNDS/Crash Cymbal/Crash Mid.wav"
+#define CRASH_MID_HARD                          "./sounds/PI_KIT_SOUNDS/Crash Cymbal/Crash Mid Hard.wav"
+#define CRASH_HARD                              "./sounds/PI_KIT_SOUNDS/Crash Cymbal/Crash Hard.wav"
+
+#define RIDE_SOFT                               "./sounds/PI_KIT_SOUNDS/Ride Cymbal/Ride Soft.wav"
+#define RIDE_MID_SOFT                           "./sounds/PI_KIT_SOUNDS/Ride Cymbal/Ride Mid Soft.wav"
+#define RIDE_MID                                "./sounds/PI_KIT_SOUNDS/Ride Cymbal/Ride Mid.wav"
+#define RIDE_MID_HARD                           "./sounds/PI_KIT_SOUNDS/Ride Cymbal/Ride Mid Hard.wav"
+#define RIDE_HARD                               "./sounds/PI_KIT_SOUNDS/Ride Cymbal/Ride Hard.wav"
+
+//AUX Percussion Sounds//
+#define CLAP_SOFT                               "./sounds/PI_KIT_SOUNDS/Clap/Clap Soft.wav"
+#define CLAP_MID_SOFT                           "./sounds/PI_KIT_SOUNDS/Clap/Clap Mid-Soft.wav"
+#define CLAP_MID                                "./sounds/PI_KIT_SOUNDS/Clap/Clap Mid.wav"
+#define CLAP_MID_HARD                           "./sounds/PI_KIT_SOUNDS/Clap/Clap Mid-Hard.wav"
+#define CLAP_HARD                               "./sounds/PI_KIT_SOUNDS/Clap/Clap Hard.wav"
+
+#define BELL_SOFT                               "./sounds/PI_KIT_SOUNDS/Bell/Bell Soft.wav"
+#define BELL_MID_SOFT                           "./sounds/PI_KIT_SOUNDS/Bell/Bell Mid Soft.wav"
+#define BELL_MID                                "./sounds/PI_KIT_SOUNDS/Bell/Bell Mid.wav"
+#define BELL_MID_HARD                           "./sounds/PI_KIT_SOUNDS/Bell/Bell Mid Hard.wav"
+#define BELL_HARD                               "./sounds/PI_KIT_SOUNDS/Bell/Bell Hard.wav"
+
+#define COWBELL_SOFT                            "./sounds/PI_KIT_SOUNDS/Cowbell/Cowbell Soft.wav"
+#define COWBELL_MID_SOFT                        "./sounds/PI_KIT_SOUNDS/Cowbell/Cowbell Mid Soft.wav"
+#define COWBELL_MID                             "./sounds/PI_KIT_SOUNDS/Cowbell/Cowbell Mid.wav"
+#define COWBELL_MID_HARD                        "./sounds/PI_KIT_SOUNDS/Cowbell/Cowbell Mid Hard.wav"
+#define COWBELL_HARD                            "./sounds/PI_KIT_SOUNDS/Cowbell/Cowbell Hard.wav"
+
+
+//Sound class//
 using namespace std;
 class Sound
 {

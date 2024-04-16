@@ -12,7 +12,7 @@ Description:    contains user constants, global enums, and structs
 #define TOTAL_INSTRUMENTS_SOUND_TEST2       3
 
 // Misc
-#define DISTANCE_SENSOR_INTERRUPT_TIMEOUT   20
+#define DISTANCE_SENSOR_INTERRUPT_TIMEOUT   50
 #define BTB_TIMER_1_INTERVAL_NS             2.5*1000000
 
 // Gpio Controller Defines
@@ -43,6 +43,15 @@ Description:    contains user constants, global enums, and structs
 #define D5_XSHUT        25
 #define D6_GPIO1        21
 #define D6_XSHUT        15
+
+
+// Hit Strength Defines
+#define HIT_SOFT        5
+#define HIT_MID_SOFT    7
+#define HIT_MID         9
+#define HIT_MID_HARD    11
+#define HIT_HARD        13
+
 
 typedef enum
 {
