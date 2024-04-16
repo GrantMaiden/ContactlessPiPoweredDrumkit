@@ -369,6 +369,9 @@ void VL53L4CD::rangingPollingTestAll()
             loop++;
         }
 
+
+
+
 		/* Wait a few ms to avoid too high polling (function in platform
 		 * file, not in API) */
 		WaitMs(i2cdev_Sensor1, 5);

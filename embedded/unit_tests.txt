@@ -28,16 +28,10 @@ Argument:	ledNopAsmTest
 Description:	Spew '1010' pattern to Leds using asm nop for delay. Only works pre-board rework.
 
 Argument:	gpioLedSpiTest
-Description:	Sets led to RGB brightness level via SPI interface.
-
-Argument:	ledFlashTest
-Description:	Makes LEDs flash a set number of times at a certain color for a certain period of time.
-
-Argument:	ledFadeTest
-Description:	Makes LEDs fade in and out throughout a time interval.
+Description:	Sets led to RGB brightness level via SPI interface
 
 Argument:	ledInitialiseTest
-Description:	Peter's LED test, only works pre-class
+Description:	Peter's LED test
 
 Argument:	interruptTest
 Description:	Sets up distance sensors, utilizing interrupts for reading their data. Runs 20seconds.
