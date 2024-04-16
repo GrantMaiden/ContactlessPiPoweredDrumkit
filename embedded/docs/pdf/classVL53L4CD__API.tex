@@ -1,0 +1,497 @@
+\hypertarget{classVL53L4CD__API}{}\doxysubsection{VL53\+L4\+CD\+\_\+\+API Class Reference}
+\label{classVL53L4CD__API}\index{VL53L4CD\_API@{VL53L4CD\_API}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+VL53\+L4\+CD\+\_\+\+Error \mbox{\hyperlink{classVL53L4CD__API_a2e522cd6d66becb6315fb2fa50a00055}{VL53\+L4\+CD\+\_\+\+Get\+SWVersion}} (\mbox{\hyperlink{structVL53L4CD__Version__t}{VL53\+L4\+CD\+\_\+\+Version\+\_\+t}} $\ast$p\+Version)
+\begin{DoxyCompactList}\small\item\em This function programs the software driver version. \end{DoxyCompactList}\item 
+VL53\+L4\+CD\+\_\+\+Error \mbox{\hyperlink{classVL53L4CD__API_a87523f5f80914c5712bbb2d9714b6267}{VL53\+L4\+CD\+\_\+\+Set\+I2\+CAddress}} (\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\+\_\+t}} dev, uint8\+\_\+t new\+\_\+address)
+\begin{DoxyCompactList}\small\item\em This function sets a new I2C address to a sensor. It can be used for example when multiple sensors share the same I2C bus. \end{DoxyCompactList}\item 
+VL53\+L4\+CD\+\_\+\+Error \mbox{\hyperlink{classVL53L4CD__API_a39750d4a46e02e81b5ae0e739def7ed0}{VL53\+L4\+CD\+\_\+\+Get\+Sensor\+Id}} (\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\+\_\+t}} dev, uint16\+\_\+t $\ast$p\+\_\+id)
+\begin{DoxyCompactList}\small\item\em This function is used to get the sensor id of \mbox{\hyperlink{classVL53L4CD}{VL53\+L4\+CD}}. The sensor id should be 0x\+EBAA. \end{DoxyCompactList}\item 
+VL53\+L4\+CD\+\_\+\+Error \mbox{\hyperlink{classVL53L4CD__API_ad04915d4dc676f2306874b75a670c091}{VL53\+L4\+CD\+\_\+\+Sensor\+Init}} (\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\+\_\+t}} dev)
+\begin{DoxyCompactList}\small\item\em This function is used to initialize the sensor. \end{DoxyCompactList}\item 
+VL53\+L4\+CD\+\_\+\+Error \mbox{\hyperlink{classVL53L4CD__API_a0779f406671b37fc75b34c20d6c56eee}{VL53\+L4\+CD\+\_\+\+Clear\+Interrupt}} (\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\+\_\+t}} dev)
+\begin{DoxyCompactList}\small\item\em This function clears the interrupt. It needs to be called after a ranging data reading to arm the interrupt for the next data ready event. \end{DoxyCompactList}\item 
+VL53\+L4\+CD\+\_\+\+Error \mbox{\hyperlink{classVL53L4CD__API_a3013012a08e2592d13653a267806c98c}{VL53\+L4\+CD\+\_\+\+Start\+Ranging}} (\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\+\_\+t}} dev)
+\begin{DoxyCompactList}\small\item\em This function starts a ranging session. The ranging operation is continuous. The clear interrupt has to be done after each get data to allow the interrupt to raise when the next data is ready. \end{DoxyCompactList}\item 
+VL53\+L4\+CD\+\_\+\+Error \mbox{\hyperlink{classVL53L4CD__API_a491af0b13c9fa2c9e3197b80c2f50f8b}{VL53\+L4\+CD\+\_\+\+Stop\+Ranging}} (\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\+\_\+t}} dev)
+\begin{DoxyCompactList}\small\item\em This function stops the ranging in progress. \end{DoxyCompactList}\item 
+VL53\+L4\+CD\+\_\+\+Error \mbox{\hyperlink{classVL53L4CD__API_adbcb7208dd993b4c03b1bed873af975d}{VL53\+L4\+CD\+\_\+\+Check\+For\+Data\+Ready}} (\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\+\_\+t}} dev, uint8\+\_\+t $\ast$p\+\_\+is\+\_\+data\+\_\+ready)
+\begin{DoxyCompactList}\small\item\em This function check if a new data is available by polling a dedicated register. \end{DoxyCompactList}\item 
+VL53\+L4\+CD\+\_\+\+Error \mbox{\hyperlink{classVL53L4CD__API_a2585a3f22fdf2b0ee32820ec42da3961}{VL53\+L4\+CD\+\_\+\+Set\+Range\+Timing}} (\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\+\_\+t}} dev, uint32\+\_\+t timing\+\_\+budget\+\_\+ms, uint32\+\_\+t inter\+\_\+measurement\+\_\+ms)
+\begin{DoxyCompactList}\small\item\em This function sets new range timing. Timing are composed of Timing\+Budget and Inter\+Measurement. Timing\+Budget represents the timing during VCSEL enabled, and Inter\+Measurement the time between two measurements. The sensor can have different ranging mode depending of the configuration, please refer to the user manual for more information. \end{DoxyCompactList}\item 
+VL53\+L4\+CD\+\_\+\+Error \mbox{\hyperlink{classVL53L4CD__API_a25f7a067fae122c18757c4197502de66}{VL53\+L4\+CD\+\_\+\+Get\+Range\+Timing}} (\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\+\_\+t}} dev, uint32\+\_\+t $\ast$p\+\_\+timing\+\_\+budget\+\_\+ms, uint32\+\_\+t $\ast$p\+\_\+inter\+\_\+measurement\+\_\+ms)
+\begin{DoxyCompactList}\small\item\em This function gets the current range timing. Timing are composed of Timing\+Budget and Inter\+Measurement. Timing\+Budget represents the timing during VCSEL enabled, and Inter\+Measurement the time between two measurements. The sensor can have different ranging mode depending of the configuration, please refer to the user manual for more information. \end{DoxyCompactList}\item 
+VL53\+L4\+CD\+\_\+\+Error \mbox{\hyperlink{classVL53L4CD__API_af19795ff7d4e1b8f3153ab2e033302e7}{VL53\+L4\+CD\+\_\+\+Get\+Result}} (\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\+\_\+t}} dev, \mbox{\hyperlink{structVL53L4CD__ResultsData__t}{VL53\+L4\+CD\+\_\+\+Results\+Data\+\_\+t}} $\ast$p\+Result)
+\begin{DoxyCompactList}\small\item\em This function gets the results reported by the sensor. \end{DoxyCompactList}\item 
+VL53\+L4\+CD\+\_\+\+Error \mbox{\hyperlink{classVL53L4CD__API_a4cd4dc976d343d0cff8696ea60a1068d}{VL53\+L4\+CD\+\_\+\+Set\+Offset}} (\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\+\_\+t}} dev, int16\+\_\+t Offset\+Value\+In\+Mm)
+\begin{DoxyCompactList}\small\item\em This function sets a new offset correction in mm. Offset corresponds to the difference in millimeters between real distance and measured distance. \end{DoxyCompactList}\item 
+VL53\+L4\+CD\+\_\+\+Error \mbox{\hyperlink{classVL53L4CD__API_a5aa27650d85f31b269426710fb8ebc93}{VL53\+L4\+CD\+\_\+\+Get\+Offset}} (\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\+\_\+t}} dev, int16\+\_\+t $\ast$Offset)
+\begin{DoxyCompactList}\small\item\em This function gets the current offset correction in mm. Offset corresponds to the difference in millimeters between real distance and measured distance. \end{DoxyCompactList}\item 
+VL53\+L4\+CD\+\_\+\+Error \mbox{\hyperlink{classVL53L4CD__API_a1e02c0ae9a798c8972e84cb22b3c4a06}{VL53\+L4\+CD\+\_\+\+Set\+Xtalk}} (\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\+\_\+t}} dev, uint16\+\_\+t Xtalk\+Value\+Kcps)
+\begin{DoxyCompactList}\small\item\em This function sets a new Xtalk value in kcps. Xtalk represents the correction to apply to the sensor when a protective coverglass is placed at the top of the sensor. \end{DoxyCompactList}\item 
+VL53\+L4\+CD\+\_\+\+Error \mbox{\hyperlink{classVL53L4CD__API_a0a42e28fc1e58cc1708d3a9b49563f03}{VL53\+L4\+CD\+\_\+\+Get\+Xtalk}} (\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\+\_\+t}} dev, uint16\+\_\+t $\ast$p\+\_\+xtalk\+\_\+kcps)
+\begin{DoxyCompactList}\small\item\em This function gets the current Xtalk value in kcps. Xtalk represents the correction to apply to the sensor when a protective coverglass is placed at the top of the sensor. \end{DoxyCompactList}\item 
+VL53\+L4\+CD\+\_\+\+Error \mbox{\hyperlink{classVL53L4CD__API_a4d9a651e5194e5daa081085c6691642f}{VL53\+L4\+CD\+\_\+\+Set\+Detection\+Thresholds}} (\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\+\_\+t}} dev, uint16\+\_\+t distance\+\_\+low\+\_\+mm, uint16\+\_\+t distance\+\_\+high\+\_\+mm, uint8\+\_\+t window)
+\begin{DoxyCompactList}\small\item\em This function sets new detection thresholds. The detection thresholds can be programmed to generate an interrupt on pin 7 (GPIO1), only when a condition on distance is reach. Example\+: VL53\+L4\+CD\+\_\+\+Set\+Distance\+Threshold(dev,100,300,0)\+: Below 100 mm VL53\+L4\+CD\+\_\+\+Set\+Distance\+Threshold(dev,100,300,1)\+: Above 300 mm VL53\+L4\+CD\+\_\+\+Set\+Distance\+Threshold(dev,100,300,2)\+: Below 100mm or above 300mm VL53\+L4\+CD\+\_\+\+Set\+Distance\+Threshold(dev,100,300,3)\+: Above 100mm or below 300mm. \end{DoxyCompactList}\item 
+VL53\+L4\+CD\+\_\+\+Error \mbox{\hyperlink{classVL53L4CD__API_adc880b2d4e70fa6ba50822740a0802bc}{VL53\+L4\+CD\+\_\+\+Get\+Detection\+Thresholds}} (\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\+\_\+t}} dev, uint16\+\_\+t $\ast$p\+\_\+distance\+\_\+low\+\_\+mm, uint16\+\_\+t $\ast$p\+\_\+distance\+\_\+high\+\_\+mm, uint8\+\_\+t $\ast$p\+\_\+window)
+\begin{DoxyCompactList}\small\item\em This function gets the current detection thresholds. The detection thresholds can be programmed to generate an interrupt on pin 7 (GPIO1), only when a condition on distance is reach. \end{DoxyCompactList}\item 
+VL53\+L4\+CD\+\_\+\+Error \mbox{\hyperlink{classVL53L4CD__API_a115c3de908fb7b9dbfcf91bdac6a551c}{VL53\+L4\+CD\+\_\+\+Set\+Signal\+Threshold}} (\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\+\_\+t}} dev, uint16\+\_\+t signal\+\_\+kcps)
+\begin{DoxyCompactList}\small\item\em This function sets a new signal threshold in kcps. If a target has a lower signal as the programmed value, the result status in structure \textquotesingle{}\mbox{\hyperlink{structVL53L4CD__ResultsData__t}{VL53\+L4\+CD\+\_\+\+Results\+Data\+\_\+t}}\textquotesingle{} will be equal to 2. \end{DoxyCompactList}\item 
+VL53\+L4\+CD\+\_\+\+Error \mbox{\hyperlink{classVL53L4CD__API_ade677c4e4e63c12b1b34fca50180f7a0}{VL53\+L4\+CD\+\_\+\+Get\+Signal\+Threshold}} (\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\+\_\+t}} dev, uint16\+\_\+t $\ast$p\+\_\+signal\+\_\+kcps)
+\begin{DoxyCompactList}\small\item\em This function returns the current signal threshold in kcps. If a target has a lower signal as the programmed value, the result status in structure \textquotesingle{}\mbox{\hyperlink{structVL53L4CD__ResultsData__t}{VL53\+L4\+CD\+\_\+\+Results\+Data\+\_\+t}}\textquotesingle{} will be equal to 2. \end{DoxyCompactList}\item 
+VL53\+L4\+CD\+\_\+\+Error \mbox{\hyperlink{classVL53L4CD__API_ada4fb4ff20dacbed66e6c5261e4ff813}{VL53\+L4\+CD\+\_\+\+Set\+Sigma\+Threshold}} (\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\+\_\+t}} dev, uint16\+\_\+t sigma\+\_\+mm)
+\begin{DoxyCompactList}\small\item\em This function programs a new sigma threshold. The sigma corresponds to the standard deviation of the returned pulse. If the computed sigma is above the programmed value, the result status in structure \textquotesingle{}\mbox{\hyperlink{structVL53L4CD__ResultsData__t}{VL53\+L4\+CD\+\_\+\+Results\+Data\+\_\+t}}\textquotesingle{} will be equal to 1. \end{DoxyCompactList}\item 
+VL53\+L4\+CD\+\_\+\+Error \mbox{\hyperlink{classVL53L4CD__API_a443fc7e50040da91572b1371f6d23fe1}{VL53\+L4\+CD\+\_\+\+Get\+Sigma\+Threshold}} (\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\+\_\+t}} dev, uint16\+\_\+t $\ast$p\+\_\+sigma\+\_\+mm)
+\begin{DoxyCompactList}\small\item\em This function gets the current sigma threshold. The sigma corresponds to the standard deviation of the returned pulse. If the computed sigma is above the programmed value, the result status in structure \textquotesingle{}\mbox{\hyperlink{structVL53L4CD__ResultsData__t}{VL53\+L4\+CD\+\_\+\+Results\+Data\+\_\+t}}\textquotesingle{} will be equal to 1. \end{DoxyCompactList}\item 
+VL53\+L4\+CD\+\_\+\+Error \mbox{\hyperlink{classVL53L4CD__API_aa9c83b64bcfbb37376b0694c64745564}{VL53\+L4\+CD\+\_\+\+Start\+Temperature\+Update}} (\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\+\_\+t}} dev)
+\begin{DoxyCompactList}\small\item\em This function can be called when the temperature might have changed by more than 8 degrees Celsius. The function can only be used if the sensor is not ranging, otherwise, the ranging needs to be stopped using function \textquotesingle{}\mbox{\hyperlink{classVL53L4CD__API_a491af0b13c9fa2c9e3197b80c2f50f8b}{VL53\+L4\+CD\+\_\+\+Stop\+Ranging()}}\textquotesingle{}. After calling this function, the ranging can restart normally. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsubsection{Member Function Documentation}
+\mbox{\Hypertarget{classVL53L4CD__API_adbcb7208dd993b4c03b1bed873af975d}\label{classVL53L4CD__API_adbcb7208dd993b4c03b1bed873af975d}} 
+\index{VL53L4CD\_API@{VL53L4CD\_API}!VL53L4CD\_CheckForDataReady@{VL53L4CD\_CheckForDataReady}}
+\index{VL53L4CD\_CheckForDataReady@{VL53L4CD\_CheckForDataReady}!VL53L4CD\_API@{VL53L4CD\_API}}
+\doxyparagraph{\texorpdfstring{VL53L4CD\_CheckForDataReady()}{VL53L4CD\_CheckForDataReady()}}
+{\footnotesize\ttfamily VL53\+L4\+CD\+\_\+\+Error VL53\+L4\+CD\+\_\+\+API\+::\+VL53\+L4\+CD\+\_\+\+Check\+For\+Data\+Ready (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\+\_\+t}}}]{dev,  }\item[{uint8\+\_\+t $\ast$}]{p\+\_\+is\+\_\+data\+\_\+ready }\end{DoxyParamCaption})}
+
+
+
+This function check if a new data is available by polling a dedicated register. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (\+Dev\+\_\+t)} & dev \+: instance of selected \mbox{\hyperlink{classVL53L4CD}{VL53\+L4\+CD}} sensor. \\
+\hline
+{\em (uint8\+\_\+t)} & $\ast$p\+\_\+is\+\_\+data\+\_\+ready \+: Pointer containing a flag to know if a data is ready \+: 0 = no data ready, 1 = data ready. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+(VL53\+L4\+CD\+\_\+\+ERROR) status \+: 0 if OK. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classVL53L4CD__API_a0779f406671b37fc75b34c20d6c56eee}\label{classVL53L4CD__API_a0779f406671b37fc75b34c20d6c56eee}} 
+\index{VL53L4CD\_API@{VL53L4CD\_API}!VL53L4CD\_ClearInterrupt@{VL53L4CD\_ClearInterrupt}}
+\index{VL53L4CD\_ClearInterrupt@{VL53L4CD\_ClearInterrupt}!VL53L4CD\_API@{VL53L4CD\_API}}
+\doxyparagraph{\texorpdfstring{VL53L4CD\_ClearInterrupt()}{VL53L4CD\_ClearInterrupt()}}
+{\footnotesize\ttfamily VL53\+L4\+CD\+\_\+\+Error VL53\+L4\+CD\+\_\+\+API\+::\+VL53\+L4\+CD\+\_\+\+Clear\+Interrupt (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\+\_\+t}}}]{dev }\end{DoxyParamCaption})}
+
+
+
+This function clears the interrupt. It needs to be called after a ranging data reading to arm the interrupt for the next data ready event. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (\+Dev\+\_\+t)} & dev \+: Device instance. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+(VL53\+L4\+CD\+\_\+\+ERROR) status \+: 0 if OK. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classVL53L4CD__API_adc880b2d4e70fa6ba50822740a0802bc}\label{classVL53L4CD__API_adc880b2d4e70fa6ba50822740a0802bc}} 
+\index{VL53L4CD\_API@{VL53L4CD\_API}!VL53L4CD\_GetDetectionThresholds@{VL53L4CD\_GetDetectionThresholds}}
+\index{VL53L4CD\_GetDetectionThresholds@{VL53L4CD\_GetDetectionThresholds}!VL53L4CD\_API@{VL53L4CD\_API}}
+\doxyparagraph{\texorpdfstring{VL53L4CD\_GetDetectionThresholds()}{VL53L4CD\_GetDetectionThresholds()}}
+{\footnotesize\ttfamily VL53\+L4\+CD\+\_\+\+Error VL53\+L4\+CD\+\_\+\+API\+::\+VL53\+L4\+CD\+\_\+\+Get\+Detection\+Thresholds (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\+\_\+t}}}]{dev,  }\item[{uint16\+\_\+t $\ast$}]{p\+\_\+distance\+\_\+low\+\_\+mm,  }\item[{uint16\+\_\+t $\ast$}]{p\+\_\+distance\+\_\+high\+\_\+mm,  }\item[{uint8\+\_\+t $\ast$}]{p\+\_\+window }\end{DoxyParamCaption})}
+
+
+
+This function gets the current detection thresholds. The detection thresholds can be programmed to generate an interrupt on pin 7 (GPIO1), only when a condition on distance is reach. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (\+Dev\+\_\+t)} & dev \+: instance of selected \mbox{\hyperlink{classVL53L4CD}{VL53\+L4\+CD}} sensor. \\
+\hline
+{\em (uint16\+\_\+t)} & $\ast$p\+\_\+distance\+\_\+low\+\_\+mm \+: Pointer of low distance threshold in millimeters. \\
+\hline
+{\em (uint16\+\_\+t)} & $\ast$p\+\_\+distance\+\_\+high\+\_\+mm \+: Pointer of high distance threshold in millimeters. \\
+\hline
+{\em (uint8\+\_\+t)} & $\ast$p\+\_\+window \+: Interrupt windows (0=below low threshold; 1=above high threshold; 2=out of low/high windows; 3=in low/high windows) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+(VL53\+L4\+CD\+\_\+\+ERROR) status \+: 0 if OK. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classVL53L4CD__API_a5aa27650d85f31b269426710fb8ebc93}\label{classVL53L4CD__API_a5aa27650d85f31b269426710fb8ebc93}} 
+\index{VL53L4CD\_API@{VL53L4CD\_API}!VL53L4CD\_GetOffset@{VL53L4CD\_GetOffset}}
+\index{VL53L4CD\_GetOffset@{VL53L4CD\_GetOffset}!VL53L4CD\_API@{VL53L4CD\_API}}
+\doxyparagraph{\texorpdfstring{VL53L4CD\_GetOffset()}{VL53L4CD\_GetOffset()}}
+{\footnotesize\ttfamily VL53\+L4\+CD\+\_\+\+Error VL53\+L4\+CD\+\_\+\+API\+::\+VL53\+L4\+CD\+\_\+\+Get\+Offset (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\+\_\+t}}}]{dev,  }\item[{int16\+\_\+t $\ast$}]{Offset }\end{DoxyParamCaption})}
+
+
+
+This function gets the current offset correction in mm. Offset corresponds to the difference in millimeters between real distance and measured distance. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (\+Dev\+\_\+t)} & dev \+: instance of selected \mbox{\hyperlink{classVL53L4CD}{VL53\+L4\+CD}} sensor. \\
+\hline
+{\em (int16\+\_\+t)} & Offset\+Value\+In\+Mm \+: Offset value in millimeters. The minimum value is -\/1024mm and maximum is 1023mm. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+(uint8\+\_\+t) status \+: 0 if OK. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classVL53L4CD__API_a25f7a067fae122c18757c4197502de66}\label{classVL53L4CD__API_a25f7a067fae122c18757c4197502de66}} 
+\index{VL53L4CD\_API@{VL53L4CD\_API}!VL53L4CD\_GetRangeTiming@{VL53L4CD\_GetRangeTiming}}
+\index{VL53L4CD\_GetRangeTiming@{VL53L4CD\_GetRangeTiming}!VL53L4CD\_API@{VL53L4CD\_API}}
+\doxyparagraph{\texorpdfstring{VL53L4CD\_GetRangeTiming()}{VL53L4CD\_GetRangeTiming()}}
+{\footnotesize\ttfamily VL53\+L4\+CD\+\_\+\+Error VL53\+L4\+CD\+\_\+\+API\+::\+VL53\+L4\+CD\+\_\+\+Get\+Range\+Timing (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\+\_\+t}}}]{dev,  }\item[{uint32\+\_\+t $\ast$}]{p\+\_\+timing\+\_\+budget\+\_\+ms,  }\item[{uint32\+\_\+t $\ast$}]{p\+\_\+inter\+\_\+measurement\+\_\+ms }\end{DoxyParamCaption})}
+
+
+
+This function gets the current range timing. Timing are composed of Timing\+Budget and Inter\+Measurement. Timing\+Budget represents the timing during VCSEL enabled, and Inter\+Measurement the time between two measurements. The sensor can have different ranging mode depending of the configuration, please refer to the user manual for more information. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (\+Dev\+\_\+t)} & dev \+: instance of selected \mbox{\hyperlink{classVL53L4CD}{VL53\+L4\+CD}} sensor. \\
+\hline
+{\em (uint32\+\_\+t)} & $\ast$p\+\_\+timing\+\_\+budget\+\_\+ms \+: Pointer containing the current timing budget in ms. \\
+\hline
+{\em (uint32\+\_\+t)} & $\ast$p\+\_\+inter\+\_\+measurement\+\_\+ms \+: Pointer containing the current inter-\/measurement in ms. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+(uint8\+\_\+t) status \+: 0 if OK. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classVL53L4CD__API_af19795ff7d4e1b8f3153ab2e033302e7}\label{classVL53L4CD__API_af19795ff7d4e1b8f3153ab2e033302e7}} 
+\index{VL53L4CD\_API@{VL53L4CD\_API}!VL53L4CD\_GetResult@{VL53L4CD\_GetResult}}
+\index{VL53L4CD\_GetResult@{VL53L4CD\_GetResult}!VL53L4CD\_API@{VL53L4CD\_API}}
+\doxyparagraph{\texorpdfstring{VL53L4CD\_GetResult()}{VL53L4CD\_GetResult()}}
+{\footnotesize\ttfamily VL53\+L4\+CD\+\_\+\+Error VL53\+L4\+CD\+\_\+\+API\+::\+VL53\+L4\+CD\+\_\+\+Get\+Result (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\+\_\+t}}}]{dev,  }\item[{\mbox{\hyperlink{structVL53L4CD__ResultsData__t}{VL53\+L4\+CD\+\_\+\+Results\+Data\+\_\+t}} $\ast$}]{p\+Result }\end{DoxyParamCaption})}
+
+
+
+This function gets the results reported by the sensor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (\+Dev\+\_\+t)} & dev \+: instance of selected \mbox{\hyperlink{classVL53L4CD}{VL53\+L4\+CD}} sensor. \\
+\hline
+{\em (\+VL53\+L4\+CD\+\_\+\+Results\+Data\+\_\+t)} & $\ast$p\+Result \+: Pointer of structure, filled with the ranging results. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+(uint8\+\_\+t) status \+: 0 if OK. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classVL53L4CD__API_a39750d4a46e02e81b5ae0e739def7ed0}\label{classVL53L4CD__API_a39750d4a46e02e81b5ae0e739def7ed0}} 
+\index{VL53L4CD\_API@{VL53L4CD\_API}!VL53L4CD\_GetSensorId@{VL53L4CD\_GetSensorId}}
+\index{VL53L4CD\_GetSensorId@{VL53L4CD\_GetSensorId}!VL53L4CD\_API@{VL53L4CD\_API}}
+\doxyparagraph{\texorpdfstring{VL53L4CD\_GetSensorId()}{VL53L4CD\_GetSensorId()}}
+{\footnotesize\ttfamily VL53\+L4\+CD\+\_\+\+Error VL53\+L4\+CD\+\_\+\+API\+::\+VL53\+L4\+CD\+\_\+\+Get\+Sensor\+Id (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\+\_\+t}}}]{dev,  }\item[{uint16\+\_\+t $\ast$}]{p\+\_\+id }\end{DoxyParamCaption})}
+
+
+
+This function is used to get the sensor id of \mbox{\hyperlink{classVL53L4CD}{VL53\+L4\+CD}}. The sensor id should be 0x\+EBAA. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (\+Dev\+\_\+t)} & dev \+: Device instance. \\
+\hline
+{\em (uint16\+\_\+t)} & $\ast$p\+\_\+id \+: Sensor id. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+(VL53\+L4\+CD\+\_\+\+ERROR) status \+: 0 if OK. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classVL53L4CD__API_a443fc7e50040da91572b1371f6d23fe1}\label{classVL53L4CD__API_a443fc7e50040da91572b1371f6d23fe1}} 
+\index{VL53L4CD\_API@{VL53L4CD\_API}!VL53L4CD\_GetSigmaThreshold@{VL53L4CD\_GetSigmaThreshold}}
+\index{VL53L4CD\_GetSigmaThreshold@{VL53L4CD\_GetSigmaThreshold}!VL53L4CD\_API@{VL53L4CD\_API}}
+\doxyparagraph{\texorpdfstring{VL53L4CD\_GetSigmaThreshold()}{VL53L4CD\_GetSigmaThreshold()}}
+{\footnotesize\ttfamily VL53\+L4\+CD\+\_\+\+Error VL53\+L4\+CD\+\_\+\+API\+::\+VL53\+L4\+CD\+\_\+\+Get\+Sigma\+Threshold (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\+\_\+t}}}]{dev,  }\item[{uint16\+\_\+t $\ast$}]{p\+\_\+sigma\+\_\+mm }\end{DoxyParamCaption})}
+
+
+
+This function gets the current sigma threshold. The sigma corresponds to the standard deviation of the returned pulse. If the computed sigma is above the programmed value, the result status in structure \textquotesingle{}\mbox{\hyperlink{structVL53L4CD__ResultsData__t}{VL53\+L4\+CD\+\_\+\+Results\+Data\+\_\+t}}\textquotesingle{} will be equal to 1. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (\+Dev\+\_\+t)} & dev \+: instance of selected \mbox{\hyperlink{classVL53L4CD}{VL53\+L4\+CD}} sensor. \\
+\hline
+{\em (uint16\+\_\+t)} & $\ast$p\+\_\+sigma\+\_\+mm \+: Current sigma threshold in mm. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+(VL53\+L4\+CD\+\_\+\+ERROR) status \+: 0 if programming is OK. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classVL53L4CD__API_ade677c4e4e63c12b1b34fca50180f7a0}\label{classVL53L4CD__API_ade677c4e4e63c12b1b34fca50180f7a0}} 
+\index{VL53L4CD\_API@{VL53L4CD\_API}!VL53L4CD\_GetSignalThreshold@{VL53L4CD\_GetSignalThreshold}}
+\index{VL53L4CD\_GetSignalThreshold@{VL53L4CD\_GetSignalThreshold}!VL53L4CD\_API@{VL53L4CD\_API}}
+\doxyparagraph{\texorpdfstring{VL53L4CD\_GetSignalThreshold()}{VL53L4CD\_GetSignalThreshold()}}
+{\footnotesize\ttfamily VL53\+L4\+CD\+\_\+\+Error VL53\+L4\+CD\+\_\+\+API\+::\+VL53\+L4\+CD\+\_\+\+Get\+Signal\+Threshold (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\+\_\+t}}}]{dev,  }\item[{uint16\+\_\+t $\ast$}]{p\+\_\+signal\+\_\+kcps }\end{DoxyParamCaption})}
+
+
+
+This function returns the current signal threshold in kcps. If a target has a lower signal as the programmed value, the result status in structure \textquotesingle{}\mbox{\hyperlink{structVL53L4CD__ResultsData__t}{VL53\+L4\+CD\+\_\+\+Results\+Data\+\_\+t}}\textquotesingle{} will be equal to 2. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (\+Dev\+\_\+t)} & dev \+: instance of selected \mbox{\hyperlink{classVL53L4CD}{VL53\+L4\+CD}} sensor. \\
+\hline
+{\em (uint16\+\_\+t)} & $\ast$p\+\_\+signal\+\_\+kcps \+: Pointer of signal threshold in kcps. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+(VL53\+L4\+CD\+\_\+\+ERROR) status \+: 0 if OK. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classVL53L4CD__API_a2e522cd6d66becb6315fb2fa50a00055}\label{classVL53L4CD__API_a2e522cd6d66becb6315fb2fa50a00055}} 
+\index{VL53L4CD\_API@{VL53L4CD\_API}!VL53L4CD\_GetSWVersion@{VL53L4CD\_GetSWVersion}}
+\index{VL53L4CD\_GetSWVersion@{VL53L4CD\_GetSWVersion}!VL53L4CD\_API@{VL53L4CD\_API}}
+\doxyparagraph{\texorpdfstring{VL53L4CD\_GetSWVersion()}{VL53L4CD\_GetSWVersion()}}
+{\footnotesize\ttfamily VL53\+L4\+CD\+\_\+\+Error VL53\+L4\+CD\+\_\+\+API\+::\+VL53\+L4\+CD\+\_\+\+Get\+SWVersion (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structVL53L4CD__Version__t}{VL53\+L4\+CD\+\_\+\+Version\+\_\+t}} $\ast$}]{p\+Version }\end{DoxyParamCaption})}
+
+
+
+This function programs the software driver version. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (\+VL53\+L4\+CD\+\_\+\+Version\+\_\+t)} & p\+Version \+: Pointer of structure, containing the software version. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+(VL53\+L4\+CD\+\_\+\+ERROR) status \+: 0 if SW version is OK. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classVL53L4CD__API_a0a42e28fc1e58cc1708d3a9b49563f03}\label{classVL53L4CD__API_a0a42e28fc1e58cc1708d3a9b49563f03}} 
+\index{VL53L4CD\_API@{VL53L4CD\_API}!VL53L4CD\_GetXtalk@{VL53L4CD\_GetXtalk}}
+\index{VL53L4CD\_GetXtalk@{VL53L4CD\_GetXtalk}!VL53L4CD\_API@{VL53L4CD\_API}}
+\doxyparagraph{\texorpdfstring{VL53L4CD\_GetXtalk()}{VL53L4CD\_GetXtalk()}}
+{\footnotesize\ttfamily VL53\+L4\+CD\+\_\+\+Error VL53\+L4\+CD\+\_\+\+API\+::\+VL53\+L4\+CD\+\_\+\+Get\+Xtalk (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\+\_\+t}}}]{dev,  }\item[{uint16\+\_\+t $\ast$}]{p\+\_\+xtalk\+\_\+kcps }\end{DoxyParamCaption})}
+
+
+
+This function gets the current Xtalk value in kcps. Xtalk represents the correction to apply to the sensor when a protective coverglass is placed at the top of the sensor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (\+Dev\+\_\+t)} & dev \+: instance of selected \mbox{\hyperlink{classVL53L4CD}{VL53\+L4\+CD}} sensor. \\
+\hline
+{\em (uint16\+\_\+t)} & p\+\_\+xtalk\+\_\+kcps \+: Pointer of current xtalk value in kcps. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+(VL53\+L4\+CD\+\_\+\+ERROR) status \+: 0 if OK. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classVL53L4CD__API_ad04915d4dc676f2306874b75a670c091}\label{classVL53L4CD__API_ad04915d4dc676f2306874b75a670c091}} 
+\index{VL53L4CD\_API@{VL53L4CD\_API}!VL53L4CD\_SensorInit@{VL53L4CD\_SensorInit}}
+\index{VL53L4CD\_SensorInit@{VL53L4CD\_SensorInit}!VL53L4CD\_API@{VL53L4CD\_API}}
+\doxyparagraph{\texorpdfstring{VL53L4CD\_SensorInit()}{VL53L4CD\_SensorInit()}}
+{\footnotesize\ttfamily VL53\+L4\+CD\+\_\+\+Error VL53\+L4\+CD\+\_\+\+API\+::\+VL53\+L4\+CD\+\_\+\+Sensor\+Init (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\+\_\+t}}}]{dev }\end{DoxyParamCaption})}
+
+
+
+This function is used to initialize the sensor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (\+Dev\+\_\+t)} & dev \+: Device instance to initialize. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+(VL53\+L4\+CD\+\_\+\+ERROR) status \+: 0 if init is OK. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classVL53L4CD__API_a4d9a651e5194e5daa081085c6691642f}\label{classVL53L4CD__API_a4d9a651e5194e5daa081085c6691642f}} 
+\index{VL53L4CD\_API@{VL53L4CD\_API}!VL53L4CD\_SetDetectionThresholds@{VL53L4CD\_SetDetectionThresholds}}
+\index{VL53L4CD\_SetDetectionThresholds@{VL53L4CD\_SetDetectionThresholds}!VL53L4CD\_API@{VL53L4CD\_API}}
+\doxyparagraph{\texorpdfstring{VL53L4CD\_SetDetectionThresholds()}{VL53L4CD\_SetDetectionThresholds()}}
+{\footnotesize\ttfamily VL53\+L4\+CD\+\_\+\+Error VL53\+L4\+CD\+\_\+\+API\+::\+VL53\+L4\+CD\+\_\+\+Set\+Detection\+Thresholds (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\+\_\+t}}}]{dev,  }\item[{uint16\+\_\+t}]{distance\+\_\+low\+\_\+mm,  }\item[{uint16\+\_\+t}]{distance\+\_\+high\+\_\+mm,  }\item[{uint8\+\_\+t}]{window }\end{DoxyParamCaption})}
+
+
+
+This function sets new detection thresholds. The detection thresholds can be programmed to generate an interrupt on pin 7 (GPIO1), only when a condition on distance is reach. Example\+: VL53\+L4\+CD\+\_\+\+Set\+Distance\+Threshold(dev,100,300,0)\+: Below 100 mm VL53\+L4\+CD\+\_\+\+Set\+Distance\+Threshold(dev,100,300,1)\+: Above 300 mm VL53\+L4\+CD\+\_\+\+Set\+Distance\+Threshold(dev,100,300,2)\+: Below 100mm or above 300mm VL53\+L4\+CD\+\_\+\+Set\+Distance\+Threshold(dev,100,300,3)\+: Above 100mm or below 300mm. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (\+Dev\+\_\+t)} & dev \+: instance of selected \mbox{\hyperlink{classVL53L4CD}{VL53\+L4\+CD}} sensor. \\
+\hline
+{\em (uint16\+\_\+t)} & distance\+\_\+low\+\_\+mm \+: Low distance threshold in millimeters. \\
+\hline
+{\em (uint16\+\_\+t)} & distance\+\_\+high\+\_\+mm \+: High distance threshold in millimeters. \\
+\hline
+{\em (uint8\+\_\+t)} & window \+: Interrupt windows (0=below low threshold; 1=above high threshold; 2=out of low/high windows; 3=in low/high windows) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+(VL53\+L4\+CD\+\_\+\+ERROR) status \+: 0 if OK. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classVL53L4CD__API_a87523f5f80914c5712bbb2d9714b6267}\label{classVL53L4CD__API_a87523f5f80914c5712bbb2d9714b6267}} 
+\index{VL53L4CD\_API@{VL53L4CD\_API}!VL53L4CD\_SetI2CAddress@{VL53L4CD\_SetI2CAddress}}
+\index{VL53L4CD\_SetI2CAddress@{VL53L4CD\_SetI2CAddress}!VL53L4CD\_API@{VL53L4CD\_API}}
+\doxyparagraph{\texorpdfstring{VL53L4CD\_SetI2CAddress()}{VL53L4CD\_SetI2CAddress()}}
+{\footnotesize\ttfamily VL53\+L4\+CD\+\_\+\+Error VL53\+L4\+CD\+\_\+\+API\+::\+VL53\+L4\+CD\+\_\+\+Set\+I2\+CAddress (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\+\_\+t}}}]{dev,  }\item[{uint8\+\_\+t}]{new\+\_\+address }\end{DoxyParamCaption})}
+
+
+
+This function sets a new I2C address to a sensor. It can be used for example when multiple sensors share the same I2C bus. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (\+Dev\+\_\+t)} & dev \+: Device instance to update. \\
+\hline
+{\em (uint8\+\_\+t)} & new\+\_\+address \+: New I2C address. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+(VL53\+L4\+CD\+\_\+\+ERROR) status \+: 0 if I2C address has been correctly programmed. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classVL53L4CD__API_a4cd4dc976d343d0cff8696ea60a1068d}\label{classVL53L4CD__API_a4cd4dc976d343d0cff8696ea60a1068d}} 
+\index{VL53L4CD\_API@{VL53L4CD\_API}!VL53L4CD\_SetOffset@{VL53L4CD\_SetOffset}}
+\index{VL53L4CD\_SetOffset@{VL53L4CD\_SetOffset}!VL53L4CD\_API@{VL53L4CD\_API}}
+\doxyparagraph{\texorpdfstring{VL53L4CD\_SetOffset()}{VL53L4CD\_SetOffset()}}
+{\footnotesize\ttfamily VL53\+L4\+CD\+\_\+\+Error VL53\+L4\+CD\+\_\+\+API\+::\+VL53\+L4\+CD\+\_\+\+Set\+Offset (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\+\_\+t}}}]{dev,  }\item[{int16\+\_\+t}]{Offset\+Value\+In\+Mm }\end{DoxyParamCaption})}
+
+
+
+This function sets a new offset correction in mm. Offset corresponds to the difference in millimeters between real distance and measured distance. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (\+Dev\+\_\+t)} & dev \+: instance of selected \mbox{\hyperlink{classVL53L4CD}{VL53\+L4\+CD}} sensor. \\
+\hline
+{\em (int16\+\_\+t)} & Offset\+Value\+In\+Mm \+: Offset value in millimeters. The minimum value is -\/1024mm and maximum is 1023mm. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+(uint8\+\_\+t) status \+: 0 if OK. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classVL53L4CD__API_a2585a3f22fdf2b0ee32820ec42da3961}\label{classVL53L4CD__API_a2585a3f22fdf2b0ee32820ec42da3961}} 
+\index{VL53L4CD\_API@{VL53L4CD\_API}!VL53L4CD\_SetRangeTiming@{VL53L4CD\_SetRangeTiming}}
+\index{VL53L4CD\_SetRangeTiming@{VL53L4CD\_SetRangeTiming}!VL53L4CD\_API@{VL53L4CD\_API}}
+\doxyparagraph{\texorpdfstring{VL53L4CD\_SetRangeTiming()}{VL53L4CD\_SetRangeTiming()}}
+{\footnotesize\ttfamily VL53\+L4\+CD\+\_\+\+Error VL53\+L4\+CD\+\_\+\+API\+::\+VL53\+L4\+CD\+\_\+\+Set\+Range\+Timing (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\+\_\+t}}}]{dev,  }\item[{uint32\+\_\+t}]{timing\+\_\+budget\+\_\+ms,  }\item[{uint32\+\_\+t}]{inter\+\_\+measurement\+\_\+ms }\end{DoxyParamCaption})}
+
+
+
+This function sets new range timing. Timing are composed of Timing\+Budget and Inter\+Measurement. Timing\+Budget represents the timing during VCSEL enabled, and Inter\+Measurement the time between two measurements. The sensor can have different ranging mode depending of the configuration, please refer to the user manual for more information. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (\+Dev\+\_\+t)} & dev \+: instance of selected \mbox{\hyperlink{classVL53L4CD}{VL53\+L4\+CD}} sensor. \\
+\hline
+{\em (uint32\+\_\+t)} & timing\+\_\+budget\+\_\+ms \+: New timing budget in ms. Value can be between 10ms and 200ms. Default is 50ms. \\
+\hline
+{\em (uint32\+\_\+t)} & inter\+\_\+measurement\+\_\+ms \+: New inter-\/measurement in ms. If the value is equal to 0, the ranging period is defined by the timing budget. Otherwise, inter-\/measurement must be \texorpdfstring{$>$}{>} timing budget. When all the timing budget is consumed, the device goes in low power mode until inter-\/measurement is done. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+(uint8\+\_\+t) status \+: 0 if OK. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classVL53L4CD__API_ada4fb4ff20dacbed66e6c5261e4ff813}\label{classVL53L4CD__API_ada4fb4ff20dacbed66e6c5261e4ff813}} 
+\index{VL53L4CD\_API@{VL53L4CD\_API}!VL53L4CD\_SetSigmaThreshold@{VL53L4CD\_SetSigmaThreshold}}
+\index{VL53L4CD\_SetSigmaThreshold@{VL53L4CD\_SetSigmaThreshold}!VL53L4CD\_API@{VL53L4CD\_API}}
+\doxyparagraph{\texorpdfstring{VL53L4CD\_SetSigmaThreshold()}{VL53L4CD\_SetSigmaThreshold()}}
+{\footnotesize\ttfamily VL53\+L4\+CD\+\_\+\+Error VL53\+L4\+CD\+\_\+\+API\+::\+VL53\+L4\+CD\+\_\+\+Set\+Sigma\+Threshold (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\+\_\+t}}}]{dev,  }\item[{uint16\+\_\+t}]{sigma\+\_\+mm }\end{DoxyParamCaption})}
+
+
+
+This function programs a new sigma threshold. The sigma corresponds to the standard deviation of the returned pulse. If the computed sigma is above the programmed value, the result status in structure \textquotesingle{}\mbox{\hyperlink{structVL53L4CD__ResultsData__t}{VL53\+L4\+CD\+\_\+\+Results\+Data\+\_\+t}}\textquotesingle{} will be equal to 1. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (\+Dev\+\_\+t)} & dev \+: instance of selected \mbox{\hyperlink{classVL53L4CD}{VL53\+L4\+CD}} sensor. \\
+\hline
+{\em (uint16\+\_\+t)} & sigma\+\_\+mm \+: New sigma threshold in mm. The default value is 15mm. Minimum is 0mm (not threshold), and maximum is 16383mm. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+(VL53\+L4\+CD\+\_\+\+ERROR) status \+: 0 if programming is or 255 if value is too high. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classVL53L4CD__API_a115c3de908fb7b9dbfcf91bdac6a551c}\label{classVL53L4CD__API_a115c3de908fb7b9dbfcf91bdac6a551c}} 
+\index{VL53L4CD\_API@{VL53L4CD\_API}!VL53L4CD\_SetSignalThreshold@{VL53L4CD\_SetSignalThreshold}}
+\index{VL53L4CD\_SetSignalThreshold@{VL53L4CD\_SetSignalThreshold}!VL53L4CD\_API@{VL53L4CD\_API}}
+\doxyparagraph{\texorpdfstring{VL53L4CD\_SetSignalThreshold()}{VL53L4CD\_SetSignalThreshold()}}
+{\footnotesize\ttfamily VL53\+L4\+CD\+\_\+\+Error VL53\+L4\+CD\+\_\+\+API\+::\+VL53\+L4\+CD\+\_\+\+Set\+Signal\+Threshold (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\+\_\+t}}}]{dev,  }\item[{uint16\+\_\+t}]{signal\+\_\+kcps }\end{DoxyParamCaption})}
+
+
+
+This function sets a new signal threshold in kcps. If a target has a lower signal as the programmed value, the result status in structure \textquotesingle{}\mbox{\hyperlink{structVL53L4CD__ResultsData__t}{VL53\+L4\+CD\+\_\+\+Results\+Data\+\_\+t}}\textquotesingle{} will be equal to 2. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (\+Dev\+\_\+t)} & dev \+: instance of selected \mbox{\hyperlink{classVL53L4CD}{VL53\+L4\+CD}} sensor. \\
+\hline
+{\em (uint16\+\_\+t)} & signal\+\_\+kcps \+: New signal threshold in kcps. The default value is 1024 kcps. Minimum is 0 kcps (no threshold), and maximum is 16384 kcps. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+(VL53\+L4\+CD\+\_\+\+ERROR) status \+: 0 if OK. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classVL53L4CD__API_a1e02c0ae9a798c8972e84cb22b3c4a06}\label{classVL53L4CD__API_a1e02c0ae9a798c8972e84cb22b3c4a06}} 
+\index{VL53L4CD\_API@{VL53L4CD\_API}!VL53L4CD\_SetXtalk@{VL53L4CD\_SetXtalk}}
+\index{VL53L4CD\_SetXtalk@{VL53L4CD\_SetXtalk}!VL53L4CD\_API@{VL53L4CD\_API}}
+\doxyparagraph{\texorpdfstring{VL53L4CD\_SetXtalk()}{VL53L4CD\_SetXtalk()}}
+{\footnotesize\ttfamily VL53\+L4\+CD\+\_\+\+Error VL53\+L4\+CD\+\_\+\+API\+::\+VL53\+L4\+CD\+\_\+\+Set\+Xtalk (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\+\_\+t}}}]{dev,  }\item[{uint16\+\_\+t}]{Xtalk\+Value\+Kcps }\end{DoxyParamCaption})}
+
+
+
+This function sets a new Xtalk value in kcps. Xtalk represents the correction to apply to the sensor when a protective coverglass is placed at the top of the sensor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (\+Dev\+\_\+t)} & dev \+: instance of selected \mbox{\hyperlink{classVL53L4CD}{VL53\+L4\+CD}} sensor. \\
+\hline
+{\em (uint16\+\_\+t)} & Xtalk\+Value\+Kcps \+: New xtalk value in kcps. The default value is 0 kcps (no coverglass). Minimum is 0 kcps , and maximum is 128 kcps. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+(VL53\+L4\+CD\+\_\+\+ERROR) status \+: 0 if OK. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classVL53L4CD__API_a3013012a08e2592d13653a267806c98c}\label{classVL53L4CD__API_a3013012a08e2592d13653a267806c98c}} 
+\index{VL53L4CD\_API@{VL53L4CD\_API}!VL53L4CD\_StartRanging@{VL53L4CD\_StartRanging}}
+\index{VL53L4CD\_StartRanging@{VL53L4CD\_StartRanging}!VL53L4CD\_API@{VL53L4CD\_API}}
+\doxyparagraph{\texorpdfstring{VL53L4CD\_StartRanging()}{VL53L4CD\_StartRanging()}}
+{\footnotesize\ttfamily VL53\+L4\+CD\+\_\+\+Error VL53\+L4\+CD\+\_\+\+API\+::\+VL53\+L4\+CD\+\_\+\+Start\+Ranging (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\+\_\+t}}}]{dev }\end{DoxyParamCaption})}
+
+
+
+This function starts a ranging session. The ranging operation is continuous. The clear interrupt has to be done after each get data to allow the interrupt to raise when the next data is ready. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (\+Dev\+\_\+t)} & dev \+: instance of selected \mbox{\hyperlink{classVL53L4CD}{VL53\+L4\+CD}} sensor. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+(VL53\+L4\+CD\+\_\+\+ERROR) status \+: 0 if OK. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classVL53L4CD__API_aa9c83b64bcfbb37376b0694c64745564}\label{classVL53L4CD__API_aa9c83b64bcfbb37376b0694c64745564}} 
+\index{VL53L4CD\_API@{VL53L4CD\_API}!VL53L4CD\_StartTemperatureUpdate@{VL53L4CD\_StartTemperatureUpdate}}
+\index{VL53L4CD\_StartTemperatureUpdate@{VL53L4CD\_StartTemperatureUpdate}!VL53L4CD\_API@{VL53L4CD\_API}}
+\doxyparagraph{\texorpdfstring{VL53L4CD\_StartTemperatureUpdate()}{VL53L4CD\_StartTemperatureUpdate()}}
+{\footnotesize\ttfamily VL53\+L4\+CD\+\_\+\+Error VL53\+L4\+CD\+\_\+\+API\+::\+VL53\+L4\+CD\+\_\+\+Start\+Temperature\+Update (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\+\_\+t}}}]{dev }\end{DoxyParamCaption})}
+
+
+
+This function can be called when the temperature might have changed by more than 8 degrees Celsius. The function can only be used if the sensor is not ranging, otherwise, the ranging needs to be stopped using function \textquotesingle{}\mbox{\hyperlink{classVL53L4CD__API_a491af0b13c9fa2c9e3197b80c2f50f8b}{VL53\+L4\+CD\+\_\+\+Stop\+Ranging()}}\textquotesingle{}. After calling this function, the ranging can restart normally. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (\+Dev\+\_\+t)} & dev \+: instance of selected \mbox{\hyperlink{classVL53L4CD}{VL53\+L4\+CD}} sensor. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+(VL53\+L4\+CD\+\_\+\+ERROR) status \+: 0 if update is OK. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classVL53L4CD__API_a491af0b13c9fa2c9e3197b80c2f50f8b}\label{classVL53L4CD__API_a491af0b13c9fa2c9e3197b80c2f50f8b}} 
+\index{VL53L4CD\_API@{VL53L4CD\_API}!VL53L4CD\_StopRanging@{VL53L4CD\_StopRanging}}
+\index{VL53L4CD\_StopRanging@{VL53L4CD\_StopRanging}!VL53L4CD\_API@{VL53L4CD\_API}}
+\doxyparagraph{\texorpdfstring{VL53L4CD\_StopRanging()}{VL53L4CD\_StopRanging()}}
+{\footnotesize\ttfamily VL53\+L4\+CD\+\_\+\+Error VL53\+L4\+CD\+\_\+\+API\+::\+VL53\+L4\+CD\+\_\+\+Stop\+Ranging (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\+\_\+t}}}]{dev }\end{DoxyParamCaption})}
+
+
+
+This function stops the ranging in progress. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em (\+Dev\+\_\+t)} & dev \+: instance of selected \mbox{\hyperlink{classVL53L4CD}{VL53\+L4\+CD}} sensor. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+(VL53\+L4\+CD\+\_\+\+ERROR) status \+: 0 if OK. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/VL53\+L4\+CD\+\_\+api.\+h\end{DoxyCompactItemize}

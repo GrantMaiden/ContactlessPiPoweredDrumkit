@@ -1,0 +1,222 @@
+\hypertarget{VL53L4CD__api_8h_source}{}\doxysubsection{VL53\+L4\+CD\+\_\+api.\+h}
+\label{VL53L4CD__api_8h_source}\index{include/VL53L4CD\_api.h@{include/VL53L4CD\_api.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{/*}}
+\DoxyCodeLine{2 \textcolor{comment}{ Copyright (c) 2021, STMicroelectronics -\/ All Rights Reserved}}
+\DoxyCodeLine{3 \textcolor{comment}{}}
+\DoxyCodeLine{4 \textcolor{comment}{ This file : part of VL53L4CD Ultra Lite Driver and : dual licensed, either}}
+\DoxyCodeLine{5 \textcolor{comment}{ 'STMicroelectronics Proprietary license'}}
+\DoxyCodeLine{6 \textcolor{comment}{ or 'BSD 3-\/clause "{}New"{} or "{}Revised"{} License' , at your option.}}
+\DoxyCodeLine{7 \textcolor{comment}{}}
+\DoxyCodeLine{8 \textcolor{comment}{*******************************************************************************}}
+\DoxyCodeLine{9 \textcolor{comment}{}}
+\DoxyCodeLine{10 \textcolor{comment}{ 'STMicroelectronics Proprietary license'}}
+\DoxyCodeLine{11 \textcolor{comment}{}}
+\DoxyCodeLine{12 \textcolor{comment}{*******************************************************************************}}
+\DoxyCodeLine{13 \textcolor{comment}{}}
+\DoxyCodeLine{14 \textcolor{comment}{ License terms: STMicroelectronics Proprietary in accordance with licensing}}
+\DoxyCodeLine{15 \textcolor{comment}{ terms at www.st.com/sla0081}}
+\DoxyCodeLine{16 \textcolor{comment}{}}
+\DoxyCodeLine{17 \textcolor{comment}{ STMicroelectronics confidential}}
+\DoxyCodeLine{18 \textcolor{comment}{ Reproduction and Communication of this document : strictly prohibited unless}}
+\DoxyCodeLine{19 \textcolor{comment}{ specifically authorized in writing by STMicroelectronics.}}
+\DoxyCodeLine{20 \textcolor{comment}{}}
+\DoxyCodeLine{21 \textcolor{comment}{}}
+\DoxyCodeLine{22 \textcolor{comment}{*******************************************************************************}}
+\DoxyCodeLine{23 \textcolor{comment}{}}
+\DoxyCodeLine{24 \textcolor{comment}{ Alternatively, VL53L4CD Ultra Lite Driver may be distributed under the terms of}}
+\DoxyCodeLine{25 \textcolor{comment}{ 'BSD 3-\/clause "{}New"{} or "{}Revised"{} License', in which case the following}}
+\DoxyCodeLine{26 \textcolor{comment}{ provisions apply instead of the ones mentioned above :}}
+\DoxyCodeLine{27 \textcolor{comment}{}}
+\DoxyCodeLine{28 \textcolor{comment}{*******************************************************************************}}
+\DoxyCodeLine{29 \textcolor{comment}{}}
+\DoxyCodeLine{30 \textcolor{comment}{ License terms: BSD 3-\/clause "{}New"{} or "{}Revised"{} License.}}
+\DoxyCodeLine{31 \textcolor{comment}{}}
+\DoxyCodeLine{32 \textcolor{comment}{ Redistribution and use in source and binary forms, with or without}}
+\DoxyCodeLine{33 \textcolor{comment}{ modification, are permitted provided that the following conditions are met:}}
+\DoxyCodeLine{34 \textcolor{comment}{}}
+\DoxyCodeLine{35 \textcolor{comment}{ 1. Redistributions of source code must retain the above copyright notice, this}}
+\DoxyCodeLine{36 \textcolor{comment}{ list of conditions and the following disclaimer.}}
+\DoxyCodeLine{37 \textcolor{comment}{}}
+\DoxyCodeLine{38 \textcolor{comment}{ 2. Redistributions in binary form must reproduce the above copyright notice,}}
+\DoxyCodeLine{39 \textcolor{comment}{ this list of conditions and the following disclaimer in the documentation}}
+\DoxyCodeLine{40 \textcolor{comment}{ and/or other materials provided with the distribution.}}
+\DoxyCodeLine{41 \textcolor{comment}{}}
+\DoxyCodeLine{42 \textcolor{comment}{ 3. Neither the name of the copyright holder nor the names of its contributors}}
+\DoxyCodeLine{43 \textcolor{comment}{ may be used to endorse or promote products derived from this software}}
+\DoxyCodeLine{44 \textcolor{comment}{ without specific prior written permission.}}
+\DoxyCodeLine{45 \textcolor{comment}{}}
+\DoxyCodeLine{46 \textcolor{comment}{ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "{}AS IS"{}}}
+\DoxyCodeLine{47 \textcolor{comment}{ AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE}}
+\DoxyCodeLine{48 \textcolor{comment}{ IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE}}
+\DoxyCodeLine{49 \textcolor{comment}{ DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE}}
+\DoxyCodeLine{50 \textcolor{comment}{ FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL}}
+\DoxyCodeLine{51 \textcolor{comment}{ DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR}}
+\DoxyCodeLine{52 \textcolor{comment}{ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER}}
+\DoxyCodeLine{53 \textcolor{comment}{ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,}}
+\DoxyCodeLine{54 \textcolor{comment}{ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE}}
+\DoxyCodeLine{55 \textcolor{comment}{ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.}}
+\DoxyCodeLine{56 \textcolor{comment}{*******************************************************************************}}
+\DoxyCodeLine{57 \textcolor{comment}{*/}}
+\DoxyCodeLine{58 }
+\DoxyCodeLine{59 \textcolor{preprocessor}{\#ifndef VL53L4CD\_API\_H\_}}
+\DoxyCodeLine{60 \textcolor{preprocessor}{\#define VL53L4CD\_API\_H\_}}
+\DoxyCodeLine{61 }
+\DoxyCodeLine{62 \textcolor{preprocessor}{\#include "{}platform.h"{}}}
+\DoxyCodeLine{63 }
+\DoxyCodeLine{68 \textcolor{preprocessor}{\#define VL53L4CD\_IMPLEMENTATION\_VER\_MAJOR       2}}
+\DoxyCodeLine{69 \textcolor{preprocessor}{\#define VL53L4CD\_IMPLEMENTATION\_VER\_MINOR       1}}
+\DoxyCodeLine{70 \textcolor{preprocessor}{\#define VL53L4CD\_IMPLEMENTATION\_VER\_BUILD       1}}
+\DoxyCodeLine{71 \textcolor{preprocessor}{\#define VL53L4CD\_IMPLEMENTATION\_VER\_REVISION    0}}
+\DoxyCodeLine{72 }
+\DoxyCodeLine{77 \textcolor{keyword}{typedef} uint8\_t VL53L4CD\_Error;}
+\DoxyCodeLine{78 }
+\DoxyCodeLine{79 \textcolor{preprocessor}{\#define VL53L4CD\_ERROR\_NONE                                     ((uint8\_t)0U)}}
+\DoxyCodeLine{80 \textcolor{preprocessor}{\#define VL53L4CD\_ERROR\_XTALK\_FAILED                     ((uint8\_t)253U)}}
+\DoxyCodeLine{81 \textcolor{preprocessor}{\#define VL53L4CD\_ERROR\_INVALID\_ARGUMENT         ((uint8\_t)254U)}}
+\DoxyCodeLine{82 \textcolor{preprocessor}{\#define VL53L4CD\_ERROR\_TIMEOUT                          ((uint8\_t)255U)}}
+\DoxyCodeLine{83 }
+\DoxyCodeLine{84 }
+\DoxyCodeLine{89 \textcolor{preprocessor}{\#define VL53L4CD\_SOFT\_RESET     ((uint16\_t)0x0000))}}
+\DoxyCodeLine{90 \textcolor{preprocessor}{\#define VL53L4CD\_I2C\_SLAVE\_\_DEVICE\_ADDRESS      ((uint16\_t)0x0001)}}
+\DoxyCodeLine{91 \textcolor{preprocessor}{\#define VL53L4CD\_VHV\_CONFIG\_\_TIMEOUT\_MACROP\_LOOP\_BOUND  ((uint16\_t)0x0008)}}
+\DoxyCodeLine{92 \textcolor{preprocessor}{\#define VL53L4CD\_XTALK\_PLANE\_OFFSET\_KCPS ((uint16\_t)0x0016)}}
+\DoxyCodeLine{93 \textcolor{preprocessor}{\#define VL53L4CD\_XTALK\_X\_PLANE\_GRADIENT\_KCPS     ((uint16\_t)0x0018)}}
+\DoxyCodeLine{94 \textcolor{preprocessor}{\#define VL53L4CD\_XTALK\_Y\_PLANE\_GRADIENT\_KCPS     ((uint16\_t)0x001A)}}
+\DoxyCodeLine{95 \textcolor{preprocessor}{\#define VL53L4CD\_RANGE\_OFFSET\_MM     ((uint16\_t)0x001E)}}
+\DoxyCodeLine{96 \textcolor{preprocessor}{\#define VL53L4CD\_INNER\_OFFSET\_MM     ((uint16\_t)0x0020)}}
+\DoxyCodeLine{97 \textcolor{preprocessor}{\#define VL53L4CD\_OUTER\_OFFSET\_MM     ((uint16\_t)0x0022)}}
+\DoxyCodeLine{98 \textcolor{preprocessor}{\#define VL53L4CD\_GPIO\_HV\_MUX\_\_CTRL      ((uint16\_t)0x0030)}}
+\DoxyCodeLine{99 \textcolor{preprocessor}{\#define VL53L4CD\_GPIO\_\_TIO\_HV\_STATUS    ((uint16\_t)0x0031)}}
+\DoxyCodeLine{100 \textcolor{preprocessor}{\#define VL53L4CD\_SYSTEM\_\_INTERRUPT  ((uint16\_t)0x0046)}}
+\DoxyCodeLine{101 \textcolor{preprocessor}{\#define VL53L4CD\_RANGE\_CONFIG\_A     ((uint16\_t)0x005E)}}
+\DoxyCodeLine{102 \textcolor{preprocessor}{\#define VL53L4CD\_RANGE\_CONFIG\_B      ((uint16\_t)0x0061)}}
+\DoxyCodeLine{103 \textcolor{preprocessor}{\#define VL53L4CD\_RANGE\_CONFIG\_\_SIGMA\_THRESH     ((uint16\_t)0x0064)}}
+\DoxyCodeLine{104 \textcolor{preprocessor}{\#define VL53L4CD\_MIN\_COUNT\_RATE\_RTN\_LIMIT\_MCPS    ((uint16\_t)0x0066)}}
+\DoxyCodeLine{105 \textcolor{preprocessor}{\#define VL53L4CD\_INTERMEASUREMENT\_MS ((uint16\_t)0x006C)}}
+\DoxyCodeLine{106 \textcolor{preprocessor}{\#define VL53L4CD\_THRESH\_HIGH    ((uint16\_t)0x0072)}}
+\DoxyCodeLine{107 \textcolor{preprocessor}{\#define VL53L4CD\_THRESH\_LOW     ((uint16\_t)0x0074)}}
+\DoxyCodeLine{108 \textcolor{preprocessor}{\#define VL53L4CD\_SYSTEM\_\_INTERRUPT\_CLEAR        ((uint16\_t)0x0086)}}
+\DoxyCodeLine{109 \textcolor{preprocessor}{\#define VL53L4CD\_SYSTEM\_START     ((uint16\_t)0x0087)}}
+\DoxyCodeLine{110 \textcolor{preprocessor}{\#define VL53L4CD\_RESULT\_\_RANGE\_STATUS   ((uint16\_t)0x0089)}}
+\DoxyCodeLine{111 \textcolor{preprocessor}{\#define VL53L4CD\_RESULT\_\_SPAD\_NB   ((uint16\_t)0x008C)}}
+\DoxyCodeLine{112 \textcolor{preprocessor}{\#define VL53L4CD\_RESULT\_\_SIGNAL\_RATE   ((uint16\_t)0x008E)}}
+\DoxyCodeLine{113 \textcolor{preprocessor}{\#define VL53L4CD\_RESULT\_\_AMBIENT\_RATE   ((uint16\_t)0x0090)}}
+\DoxyCodeLine{114 \textcolor{preprocessor}{\#define VL53L4CD\_RESULT\_\_SIGMA   ((uint16\_t)0x0092)}}
+\DoxyCodeLine{115 \textcolor{preprocessor}{\#define VL53L4CD\_RESULT\_\_DISTANCE   ((uint16\_t)0x0096)}}
+\DoxyCodeLine{116 }
+\DoxyCodeLine{117 }
+\DoxyCodeLine{118 \textcolor{preprocessor}{\#define VL53L4CD\_RESULT\_\_OSC\_CALIBRATE\_VAL      ((uint16\_t)0x00DE)}}
+\DoxyCodeLine{119 \textcolor{preprocessor}{\#define VL53L4CD\_FIRMWARE\_\_SYSTEM\_STATUS        ((uint16\_t)0x00E5)}}
+\DoxyCodeLine{120 \textcolor{preprocessor}{\#define VL53L4CD\_IDENTIFICATION\_\_MODEL\_ID       ((uint16\_t)0x010F)}}
+\DoxyCodeLine{121 }
+\DoxyCodeLine{126 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{127         uint8\_t      \mbox{\hyperlink{structVL53L4CD__Version__t_a1bdeebbda9fff46f186f2fc9051f6d8d}{major}};    }
+\DoxyCodeLine{128         uint8\_t      \mbox{\hyperlink{structVL53L4CD__Version__t_ae05470ba1ce0c1b77c3d93a61fd58c12}{minor}};    }
+\DoxyCodeLine{129         uint8\_t      \mbox{\hyperlink{structVL53L4CD__Version__t_a43bbf4c829060868da7ffed06def47c0}{build}};    }
+\DoxyCodeLine{130         uint32\_t     \mbox{\hyperlink{structVL53L4CD__Version__t_a35356297c962e560de933a2da50927be}{revision}}; }
+\DoxyCodeLine{131 \} \mbox{\hyperlink{structVL53L4CD__Version__t}{VL53L4CD\_Version\_t}};}
+\DoxyCodeLine{132 }
+\DoxyCodeLine{137 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{138 }
+\DoxyCodeLine{139         \textcolor{comment}{/* Status of measurements. If the status is equal to 0, the data are valid*/}}
+\DoxyCodeLine{140         uint8\_t range\_status;}
+\DoxyCodeLine{141         \textcolor{comment}{/* Measured distance in millimeters */}}
+\DoxyCodeLine{142         uint16\_t distance\_mm;}
+\DoxyCodeLine{143         \textcolor{comment}{/* Ambient noise in kcps */}}
+\DoxyCodeLine{144         uint16\_t ambient\_rate\_kcps;}
+\DoxyCodeLine{145         \textcolor{comment}{/* Ambient noise in kcps/SPAD */}}
+\DoxyCodeLine{146         uint16\_t ambient\_per\_spad\_kcps;}
+\DoxyCodeLine{147         \textcolor{comment}{/* Measured signal of the target in kcps */}}
+\DoxyCodeLine{148         uint16\_t signal\_rate\_kcps;}
+\DoxyCodeLine{149         \textcolor{comment}{/* Measured signal of the target in kcps/SPAD */}}
+\DoxyCodeLine{150         uint16\_t signal\_per\_spad\_kcps;}
+\DoxyCodeLine{151         \textcolor{comment}{/* Number of SPADs enabled */}}
+\DoxyCodeLine{152         uint16\_t number\_of\_spad;}
+\DoxyCodeLine{153         \textcolor{comment}{/* Estimated measurements std deviation in mm */}}
+\DoxyCodeLine{154         uint16\_t sigma\_mm;}
+\DoxyCodeLine{155 \} \mbox{\hyperlink{structVL53L4CD__ResultsData__t}{VL53L4CD\_ResultsData\_t}};}
+\DoxyCodeLine{156 }
+\DoxyCodeLine{157 }
+\DoxyCodeLine{158 \textcolor{keyword}{class }\mbox{\hyperlink{classVL53L4CD__API}{VL53L4CD\_API}}}
+\DoxyCodeLine{159 \{}
+\DoxyCodeLine{160 }
+\DoxyCodeLine{161 \textcolor{keyword}{public}:}
+\DoxyCodeLine{168     VL53L4CD\_Error \mbox{\hyperlink{classVL53L4CD__API_a2e522cd6d66becb6315fb2fa50a00055}{VL53L4CD\_GetSWVersion}}(}
+\DoxyCodeLine{169             \mbox{\hyperlink{structVL53L4CD__Version__t}{VL53L4CD\_Version\_t}} *pVersion);}
+\DoxyCodeLine{170 }
+\DoxyCodeLine{171 }
+\DoxyCodeLine{181     VL53L4CD\_Error \mbox{\hyperlink{classVL53L4CD__API_a87523f5f80914c5712bbb2d9714b6267}{VL53L4CD\_SetI2CAddress}}(}
+\DoxyCodeLine{182             \mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\_t}} dev,}
+\DoxyCodeLine{183             uint8\_t new\_address);}
+\DoxyCodeLine{184 }
+\DoxyCodeLine{193     VL53L4CD\_Error \mbox{\hyperlink{classVL53L4CD__API_a39750d4a46e02e81b5ae0e739def7ed0}{VL53L4CD\_GetSensorId}}(}
+\DoxyCodeLine{194             \mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\_t}} dev,}
+\DoxyCodeLine{195             uint16\_t *p\_id);}
+\DoxyCodeLine{196 }
+\DoxyCodeLine{203     VL53L4CD\_Error \mbox{\hyperlink{classVL53L4CD__API_ad04915d4dc676f2306874b75a670c091}{VL53L4CD\_SensorInit}}(}
+\DoxyCodeLine{204             \mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\_t}} dev);}
+\DoxyCodeLine{205 }
+\DoxyCodeLine{213     VL53L4CD\_Error \mbox{\hyperlink{classVL53L4CD__API_a0779f406671b37fc75b34c20d6c56eee}{VL53L4CD\_ClearInterrupt}}(}
+\DoxyCodeLine{214             \mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\_t}} dev);}
+\DoxyCodeLine{215 }
+\DoxyCodeLine{224     VL53L4CD\_Error \mbox{\hyperlink{classVL53L4CD__API_a3013012a08e2592d13653a267806c98c}{VL53L4CD\_StartRanging}}(}
+\DoxyCodeLine{225             \mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\_t}} dev);}
+\DoxyCodeLine{226 }
+\DoxyCodeLine{233     VL53L4CD\_Error \mbox{\hyperlink{classVL53L4CD__API_a491af0b13c9fa2c9e3197b80c2f50f8b}{VL53L4CD\_StopRanging}}(}
+\DoxyCodeLine{234             \mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\_t}} dev);}
+\DoxyCodeLine{235 }
+\DoxyCodeLine{245     VL53L4CD\_Error \mbox{\hyperlink{classVL53L4CD__API_adbcb7208dd993b4c03b1bed873af975d}{VL53L4CD\_CheckForDataReady}}(}
+\DoxyCodeLine{246             \mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\_t}} dev,}
+\DoxyCodeLine{247             uint8\_t *p\_is\_data\_ready);}
+\DoxyCodeLine{248 }
+\DoxyCodeLine{266     VL53L4CD\_Error \mbox{\hyperlink{classVL53L4CD__API_a2585a3f22fdf2b0ee32820ec42da3961}{VL53L4CD\_SetRangeTiming}}(}
+\DoxyCodeLine{267             \mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\_t}} dev,}
+\DoxyCodeLine{268             uint32\_t timing\_budget\_ms,}
+\DoxyCodeLine{269             uint32\_t inter\_measurement\_ms);}
+\DoxyCodeLine{270 }
+\DoxyCodeLine{285     VL53L4CD\_Error \mbox{\hyperlink{classVL53L4CD__API_a25f7a067fae122c18757c4197502de66}{VL53L4CD\_GetRangeTiming}}(}
+\DoxyCodeLine{286             \mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\_t}} dev,}
+\DoxyCodeLine{287             uint32\_t *p\_timing\_budget\_ms,}
+\DoxyCodeLine{288             uint32\_t *p\_inter\_measurement\_ms);}
+\DoxyCodeLine{289 }
+\DoxyCodeLine{298     VL53L4CD\_Error \mbox{\hyperlink{classVL53L4CD__API_af19795ff7d4e1b8f3153ab2e033302e7}{VL53L4CD\_GetResult}}(\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\_t}} dev, \mbox{\hyperlink{structVL53L4CD__ResultsData__t}{VL53L4CD\_ResultsData\_t}} *pResult);}
+\DoxyCodeLine{299 }
+\DoxyCodeLine{309     VL53L4CD\_Error \mbox{\hyperlink{classVL53L4CD__API_a4cd4dc976d343d0cff8696ea60a1068d}{VL53L4CD\_SetOffset}}(\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\_t}} dev, int16\_t OffsetValueInMm);}
+\DoxyCodeLine{310 }
+\DoxyCodeLine{321     VL53L4CD\_Error \mbox{\hyperlink{classVL53L4CD__API_a5aa27650d85f31b269426710fb8ebc93}{VL53L4CD\_GetOffset}}(\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\_t}} dev, int16\_t *Offset);}
+\DoxyCodeLine{322 }
+\DoxyCodeLine{334     VL53L4CD\_Error \mbox{\hyperlink{classVL53L4CD__API_a1e02c0ae9a798c8972e84cb22b3c4a06}{VL53L4CD\_SetXtalk}}(\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\_t}} dev, uint16\_t XtalkValueKcps);}
+\DoxyCodeLine{335 }
+\DoxyCodeLine{345     VL53L4CD\_Error \mbox{\hyperlink{classVL53L4CD__API_a0a42e28fc1e58cc1708d3a9b49563f03}{VL53L4CD\_GetXtalk}}(\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\_t}} dev, uint16\_t *p\_xtalk\_kcps);}
+\DoxyCodeLine{346 }
+\DoxyCodeLine{363     VL53L4CD\_Error \mbox{\hyperlink{classVL53L4CD__API_a4d9a651e5194e5daa081085c6691642f}{VL53L4CD\_SetDetectionThresholds}}(\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\_t}} dev,}
+\DoxyCodeLine{364             uint16\_t distance\_low\_mm,}
+\DoxyCodeLine{365             uint16\_t distance\_high\_mm,}
+\DoxyCodeLine{366             uint8\_t window);}
+\DoxyCodeLine{367 }
+\DoxyCodeLine{368 }
+\DoxyCodeLine{383     VL53L4CD\_Error \mbox{\hyperlink{classVL53L4CD__API_adc880b2d4e70fa6ba50822740a0802bc}{VL53L4CD\_GetDetectionThresholds}}(\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\_t}} dev,}
+\DoxyCodeLine{384             uint16\_t *p\_distance\_low\_mm,}
+\DoxyCodeLine{385             uint16\_t *p\_distance\_high\_mm,}
+\DoxyCodeLine{386             uint8\_t *p\_window);}
+\DoxyCodeLine{387 }
+\DoxyCodeLine{399     VL53L4CD\_Error \mbox{\hyperlink{classVL53L4CD__API_a115c3de908fb7b9dbfcf91bdac6a551c}{VL53L4CD\_SetSignalThreshold}}(\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\_t}} dev, uint16\_t signal\_kcps);}
+\DoxyCodeLine{400 }
+\DoxyCodeLine{410     VL53L4CD\_Error \mbox{\hyperlink{classVL53L4CD__API_ade677c4e4e63c12b1b34fca50180f7a0}{VL53L4CD\_GetSignalThreshold}}(\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\_t}} dev,}
+\DoxyCodeLine{411             uint16\_t *p\_signal\_kcps);}
+\DoxyCodeLine{412 }
+\DoxyCodeLine{425     VL53L4CD\_Error \mbox{\hyperlink{classVL53L4CD__API_ada4fb4ff20dacbed66e6c5261e4ff813}{VL53L4CD\_SetSigmaThreshold}}(}
+\DoxyCodeLine{426             \mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\_t}} dev,}
+\DoxyCodeLine{427             uint16\_t    sigma\_mm);}
+\DoxyCodeLine{428 }
+\DoxyCodeLine{439     VL53L4CD\_Error \mbox{\hyperlink{classVL53L4CD__API_a443fc7e50040da91572b1371f6d23fe1}{VL53L4CD\_GetSigmaThreshold}}(}
+\DoxyCodeLine{440             \mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\_t}} dev,}
+\DoxyCodeLine{441             uint16\_t    *p\_sigma\_mm);}
+\DoxyCodeLine{442 }
+\DoxyCodeLine{453     VL53L4CD\_Error \mbox{\hyperlink{classVL53L4CD__API_aa9c83b64bcfbb37376b0694c64745564}{VL53L4CD\_StartTemperatureUpdate}}(\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\_t}} dev);}
+\DoxyCodeLine{454 \};}
+\DoxyCodeLine{455 \textcolor{preprocessor}{\#endif  }\textcolor{comment}{//VL53L4CD\_API\_H\_}}
+
+\end{DoxyCode}

@@ -1,0 +1,131 @@
+\hypertarget{platform_8h_source}{}\doxysubsection{platform.\+h}
+\label{platform_8h_source}\index{include/platform.h@{include/platform.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{/*}}
+\DoxyCodeLine{2 \textcolor{comment}{ Copyright (c) 2021, STMicroelectronics -\/ All Rights Reserved}}
+\DoxyCodeLine{3 \textcolor{comment}{}}
+\DoxyCodeLine{4 \textcolor{comment}{ This file : part of VL53L4CD Ultra Lite Driver and : dual licensed, either}}
+\DoxyCodeLine{5 \textcolor{comment}{ 'STMicroelectronics Proprietary license'}}
+\DoxyCodeLine{6 \textcolor{comment}{ or 'BSD 3-\/clause "{}New"{} or "{}Revised"{} License' , at your option.}}
+\DoxyCodeLine{7 \textcolor{comment}{}}
+\DoxyCodeLine{8 \textcolor{comment}{*******************************************************************************}}
+\DoxyCodeLine{9 \textcolor{comment}{}}
+\DoxyCodeLine{10 \textcolor{comment}{ 'STMicroelectronics Proprietary license'}}
+\DoxyCodeLine{11 \textcolor{comment}{}}
+\DoxyCodeLine{12 \textcolor{comment}{*******************************************************************************}}
+\DoxyCodeLine{13 \textcolor{comment}{}}
+\DoxyCodeLine{14 \textcolor{comment}{ License terms: STMicroelectronics Proprietary in accordance with licensing}}
+\DoxyCodeLine{15 \textcolor{comment}{ terms at www.st.com/sla0081}}
+\DoxyCodeLine{16 \textcolor{comment}{}}
+\DoxyCodeLine{17 \textcolor{comment}{ STMicroelectronics confidential}}
+\DoxyCodeLine{18 \textcolor{comment}{ Reproduction and Communication of this document : strictly prohibited unless}}
+\DoxyCodeLine{19 \textcolor{comment}{ specifically authorized in writing by STMicroelectronics.}}
+\DoxyCodeLine{20 \textcolor{comment}{}}
+\DoxyCodeLine{21 \textcolor{comment}{}}
+\DoxyCodeLine{22 \textcolor{comment}{*******************************************************************************}}
+\DoxyCodeLine{23 \textcolor{comment}{}}
+\DoxyCodeLine{24 \textcolor{comment}{ Alternatively, VL53L4CD Ultra Lite Driver may be distributed under the terms of}}
+\DoxyCodeLine{25 \textcolor{comment}{ 'BSD 3-\/clause "{}New"{} or "{}Revised"{} License', in which case the following}}
+\DoxyCodeLine{26 \textcolor{comment}{ provisions apply instead of the ones mentioned above :}}
+\DoxyCodeLine{27 \textcolor{comment}{}}
+\DoxyCodeLine{28 \textcolor{comment}{*******************************************************************************}}
+\DoxyCodeLine{29 \textcolor{comment}{}}
+\DoxyCodeLine{30 \textcolor{comment}{ License terms: BSD 3-\/clause "{}New"{} or "{}Revised"{} License.}}
+\DoxyCodeLine{31 \textcolor{comment}{}}
+\DoxyCodeLine{32 \textcolor{comment}{ Redistribution and use in source and binary forms, with or without}}
+\DoxyCodeLine{33 \textcolor{comment}{ modification, are permitted provided that the following conditions are met:}}
+\DoxyCodeLine{34 \textcolor{comment}{}}
+\DoxyCodeLine{35 \textcolor{comment}{ 1. Redistributions of source code must retain the above copyright notice, this}}
+\DoxyCodeLine{36 \textcolor{comment}{ list of conditions and the following disclaimer.}}
+\DoxyCodeLine{37 \textcolor{comment}{}}
+\DoxyCodeLine{38 \textcolor{comment}{ 2. Redistributions in binary form must reproduce the above copyright notice,}}
+\DoxyCodeLine{39 \textcolor{comment}{ this list of conditions and the following disclaimer in the documentation}}
+\DoxyCodeLine{40 \textcolor{comment}{ and/or other materials provided with the distribution.}}
+\DoxyCodeLine{41 \textcolor{comment}{}}
+\DoxyCodeLine{42 \textcolor{comment}{ 3. Neither the name of the copyright holder nor the names of its contributors}}
+\DoxyCodeLine{43 \textcolor{comment}{ may be used to endorse or promote products derived from this software}}
+\DoxyCodeLine{44 \textcolor{comment}{ without specific prior written permission.}}
+\DoxyCodeLine{45 \textcolor{comment}{}}
+\DoxyCodeLine{46 \textcolor{comment}{ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "{}AS IS"{}}}
+\DoxyCodeLine{47 \textcolor{comment}{ AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE}}
+\DoxyCodeLine{48 \textcolor{comment}{ IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE}}
+\DoxyCodeLine{49 \textcolor{comment}{ DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE}}
+\DoxyCodeLine{50 \textcolor{comment}{ FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL}}
+\DoxyCodeLine{51 \textcolor{comment}{ DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR}}
+\DoxyCodeLine{52 \textcolor{comment}{ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER}}
+\DoxyCodeLine{53 \textcolor{comment}{ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,}}
+\DoxyCodeLine{54 \textcolor{comment}{ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE}}
+\DoxyCodeLine{55 \textcolor{comment}{ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.}}
+\DoxyCodeLine{56 \textcolor{comment}{*******************************************************************************}}
+\DoxyCodeLine{57 \textcolor{comment}{*/}}
+\DoxyCodeLine{58 }
+\DoxyCodeLine{59 \textcolor{preprocessor}{\#ifndef \_PLATFORM\_H\_}}
+\DoxyCodeLine{60 \textcolor{preprocessor}{\#define \_PLATFORM\_H\_}}
+\DoxyCodeLine{61 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{62 }
+\DoxyCodeLine{63 \textcolor{preprocessor}{\#include <stdint.h>}}
+\DoxyCodeLine{64 \textcolor{preprocessor}{\#include <string.h>}}
+\DoxyCodeLine{65 }
+\DoxyCodeLine{66 }
+\DoxyCodeLine{67     \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\{}
+\DoxyCodeLine{68         \textcolor{keywordtype}{int}      fd;            \textcolor{comment}{/* File descriptor */}}
+\DoxyCodeLine{69         uint16\_t  address;      \textcolor{comment}{/* I2C address of sensor */}}
+\DoxyCodeLine{70     \} \mbox{\hyperlink{structVL53L4CD__LinuxDev}{VL53L4CD\_LinuxDev}};}
+\DoxyCodeLine{76     \textcolor{keyword}{typedef} \mbox{\hyperlink{structVL53L4CD__LinuxDev}{VL53L4CD\_LinuxDev}}* \mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\_t}};}
+\DoxyCodeLine{77 }
+\DoxyCodeLine{81     \textcolor{keyword}{typedef} uint8\_t VL53L4CD\_Error;}
+\DoxyCodeLine{82 }
+\DoxyCodeLine{88     \textcolor{comment}{//\#define VL53L4CD\_I2C\_FAST\_MODE\_PLUS}}
+\DoxyCodeLine{89 }
+\DoxyCodeLine{90 \textcolor{keyword}{class }\mbox{\hyperlink{classPlatformVL53l4CD}{PlatformVL53l4CD}}}
+\DoxyCodeLine{91 \{}
+\DoxyCodeLine{92 }
+\DoxyCodeLine{93 \textcolor{keyword}{public}:}
+\DoxyCodeLine{98     uint8\_t \mbox{\hyperlink{classPlatformVL53l4CD_a43c0603ac6b4f26de68e199ee86f9caa}{VL53L4CD\_comms\_init}}(\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\_t}} dev);}
+\DoxyCodeLine{99 }
+\DoxyCodeLine{104     uint8\_t \mbox{\hyperlink{classPlatformVL53l4CD_a858fc5217712d93c931a990275248e39}{VL53L4CD\_comms\_close}}(\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\_t}} dev);}
+\DoxyCodeLine{105 }
+\DoxyCodeLine{110     uint8\_t \mbox{\hyperlink{classPlatformVL53l4CD_abe1879b94ec170d9f870420e9555dc0b}{VL53L4CD\_RdDWord}}(\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\_t}} dev, uint16\_t registerAddr, uint32\_t *value);}
+\DoxyCodeLine{115     uint8\_t \mbox{\hyperlink{classPlatformVL53l4CD_a7c696355d0b7c2111ff834644a217c6d}{VL53L4CD\_RdWord}}(\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\_t}} dev, uint16\_t registerAddr, uint16\_t *value);}
+\DoxyCodeLine{116 }
+\DoxyCodeLine{121     uint8\_t \mbox{\hyperlink{classPlatformVL53l4CD_a7c1cf9a39727a030fe9feb9590d8f446}{VL53L4CD\_RdByte}}(\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\_t}} dev, uint16\_t registerAddr, uint8\_t *value);}
+\DoxyCodeLine{122 }
+\DoxyCodeLine{127     uint8\_t \mbox{\hyperlink{classPlatformVL53l4CD_a4f78fa368a8b81f06c0dd6d817c6fc48}{VL53L4CD\_WrByte}}(\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\_t}} dev, uint16\_t registerAddr, uint8\_t value);}
+\DoxyCodeLine{128 }
+\DoxyCodeLine{133     uint8\_t \mbox{\hyperlink{classPlatformVL53l4CD_ad15ab9a4659490f935684e074b93df56}{VL53L4CD\_WrWord}}(\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\_t}} dev, uint16\_t RegisterAdress, uint16\_t value);}
+\DoxyCodeLine{134 }
+\DoxyCodeLine{139     uint8\_t \mbox{\hyperlink{classPlatformVL53l4CD_af66c025b0858dfdce35baa290d1f7e2c}{VL53L4CD\_WrDWord}}(\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\_t}} dev, uint16\_t RegisterAdress, uint32\_t value);}
+\DoxyCodeLine{140 }
+\DoxyCodeLine{145     uint8\_t \mbox{\hyperlink{classPlatformVL53l4CD_aeabbe4aa4fe2471ea72081e4e03366e1}{WaitMs}}(\mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\_t}} dev, uint32\_t TimeMs);}
+\DoxyCodeLine{146 }
+\DoxyCodeLine{147 \textcolor{keyword}{private}:}
+\DoxyCodeLine{148     uint8\_t write\_read\_multi(}
+\DoxyCodeLine{149                 \mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\_t}} dev,}
+\DoxyCodeLine{150                 uint16\_t reg\_address,}
+\DoxyCodeLine{151                 uint8\_t *pdata,}
+\DoxyCodeLine{152                 uint32\_t count,}
+\DoxyCodeLine{153                 \textcolor{keywordtype}{int} write\_not\_read);}
+\DoxyCodeLine{154 }
+\DoxyCodeLine{155     uint8\_t write\_multi(}
+\DoxyCodeLine{156                 \mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\_t}} dev,}
+\DoxyCodeLine{157                 uint16\_t reg\_address,}
+\DoxyCodeLine{158                 uint8\_t *pdata,}
+\DoxyCodeLine{159                 uint32\_t count);}
+\DoxyCodeLine{160 }
+\DoxyCodeLine{161     uint8\_t read\_multi(}
+\DoxyCodeLine{162                 \mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\_t}} dev,}
+\DoxyCodeLine{163                 uint16\_t reg\_address,}
+\DoxyCodeLine{164                 uint8\_t *pdata,}
+\DoxyCodeLine{165                 uint32\_t count);}
+\DoxyCodeLine{166 }
+\DoxyCodeLine{167     uint8\_t VL53L4CD\_ReadMulti(}
+\DoxyCodeLine{168         \mbox{\hyperlink{structVL53L4CD__LinuxDev}{Dev\_t}} dev,}
+\DoxyCodeLine{169         uint16\_t RegisterAdress,}
+\DoxyCodeLine{170         uint8\_t *p\_values,}
+\DoxyCodeLine{171         uint32\_t size);}
+\DoxyCodeLine{172 }
+\DoxyCodeLine{173 \textcolor{preprocessor}{    \#endif      }\textcolor{comment}{// \_PLATFORM\_H\_}}
+\DoxyCodeLine{174 \};}
+
+\end{DoxyCode}
