@@ -30,6 +30,8 @@ GitHub issues were used as a way to track the development of the project. The is
 * Complete project setup instructions located in the [Embedded Directory](https://github.com/GrantMaiden/ContactlessPiPoweredDrumkit/tree/main/embedded) on your local raspberry pi
 * Download the latest release of the firmware, and compile the source code in the embedded directory by following the [cmake build instructions](https://github.com/GrantMaiden/ContactlessPiPoweredDrumkit/blob/main/embedded/cmake_build_instructions.txt)
 
+After running the program, an intro LED pattern will play for roughly 5 seconds, which when complete the drumkit will be able to receive ranging data. To enable sound, swipe across all 4 upwards facing sensors. The same swipe can be used to disable sound if playing needs to be paused.
+
 ## Documentation
 Our code has been updated with comments that are compatible with DoxyGen, which is a great tool to generate large amounts of sufficiently segmented documentation. To view the generated documentation, first grab the latest release, then open the index.html page located in the [embedded/docs](https://github.com/GrantMaiden/ContactlessPiPoweredDrumkit/tree/main/embedded/docs) directory. In addition to the DoxyGen resource, the source code is litered with verbose explanaitons and function headers, so keep that in mind if you are modifying the source.
 
@@ -108,10 +110,13 @@ Here is a list of (just a few!) of the notable challenges that arose during deve
 * SPI bus frequency -- The embedded core clock used by the PI is not consistent. Our addressable LEDs requires fixed timing to work correctly, however the SPI clock is affected by other bus activity, USB traffic, and high load wifi connections. Essenstially, the LEDs will flicker or flash random colors when the SPI frequency deviates. As far as we know, there is no solution to this problem, but it shows that the raspberry pi is full of undocumented surprises, and is not capable of specific timing control under some circumstances.
 * Some low level c libraries such as pigpio have functions to modify embedded bus behaviour, but really these values are controlled by the us and it is necessary to modify the /boot/firmware/config.txt to change things such as the I2C clock speed.
 * The SPI cs gpio's can not be used as GPIO's during spi, even if SPI0 is being used, and SPI1 CS is trying to be configured as an input, even when all documentation says otherwise. This required a rework!
-Future improvements for the drumkit:
+
+Some future improvements for the drumkit are planned for the next revision of the project.
+
 * Move away from the high power, large raspberry pi to a smaller mcu. Originally one of the goals of our project was to make a device small and portable; a criteria that our device doesn't quite meet.
 * Implement bluetooth communication that will interact with a peripheral phone app for control and feedback.
 * Respin the board to correct hardware reworks required to accomodate SPI CS GPIO bottlenecking, and switching to the SPI from UART for LED control.
+* Improve hit detection by exploring other filtering methods, and perhaps different sensors.
 
 ## Authors
 
