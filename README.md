@@ -18,7 +18,8 @@ Please download the latest release to access the most recent stable version of t
 ## Team Collaboration and Project Management
 
 Project management was done by utilising a teams channel for collaboration. At the start of our group project, keeping in mind an agile team development environment, a Gantt chart was created in excel and hosted on our teams channel. Our team had two meetings each week throughout the semester; the first of which was primarily for project planning and updates, and the second meeting was for development and one-on-one problem solving, if necessary. Github issues were utilised as a means to give feedback as our project development continued. All Project Discussions, meeting notes, and development feasibility studies can be found at our [sharepoint](https://gla.sharepoint.com/:o:/s/ENG5228RTEP/Er4JzmCRMUZCnUjhNUSQIA8BrX5IVSQI6c456dHyLfZf0w?e=HDqj4z).  
-This link is accessible by anyone with a University of Glasgow account.
+This link is accessible by anyone with a University of Glasgow account. 
+GitHub issues were used as a way to track the development of the project. The issues can be viewed from the header of this page, above the directory browser.
 
 ## Project Setup and Initialisation
 ### Hardware Requirements
@@ -28,6 +29,11 @@ This link is accessible by anyone with a University of Glasgow account.
 ### Software Setup
 * Complete project setup instructions located in the [Embedded Directory](https://github.com/GrantMaiden/ContactlessPiPoweredDrumkit/tree/main/embedded) on your local raspberry pi
 * Download the latest release of the firmware, and compile the source code in the embedded directory by following the [cmake build instructions](https://github.com/GrantMaiden/ContactlessPiPoweredDrumkit/blob/main/embedded/cmake_build_instructions.txt)
+
+After running the program, an intro LED pattern will play for roughly 5 seconds, which when complete the drumkit will be able to receive ranging data. To enable sound, swipe across all 4 upwards facing sensors. The same swipe can be used to disable sound if playing needs to be paused.
+
+## Documentation
+Our code has been updated with comments that are compatible with DoxyGen, which is a great tool to generate large amounts of sufficiently segmented documentation. To view the generated documentation, first grab the latest release, then open the index.html page located in the [embedded/docs](https://github.com/GrantMaiden/ContactlessPiPoweredDrumkit/tree/main/embedded/docs) directory. In addition to the DoxyGen resource, the source code is litered with verbose explanaitons and function headers, so keep that in mind if you are modifying the source.
 
 ## Hardware Development
 In order to minimise costs associated with the (byte)this.beat project, a custom Hardware design was developed. After a cost analysis completed at the beginning of the project timeline, it was concluded that designing a custom solution, rather than purchasing independent breakout boards, would allow our contactless drumkit to have a larger scope. Thus accommodating more sensors/functionality by more easily staying within our £45 budget. The discussions pertaining to analysis and cost can be seen at our [onenote](https://gla.sharepoint.com/:o:/s/ENG5228RTEP/Er4JzmCRMUZCnUjhNUSQIA8BrX5IVSQI6c456dHyLfZf0w?e=HDqj4z).  
@@ -81,11 +87,36 @@ The outgoing data from the ranging sensors is inherently quite noisy, and lots o
 * HIT_DETECT_INSTANEOUS_VELOCITY_LIMIT  --  Velocity artificats occur frequently. If one of the detection samples' velocity is above this limit, then the drum detect is cancelled
 * HIT_DETECT_AVG_VELOCITY_CEILING -- An average velocity is taken of all previous detection samples. If this average is above this threshold, then the drum detect event is negated
 * HIT_DETECT_MIN_SEQUENTIAL_VELOCITY_SAMPLES  --  Minimum number of previous velocity samples below the HIT_DETECT_AVG_VELOCITY_CEILING required for a hit detect
+Whenever a sensor receives data, via a virtual callback the data is sent to the controller class for processing. The controller class will take the most recent data, store the last 16 distance values into an array, and calculate the most recent velocity by taking the last sample minus the most recent sample. When the velocity calculation occurs, the velocity data is ran through a simple running average filter, via the calculation: averageVelocity = averageVelocity + (recentVelocity - averageVelocity) / VELOCITY_FACTOR_AVG. The VELOCITY_FACTOR_AVG is a constant modifiable in the controller.h header file.
+A running average filter allows for a single sample overhead during averaging, and converges completely to the real average within the VELOCITY_FACTOR_AVERAGE number of samples.
+As a brief example of the challenges seen during data collection and processing, refer to the below image. This image shows the Average Velocity, Recent Velocity, and current distance of each sample, in 10ms increments. 
+<img src="./docs/Sensor_data_example.jpg" alt="Alt text" title="(byte)this.beat; sensor data example"> 
+## Phone Application
+<img src="./docs/drumkit_app_logo.JPG" alt="Alt text" title="(byte)this.beat; drumkit logo"> 
+Originally, ambitious project planning had our team plan on utilising a phone application to interact with the physical drumkit, using bluetooth to handshake, modify drumkit selections, and use the phone as a speaker. We did have the opportunity to develop a prototype phone app early on in the semester. However, due to team bandwidth limitations, we were unable to see the bluetooth connectivity and phone app through to completion. 
+<img src="./docs/communication_marketing.JPG" alt="Alt text" title="(byte)this.beat; communication"> 
+It should be noted that we also discovered though substantial literature review that bluetooth bandwidth is relatively inconsistent, and even the bluetooth low latency has minimum latency intervals of about 70ms. We concluded that using bluetooth as a realtime interface would be a nightmare, and it would be best to at least keep to a physical connection regarding the sound output. We still think that a phone app would be a great way to interact with the drumkit settings, volume, etc., any we plan to continue to consider implementing one in the future.
+<img src="./docs/drumkit_app_image.png" alt="Alt text" title="(byte)this.beat; app image"> 
+
 ## Unit Testing Framework
 A custom unit testing framework was designed to accommodate the needs of our team collaborative efforts. When the application launches, the first code that is ran is a search to see if any input arguments are supplied. The input arguments are the inputs to our custom unit testing framework; it was deemed necessary to have a more advanced testing methodology in place as the many different blocks of our project required separate entry points depending on use case. In example, a unit test was designed to benchmark and initialise the LEDs. After the unit test was completed, the functions designed during test were integrated into the rest of the project. This design methodology was enacted in all facets of our software development. 
 
 A list of all unit tests, their associated functions, and more specific usage instructions can be found [here](https://github.com/GrantMaiden/ContactlessPiPoweredDrumkit/blob/main/embedded/unit_tests.txt).
 
+## Challenges and Future Improvements
+Development using the raspberry pi proved to be full of challenges. Some of our team has had extensive experience with varying microcontrollers as a professional embedded engineer, and they concluded that the lack of substantial official documentation greatly complicated development. 
+Here is a list of (just a few!) of the notable challenges that arose during development:
+* Audio permissions -- The pigpio library requires sudo permissions, however the asla audio driver is not configured correctly to run under super user. The solution was challenging to discover, but is highlighted in the markup in our embedded directory.
+* SPI bus frequency -- The embedded core clock used by the PI is not consistent. Our addressable LEDs requires fixed timing to work correctly, however the SPI clock is affected by other bus activity, USB traffic, and high load wifi connections. Essenstially, the LEDs will flicker or flash random colors when the SPI frequency deviates. As far as we know, there is no solution to this problem, but it shows that the raspberry pi is full of undocumented surprises, and is not capable of specific timing control under some circumstances.
+* Some low level c libraries such as pigpio have functions to modify embedded bus behaviour, but really these values are controlled by the us and it is necessary to modify the /boot/firmware/config.txt to change things such as the I2C clock speed.
+* The SPI cs gpio's can not be used as GPIO's during spi, even if SPI0 is being used, and SPI1 CS is trying to be configured as an input, even when all documentation says otherwise. This required a rework!
+
+Some future improvements for the drumkit are planned for the next revision of the project.
+
+* Move away from the high power, large raspberry pi to a smaller mcu. Originally one of the goals of our project was to make a device small and portable; a criteria that our device doesn't quite meet.
+* Implement bluetooth communication that will interact with a peripheral phone app for control and feedback.
+* Respin the board to correct hardware reworks required to accomodate SPI CS GPIO bottlenecking, and switching to the SPI from UART for LED control.
+* Improve hit detection by exploring other filtering methods, and perhaps different sensors.
 
 ## Authors
 
