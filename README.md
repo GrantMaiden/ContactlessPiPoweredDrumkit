@@ -90,9 +90,9 @@ A running average filter allows for a single sample overhead during averaging, a
 As a brief example of the challenges seen during data collection and processing, refer to the below image. This image shows the Average Velocity, Recent Velocity, and current distance of each sample, in 10ms increments. 
 <img src="./docs/Sensor_data_example.jpg" alt="Alt text" title="(byte)this.beat; sensor data example"> 
 ## Phone Application
-<img src="./docs/drumkit_app_logo.jpg" alt="Alt text" title="(byte)this.beat; drumkit logo"> 
+<img src="./docs/drumkit_app_logo.JPG" alt="Alt text" title="(byte)this.beat; drumkit logo"> 
 Originally, ambitious project planning had our team plan on utilising a phone application to interact with the physical drumkit, using bluetooth to handshake, modify drumkit selections, and use the phone as a speaker. We did have the opportunity to develop a prototype phone app early on in the semester. However, due to team bandwidth limitations, we were unable to see the bluetooth connectivity and phone app through to completion. 
-<img src="./docs/communication_marketing.jpg" alt="Alt text" title="(byte)this.beat; communication"> 
+<img src="./docs/communication_marketing.JPG" alt="Alt text" title="(byte)this.beat; communication"> 
 It should be noted that we also discovered though substantial literature review that bluetooth bandwidth is relatively inconsistent, and even the bluetooth low latency has minimum latency intervals of about 70ms. We concluded that using bluetooth as a realtime interface would be a nightmare, and it would be best to at least keep to a physical connection regarding the sound output. We still think that a phone app would be a great way to interact with the drumkit settings, volume, etc., any we plan to continue to consider implementing one in the future.
 <img src="./docs/drumkit_app_image.png" alt="Alt text" title="(byte)this.beat; app image"> 
 
