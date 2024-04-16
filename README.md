@@ -33,11 +33,11 @@ In order to minimise costs associated with the (byte)this.beat project, a custom
 
 As always, the goal with any project is to learn as much as possible while designing, thus we decided to use this opportunity to get familiar with KiCad for schematic entry. A prototype design was completed early into the semester, giving our team plenty of tolerance on receiving the fabricated boards. The fabricated board can also easily accommodate many more traces and connections than a breadboard solution could, allowing for the design scope to increase. The schematic can be seen [here](https://github.com/GrantMaiden/ContactlessPiPoweredDrumkit/blob/main/hardware/ContactlessPiPoweredDrumkit/Schematic/byteThisBeatREVA.pdf).
 
-<ADD LINK TO SCHEMATIC>
+<img src="./docs/Schematic overview.png" alt="Alt text" title="(byte)this.beat; Schematic overview">
 
 The drumkit had a portion of the budget left over after the primary sensor selection, so we decided to use the rest of the funds on purchasing LEDs that would aid in giving the drummer feedback during hit detection. As seen in the block diagram below, the raspberry pi communicates with 6 distance sensors, outputs to the on-board audio jack, and outputs serialised data to the LEDs.
 
-<add link to block diagram>
+<img src="./docs/hardware Block Diagram.jpg" alt="Alt text" title="(byte)this.beat; Hardware Diagram">
 
 The LEDs that were chosen are the same type of addressable LEDs that can be found on LED strips. They are affordable, and plenty of options are available. A few design challenges had to be faced regarding the decision to use these leds, however. The LEDs use 5V logic for communication, so a level shifter had to be added to translate the rpi's 3.3V logic to 5V. Secondly, the LEDs use a strict 800khz transmission rate for each bit. Serialised bits need to be given to the LEDs over a single trace, essentially the LEDs act as specialised shift registers, only forwarding their to each succeeding LED after 24bits of data has been received. The data sheet for the LEDs, along with more information regarding the protocol, can be found [here](https://github.com/GrantMaiden/ContactlessPiPoweredDrumkit/blob/main/docs/datasheets/IN-PI55TAT(X)R(X)G(X)B_v1.5.pdf). 
 
@@ -46,7 +46,7 @@ Due to the strict timing requirement of the LEDs, we had to use a hardware bus t
 
 For more information regarding the manufacturing of the (byte)this.beat board, please refer to the [hardware directory](https://github.com/GrantMaiden/ContactlessPiPoweredDrumkit/tree/main/hardware/ContactlessPiPoweredDrumkit), which includes a BOM for manufacture. The board file can also be seen in this directory. Layout was completed using KiCad, with a two-layer PCB being designed. After meeting with the EE technicians at the University of Glasgow, we found that they were unable to fabricate our design, so an overseas location was chosen for fab and assembly.
 
-<ADD LINK TO BOARD FILE> 
+<img src="./docs/PCB_Layout.jpg" alt="Alt text" title="(byte)this.beat; Schematic overview">
 
 ## Software 
 
@@ -59,12 +59,16 @@ The embedded code, being the main focus of our project, was approached with seve
 
 Below, please see a diagram regarding how the major classes interact with each other within our application.
 
-<Insert Diagram>
+<img src="./docs/initialisation flowchart.jpg" alt="Alt text" title="(byte)this.beat; Init Flowchart">
 
 The controller class is initialised by the Main function, which on program boot creates the initial controller class. When the controller class is initialised, it will bring up the other portions of the program, which configures any necessary peripherals, and performs the bring-up procedure of the ranging sensors. This initialisation also configures asynchronous processes that use callback processes to create real-time operation of our system. The LED class uses a timer, and updates all LEDs every 2.5ms. The VL53L4CD class leaves an abstract function that is defined within the Controller class. When a hardware interrupt occurs, the VL53L4CD class will enact a callback via the virtual function.
+
+<img src="./docs/Class diagram.jpg" alt="Alt text" title="(byte)this.beat; class diagram">
+
 ### Bus Protocols
 I2C was used as the communication protocol for each sensor. All sensors share the same bus, but are initialised with the same address. An initialization procedure had to be crafted to disable all sensors on program start, then bring-up each sensor sequentially, reprogramming the I2C bus address for the sensor, and configuring it for our high sample rate requirements.
 <add link to ranging sensor bringup>
+<img src="./docs/VL53L4CD bringup.png" alt="Alt text" title="(byte)this.beat; ranging bringup">
 
 The SPI protocol uses custom bitshift operations to drive 6*24bits of RGB data to our addressable LEDs. The GPIO controller class handles the sending of the SPI data.
 
