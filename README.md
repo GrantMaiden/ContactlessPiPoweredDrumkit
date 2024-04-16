@@ -29,6 +29,9 @@ This link is accessible by anyone with a University of Glasgow account.
 * Complete project setup instructions located in the [Embedded Directory](https://github.com/GrantMaiden/ContactlessPiPoweredDrumkit/tree/main/embedded) on your local raspberry pi
 * Download the latest release of the firmware, and compile the source code in the embedded directory by following the [cmake build instructions](https://github.com/GrantMaiden/ContactlessPiPoweredDrumkit/blob/main/embedded/cmake_build_instructions.txt)
 
+## Documentation
+Our code has been updated with comments that are compatible with DoxyGen, which is a great tool to generate large amounts of sufficiently segmented documentation. To view the generated documentation, first grab the latest release, then open the index.html page located in the [embedded/docs](https://github.com/GrantMaiden/ContactlessPiPoweredDrumkit/tree/main/embedded/docs) directory. In addition to the DoxyGen resource, the source code is litered with verbose explanaitons and function headers, so keep that in mind if you are modifying the source.
+
 ## Hardware Development
 In order to minimise costs associated with the (byte)this.beat project, a custom Hardware design was developed. After a cost analysis completed at the beginning of the project timeline, it was concluded that designing a custom solution, rather than purchasing independent breakout boards, would allow our contactless drumkit to have a larger scope. Thus accommodating more sensors/functionality by more easily staying within our £45 budget. The discussions pertaining to analysis and cost can be seen at our [onenote](https://gla.sharepoint.com/:o:/s/ENG5228RTEP/Er4JzmCRMUZCnUjhNUSQIA8BrX5IVSQI6c456dHyLfZf0w?e=HDqj4z).  
 
