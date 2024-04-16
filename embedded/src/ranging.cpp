@@ -16,6 +16,8 @@ Description:    ranging control for distance sensors
 #include "gpio_controller.h"
 #include "ranging.h"
 
+PlatformVL53l4CD platformVL;
+VL53L4CD_API VL53L4CD_api;
 
 /**********************************************\
 Function Name:  rangingInit
@@ -49,18 +51,21 @@ void VL53L4CD::rangingInit()
     rangingInitDistanceSensor(SENSOR5, i2cdev_Sensor5);
     rangingInitDistanceSensor(SENSOR6, i2cdev_Sensor6);
 
-    VL53L4CD_StartRanging(i2cdev_Sensor1);
-    //usleep(500);
-    VL53L4CD_StartRanging(i2cdev_Sensor2);
-    //usleep(500);
-    VL53L4CD_StartRanging(i2cdev_Sensor3);
-    //usleep(500);
-    VL53L4CD_StartRanging(i2cdev_Sensor4);
-    //usleep(500);
-    VL53L4CD_StartRanging(i2cdev_Sensor5);
-    //usleep(500);
-    VL53L4CD_StartRanging(i2cdev_Sensor6);
+    VL53L4CD_api.VL53L4CD_StartRanging(i2cdev_Sensor1);
+    VL53L4CD_api.VL53L4CD_StartRanging(i2cdev_Sensor2);
+    VL53L4CD_api.VL53L4CD_StartRanging(i2cdev_Sensor3);
+    VL53L4CD_api.VL53L4CD_StartRanging(i2cdev_Sensor4);
+    VL53L4CD_api.VL53L4CD_StartRanging(i2cdev_Sensor5);
+    VL53L4CD_api.VL53L4CD_StartRanging(i2cdev_Sensor6);
 
+    sleep(1);
+
+    gpioSetISRFuncEx(D1_GPIO1, FALLING_EDGE, DISTANCE_SENSOR_INTERRUPT_TIMEOUT, rangingISRCallback,(void*)this);
+    gpioSetISRFuncEx(D2_GPIO1, FALLING_EDGE, DISTANCE_SENSOR_INTERRUPT_TIMEOUT, rangingISRCallback,(void*)this);
+    gpioSetISRFuncEx(D3_GPIO1, FALLING_EDGE, DISTANCE_SENSOR_INTERRUPT_TIMEOUT, rangingISRCallback,(void*)this);
+    gpioSetISRFuncEx(D4_GPIO1, FALLING_EDGE, DISTANCE_SENSOR_INTERRUPT_TIMEOUT, rangingISRCallback,(void*)this);
+    gpioSetISRFuncEx(D5_GPIO1, FALLING_EDGE, DISTANCE_SENSOR_INTERRUPT_TIMEOUT, rangingISRCallback,(void*)this);
+    gpioSetISRFuncEx(D6_GPIO1, FALLING_EDGE, DISTANCE_SENSOR_INTERRUPT_TIMEOUT, rangingISRCallback,(void*)this);
 }
 
 
@@ -99,7 +104,7 @@ void VL53L4CD::rangingInitDistanceSensor(int id, Dev_t dev)
     }
 
     // Setting up comms
-    status = VL53L4CD_comms_init(dev);
+    status = platformVL.VL53L4CD_comms_init(dev);
 	if(status > 0)
 		printf("VL53L4CD comms init failed.\n");
 
@@ -107,16 +112,16 @@ void VL53L4CD::rangingInitDistanceSensor(int id, Dev_t dev)
     //
 
     // Initialise sensor
-    status = VL53L4CD_SensorInit(dev);
+    status = VL53L4CD_api.VL53L4CD_SensorInit(dev);
 	if(status > 0)
 	{
 		printf("VL53L4CD ULD Loading failed, trying pre-programmed address, Status: %i\n", status);
 		dev->address = dev->address +16*id + 16;
-		status = VL53L4CD_SensorInit(dev);
+		status = VL53L4CD_api.VL53L4CD_SensorInit(dev);
 		if(status)
 		{
             printf("VL53L4CD Can't find correct address, Status: %i\n", status);
-            exit(0);
+            //exit(0);
 		}
 
     }
@@ -125,7 +130,7 @@ void VL53L4CD::rangingInitDistanceSensor(int id, Dev_t dev)
     rangingChangeAddress(dev, id);
 
     //Setting range timing to max speed (10ms)
-    status = VL53L4CD_SetRangeTiming(dev, RANGE_TIMING_MAX, 0);
+    status = VL53L4CD_api.VL53L4CD_SetRangeTiming(dev, RANGE_TIMING_MAX, 0);
 	if(status)
 	{
 		printf("VL53L4CD_SetRangeTiming failed with status %u\n", status);
@@ -187,10 +192,7 @@ bool VL53L4CD::rangingSetXshut(int id)
 
     usleep(5000);
 
-    //if (status)
-   //    return false;
-    //else
-        return true;
+    return true;
 }
 
 /**********************************************\
@@ -208,14 +210,14 @@ void VL53L4CD::rangingChangeAddress(Dev_t dev, int id)
 
     dev->address = I2C_ADDRESS_INIT;
     devExpected->address = I2C_ADDRESS_INIT + 16*id + 16;
-    VL53L4CD_Error status = VL53L4CD_SetI2CAddress(dev, devExpected->address);
+    VL53L4CD_Error status = VL53L4CD_api.VL53L4CD_SetI2CAddress(dev, devExpected->address);
     if (status == VL53L4CD_ERROR_NONE)
     {
         printf("Successfully changed address of sensor %d from default to %u.\n", id + 1,devExpected->address);
         dev->address = devExpected->address;
         return;
     }
-    else if (VL53L4CD_SetI2CAddress(devExpected, devExpected->address) == VL53L4CD_ERROR_NONE)
+    else if (VL53L4CD_api.VL53L4CD_SetI2CAddress(devExpected, devExpected->address) == VL53L4CD_ERROR_NONE)
     {
         printf("Sensor %d address already successfully changed.\n", id + 1);
         dev->address = devExpected->address;
@@ -266,8 +268,8 @@ sensorValues VL53L4CD::rangingGetData(sensorID sensor)
     VL53L4CD_ResultsData_t temp;
     sensorValues sensorVals;
 
-    VL53L4CD_ClearInterrupt(devTemp);
-    VL53L4CD_GetResult(devTemp, &temp);
+    VL53L4CD_api.VL53L4CD_ClearInterrupt(devTemp);
+    VL53L4CD_api.VL53L4CD_GetResult(devTemp, &temp);
     sensorVals.rangeStatus = temp.range_status;
     sensorVals.currentDistance_mm = temp.distance_mm;
 
@@ -309,7 +311,7 @@ bool VL53L4CD::rangingCheckIfReady(sensorID sensor)
             break;
     }
     uint8_t isReady;
-    VL53L4CD_CheckForDataReady(i2cdev_Sensor1, &isReady);
+    VL53L4CD_api.VL53L4CD_CheckForDataReady(i2cdev_Sensor1, &isReady);
 
     if (isReady != 1)
         return true;
@@ -343,7 +345,7 @@ void VL53L4CD::rangingPollingTestAll()
 	uint8_t isReady6 = 0;
 
     printf("Dev address is: %i\n", i2cdev_Sensor1->address);
-    status1 = VL53L4CD_StartRanging(i2cdev_Sensor1);
+    status1 = VL53L4CD_api.VL53L4CD_StartRanging(i2cdev_Sensor1);
     if(status1)
     {
 		printf("VL53L4CD_StartRanging failed on sensor %d with status %u\n", 1, status1);
@@ -353,11 +355,11 @@ void VL53L4CD::rangingPollingTestAll()
     VL53L4CD_ResultsData_t temp;
 	while(loop < 400)
 	{
-        VL53L4CD_CheckForDataReady(i2cdev_Sensor1, &isReady1);
+        VL53L4CD_api.VL53L4CD_CheckForDataReady(i2cdev_Sensor1, &isReady1);
 		if(isReady1)
 		{
-            VL53L4CD_ClearInterrupt(i2cdev_Sensor1);
-            VL53L4CD_GetResult(i2cdev_Sensor1, &temp);
+            VL53L4CD_api.VL53L4CD_ClearInterrupt(i2cdev_Sensor1);
+            VL53L4CD_api.VL53L4CD_GetResult(i2cdev_Sensor1, &temp);
 
             printf("S1 = %u\tS2 = %u\tS3 = %u\tS4 = %u\tS5 = %u\tS6 = %u\n",
 				 temp.distance_mm,
@@ -368,16 +370,53 @@ void VL53L4CD::rangingPollingTestAll()
 				 0);
             loop++;
         }
-
-
-
-
 		/* Wait a few ms to avoid too high polling (function in platform
 		 * file, not in API) */
-		WaitMs(i2cdev_Sensor1, 5);
+		platformVL.WaitMs(i2cdev_Sensor1, 5);
 	}
 
-	VL53L4CD_StopRanging(i2cdev_Sensor1);
+	VL53L4CD_api.VL53L4CD_StopRanging(i2cdev_Sensor1);
+}
+
+/**********************************************\
+Function Name:  dataReadyISR
+Input Args:     int gpio - gpio number
+Output Args:    none
+Description:    polls all sensors simultaneously
+                (not working)
+/**********************************************/
+void VL53L4CD::dataReadyISR(int gpio)
+{
+    sensorValues senseValues;
+    printf("Sensor data ready on gpio %i\n", gpio);
+    switch(gpio)
+    {
+        case D1_GPIO1:
+            senseValues = rangingGetData(sensorID::SENSOR1);
+            distanceDataReady(senseValues, sensorID::SENSOR1);
+            break;
+        case D2_GPIO1:
+            senseValues = rangingGetData(sensorID::SENSOR2);
+            distanceDataReady(senseValues, sensorID::SENSOR2);
+            break;
+        case D3_GPIO1:
+            senseValues = rangingGetData(sensorID::SENSOR3);
+            distanceDataReady(senseValues, sensorID::SENSOR3);
+            break;
+        case D4_GPIO1:
+            senseValues = rangingGetData(sensorID::SENSOR4);
+            distanceDataReady(senseValues, sensorID::SENSOR4);
+            break;
+        case D5_GPIO1:
+            senseValues = rangingGetData(sensorID::SENSOR5);
+            distanceDataReady(senseValues, sensorID::SENSOR5);
+            break;
+        case D6_GPIO1:
+            senseValues = rangingGetData(sensorID::SENSOR6);
+            distanceDataReady(senseValues, sensorID::SENSOR6);
+            break;
+    }
+
 }
 
 

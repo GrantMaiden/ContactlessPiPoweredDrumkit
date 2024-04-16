@@ -15,12 +15,13 @@ Description:    System controller state machine
 #include <iostream>
 
 #include "defines.h"
-#include "controller.h"
 #include "ranging.h"
+#include "controller.h"
 #include "sound.h"
 
 
 Sound soundController;
+
 /**********************************************\
 Function Name:  initialize
 Input Args:     none
@@ -50,6 +51,8 @@ void Controller::initialize()
     hitDetectedRecently = false;
 
     stopTimeGesture = 0;
+
+    rangingInit();
 }
 
 /**********************************************\
@@ -78,7 +81,6 @@ void Controller::primaryStateMachine()
         case RESET:
             initialize();
             nextState = WAIT1;
-            // TODO: add initDistanceSensors
             break;
         case WAIT1:
             //if(ledGetCurrentState() == MAINSTATE) // TODO: IMPLEMENT FUNTION AND CORRECT STATE NAME

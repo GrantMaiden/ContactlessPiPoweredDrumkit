@@ -96,7 +96,7 @@ struct comms_struct {
 };
 #endif
 
-uint8_t VL53L4CD_comms_init(Dev_t dev)
+uint8_t PlatformVL53l4CD::VL53L4CD_comms_init(Dev_t dev)
 {
 
 #ifdef STMVL53L4CD_KERNEL
@@ -129,13 +129,13 @@ uint8_t VL53L4CD_comms_init(Dev_t dev)
 	return 0;
 }
 
-uint8_t VL53L4CD_comms_close(Dev_t dev)
+uint8_t PlatformVL53l4CD::VL53L4CD_comms_close(Dev_t dev)
 {
 	close(dev->fd);
 	return 0;
 }
 
-uint8_t write_read_multi(
+uint8_t PlatformVL53l4CD::write_read_multi(
 		Dev_t dev,
 		uint16_t reg_address,
 		uint8_t *pdata,
@@ -217,7 +217,7 @@ uint8_t write_read_multi(
 	return 0;
 }
 
-uint8_t write_multi(
+uint8_t PlatformVL53l4CD::write_multi(
 		Dev_t dev,
 		uint16_t reg_address,
 		uint8_t *pdata,
@@ -226,7 +226,7 @@ uint8_t write_multi(
 	return(write_read_multi(dev, reg_address, pdata, count, 1));
 }
 
-uint8_t read_multi(
+uint8_t PlatformVL53l4CD::read_multi(
 		Dev_t dev,
 		uint16_t reg_address,
 		uint8_t *pdata,
@@ -236,7 +236,7 @@ uint8_t read_multi(
 }
 
 
-uint8_t VL53L4CD_RdDWord(Dev_t dev, uint16_t RegisterAdress, uint32_t *value)
+uint8_t PlatformVL53l4CD::VL53L4CD_RdDWord(Dev_t dev, uint16_t RegisterAdress, uint32_t *value)
 {
 	uint8_t status = 0;
 	uint8_t data_read[4];
@@ -248,7 +248,7 @@ uint8_t VL53L4CD_RdDWord(Dev_t dev, uint16_t RegisterAdress, uint32_t *value)
 	return status;
 }
 
-uint8_t VL53L4CD_RdWord(Dev_t dev, uint16_t RegisterAdress, uint16_t *value)
+uint8_t PlatformVL53l4CD::VL53L4CD_RdWord(Dev_t dev, uint16_t RegisterAdress, uint16_t *value)
 {
 	uint8_t status = 0;
 	uint8_t data_read[2];
@@ -258,7 +258,7 @@ uint8_t VL53L4CD_RdWord(Dev_t dev, uint16_t RegisterAdress, uint16_t *value)
 	return status;
 }
 
-uint8_t VL53L4CD_RdByte(Dev_t dev, uint16_t RegisterAdress, uint8_t *value)
+uint8_t PlatformVL53l4CD::VL53L4CD_RdByte(Dev_t dev, uint16_t RegisterAdress, uint8_t *value)
 {
 	uint8_t status = 0;
 	uint8_t data_read[1];
@@ -268,7 +268,7 @@ uint8_t VL53L4CD_RdByte(Dev_t dev, uint16_t RegisterAdress, uint8_t *value)
 	return status;
 }
 
-uint8_t VL53L4CD_WrByte(Dev_t dev, uint16_t RegisterAdress, uint8_t value)
+uint8_t PlatformVL53l4CD::VL53L4CD_WrByte(Dev_t dev, uint16_t RegisterAdress, uint8_t value)
 {
 	uint8_t data_write[1];
 
@@ -276,7 +276,7 @@ uint8_t VL53L4CD_WrByte(Dev_t dev, uint16_t RegisterAdress, uint8_t value)
 	return(write_multi(dev, RegisterAdress, (uint8_t*)data_write, 1));
 }
 
-uint8_t VL53L4CD_WrWord(Dev_t dev, uint16_t RegisterAdress, uint16_t value)
+uint8_t PlatformVL53l4CD::VL53L4CD_WrWord(Dev_t dev, uint16_t RegisterAdress, uint16_t value)
 {
 	uint8_t data_write[2];
 
@@ -285,7 +285,7 @@ uint8_t VL53L4CD_WrWord(Dev_t dev, uint16_t RegisterAdress, uint16_t value)
 	return(write_multi(dev, RegisterAdress, (uint8_t*)data_write, 2));
 }
 
-uint8_t VL53L4CD_WrDWord(Dev_t dev, uint16_t RegisterAdress, uint32_t value)
+uint8_t PlatformVL53l4CD::VL53L4CD_WrDWord(Dev_t dev, uint16_t RegisterAdress, uint32_t value)
 {
 	uint8_t data_write[4];
 
@@ -296,7 +296,7 @@ uint8_t VL53L4CD_WrDWord(Dev_t dev, uint16_t RegisterAdress, uint32_t value)
 	return(write_multi(dev, RegisterAdress, (uint8_t*)data_write, 4));
 }
 
-uint8_t VL53L4CD_ReadMulti(
+uint8_t PlatformVL53l4CD::VL53L4CD_ReadMulti(
         Dev_t dev,
         uint16_t RegisterAdress,
         uint8_t *p_values,
@@ -305,7 +305,7 @@ uint8_t VL53L4CD_ReadMulti(
 	return(read_multi(dev, RegisterAdress, (uint8_t*)p_values, size));
 }
 
-uint8_t	 WaitMs(Dev_t dev, uint32_t time_ms)
+uint8_t	 PlatformVL53l4CD::WaitMs(Dev_t dev, uint32_t time_ms)
 {
 	usleep(time_ms*1000);
 	return 0;
