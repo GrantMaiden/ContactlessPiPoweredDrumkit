@@ -37,7 +37,7 @@ As always, the goal with any project is to learn as much as possible while desig
 
 The drumkit had a portion of the budget left over after the primary sensor selection, so we decided to use the rest of the funds on purchasing LEDs that would aid in giving the drummer feedback during hit detection. As seen in the block diagram below, the raspberry pi communicates with 6 distance sensors, outputs to the on-board audio jack, and outputs serialised data to the LEDs.
 
-<img src="./docs/Hardware Block Diagram.jpg" alt="Alt text" title="(byte)this.beat; Hardware Diagram">
+<img src="./docs/Hardware Block Diagram.JPG" alt="Alt text" title="(byte)this.beat; Hardware Diagram">
 
 The LEDs that were chosen are the same type of addressable LEDs that can be found on LED strips. They are affordable, and plenty of options are available. A few design challenges had to be faced regarding the decision to use these leds, however. The LEDs use 5V logic for communication, so a level shifter had to be added to translate the rpi's 3.3V logic to 5V. Secondly, the LEDs use a strict 800khz transmission rate for each bit. Serialised bits need to be given to the LEDs over a single trace, essentially the LEDs act as specialised shift registers, only forwarding their to each succeeding LED after 24bits of data has been received. The data sheet for the LEDs, along with more information regarding the protocol, can be found [here](https://github.com/GrantMaiden/ContactlessPiPoweredDrumkit/blob/main/docs/datasheets/IN-PI55TAT(X)R(X)G(X)B_v1.5.pdf). 
 
@@ -63,7 +63,7 @@ Below, please see a diagram regarding how the major classes interact with each o
 
 The controller class is initialised by the Main function, which on program boot creates the initial controller class. When the controller class is initialised, it will bring up the other portions of the program, which configures any necessary peripherals, and performs the bring-up procedure of the ranging sensors. This initialisation also configures asynchronous processes that use callback processes to create real-time operation of our system. The LED class uses a timer, and updates all LEDs every 2.5ms. The VL53L4CD class leaves an abstract function that is defined within the Controller class. When a hardware interrupt occurs, the VL53L4CD class will enact a callback via the virtual function.
 
-<img src="./docs/Class Diagram.jpg" alt="Alt text" title="(byte)this.beat; class diagram">
+<img src="./docs/Class Diagram.JPG" alt="Alt text" title="(byte)this.beat; class diagram">
 
 ### Bus Protocols
 I2C was used as the communication protocol for each sensor. All sensors share the same bus, but are initialised with the same address. An initialization procedure had to be crafted to disable all sensors on program start, then bring-up each sensor sequentially, reprogramming the I2C bus address for the sensor, and configuring it for our high sample rate requirements.
