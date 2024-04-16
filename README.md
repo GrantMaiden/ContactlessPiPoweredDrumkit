@@ -59,7 +59,7 @@ The embedded code, being the main focus of our project, was approached with seve
 
 Below, please see a diagram regarding how the major classes interact with each other within our application.
 
-<img src="./docs/Initialisation Flowchart.jpg" alt="Alt text" title="(byte)this.beat; Init Flowchart">
+<img src="./docs/Initialisation Flowchart.JPG" alt="Alt text" title="(byte)this.beat; Init Flowchart">
 
 The controller class is initialised by the Main function, which on program boot creates the initial controller class. When the controller class is initialised, it will bring up the other portions of the program, which configures any necessary peripherals, and performs the bring-up procedure of the ranging sensors. This initialisation also configures asynchronous processes that use callback processes to create real-time operation of our system. The LED class uses a timer, and updates all LEDs every 2.5ms. The VL53L4CD class leaves an abstract function that is defined within the Controller class. When a hardware interrupt occurs, the VL53L4CD class will enact a callback via the virtual function.
 
