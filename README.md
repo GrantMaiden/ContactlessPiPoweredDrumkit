@@ -1,4 +1,5 @@
 
+
 # [<img src="./docs/Instagram_icon.png.webp" width="35"/>](https://www.instagram.com/byte.thebeat/) (byte)this.beat  
 Welcome to the github landing page for the first prototype of the **(byte)this.beat** drumkit!
 
@@ -42,7 +43,7 @@ The drumkit had a portion of the budget left over after the primary sensor selec
 The LEDs that were chosen are the same type of addressable LEDs that can be found on LED strips. They are affordable, and plenty of options are available. A few design challenges had to be faced regarding the decision to use these leds, however. The LEDs use 5V logic for communication, so a level shifter had to be added to translate the rpi's 3.3V logic to 5V. Secondly, the LEDs use a strict 800khz transmission rate for each bit. Serialised bits need to be given to the LEDs over a single trace, essentially the LEDs act as specialised shift registers, only forwarding their to each succeeding LED after 24bits of data has been received. The data sheet for the LEDs, along with more information regarding the protocol, can be found [here](https://github.com/GrantMaiden/ContactlessPiPoweredDrumkit/blob/main/docs/datasheets/IN-PI55TAT(X)R(X)G(X)B_v1.5.pdf). 
 
 
-Due to the strict timing requirement of the LEDs, we had to use a hardware bus to send the LED bitstream, given that bitbanging at 800khz would not be consistent, and would cause too much overhead. Initially, the PCB was designed to use the uart interface for driving the LEDs, but after getting the boards in-hand and beginning development, it was found that the uart bus could not support the baudrate required (800khz*(8bits + 1stopbit) = 7.2mhz), a hardware rework was completed to change the LED control over to the SPI bus, which could accommodate the necessary frequency.
+Due to the strict timing requirement of the LEDs, we had to use a hardware bus to send the LED bitstream, given that bitbanging at 800khz would not be consistent, and would cause too much overhead. Initially, the PCB was designed to use the uart interface for driving the LEDs, but after getting the boards in-hand and beginning development, it was found that the uart bus could not support the baudrate required (800khz*(8bits + 1stopbit) = 7.2mhz), a hardware rework was completed to change the LED control over to the SPI bus, which could accommodate the necessary frequency. The rework instructions can be found in the hardware directory.
 
 For more information regarding the manufacturing of the (byte)this.beat board, please refer to the [hardware directory](https://github.com/GrantMaiden/ContactlessPiPoweredDrumkit/tree/main/hardware/ContactlessPiPoweredDrumkit), which includes a BOM for manufacture. The board file can also be seen in this directory. Layout was completed using KiCad, with a two-layer PCB being designed. After meeting with the EE technicians at the University of Glasgow, we found that they were unable to fabricate our design, so an overseas location was chosen for fab and assembly.
 
@@ -71,8 +72,14 @@ I2C was used as the communication protocol for each sensor. All sensors share th
 <img src="./docs/VL53L4CD bringup.png" alt="Alt text" title="(byte)this.beat; ranging bringup">
 
 The SPI protocol uses custom bitshift operations to drive 6*24bits of RGB data to our addressable LEDs. The GPIO controller class handles the sending of the SPI data.
-
-
+### Digital Signal Processing
+The outgoing data from the ranging sensors is inherently quite noisy, and lots of artifacts exist especially once you begin to interact with them. In order to have reliable air drumming behavior, it was necessary to come up with multiple algorithms that filter the data in various ways. Keeping in mind the real-time requirements of our system, a lengthy finite reponse filter could not be used due to adding to much delay to the total system overhead. To minimise response delays, filtering was controlled using the following methods, configurable inside the controller.h header file:
+* HIT_DETECT_NOISE_CHECKING   -- Enable Noise Checking/Filtering
+* HIT_DETECT_NUM_SAMPLES_MIN   -- Minimum number of samples necessary for detection
+* DRUM_INTERVAL_TIMEOUT_MS  -- Timeout between detection events. Caps maximum drum rate per drum
+* HIT_DETECT_INSTANEOUS_VELOCITY_LIMIT  --  Velocity artificats occur frequently. If one of the detection samples' velocity is above this limit, then the drum detect is cancelled
+* HIT_DETECT_AVG_VELOCITY_CEILING -- An average velocity is taken of all previous detection samples. If this average is above this threshold, then the drum detect event is negated
+* HIT_DETECT_MIN_SEQUENTIAL_VELOCITY_SAMPLES  --  Minimum number of previous velocity samples below the HIT_DETECT_AVG_VELOCITY_CEILING required for a hit detect
 ## Unit Testing Framework
 A custom unit testing framework was designed to accommodate the needs of our team collaborative efforts. When the application launches, the first code that is ran is a search to see if an input arguments are supplied. The input arguments are the inputs to our custom unit testing framework; it was deemed necessary to have a more advanced testing methodology in place as the many different blocks of our project required separate entry points depending on use case. In example, a unit test was designed to benchmark and initialise the LEDs. After the unit test was completed, the functions designed during test were integrated into the rest of the project. This design methodology was enacted in all facets of our software development. 
 
