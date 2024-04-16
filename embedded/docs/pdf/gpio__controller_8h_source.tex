@@ -1,0 +1,87 @@
+\hypertarget{gpio__controller_8h_source}{}\doxysubsection{gpio\+\_\+controller.\+h}
+\label{gpio__controller_8h_source}\index{include/gpio\_controller.h@{include/gpio\_controller.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{/****************************** Module Header ******************************\(\backslash\)}}
+\DoxyCodeLine{2 \textcolor{comment}{Module Name:    gpio\_controller.h}}
+\DoxyCodeLine{3 \textcolor{comment}{Project:        btb}}
+\DoxyCodeLine{4 \textcolor{comment}{Author:         Grant Maiden}}
+\DoxyCodeLine{5 \textcolor{comment}{Description:    Header file for gpio\_control.cpp}}
+\DoxyCodeLine{6 \textcolor{comment}{\(\backslash\)***************************************************************************/}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 \textcolor{comment}{/*  Some notes:}}
+\DoxyCodeLine{9 \textcolor{comment}{    Core Clock frequency is used to divide into SPI clock frequency.}}
+\DoxyCodeLine{10 \textcolor{comment}{    To find Core clock frequency, run in console:}}
+\DoxyCodeLine{11 \textcolor{comment}{}}
+\DoxyCodeLine{12 \textcolor{comment}{    vcgencmd get\_config int}}
+\DoxyCodeLine{13 \textcolor{comment}{}}
+\DoxyCodeLine{14 \textcolor{comment}{    Then search for core\_freq parameter.}}
+\DoxyCodeLine{15 \textcolor{comment}{*/}}
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#ifndef GPIO\_CONTROLLER\_H}}
+\DoxyCodeLine{17 \textcolor{preprocessor}{\#define GPIO\_CONTROLLER\_H}}
+\DoxyCodeLine{18 }
+\DoxyCodeLine{19 }
+\DoxyCodeLine{20 \textcolor{preprocessor}{\#include <stdio.h>}}
+\DoxyCodeLine{21 \textcolor{preprocessor}{\#include <stdlib.h>}}
+\DoxyCodeLine{22 \textcolor{preprocessor}{\#include <string.h>}}
+\DoxyCodeLine{23 \textcolor{preprocessor}{\#include <unistd.h>}}
+\DoxyCodeLine{24 \textcolor{preprocessor}{\#include <time.h>}}
+\DoxyCodeLine{25 \textcolor{preprocessor}{\#include <math.h>}}
+\DoxyCodeLine{26 }
+\DoxyCodeLine{27 \textcolor{preprocessor}{\#include <pigpio.h>}}
+\DoxyCodeLine{28 }
+\DoxyCodeLine{29 \textcolor{preprocessor}{\#include "{}led.h"{}}}
+\DoxyCodeLine{30 \textcolor{preprocessor}{\#include "{}defines.h"{}}}
+\DoxyCodeLine{31 }
+\DoxyCodeLine{32 }
+\DoxyCodeLine{33 }
+\DoxyCodeLine{34 }
+\DoxyCodeLine{35 \textcolor{preprocessor}{\#define LED\_SEND\_REPEATED\_SPI       0}}
+\DoxyCodeLine{36 \textcolor{preprocessor}{\#define SPI\_LED\_BUF\_LENGTH          344}}
+\DoxyCodeLine{37 \textcolor{preprocessor}{\#define SPI\_LED\_BUF\_COLOR\_INDEX     200}}
+\DoxyCodeLine{38 \textcolor{preprocessor}{\#define SPI\_FLAGS                   0b000000000001100000000000011100000}}
+\DoxyCodeLine{39 \textcolor{preprocessor}{\#define SPI\_FREQ                    6500000}}
+\DoxyCodeLine{40 \textcolor{preprocessor}{\#define SPI\_CHANNEL                 0}}
+\DoxyCodeLine{41 \textcolor{preprocessor}{\#define LED\_OUTPUT\_HIGH             0b00001111}}
+\DoxyCodeLine{42 \textcolor{preprocessor}{\#define LED\_OUTPUT\_LOW              0b00000011}}
+\DoxyCodeLine{43 }
+\DoxyCodeLine{44 \textcolor{keyword}{using namespace }std;}
+\DoxyCodeLine{45 \textcolor{keyword}{class }\mbox{\hyperlink{classGpioController}{GpioController}}}
+\DoxyCodeLine{46 \{}
+\DoxyCodeLine{47     \textcolor{keyword}{public}:}
+\DoxyCodeLine{53         \textcolor{keywordtype}{bool} \mbox{\hyperlink{classGpioController_aafdd41c8976402d25e1bf8db55819222}{gpioTest}}(uint seconds);}
+\DoxyCodeLine{54 }
+\DoxyCodeLine{59         \textcolor{keywordtype}{int} \mbox{\hyperlink{classGpioController_a4ffca3bcc79d2c4ad74e9c02dfe68950}{gpioInitializeLib}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{60 }
+\DoxyCodeLine{67         \textcolor{keywordtype}{int} \mbox{\hyperlink{classGpioController_a63da553df056aa124d06cacd27faf484}{gpioSetOutput}}(\textcolor{keywordtype}{int} GPIOnumber, \textcolor{keywordtype}{int} logicLevel);}
+\DoxyCodeLine{68 }
+\DoxyCodeLine{74         \textcolor{keywordtype}{bool} \mbox{\hyperlink{classGpioController_aaf9f9b913c9312b1fb88b6d5d72e682b}{ledNopAsmTest}}(uint seconds);}
+\DoxyCodeLine{75 }
+\DoxyCodeLine{76 }
+\DoxyCodeLine{82         \textcolor{keywordtype}{bool} \mbox{\hyperlink{classGpioController_ad8bbb818ca48b2535adaaf51908f7a4a}{gpioLedSpiTest}}(\textcolor{keywordtype}{char} *arr);}
+\DoxyCodeLine{83 }
+\DoxyCodeLine{89         \textcolor{keywordtype}{void} \mbox{\hyperlink{classGpioController_a0d89c3d7bc51ffea975d7af5da28c798}{gpioLedSetColor}}(\textcolor{keywordtype}{char} *arr);}
+\DoxyCodeLine{90     \textcolor{keyword}{private}:}
+\DoxyCodeLine{91         \textcolor{comment}{// Spi Globals}}
+\DoxyCodeLine{92         \textcolor{keywordtype}{char} * spiLedBuf = \textcolor{keyword}{new} \textcolor{keywordtype}{char}[SPI\_LED\_BUF\_LENGTH]();}
+\DoxyCodeLine{93         \textcolor{keywordtype}{int} spiHandle;}
+\DoxyCodeLine{94 }
+\DoxyCodeLine{102         \textcolor{keywordtype}{int} gpioSpiSendData(\textcolor{keywordtype}{char} *buf, \textcolor{keywordtype}{unsigned} length, \textcolor{keywordtype}{int} repeatSendData = LED\_SEND\_REPEATED\_SPI);}
+\DoxyCodeLine{103 }
+\DoxyCodeLine{104 }
+\DoxyCodeLine{105 \};}
+\DoxyCodeLine{106 }
+\DoxyCodeLine{107 }
+\DoxyCodeLine{108 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// GPIO\_CONTROLLER\_H}}
+\DoxyCodeLine{109 }
+\DoxyCodeLine{110 }
+\DoxyCodeLine{111 }
+\DoxyCodeLine{112 }
+\DoxyCodeLine{113 }
+\DoxyCodeLine{114 }
+\DoxyCodeLine{115 }
+\DoxyCodeLine{116 }
+\DoxyCodeLine{117 }
+\DoxyCodeLine{118 }
+
+\end{DoxyCode}

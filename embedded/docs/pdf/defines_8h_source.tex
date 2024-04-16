@@ -1,0 +1,85 @@
+\hypertarget{defines_8h_source}{}\doxysubsection{defines.\+h}
+\label{defines_8h_source}\index{include/defines.h@{include/defines.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{/****************************** Module Header ******************************\(\backslash\)}}
+\DoxyCodeLine{2 \textcolor{comment}{Module Name:    defines.h}}
+\DoxyCodeLine{3 \textcolor{comment}{Project:        btb}}
+\DoxyCodeLine{4 \textcolor{comment}{Author:         Grant Maiden}}
+\DoxyCodeLine{5 \textcolor{comment}{Description:    contains user constants, global enums, and structs}}
+\DoxyCodeLine{6 \textcolor{comment}{\(\backslash\)***************************************************************************/}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#ifndef DEFINES\_H}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#define DEFINES\_H}}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{10 \textcolor{comment}{// Test defines}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#define GPIO\_TEST\_LENGTH\_SEC                10}}
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#define TOTAL\_INSTRUMENTS\_SOUND\_TEST2       3}}
+\DoxyCodeLine{13 }
+\DoxyCodeLine{14 \textcolor{comment}{// Misc}}
+\DoxyCodeLine{15 \textcolor{preprocessor}{\#define DISTANCE\_SENSOR\_INTERRUPT\_TIMEOUT   50}}
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#define BTB\_TIMER\_1\_INTERVAL\_NS             2.5*1000000}}
+\DoxyCodeLine{17 }
+\DoxyCodeLine{18 \textcolor{comment}{// Gpio Controller Defines}}
+\DoxyCodeLine{19 \textcolor{preprocessor}{\#define WAIT\_10MS       1551000}}
+\DoxyCodeLine{20 \textcolor{preprocessor}{\#define WAIT\_5MS        775000}}
+\DoxyCodeLine{21 \textcolor{preprocessor}{\#define WAIT\_2MS        310200}}
+\DoxyCodeLine{22 \textcolor{preprocessor}{\#define WAIT\_1MS        155100}}
+\DoxyCodeLine{23 \textcolor{preprocessor}{\#define WAIT\_100US      15510}}
+\DoxyCodeLine{24 \textcolor{preprocessor}{\#define WAIT\_245NS      38}}
+\DoxyCodeLine{25 \textcolor{preprocessor}{\#define WAIT\_190NS      29}}
+\DoxyCodeLine{26 \textcolor{preprocessor}{\#define WAIT\_50NS       8}}
+\DoxyCodeLine{27 }
+\DoxyCodeLine{28 \textcolor{comment}{// Gpio Defines}}
+\DoxyCodeLine{29 \textcolor{preprocessor}{\#define PI\_LOW          0}}
+\DoxyCodeLine{30 \textcolor{preprocessor}{\#define PI\_HIGH         1}}
+\DoxyCodeLine{31 \textcolor{preprocessor}{\#define GPIO4           4}}
+\DoxyCodeLine{32 }
+\DoxyCodeLine{33 \textcolor{preprocessor}{\#define LED\_SHIFT\_3V3   14}}
+\DoxyCodeLine{34 \textcolor{preprocessor}{\#define D1\_GPIO1        18}}
+\DoxyCodeLine{35 \textcolor{preprocessor}{\#define D1\_XSHUT        16}}
+\DoxyCodeLine{36 \textcolor{preprocessor}{\#define D2\_GPIO1        22}}
+\DoxyCodeLine{37 \textcolor{preprocessor}{\#define D2\_XSHUT        8}}
+\DoxyCodeLine{38 \textcolor{preprocessor}{\#define D3\_GPIO1        1}}
+\DoxyCodeLine{39 \textcolor{preprocessor}{\#define D3\_XSHUT        23}}
+\DoxyCodeLine{40 \textcolor{preprocessor}{\#define D4\_GPIO1        20}}
+\DoxyCodeLine{41 \textcolor{preprocessor}{\#define D4\_XSHUT        12}}
+\DoxyCodeLine{42 \textcolor{preprocessor}{\#define D5\_GPIO1        24}}
+\DoxyCodeLine{43 \textcolor{preprocessor}{\#define D5\_XSHUT        25}}
+\DoxyCodeLine{44 \textcolor{preprocessor}{\#define D6\_GPIO1        21}}
+\DoxyCodeLine{45 \textcolor{preprocessor}{\#define D6\_XSHUT        15}}
+\DoxyCodeLine{46 }
+\DoxyCodeLine{47 }
+\DoxyCodeLine{48 \textcolor{comment}{// Hit Strength Defines}}
+\DoxyCodeLine{49 \textcolor{preprocessor}{\#define HIT\_SOFT        5}}
+\DoxyCodeLine{50 \textcolor{preprocessor}{\#define HIT\_MID\_SOFT    7}}
+\DoxyCodeLine{51 \textcolor{preprocessor}{\#define HIT\_MID         9}}
+\DoxyCodeLine{52 \textcolor{preprocessor}{\#define HIT\_MID\_HARD    11}}
+\DoxyCodeLine{53 \textcolor{preprocessor}{\#define HIT\_HARD        13}}
+\DoxyCodeLine{54 }
+\DoxyCodeLine{55 }
+\DoxyCodeLine{56 \textcolor{keyword}{typedef} \textcolor{keyword}{enum}}
+\DoxyCodeLine{57 \{}
+\DoxyCodeLine{58     SENSOR1,}
+\DoxyCodeLine{59     SENSOR2,}
+\DoxyCodeLine{60     SENSOR3,}
+\DoxyCodeLine{61     SENSOR4,}
+\DoxyCodeLine{62     SENSOR5,}
+\DoxyCodeLine{63     SENSOR6}
+\DoxyCodeLine{64 \}sensorID;}
+\DoxyCodeLine{65 }
+\DoxyCodeLine{66 \textcolor{comment}{// Structs}}
+\DoxyCodeLine{67 }
+\DoxyCodeLine{71 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}}
+\DoxyCodeLine{72 \{}
+\DoxyCodeLine{73     uint8\_t rangeStatus; \textcolor{comment}{// range status 0 means data ready.}}
+\DoxyCodeLine{74     uint16\_t currentDistance\_mm;}
+\DoxyCodeLine{75     uint16\_t lastDistance\_mm;}
+\DoxyCodeLine{76     \textcolor{keywordtype}{int} currentVelocity;}
+\DoxyCodeLine{77     \textcolor{keywordtype}{int} averageVelocity;}
+\DoxyCodeLine{78 \}\mbox{\hyperlink{structsensorValues}{sensorValues}};}
+\DoxyCodeLine{79 }
+\DoxyCodeLine{80 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{81 }
+\DoxyCodeLine{82 }
+
+\end{DoxyCode}

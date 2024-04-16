@@ -1,0 +1,77 @@
+\hypertarget{classController}{}\doxysubsection{Controller Class Reference}
+\label{classController}\index{Controller@{Controller}}
+Inheritance diagram for Controller\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classController}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual void \mbox{\hyperlink{classController_af53bfa42e907627e5f39668e3d8acb5c}{distance\+Data\+Ready}} (\mbox{\hyperlink{structsensorValues}{sensor\+Values}} sens\+Vals, sensor\+ID sensor)
+\item 
+void \mbox{\hyperlink{classController_a28d5755bc8fed07cebd88f857f0f83df}{initialize}} ()
+\item 
+void \mbox{\hyperlink{classController_adddce8023c6beb72400ec1ead2629e66}{primary\+State\+Machine}} ()
+\item 
+void \mbox{\hyperlink{classController_a0676fa7d920a0984d3920bcf27401a0f}{update\+State}} (controller\+State new\+State)
+\item 
+void \mbox{\hyperlink{classController_a6a4dff110a9530bb905f0b7fab9bd819}{update\+Sensor\+Value}} (\mbox{\hyperlink{structsensorValues}{sensor\+Values}} sense\+Value, sensor\+ID id)
+\end{DoxyCompactItemize}
+
+
+\doxysubsubsection{Member Function Documentation}
+\mbox{\Hypertarget{classController_af53bfa42e907627e5f39668e3d8acb5c}\label{classController_af53bfa42e907627e5f39668e3d8acb5c}} 
+\index{Controller@{Controller}!distanceDataReady@{distanceDataReady}}
+\index{distanceDataReady@{distanceDataReady}!Controller@{Controller}}
+\doxyparagraph{\texorpdfstring{distanceDataReady()}{distanceDataReady()}}
+{\footnotesize\ttfamily virtual void Controller\+::distance\+Data\+Ready (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structsensorValues}{sensor\+Values}}}]{sens\+Vals,  }\item[{sensor\+ID}]{sensor }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+Called when new Distance sensor data has been recieved. This needs to be implemented in a derived class by the client. Defined as abstract. 
+\begin{DoxyParams}{Parameters}
+{\em sens\+Vals} & -\/ sense\+Vals structure that contains sensor data \\
+\hline
+{\em sensor} & -\/ Sensor\+ID signifying which sensor data is coming from \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{classVL53L4CD_a149a2250aabe18254a50be683b9fbba5}{VL53\+L4\+CD}}.
+
+\mbox{\Hypertarget{classController_a28d5755bc8fed07cebd88f857f0f83df}\label{classController_a28d5755bc8fed07cebd88f857f0f83df}} 
+\index{Controller@{Controller}!initialize@{initialize}}
+\index{initialize@{initialize}!Controller@{Controller}}
+\doxyparagraph{\texorpdfstring{initialize()}{initialize()}}
+{\footnotesize\ttfamily void Controller\+::initialize (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+initialize controller globals and states \mbox{\Hypertarget{classController_adddce8023c6beb72400ec1ead2629e66}\label{classController_adddce8023c6beb72400ec1ead2629e66}} 
+\index{Controller@{Controller}!primaryStateMachine@{primaryStateMachine}}
+\index{primaryStateMachine@{primaryStateMachine}!Controller@{Controller}}
+\doxyparagraph{\texorpdfstring{primaryStateMachine()}{primaryStateMachine()}}
+{\footnotesize\ttfamily void Controller\+::primary\+State\+Machine (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\hyperlink{classController}{Controller}} State Machine. Handles all system states, inputs, and outputs. \mbox{\Hypertarget{classController_a6a4dff110a9530bb905f0b7fab9bd819}\label{classController_a6a4dff110a9530bb905f0b7fab9bd819}} 
+\index{Controller@{Controller}!updateSensorValue@{updateSensorValue}}
+\index{updateSensorValue@{updateSensorValue}!Controller@{Controller}}
+\doxyparagraph{\texorpdfstring{updateSensorValue()}{updateSensorValue()}}
+{\footnotesize\ttfamily void Controller\+::update\+Sensor\+Value (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structsensorValues}{sensor\+Values}}}]{sense\+Value,  }\item[{sensor\+ID}]{id }\end{DoxyParamCaption})}
+
+updates sensor value 
+\begin{DoxyParams}{Parameters}
+{\em sense\+Value-\/} & \mbox{\hyperlink{structsensorValues}{sensor\+Values}} struct \\
+\hline
+{\em sense\+ID-\/} & id of current sensor \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classController_a0676fa7d920a0984d3920bcf27401a0f}\label{classController_a0676fa7d920a0984d3920bcf27401a0f}} 
+\index{Controller@{Controller}!updateState@{updateState}}
+\index{updateState@{updateState}!Controller@{Controller}}
+\doxyparagraph{\texorpdfstring{updateState()}{updateState()}}
+{\footnotesize\ttfamily void Controller\+::update\+State (\begin{DoxyParamCaption}\item[{controller\+State}]{new\+State }\end{DoxyParamCaption})}
+
+update controller state 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/controller.\+h\end{DoxyCompactItemize}

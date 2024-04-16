@@ -1,0 +1,86 @@
+\hypertarget{classCppTimer}{}\doxysubsection{Cpp\+Timer Class Reference}
+\label{classCppTimer}\index{CppTimer@{CppTimer}}
+
+
+{\ttfamily \#include $<$Cpp\+Timer.\+h$>$}
+
+Inheritance diagram for Cpp\+Timer\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classCppTimer}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual void \mbox{\hyperlink{classCppTimer_a7de6bd2c8c9b5daa70d5c3d9b97fa49b}{startns}} (long nanosecs, cpp\+Timer\+Type\+\_\+t type=PERIODIC)
+\item 
+virtual void \mbox{\hyperlink{classCppTimer_a8054cc8cead2e360b06b6ff99cc964cf}{startms}} (long millisecs, cpp\+Timer\+Type\+\_\+t type=PERIODIC)
+\item 
+virtual void \mbox{\hyperlink{classCppTimer_aafb86e2bb43311bf154867dd6da43e80}{stop}} ()
+\item 
+virtual \mbox{\hyperlink{classCppTimer_a2942aab831713273a76218048fe61b16}{$\sim$\+Cpp\+Timer}} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual void \mbox{\hyperlink{classCppTimer_ac2665403595b6aee5f581d0ebfeb886c}{timer\+Event}} ()=0
+\end{DoxyCompactItemize}
+
+
+\doxysubsubsection{Detailed Description}
+Timer class which repeatedly fires. It\textquotesingle{}s wrapper around the POSIX per-\/process timer. 
+
+\doxysubsubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classCppTimer_a2942aab831713273a76218048fe61b16}\label{classCppTimer_a2942aab831713273a76218048fe61b16}} 
+\index{CppTimer@{CppTimer}!````~CppTimer@{$\sim$CppTimer}}
+\index{````~CppTimer@{$\sim$CppTimer}!CppTimer@{CppTimer}}
+\doxyparagraph{\texorpdfstring{$\sim$CppTimer()}{~CppTimer()}}
+{\footnotesize\ttfamily virtual Cpp\+Timer\+::$\sim$\+Cpp\+Timer (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+Destructor disarms the timer, deletes it and disconnect the signal handler. 
+
+\doxysubsubsection{Member Function Documentation}
+\mbox{\Hypertarget{classCppTimer_a8054cc8cead2e360b06b6ff99cc964cf}\label{classCppTimer_a8054cc8cead2e360b06b6ff99cc964cf}} 
+\index{CppTimer@{CppTimer}!startms@{startms}}
+\index{startms@{startms}!CppTimer@{CppTimer}}
+\doxyparagraph{\texorpdfstring{startms()}{startms()}}
+{\footnotesize\ttfamily virtual void Cpp\+Timer\+::startms (\begin{DoxyParamCaption}\item[{long}]{millisecs,  }\item[{cpp\+Timer\+Type\+\_\+t}]{type = {\ttfamily PERIODIC} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+Starts the timer. The timer fires first after the specified time in milliseconds and then at that interval in PERIODIC mode. In ONESHOT mode the timer fires once after the specified time in milliseconds. 
+\begin{DoxyParams}{Parameters}
+{\em millisecs} & Time in milliseconds \\
+\hline
+{\em type} & Either PERIODIC or ONESHOT \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classCppTimer_a7de6bd2c8c9b5daa70d5c3d9b97fa49b}\label{classCppTimer_a7de6bd2c8c9b5daa70d5c3d9b97fa49b}} 
+\index{CppTimer@{CppTimer}!startns@{startns}}
+\index{startns@{startns}!CppTimer@{CppTimer}}
+\doxyparagraph{\texorpdfstring{startns()}{startns()}}
+{\footnotesize\ttfamily virtual void Cpp\+Timer\+::startns (\begin{DoxyParamCaption}\item[{long}]{nanosecs,  }\item[{cpp\+Timer\+Type\+\_\+t}]{type = {\ttfamily PERIODIC} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+Starts the timer. The timer fires first after the specified time in nanoseconds and then at that interval in PERIODIC mode. In ONESHOT mode the timer fires once after the specified time in nanoseconds. 
+\begin{DoxyParams}{Parameters}
+{\em nanosecs} & Time in nanoseconds \\
+\hline
+{\em type} & Either PERIODIC or ONESHOT \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classCppTimer_aafb86e2bb43311bf154867dd6da43e80}\label{classCppTimer_aafb86e2bb43311bf154867dd6da43e80}} 
+\index{CppTimer@{CppTimer}!stop@{stop}}
+\index{stop@{stop}!CppTimer@{CppTimer}}
+\doxyparagraph{\texorpdfstring{stop()}{stop()}}
+{\footnotesize\ttfamily virtual void Cpp\+Timer\+::stop (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+Stops the timer by disarming it. It can be re-\/started with start(). \mbox{\Hypertarget{classCppTimer_ac2665403595b6aee5f581d0ebfeb886c}\label{classCppTimer_ac2665403595b6aee5f581d0ebfeb886c}} 
+\index{CppTimer@{CppTimer}!timerEvent@{timerEvent}}
+\index{timerEvent@{timerEvent}!CppTimer@{CppTimer}}
+\doxyparagraph{\texorpdfstring{timerEvent()}{timerEvent()}}
+{\footnotesize\ttfamily virtual void Cpp\+Timer\+::timer\+Event (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [pure virtual]}}
+
+Abstract function which needs to be implemented by the children. This is called every time the timer fires. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/Cpp\+Timer.\+h\end{DoxyCompactItemize}

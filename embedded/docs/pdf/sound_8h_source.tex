@@ -1,0 +1,226 @@
+\hypertarget{sound_8h_source}{}\doxysubsection{sound.\+h}
+\label{sound_8h_source}\index{include/sound.h@{include/sound.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{/****************************** Module Header ******************************\(\backslash\)}}
+\DoxyCodeLine{2 \textcolor{comment}{Module Name:    sound.h}}
+\DoxyCodeLine{3 \textcolor{comment}{Project:        btb}}
+\DoxyCodeLine{4 \textcolor{comment}{Author:         Grant Maiden}}
+\DoxyCodeLine{5 \textcolor{comment}{Description:    contains sound definitions and headers}}
+\DoxyCodeLine{6 \textcolor{comment}{\(\backslash\)***************************************************************************/}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#ifndef SOUND\_H}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#define SOUND\_H}}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <stdio.h>}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <stdlib.h>}}
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#include <string.h>}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#include <unistd.h>}}
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#include <pigpio.h>}}
+\DoxyCodeLine{15 \textcolor{preprocessor}{\#include <stdio.h>}}
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{17 \textcolor{preprocessor}{\#include "{}CppThread.h"{}}}
+\DoxyCodeLine{18 \textcolor{preprocessor}{\#include "{}defines.h"{}}}
+\DoxyCodeLine{19 }
+\DoxyCodeLine{20 \textcolor{preprocessor}{\#define EN\_AUDIO}}
+\DoxyCodeLine{21 }
+\DoxyCodeLine{22 \textcolor{preprocessor}{\#ifdef EN\_AUDIO}}
+\DoxyCodeLine{23 }
+\DoxyCodeLine{24 \textcolor{comment}{//\#define MA\_NO\_ENGINE}}
+\DoxyCodeLine{25 \textcolor{comment}{//\#define MINIAUDIO\_IMPLEMENTATION}}
+\DoxyCodeLine{26 \textcolor{preprocessor}{\#define MA\_THREADCALL}}
+\DoxyCodeLine{27 \textcolor{comment}{//typedef unsigned long ma\_thread\_result;}}
+\DoxyCodeLine{28 \textcolor{keyword}{typedef} \textcolor{keywordtype}{void}* ma\_thread\_result;}
+\DoxyCodeLine{29 \textcolor{keyword}{typedef} ma\_thread\_result (MA\_THREADCALL * ma\_thread\_entry\_proc)(\textcolor{keywordtype}{void}* pData);}
+\DoxyCodeLine{30 }
+\DoxyCodeLine{31 \textcolor{keyword}{extern} \textcolor{stringliteral}{"{}C"{}}\{}
+\DoxyCodeLine{32 \textcolor{preprocessor}{\#include "{}miniaudio.h"{}}}
+\DoxyCodeLine{33 \}}
+\DoxyCodeLine{34 }
+\DoxyCodeLine{35 \textcolor{preprocessor}{\#define CHANNELS    2               }\textcolor{comment}{/* Must be stereo for this example. */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{36 \textcolor{preprocessor}{\#define SAMPLE\_RATE 44100}}
+\DoxyCodeLine{37 }
+\DoxyCodeLine{38 \textcolor{preprocessor}{\#define TOTAL\_INSTRUMENTS               3}}
+\DoxyCodeLine{39 \textcolor{preprocessor}{\#define TOTAL\_INSTRUMENTS\_SOUND\_TEST2   3}}
+\DoxyCodeLine{40 }
+\DoxyCodeLine{41 \textcolor{preprocessor}{\#define PATH\_SOUND\_ENABLED\_WAV          "{}./sounds/sound\_enabled.wav"{}}}
+\DoxyCodeLine{42 \textcolor{preprocessor}{\#define PATH\_SOUND\_DISABLED\_WAV         "{}./sounds/sound\_disabled.wav"{}}}
+\DoxyCodeLine{43 }
+\DoxyCodeLine{44 \textcolor{comment}{// Top Hat Sounds/GRANT\_KIT... Drums 1 and 2}}
+\DoxyCodeLine{45 \textcolor{preprocessor}{\#define TH\_LOW\_OPEN\_GRANT                    "{}./sounds/GRANT\_KIT/grant\_th\_open\_loud.wav"{}}}
+\DoxyCodeLine{46 \textcolor{preprocessor}{\#define TH\_MEDIUM\_OPEN\_GRANT                  "{}./sounds/GRANT\_KIT/grant\_th\_open\_medium.wav"{}}}
+\DoxyCodeLine{47 \textcolor{preprocessor}{\#define TH\_LOUD\_OPEN\_GRANT                    "{}./sounds/GRANT\_KIT/grant\_th\_open\_loud.wav"{}}}
+\DoxyCodeLine{48 \textcolor{preprocessor}{\#define TH\_LOW\_CLOSED\_GRANT                   "{}./sounds/GRANT\_KIT/grant\_th\_closed\_low.wav"{}}}
+\DoxyCodeLine{49 \textcolor{preprocessor}{\#define TH\_MEDIUM\_CLOSED\_GRANT                "{}./sounds/GRANT\_KIT/grant\_th\_closed\_medium.wav"{}}}
+\DoxyCodeLine{50 \textcolor{preprocessor}{\#define TH\_LOUD\_CLOSED\_GRANT                  "{}./sounds/GRANT\_KIT/grant\_th\_closed\_loud.wav"{}}}
+\DoxyCodeLine{51 \textcolor{preprocessor}{\#define TH\_LOW\_FOOT\_OPEN\_GRANT                "{}./sounds/GRANT\_KIT/grant\_th\_foot\_open\_low.wav"{}}}
+\DoxyCodeLine{52 \textcolor{preprocessor}{\#define TH\_MEDIUM\_FOOT\_OPEN\_GRANT             "{}./sounds/GRANT\_KIT/grant\_th\_foot\_open\_medium.wav"{}}}
+\DoxyCodeLine{53 \textcolor{preprocessor}{\#define TH\_LOUD\_FOOT\_OPEN\_GRANT               "{}./sounds/GRANT\_KIT/grant\_th\_foot\_open\_loud.wav"{}}}
+\DoxyCodeLine{54 \textcolor{preprocessor}{\#define TH\_LOW\_FOOT\_CLOSED\_GRANT              "{}./sounds/GRANT\_KIT/grant\_th\_foot\_closed\_low.wav"{}}}
+\DoxyCodeLine{55 \textcolor{preprocessor}{\#define TH\_MEDIUM\_FOOT\_CLOSED\_GRANT           "{}./sounds/GRANT\_KIT/grant\_th\_foot\_closed\_medium.wav"{}}}
+\DoxyCodeLine{56 \textcolor{preprocessor}{\#define TH\_LOUD\_FOOT\_CLOSED\_GRANT             "{}./sounds/GRANT\_KIT/grant\_th\_foot\_closed\_loud.wav"{}}}
+\DoxyCodeLine{57 }
+\DoxyCodeLine{58 \textcolor{preprocessor}{\#define DRUM3\_LOW\_GRANT                       "{}./sounds/GRANT\_KIT/grant\_metal\_ting\_low.wav"{}}}
+\DoxyCodeLine{59 \textcolor{preprocessor}{\#define DRUM3\_MEDIUM\_GRANT                    "{}./sounds/GRANT\_KIT/grant\_metal\_ting\_medium.wav"{}}}
+\DoxyCodeLine{60 \textcolor{preprocessor}{\#define DRUM3\_LOUD\_GRANT                      "{}./sounds/GRANT\_KIT/grant\_metal\_ting\_loud.wav"{}}}
+\DoxyCodeLine{61 }
+\DoxyCodeLine{62 \textcolor{preprocessor}{\#define DRUM4\_LOW\_GRANT                       "{}./sounds/GRANT\_KIT/grant\_pop\_low.wav"{}}}
+\DoxyCodeLine{63 \textcolor{preprocessor}{\#define DRUM4\_MEDIUM\_GRANT                    "{}./sounds/GRANT\_KIT/grant\_pop\_medium.wav"{}}}
+\DoxyCodeLine{64 \textcolor{preprocessor}{\#define DRUM4\_LOUD\_GRANT                      "{}./sounds/GRANT\_KIT/grant\_pop\_loud.wav"{}}}
+\DoxyCodeLine{65 }
+\DoxyCodeLine{66 \textcolor{preprocessor}{\#define DRUM5\_LOW\_GRANT                       "{}./sounds/GRANT\_KIT/grant\_clap\_low.wav"{}}}
+\DoxyCodeLine{67 \textcolor{preprocessor}{\#define DRUM5\_MEDIUM\_GRANT                    "{}./sounds/GRANT\_KIT/grant\_clap\_medium.wav"{}}}
+\DoxyCodeLine{68 \textcolor{preprocessor}{\#define DRUM5\_LOUD\_GRANT                      "{}./sounds/GRANT\_KIT/grant\_clap\_loud.wav"{}}}
+\DoxyCodeLine{69 }
+\DoxyCodeLine{70 \textcolor{preprocessor}{\#define DRUM6\_LOW\_GRANT                       "{}./sounds/GRANT\_KIT/grant\_bass\_low.wav"{}}}
+\DoxyCodeLine{71 \textcolor{preprocessor}{\#define DRUM6\_MEDIUM\_GRANT                    "{}./sounds/GRANT\_KIT/grant\_bass\_medium.wav"{}}}
+\DoxyCodeLine{72 \textcolor{preprocessor}{\#define DRUM6\_LOUD\_GRANT                      "{}./sounds/GRANT\_KIT/grant\_bass\_loud.wav"{}}}
+\DoxyCodeLine{73 }
+\DoxyCodeLine{74 }
+\DoxyCodeLine{75 \textcolor{comment}{// Drumkit sounds for Byte The Beat//}}
+\DoxyCodeLine{76 }
+\DoxyCodeLine{77 }
+\DoxyCodeLine{78 \textcolor{comment}{// Drum Sounds (Snare, Hi Tom, Mid Tom, Low Tom, Kick//}}
+\DoxyCodeLine{79 \textcolor{preprocessor}{\#define SNARE\_SOFT                             "{}./sounds/PI\_KIT\_SOUNDS/Snare/Center/Snare Center Soft.wav"{}}}
+\DoxyCodeLine{80 \textcolor{preprocessor}{\#define SNARE\_MID\_SOFT                         "{}./sounds/PI\_KIT\_SOUNDS/Snare/Center/Snare Center Mid-\/Soft.wav"{}}}
+\DoxyCodeLine{81 \textcolor{preprocessor}{\#define SNARE\_MID                              "{}./sounds/PI\_KIT\_SOUNDS/Snare/Center/Snare Center Mid.wav"{}}}
+\DoxyCodeLine{82 \textcolor{preprocessor}{\#define SNARE\_MID\_HARD                         "{}./sounds/PI\_KIT\_SOUNDS/Snare/Center/Snare Center Mid-\/Hard.wav"{}}}
+\DoxyCodeLine{83 \textcolor{preprocessor}{\#define SNARE\_HARD                             "{}./sounds/PI\_KIT\_SOUNDS/Snare/Center/Snare Center Hard.wav"{}}}
+\DoxyCodeLine{84 }
+\DoxyCodeLine{85 \textcolor{preprocessor}{\#define HI\_TOM\_SOFT                            "{}./sounds/PI\_KIT\_SOUNDS/Hi Tom/Hi Tom Soft.wav"{}}}
+\DoxyCodeLine{86 \textcolor{preprocessor}{\#define HI\_TOM\_MID\_SOFT                        "{}./sounds/PI\_KIT\_SOUNDS/Hi Tom/Hi Tom Mid-\/Soft.wav"{}}}
+\DoxyCodeLine{87 \textcolor{preprocessor}{\#define HI\_TOM\_MID                             "{}./sounds/PI\_KIT\_SOUNDS/Hi Tom/Hi Tom Mid.wav"{}}}
+\DoxyCodeLine{88 \textcolor{preprocessor}{\#define HI\_TOM\_MID\_HARD                        "{}./sounds/PI\_KIT\_SOUNDS/Hi Tom/Hi Tom Mid-\/Hard.wav"{}}}
+\DoxyCodeLine{89 \textcolor{preprocessor}{\#define HI\_TOM\_HARD                            "{}./sounds/PI\_KIT\_SOUNDS/Hi Tom/Hi Tom Hard.wav"{}}}
+\DoxyCodeLine{90 }
+\DoxyCodeLine{91 \textcolor{preprocessor}{\#define MID\_TOM\_SOFT                           "{}./sounds/PI\_KIT\_SOUNDS/Mid Tom/Mid Tom Soft.wav"{}}}
+\DoxyCodeLine{92 \textcolor{preprocessor}{\#define MID\_TOM\_MID\_SOFT                       "{}./sounds/PI\_KIT\_SOUNDS/Mid Tom/Mid Tom Mid-\/Soft.wav"{}}}
+\DoxyCodeLine{93 \textcolor{preprocessor}{\#define MID\_TOM\_MID                            "{}./sounds/PI\_KIT\_SOUNDS/Mid Tom/Mid Tom Mid.wav"{}}}
+\DoxyCodeLine{94 \textcolor{preprocessor}{\#define MID\_TOM\_MID\_HARD                       "{}./sounds/PI\_KIT\_SOUNDS/Mid Tom/Mid Tom Mid-\/Hard.wav"{}}}
+\DoxyCodeLine{95 \textcolor{preprocessor}{\#define MID\_TOM\_HARD                           "{}./sounds/PI\_KIT\_SOUNDS/Mid Tom/Mid Tom Hard.wav"{}}}
+\DoxyCodeLine{96 }
+\DoxyCodeLine{97 \textcolor{preprocessor}{\#define LOW\_TOM\_SOFT                           "{}./sounds/PI\_KIT\_SOUNDS/Low Tom/Low Tom Soft.wav"{}}}
+\DoxyCodeLine{98 \textcolor{preprocessor}{\#define LOW\_TOM\_MID\_SOFT                       "{}./sounds/PI\_KIT\_SOUNDS/Low Tom/Low Tom Mid-\/Soft.wav"{}}}
+\DoxyCodeLine{99 \textcolor{preprocessor}{\#define LOW\_TOM\_MID                            "{}./sounds/PI\_KIT\_SOUNDS/Low Tom/Low Tom Mid.wav"{}}}
+\DoxyCodeLine{100 \textcolor{preprocessor}{\#define LOW\_TOM\_MID\_HARD                       "{}./sounds/PI\_KIT\_SOUNDS/Low Tom/Low Tom Mid-\/Hard.wav"{}}}
+\DoxyCodeLine{101 \textcolor{preprocessor}{\#define LOW\_TOM\_HARD                           "{}./sounds/PI\_KIT\_SOUNDS/Low Tom/Low Tom Hard.wav"{}}}
+\DoxyCodeLine{102 }
+\DoxyCodeLine{103 \textcolor{preprocessor}{\#define KICK\_SOFT                              "{}./sounds/PI\_KIT\_SOUNDS/Kick/Kick Soft.wav"{}}}
+\DoxyCodeLine{104 \textcolor{preprocessor}{\#define KICK\_MID\_SOFT                          "{}./sounds/PI\_KIT\_SOUNDS/Kick/Kick Mid-\/Soft.wav"{}}}
+\DoxyCodeLine{105 \textcolor{preprocessor}{\#define KICK\_MID                               "{}./sounds/PI\_KIT\_SOUNDS/Kick/Kick Mid.wav"{}}}
+\DoxyCodeLine{106 \textcolor{preprocessor}{\#define KICK\_MID\_HARD                          "{}./sounds/PI\_KIT\_SOUNDS/Kick/Kick Mid-\/Hard.wav"{}}}
+\DoxyCodeLine{107 \textcolor{preprocessor}{\#define KICK\_HARD                              "{}./sounds/PI\_KIT\_SOUNDS/Kick/Kick Hard.wav"{}}}
+\DoxyCodeLine{108 }
+\DoxyCodeLine{109 \textcolor{comment}{//Cymbal Sounds//}}
+\DoxyCodeLine{110 }
+\DoxyCodeLine{111 \textcolor{comment}{//Hi Hat//}}
+\DoxyCodeLine{112 \textcolor{preprocessor}{\#define HI\_HAT\_OPEN\_SOFT                        "{}./sounds/PI\_KIT\_SOUNDS/Hi Hat/Open/Hi-\/Hat Open Soft.wav"{}}}
+\DoxyCodeLine{113 \textcolor{preprocessor}{\#define HI\_HAT\_OPEN\_MID\_SOFT                    "{}./sounds/PI\_KIT\_SOUNDS/Hi Hat/Open/Hi-\/Hat Open Mid-\/Soft.wav"{}}}
+\DoxyCodeLine{114 \textcolor{preprocessor}{\#define HI\_HAT\_OPEN\_MID                         "{}./sounds/PI\_KIT\_SOUNDS/Hi Hat/Open/Hi-\/Hat Open Mid.wav"{}}}
+\DoxyCodeLine{115 \textcolor{preprocessor}{\#define HI\_HAT\_OPEN\_MID\_HARD                    "{}./sounds/PI\_KIT\_SOUNDS/Hi Hat/Open/Hi-\/Hat Open Mid-\/Hard.wav"{}}}
+\DoxyCodeLine{116 \textcolor{preprocessor}{\#define HI\_HAT\_OPEN\_HARD                        "{}./sounds/PI\_KIT\_SOUNDS/Hi Hat/Open/Hi-\/Hat Open Hard.wav"{}}}
+\DoxyCodeLine{117 }
+\DoxyCodeLine{118 \textcolor{preprocessor}{\#define HI\_HAT\_CLOSED\_SOFT                      "{}./sounds/PI\_KIT\_SOUNDS/Hi Hat/Closed/Hi-\/Hat Closed Soft.wav"{}}}
+\DoxyCodeLine{119 \textcolor{preprocessor}{\#define HI\_HAT\_CLOSED\_MID\_SOFT                  "{}./sounds/PI\_KIT\_SOUNDS/Hi Hat/Closed/Hi-\/Hat Closed Mid-\/Soft.wav"{}}}
+\DoxyCodeLine{120 \textcolor{preprocessor}{\#define HI\_HAT\_CLOSED\_MID                       "{}./sounds/PI\_KIT\_SOUNDS/Hi Hat/Closed/Hi-\/Hat Closed Mid.wav"{}}}
+\DoxyCodeLine{121 \textcolor{preprocessor}{\#define HI\_HAT\_CLOSED\_MID\_HARD                  "{}./sounds/PI\_KIT\_SOUNDS/Hi Hat/Closed/Hi-\/Hat Closed Mid-\/Hard.wav"{}}}
+\DoxyCodeLine{122 \textcolor{preprocessor}{\#define HI\_HAT\_CLOSED\_HARD                      "{}./sounds/PI\_KIT\_SOUNDS/Hi Hat/Closed/Hi-\/Hat Closed Hard.wav"{}}}
+\DoxyCodeLine{123 }
+\DoxyCodeLine{124 \textcolor{preprocessor}{\#define HI\_HAT\_FOOT\_SOFT                        "{}./sounds/PI\_KIT\_SOUNDS/Hi Hat/Foot/Hi-\/Hat Foot Soft.wav"{}}}
+\DoxyCodeLine{125 \textcolor{preprocessor}{\#define HI\_HAT\_FOOT\_MID\_SOFT                    "{}./sounds/PI\_KIT\_SOUNDS/Hi Hat/Foot/Hi-\/Hat Foot Mid-\/Soft.wav"{}}}
+\DoxyCodeLine{126 \textcolor{preprocessor}{\#define HI\_HAT\_FOOT\_MID                         "{}./sounds/PI\_KIT\_SOUNDS/Hi Hat/Foot/Hi-\/Hat Foot Mid.wav"{}}}
+\DoxyCodeLine{127 \textcolor{preprocessor}{\#define HI\_HAT\_FOOT\_MID\_HARD                    "{}./sounds/PI\_KIT\_SOUNDS/Hi Hat/Foot/Hi-\/Hat Foot Mid-\/Hard.wav"{}}}
+\DoxyCodeLine{128 \textcolor{preprocessor}{\#define HI\_HAT\_FOOT\_HARD                        "{}./sounds/PI\_KIT\_SOUNDS/Hi Hat/Foot/Hi-\/Hat foot Hard.wav"{}}}
+\DoxyCodeLine{129 }
+\DoxyCodeLine{130 \textcolor{preprocessor}{\#define CRASH\_SOFT                              "{}./sounds/PI\_KIT\_SOUNDS/Crash Cymbal/Crash Soft.wav"{}}}
+\DoxyCodeLine{131 \textcolor{preprocessor}{\#define CRASH\_MID\_SOFT                          "{}./sounds/PI\_KIT\_SOUNDS/Crash Cymbal/Crash Mid Soft.wav"{}}}
+\DoxyCodeLine{132 \textcolor{preprocessor}{\#define CRASH\_MID                               "{}./sounds/PI\_KIT\_SOUNDS/Crash Cymbal/Crash Mid.wav"{}}}
+\DoxyCodeLine{133 \textcolor{preprocessor}{\#define CRASH\_MID\_HARD                          "{}./sounds/PI\_KIT\_SOUNDS/Crash Cymbal/Crash Mid Hard.wav"{}}}
+\DoxyCodeLine{134 \textcolor{preprocessor}{\#define CRASH\_HARD                              "{}./sounds/PI\_KIT\_SOUNDS/Crash Cymbal/Crash Hard.wav"{}}}
+\DoxyCodeLine{135 }
+\DoxyCodeLine{136 \textcolor{preprocessor}{\#define RIDE\_SOFT                               "{}./sounds/PI\_KIT\_SOUNDS/Ride Cymbal/Ride Soft.wav"{}}}
+\DoxyCodeLine{137 \textcolor{preprocessor}{\#define RIDE\_MID\_SOFT                           "{}./sounds/PI\_KIT\_SOUNDS/Ride Cymbal/Ride Mid Soft.wav"{}}}
+\DoxyCodeLine{138 \textcolor{preprocessor}{\#define RIDE\_MID                                "{}./sounds/PI\_KIT\_SOUNDS/Ride Cymbal/Ride Mid.wav"{}}}
+\DoxyCodeLine{139 \textcolor{preprocessor}{\#define RIDE\_MID\_HARD                           "{}./sounds/PI\_KIT\_SOUNDS/Ride Cymbal/Ride Mid Hard.wav"{}}}
+\DoxyCodeLine{140 \textcolor{preprocessor}{\#define RIDE\_HARD                               "{}./sounds/PI\_KIT\_SOUNDS/Ride Cymbal/Ride Hard.wav"{}}}
+\DoxyCodeLine{141 }
+\DoxyCodeLine{142 \textcolor{comment}{//AUX Percussion Sounds//}}
+\DoxyCodeLine{143 \textcolor{preprocessor}{\#define CLAP\_SOFT                               "{}./sounds/PI\_KIT\_SOUNDS/Clap/Clap Soft.wav"{}}}
+\DoxyCodeLine{144 \textcolor{preprocessor}{\#define CLAP\_MID\_SOFT                           "{}./sounds/PI\_KIT\_SOUNDS/Clap/Clap Mid-\/Soft.wav"{}}}
+\DoxyCodeLine{145 \textcolor{preprocessor}{\#define CLAP\_MID                                "{}./sounds/PI\_KIT\_SOUNDS/Clap/Clap Mid.wav"{}}}
+\DoxyCodeLine{146 \textcolor{preprocessor}{\#define CLAP\_MID\_HARD                           "{}./sounds/PI\_KIT\_SOUNDS/Clap/Clap Mid-\/Hard.wav"{}}}
+\DoxyCodeLine{147 \textcolor{preprocessor}{\#define CLAP\_HARD                               "{}./sounds/PI\_KIT\_SOUNDS/Clap/Clap Hard.wav"{}}}
+\DoxyCodeLine{148 }
+\DoxyCodeLine{149 \textcolor{preprocessor}{\#define BELL\_SOFT                               "{}./sounds/PI\_KIT\_SOUNDS/Bell/Bell Soft.wav"{}}}
+\DoxyCodeLine{150 \textcolor{preprocessor}{\#define BELL\_MID\_SOFT                           "{}./sounds/PI\_KIT\_SOUNDS/Bell/Bell Mid Soft.wav"{}}}
+\DoxyCodeLine{151 \textcolor{preprocessor}{\#define BELL\_MID                                "{}./sounds/PI\_KIT\_SOUNDS/Bell/Bell Mid.wav"{}}}
+\DoxyCodeLine{152 \textcolor{preprocessor}{\#define BELL\_MID\_HARD                           "{}./sounds/PI\_KIT\_SOUNDS/Bell/Bell Mid Hard.wav"{}}}
+\DoxyCodeLine{153 \textcolor{preprocessor}{\#define BELL\_HARD                               "{}./sounds/PI\_KIT\_SOUNDS/Bell/Bell Hard.wav"{}}}
+\DoxyCodeLine{154 }
+\DoxyCodeLine{155 \textcolor{preprocessor}{\#define COWBELL\_SOFT                            "{}./sounds/PI\_KIT\_SOUNDS/Cowbell/Cowbell Soft.wav"{}}}
+\DoxyCodeLine{156 \textcolor{preprocessor}{\#define COWBELL\_MID\_SOFT                        "{}./sounds/PI\_KIT\_SOUNDS/Cowbell/Cowbell Mid Soft.wav"{}}}
+\DoxyCodeLine{157 \textcolor{preprocessor}{\#define COWBELL\_MID                             "{}./sounds/PI\_KIT\_SOUNDS/Cowbell/Cowbell Mid.wav"{}}}
+\DoxyCodeLine{158 \textcolor{preprocessor}{\#define COWBELL\_MID\_HARD                        "{}./sounds/PI\_KIT\_SOUNDS/Cowbell/Cowbell Mid Hard.wav"{}}}
+\DoxyCodeLine{159 \textcolor{preprocessor}{\#define COWBELL\_HARD                            "{}./sounds/PI\_KIT\_SOUNDS/Cowbell/Cowbell Hard.wav"{}}}
+\DoxyCodeLine{160 }
+\DoxyCodeLine{161 }
+\DoxyCodeLine{162 \textcolor{comment}{//Sound class//}}
+\DoxyCodeLine{163 \textcolor{keyword}{using namespace }std;}
+\DoxyCodeLine{164 \textcolor{keyword}{class }\mbox{\hyperlink{classSound}{Sound}}}
+\DoxyCodeLine{165 \{}
+\DoxyCodeLine{166     \textcolor{keyword}{public}:}
+\DoxyCodeLine{170         \textcolor{keywordtype}{void} \mbox{\hyperlink{classSound_a3e1b7add27f94315fce02093b9ceadfa}{soundInit}}();}
+\DoxyCodeLine{171 }
+\DoxyCodeLine{175         \textcolor{keyword}{static} \textcolor{keywordtype}{void} \mbox{\hyperlink{classSound_ae25c88d926a246585114f07a07e71c8a}{soundTest1}}();}
+\DoxyCodeLine{176 }
+\DoxyCodeLine{180         \textcolor{keyword}{static} \textcolor{keywordtype}{void} \mbox{\hyperlink{classSound_a0680adfa1c15e7ecbd0ecbe8840e9068}{soundTest2}}();}
+\DoxyCodeLine{181 }
+\DoxyCodeLine{185         \textcolor{keywordtype}{void} \mbox{\hyperlink{classSound_a3464091f9aa21a07a847a3e7d71e9a9d}{soundTest3}}();}
+\DoxyCodeLine{186 }
+\DoxyCodeLine{191         \textcolor{keywordtype}{void} \mbox{\hyperlink{classSound_af48c32a00f2b9c215342d643ee8cbcfa}{playSound}}(\textcolor{keyword}{const} \textcolor{keywordtype}{char} * path);}
+\DoxyCodeLine{192     \textcolor{keyword}{private}:}
+\DoxyCodeLine{193 }
+\DoxyCodeLine{194         \textcolor{comment}{//char * mixArr = new char[TOTAL\_INSTRUMENTS]();}}
+\DoxyCodeLine{195         \textcolor{comment}{//char * mixArr[] = \{"{}\%s \%s \%s"{},TH\_LOUD\_FOOT\_CLOSED, TH\_LOUD\_OPEN, DRUM3\_LOUD\};}}
+\DoxyCodeLine{196 }
+\DoxyCodeLine{197         \textcolor{comment}{//static ma\_thread\_result custom\_job\_thread(void* pUserData);}}
+\DoxyCodeLine{201 \textcolor{comment}{}        \textcolor{keyword}{static} \textcolor{keywordtype}{void} soundTest2Helper();}
+\DoxyCodeLine{202 }
+\DoxyCodeLine{203         \textcolor{keyword}{static} ma\_thread\_result MA\_THREADCALL custom\_job\_thread(\textcolor{keywordtype}{void}* pUserData);}
+\DoxyCodeLine{204 }
+\DoxyCodeLine{205 }
+\DoxyCodeLine{210         \textcolor{keyword}{static} \textcolor{keyword}{inline} \textcolor{keywordtype}{void} data\_callback(ma\_device* pDevice, \textcolor{keywordtype}{void}* pOutput, \textcolor{keyword}{const} \textcolor{keywordtype}{void}* pInput, ma\_uint32 frameCount);}
+\DoxyCodeLine{211 }
+\DoxyCodeLine{212         \textcolor{keyword}{static} \textcolor{keyword}{inline} ma\_result ma\_data\_source\_read\_pcm\_frames\_f32\_ex(ma\_data\_source* pDataSource, \textcolor{keywordtype}{float}* pFramesOut, ma\_uint64 frameCount, ma\_uint64* pFramesRead, ma\_format dataSourceFormat, ma\_uint32 dataSourceChannels);}
+\DoxyCodeLine{213 }
+\DoxyCodeLine{214         \textcolor{keyword}{static} \textcolor{keyword}{inline} ma\_result ma\_data\_source\_read\_pcm\_frames\_f32(ma\_data\_source* pDataSource, \textcolor{keywordtype}{float}* pFramesOut, ma\_uint64 frameCount, ma\_uint64* pFramesRead);}
+\DoxyCodeLine{215 }
+\DoxyCodeLine{216         \textcolor{keyword}{static} \textcolor{keyword}{inline} ma\_result ma\_data\_source\_read\_pcm\_frames\_and\_mix\_f32(ma\_data\_source* pDataSource, \textcolor{keywordtype}{float}* pFramesOut, ma\_uint64 frameCount, ma\_uint64* pFramesRead, \textcolor{keywordtype}{float} volume);}
+\DoxyCodeLine{217 }
+\DoxyCodeLine{218         \textcolor{keyword}{static} \textcolor{keyword}{inline} \textcolor{keywordtype}{void} data\_callback2(ma\_device* pDevice, \textcolor{keywordtype}{void}* pOutput, \textcolor{keyword}{const} \textcolor{keywordtype}{void}* pInput, ma\_uint32 frameCount);}
+\DoxyCodeLine{219 \};}
+\DoxyCodeLine{220 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{221 }
+\DoxyCodeLine{222 \textcolor{preprocessor}{\#ifndef EN\_AUDIO}}
+\DoxyCodeLine{223 \textcolor{keyword}{using namespace }std;}
+\DoxyCodeLine{224 \textcolor{keyword}{class }\mbox{\hyperlink{classSound}{Sound}}}
+\DoxyCodeLine{225 \{}
+\DoxyCodeLine{226     \textcolor{keyword}{public}:}
+\DoxyCodeLine{230         \textcolor{keywordtype}{void} \mbox{\hyperlink{classSound_a3e1b7add27f94315fce02093b9ceadfa}{soundInit}}();}
+\DoxyCodeLine{231 }
+\DoxyCodeLine{235         \textcolor{keyword}{static} \textcolor{keywordtype}{void} \mbox{\hyperlink{classSound_ae25c88d926a246585114f07a07e71c8a}{soundTest1}}();}
+\DoxyCodeLine{236 }
+\DoxyCodeLine{240         \textcolor{keyword}{static} \textcolor{keywordtype}{void} \mbox{\hyperlink{classSound_a0680adfa1c15e7ecbd0ecbe8840e9068}{soundTest2}}();}
+\DoxyCodeLine{241 }
+\DoxyCodeLine{245         \textcolor{keywordtype}{void} \mbox{\hyperlink{classSound_a3464091f9aa21a07a847a3e7d71e9a9d}{soundTest3}}();}
+\DoxyCodeLine{246 \};}
+\DoxyCodeLine{247 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{248 }
+\DoxyCodeLine{249 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// SOUND\_H}}
+\DoxyCodeLine{250 }
+\DoxyCodeLine{251 }
+\DoxyCodeLine{252 }
+\DoxyCodeLine{253 }
+\DoxyCodeLine{254 }
+\DoxyCodeLine{255 }
+
+\end{DoxyCode}

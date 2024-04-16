@@ -1,0 +1,169 @@
+\hypertarget{controller_8h_source}{}\doxysubsection{controller.\+h}
+\label{controller_8h_source}\index{include/controller.h@{include/controller.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{/****************************** Module Header ******************************\(\backslash\)}}
+\DoxyCodeLine{2 \textcolor{comment}{Module Name:    controller.h}}
+\DoxyCodeLine{3 \textcolor{comment}{Project:        btb}}
+\DoxyCodeLine{4 \textcolor{comment}{Author:         Grant Maiden}}
+\DoxyCodeLine{5 \textcolor{comment}{Description:    System controller state machine}}
+\DoxyCodeLine{6 \textcolor{comment}{\(\backslash\)***************************************************************************/}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#ifndef CONTROLLER\_H}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#define CONTROLLER\_H}}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <pigpio.h>}}
+\DoxyCodeLine{11 }
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#define LIGHT\_HIT       3}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#define MEDIUM\_HIT      7}}
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#define HARD\_HIT        10}}
+\DoxyCodeLine{15 }
+\DoxyCodeLine{16 \textcolor{comment}{// Distance Filtering}}
+\DoxyCodeLine{17 \textcolor{preprocessor}{\#define DISTANCE\_UPPER\_THRESHOLD            600}}
+\DoxyCodeLine{18 }
+\DoxyCodeLine{19 \textcolor{comment}{// Velocity array control}}
+\DoxyCodeLine{20 \textcolor{preprocessor}{\#define VELOCITY\_FACTOR\_AVG                 3}}
+\DoxyCodeLine{21 \textcolor{preprocessor}{\#define PAST\_AVERAGE\_VELOCITY\_ARR\_SIZE      16}}
+\DoxyCodeLine{22 }
+\DoxyCodeLine{23 \textcolor{comment}{// Hit Detection}}
+\DoxyCodeLine{24 \textcolor{preprocessor}{\#define HIT\_DETECT\_NOISE\_CHECKING                   true}}
+\DoxyCodeLine{25 \textcolor{preprocessor}{\#define HIT\_DETECT\_NUM\_SAMPLES\_MIN                  8}}
+\DoxyCodeLine{26 \textcolor{preprocessor}{\#define DRUM\_INTERVAL\_TIMEOUT\_MS                    120}}
+\DoxyCodeLine{27 \textcolor{preprocessor}{\#define HIT\_DETECT\_INSTANEOUS\_VELOCITY\_LIMIT        100}}
+\DoxyCodeLine{28 \textcolor{preprocessor}{\#define HIT\_DETECT\_AVG\_VELOCITY\_CEILING             25}}
+\DoxyCodeLine{29 \textcolor{preprocessor}{\#define HIT\_DETECT\_MIN\_SEQUENTIAL\_VELOCITY\_SAMPLES  6}}
+\DoxyCodeLine{30 }
+\DoxyCodeLine{31 \textcolor{comment}{// Sensor Detection Direction (-\/1 = towards sensor, 1 = away from sensor)}}
+\DoxyCodeLine{32 \textcolor{preprocessor}{\#define SENSOR1\_6\_DIRECTION                 1}}
+\DoxyCodeLine{33 \textcolor{preprocessor}{\#define SENSOR2\_3\_4\_5\_DIRECTION             -\/1}}
+\DoxyCodeLine{34 }
+\DoxyCodeLine{35 \textcolor{comment}{// Gestures}}
+\DoxyCodeLine{36 \textcolor{preprocessor}{\#define GESTURE\_THRESHOLD\_VELOCITY          6}}
+\DoxyCodeLine{37 \textcolor{preprocessor}{\#define GESTURE\_THRESHOLD\_NUM\_SAMPLE\_TRUE   4}}
+\DoxyCodeLine{38 \textcolor{preprocessor}{\#define GESTURE\_TIME\_LIMIT                  1}}
+\DoxyCodeLine{39 }
+\DoxyCodeLine{40 }
+\DoxyCodeLine{44 \textcolor{keyword}{typedef} \textcolor{keyword}{enum}}
+\DoxyCodeLine{45 \{}
+\DoxyCodeLine{46     RESET,}
+\DoxyCodeLine{47     WAIT1,}
+\DoxyCodeLine{48     POLLING1,}
+\DoxyCodeLine{49     TEST\_DISTANCE\_SENSORS,}
+\DoxyCodeLine{50 \}controllerState;}
+\DoxyCodeLine{51 }
+\DoxyCodeLine{55 \textcolor{keyword}{typedef} \textcolor{keyword}{struct}}
+\DoxyCodeLine{56 \{}
+\DoxyCodeLine{57     sensorID sensor;}
+\DoxyCodeLine{58     \textcolor{keywordtype}{int} hitStrength;}
+\DoxyCodeLine{59 \}\mbox{\hyperlink{structsensorHit}{sensorHit}};}
+\DoxyCodeLine{60 }
+\DoxyCodeLine{61 }
+\DoxyCodeLine{62 \textcolor{keyword}{using namespace }std;}
+\DoxyCodeLine{63 \textcolor{keyword}{class }\mbox{\hyperlink{classController}{Controller}} : \textcolor{keyword}{public} \mbox{\hyperlink{classVL53L4CD}{VL53L4CD}}}
+\DoxyCodeLine{64 \{}
+\DoxyCodeLine{65     \textcolor{keyword}{public}:}
+\DoxyCodeLine{66         \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} \mbox{\hyperlink{classController_af53bfa42e907627e5f39668e3d8acb5c}{distanceDataReady}}(\mbox{\hyperlink{structsensorValues}{sensorValues}} sensVals, sensorID sensor)}
+\DoxyCodeLine{67         \{}
+\DoxyCodeLine{68             \mbox{\hyperlink{classController_a6a4dff110a9530bb905f0b7fab9bd819}{updateSensorValue}}(sensVals, sensor);}
+\DoxyCodeLine{69             \mbox{\hyperlink{classController_adddce8023c6beb72400ec1ead2629e66}{primaryStateMachine}}();}
+\DoxyCodeLine{70         \}}
+\DoxyCodeLine{71 }
+\DoxyCodeLine{75         \textcolor{keywordtype}{void} \mbox{\hyperlink{classController_a28d5755bc8fed07cebd88f857f0f83df}{initialize}}();}
+\DoxyCodeLine{76 }
+\DoxyCodeLine{80         \textcolor{keywordtype}{void} \mbox{\hyperlink{classController_adddce8023c6beb72400ec1ead2629e66}{primaryStateMachine}}();}
+\DoxyCodeLine{81 }
+\DoxyCodeLine{85         \textcolor{keywordtype}{void} \mbox{\hyperlink{classController_a0676fa7d920a0984d3920bcf27401a0f}{updateState}}(controllerState newState);}
+\DoxyCodeLine{86 }
+\DoxyCodeLine{92         \textcolor{keywordtype}{void} \mbox{\hyperlink{classController_a6a4dff110a9530bb905f0b7fab9bd819}{updateSensorValue}}(\mbox{\hyperlink{structsensorValues}{sensorValues}} senseValue, sensorID \textcolor{keywordtype}{id});}
+\DoxyCodeLine{93 }
+\DoxyCodeLine{94 \textcolor{comment}{//        /**}}
+\DoxyCodeLine{95 \textcolor{comment}{//         * isrCallback}}
+\DoxyCodeLine{96 \textcolor{comment}{//         **/}}
+\DoxyCodeLine{97 \textcolor{comment}{//        static void isrCallback(void*obj);}}
+\DoxyCodeLine{98 \textcolor{comment}{//}}
+\DoxyCodeLine{99 \textcolor{comment}{//        /**}}
+\DoxyCodeLine{100 \textcolor{comment}{//         * Callback that is triggered on DistanceSensors Interrupt Falling Edge.}}
+\DoxyCodeLine{101 \textcolor{comment}{//         * \(\backslash\)param gpio -\/ int gpio Triggered Gpio number}}
+\DoxyCodeLine{102 \textcolor{comment}{//         * \(\backslash\)param level -\/ int level GPIO input level at time of ISR}}
+\DoxyCodeLine{103 \textcolor{comment}{//         * \(\backslash\)param tick -\/ uint32\_t trigger time in microseconds.}}
+\DoxyCodeLine{104 \textcolor{comment}{//         **/}}
+\DoxyCodeLine{105 \textcolor{comment}{//        static void rangingISRCallback(int gpio, int level, uint32\_t tick);}}
+\DoxyCodeLine{106 }
+\DoxyCodeLine{107     \textcolor{keyword}{private}:}
+\DoxyCodeLine{108         controllerState currentState = RESET;}
+\DoxyCodeLine{109         controllerState nextState = currentState;}
+\DoxyCodeLine{110 }
+\DoxyCodeLine{111         \mbox{\hyperlink{structsensorValues}{sensorValues}} sens1Values;}
+\DoxyCodeLine{112         \mbox{\hyperlink{structsensorValues}{sensorValues}} sens2Values;}
+\DoxyCodeLine{113         \mbox{\hyperlink{structsensorValues}{sensorValues}} sens3Values;}
+\DoxyCodeLine{114         \mbox{\hyperlink{structsensorValues}{sensorValues}} sens4Values;}
+\DoxyCodeLine{115         \mbox{\hyperlink{structsensorValues}{sensorValues}} sens5Values;}
+\DoxyCodeLine{116         \mbox{\hyperlink{structsensorValues}{sensorValues}} sens6Values;}
+\DoxyCodeLine{117 }
+\DoxyCodeLine{118         \textcolor{keywordtype}{int} * averageVelArrSens1 = \textcolor{keyword}{new} \textcolor{keywordtype}{int}[PAST\_AVERAGE\_VELOCITY\_ARR\_SIZE]();}
+\DoxyCodeLine{119         \textcolor{keywordtype}{int} * averageVelArrSens2 = \textcolor{keyword}{new} \textcolor{keywordtype}{int}[PAST\_AVERAGE\_VELOCITY\_ARR\_SIZE]();}
+\DoxyCodeLine{120         \textcolor{keywordtype}{int} * averageVelArrSens3 = \textcolor{keyword}{new} \textcolor{keywordtype}{int}[PAST\_AVERAGE\_VELOCITY\_ARR\_SIZE]();}
+\DoxyCodeLine{121         \textcolor{keywordtype}{int} * averageVelArrSens4 = \textcolor{keyword}{new} \textcolor{keywordtype}{int}[PAST\_AVERAGE\_VELOCITY\_ARR\_SIZE]();}
+\DoxyCodeLine{122         \textcolor{keywordtype}{int} * averageVelArrSens5 = \textcolor{keyword}{new} \textcolor{keywordtype}{int}[PAST\_AVERAGE\_VELOCITY\_ARR\_SIZE]();}
+\DoxyCodeLine{123         \textcolor{keywordtype}{int} * averageVelArrSens6 = \textcolor{keyword}{new} \textcolor{keywordtype}{int}[PAST\_AVERAGE\_VELOCITY\_ARR\_SIZE]();}
+\DoxyCodeLine{124 }
+\DoxyCodeLine{125         \textcolor{keywordtype}{int} * currentVelArrSens1 = \textcolor{keyword}{new} \textcolor{keywordtype}{int}[PAST\_AVERAGE\_VELOCITY\_ARR\_SIZE]();}
+\DoxyCodeLine{126         \textcolor{keywordtype}{int} * currentVelArrSens2 = \textcolor{keyword}{new} \textcolor{keywordtype}{int}[PAST\_AVERAGE\_VELOCITY\_ARR\_SIZE]();}
+\DoxyCodeLine{127         \textcolor{keywordtype}{int} * currentVelArrSens3 = \textcolor{keyword}{new} \textcolor{keywordtype}{int}[PAST\_AVERAGE\_VELOCITY\_ARR\_SIZE]();}
+\DoxyCodeLine{128         \textcolor{keywordtype}{int} * currentVelArrSens4 = \textcolor{keyword}{new} \textcolor{keywordtype}{int}[PAST\_AVERAGE\_VELOCITY\_ARR\_SIZE]();}
+\DoxyCodeLine{129         \textcolor{keywordtype}{int} * currentVelArrSens5 = \textcolor{keyword}{new} \textcolor{keywordtype}{int}[PAST\_AVERAGE\_VELOCITY\_ARR\_SIZE]();}
+\DoxyCodeLine{130         \textcolor{keywordtype}{int} * currentVelArrSens6 = \textcolor{keyword}{new} \textcolor{keywordtype}{int}[PAST\_AVERAGE\_VELOCITY\_ARR\_SIZE]();}
+\DoxyCodeLine{131 }
+\DoxyCodeLine{132         \textcolor{keywordtype}{int} averageVelNextArrIndex = 0;}
+\DoxyCodeLine{133         \textcolor{keywordtype}{bool} enableSounds = \textcolor{keyword}{false};}
+\DoxyCodeLine{134 }
+\DoxyCodeLine{135         \textcolor{keyword}{struct }timespec clockObj;}
+\DoxyCodeLine{136         \textcolor{keywordtype}{unsigned} stopTimeGesture;}
+\DoxyCodeLine{137 }
+\DoxyCodeLine{138         uint timeoutEndTimeSensor1;}
+\DoxyCodeLine{139         uint timeoutEndTimeSensor2;}
+\DoxyCodeLine{140         uint timeoutEndTimeSensor3;}
+\DoxyCodeLine{141         uint timeoutEndTimeSensor4;}
+\DoxyCodeLine{142         uint timeoutEndTimeSensor5;}
+\DoxyCodeLine{143         uint timeoutEndTimeSensor6;}
+\DoxyCodeLine{144 }
+\DoxyCodeLine{145         \textcolor{keywordtype}{bool} hitDetectedRecently = \textcolor{keyword}{false};}
+\DoxyCodeLine{146 }
+\DoxyCodeLine{147         \textcolor{keywordtype}{bool} gesture\_detected\_sensor5 = \textcolor{keyword}{false};}
+\DoxyCodeLine{148         \textcolor{keywordtype}{bool} gesture\_detected\_sensor4 = \textcolor{keyword}{false};}
+\DoxyCodeLine{149         \textcolor{keywordtype}{bool} gesture\_detected\_sensor3 = \textcolor{keyword}{false};}
+\DoxyCodeLine{150         \textcolor{keywordtype}{bool} gesture\_detected\_sensor2 = \textcolor{keyword}{false};}
+\DoxyCodeLine{151 }
+\DoxyCodeLine{155         \textcolor{keywordtype}{void} velocityCalc();}
+\DoxyCodeLine{156 }
+\DoxyCodeLine{161         \textcolor{keywordtype}{bool} sensorsReady();}
+\DoxyCodeLine{162 }
+\DoxyCodeLine{166         \textcolor{keywordtype}{void} updateDistance();}
+\DoxyCodeLine{167 }
+\DoxyCodeLine{172         \textcolor{keywordtype}{bool} hitDetection();}
+\DoxyCodeLine{173 }
+\DoxyCodeLine{179         \textcolor{keywordtype}{void} sendSound(sensorID \textcolor{keywordtype}{id}, \textcolor{keywordtype}{int} detectionValue);}
+\DoxyCodeLine{180 }
+\DoxyCodeLine{188         \textcolor{keywordtype}{int} getPeakVelocity(sensorID \textcolor{keywordtype}{id}, \textcolor{keywordtype}{int} samplesToSearch, \textcolor{keywordtype}{bool} noiseCheckingEn = HIT\_DETECT\_NOISE\_CHECKING);}
+\DoxyCodeLine{189 }
+\DoxyCodeLine{193         \textcolor{keywordtype}{void} printSensorCurrentDistance();}
+\DoxyCodeLine{194 }
+\DoxyCodeLine{198         \textcolor{keywordtype}{void} printSensorAvgVelocity();}
+\DoxyCodeLine{199 }
+\DoxyCodeLine{204         \textcolor{keywordtype}{bool} gestureDetect();}
+\DoxyCodeLine{205 }
+\DoxyCodeLine{209         \textcolor{keywordtype}{void} initLeds();}
+\DoxyCodeLine{210 }
+\DoxyCodeLine{211 \textcolor{comment}{//        /**}}
+\DoxyCodeLine{212 \textcolor{comment}{//         * Initialize Interrupts}}
+\DoxyCodeLine{213 \textcolor{comment}{//         **/}}
+\DoxyCodeLine{214 \textcolor{comment}{//        void initInterrupts();}}
+\DoxyCodeLine{215 }
+\DoxyCodeLine{221         \textcolor{keywordtype}{void} parseCommandLine(\textcolor{keywordtype}{int} argc,\textcolor{keywordtype}{char} *argv[]);}
+\DoxyCodeLine{222 }
+\DoxyCodeLine{227         \textcolor{keywordtype}{void} runCommandLine(\textcolor{keywordtype}{char} *argv[]);}
+\DoxyCodeLine{228 }
+\DoxyCodeLine{229 \};}
+\DoxyCodeLine{230 }
+\DoxyCodeLine{231 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// CONTROLLER\_H}}
+
+\end{DoxyCode}
