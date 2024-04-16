@@ -154,298 +154,302 @@ typedef struct {
 	uint16_t sigma_mm;
 } VL53L4CD_ResultsData_t;
 
-/**
- * @brief This function programs the software driver version.
- * @param (VL53L4CD_Version_t) pVersion : Pointer of structure, containing the
- * software version.
- * @return (VL53L4CD_ERROR) status : 0 if SW version is OK.
- */
 
-VL53L4CD_Error VL53L4CD_GetSWVersion(
-		VL53L4CD_Version_t *pVersion);
+class VL53L4CD_API
+{
 
-
-/**
- * @brief This function sets a new I2C address to a sensor. It can be used for
- * example when multiple sensors share the same I2C bus.
- * @param (Dev_t) dev : Device instance to update.
- * @param (uint8_t) new_address : New I2C address.
- * @return (VL53L4CD_ERROR) status : 0 if I2C address has been correctly
- * programmed.
- */
-
-VL53L4CD_Error VL53L4CD_SetI2CAddress(
-		Dev_t dev,
-		uint8_t new_address);
-
-/**
- * @brief This function is used to get the sensor id of VL53L4CD. The sensor id
- * should be 0xEBAA.
- * @param (Dev_t) dev : Device instance.
- * @param (uint16_t) *p_id : Sensor id.
- * @return (VL53L4CD_ERROR) status : 0 if OK.
- */
-
-VL53L4CD_Error VL53L4CD_GetSensorId(
-		Dev_t dev,
-		uint16_t *p_id);
-
-/**
- * @brief This function is used to initialize the sensor.
- * @param (Dev_t) dev : Device instance to initialize.
- * @return (VL53L4CD_ERROR) status : 0 if init is OK.
- */
-
-VL53L4CD_Error VL53L4CD_SensorInit(
-		Dev_t dev);
-
-/**
- * @brief This function clears the interrupt. It needs to be called after a
- * ranging data reading to arm the interrupt for the next data ready event.
- * @param (Dev_t) dev : Device instance.
- * @return (VL53L4CD_ERROR) status : 0 if OK.
- */
-
-VL53L4CD_Error VL53L4CD_ClearInterrupt(
-		Dev_t dev);
-
-/**
- * @brief This function starts a ranging session. The ranging operation is
- * continuous. The clear interrupt has to be done after each get data to allow
- * the interrupt to raise when the next data is ready.
- * @param (Dev_t) dev : instance of selected VL53L4CD sensor.
- * @return (VL53L4CD_ERROR) status : 0 if OK.
- */
-
-VL53L4CD_Error VL53L4CD_StartRanging(
-		Dev_t dev);
-
-/**
- * @brief This function stops the ranging in progress.
- * @param (Dev_t) dev : instance of selected VL53L4CD sensor.
- * @return (VL53L4CD_ERROR) status : 0 if OK.
- */
-
-VL53L4CD_Error VL53L4CD_StopRanging(
-		Dev_t dev);
-
-/**
- * @brief This function check if a new data is available by polling a dedicated
- * register.
- * @param (Dev_t) dev : instance of selected VL53L4CD sensor.
- * @param (uint8_t) *p_is_data_ready : Pointer containing a flag to know if a
- * data is ready : 0 = no data ready, 1 = data ready.
- * @return (VL53L4CD_ERROR) status : 0 if OK.
- */
-
-VL53L4CD_Error VL53L4CD_CheckForDataReady(
-		Dev_t dev,
-		uint8_t *p_is_data_ready);
-
-/**
- * @brief This function sets new range timing. Timing are composed of
- * TimingBudget and InterMeasurement. TimingBudget represents the timing during
- * VCSEL enabled, and InterMeasurement the time between two measurements.
- * The sensor can have different ranging mode depending of the configuration,
- * please refer to the user manual for more information.
- * @param (Dev_t) dev : instance of selected VL53L4CD sensor.
- * @param (uint32_t) timing_budget_ms :  New timing budget in ms. Value can be
- * between 10ms and 200ms. Default is 50ms.
- * @param (uint32_t) inter_measurement_ms :  New inter-measurement in ms. If the
- * value is equal to 0, the ranging period is defined by the timing budget.
- * Otherwise, inter-measurement must be > timing budget. When all the timing
- * budget is consumed, the device goes in low power mode until inter-measurement
- * is done.
- * @return (uint8_t) status : 0 if OK.
- */
-
-VL53L4CD_Error VL53L4CD_SetRangeTiming(
-		Dev_t dev,
-		uint32_t timing_budget_ms,
-		uint32_t inter_measurement_ms);
-
-/**
- * @brief This function gets the current range timing. Timing are composed of
- * TimingBudget and InterMeasurement. TimingBudget represents the timing during
- * VCSEL enabled, and InterMeasurement the time between two measurements.
- * The sensor can have different ranging mode depending of the configuration,
- * please refer to the user manual for more information.
- * @param (Dev_t) dev : instance of selected VL53L4CD sensor.
- * @param (uint32_t) *p_timing_budget_ms :  Pointer containing the current
- * timing budget in ms.
- * @param (uint32_t) *p_inter_measurement_ms :  Pointer containing the current
- * inter-measurement in ms.
- * @return (uint8_t) status : 0 if OK.
- */
-
-VL53L4CD_Error VL53L4CD_GetRangeTiming(
-		Dev_t dev,
-		uint32_t *p_timing_budget_ms,
-		uint32_t *p_inter_measurement_ms);
-
-/**
- * @brief This function gets the results reported by the sensor.
- * @param (Dev_t) dev : instance of selected VL53L4CD sensor.
- * @param (VL53L4CD_ResultsData_t) *pResult :  Pointer of structure, filled with the
- * ranging results.
- * @return (uint8_t) status : 0 if OK.
- */
-
-VL53L4CD_Error VL53L4CD_GetResult(Dev_t dev, VL53L4CD_ResultsData_t *pResult);
-
-/**
- * @brief This function sets a new offset correction in mm. Offset corresponds
- * to the difference in millimeters between real distance and measured distance.
- * @param (Dev_t) dev : instance of selected VL53L4CD sensor.
- * @param (int16_t) OffsetValueInMm :  Offset value in millimeters. The minimum
- *  value is -1024mm and maximum is 1023mm.
- * @return (uint8_t) status : 0 if OK.
- */
-
-VL53L4CD_Error VL53L4CD_SetOffset(Dev_t dev, int16_t OffsetValueInMm);
-
-/**
- * @brief This function gets the current offset correction in mm. Offset
- * corresponds to the difference in millimeters between real distance and
- * measured distance.
- * @param (Dev_t) dev : instance of selected VL53L4CD sensor.
- * @param (int16_t) OffsetValueInMm :  Offset value in millimeters. The minimum
- *  value is -1024mm and maximum is 1023mm.
- * @return (uint8_t) status : 0 if OK.
- */
-
-VL53L4CD_Error VL53L4CD_GetOffset(Dev_t dev, int16_t *Offset);
-
-/**
- * @brief This function sets a new Xtalk value in kcps. Xtalk represents the
- * correction to apply to the sensor when a protective coverglass is placed
- * at the top of the sensor.
- * @param (Dev_t) dev : instance of selected VL53L4CD sensor.
- * @param (uint16_t) XtalkValueKcps : New xtalk value in kcps. The default
- * value is 0 kcps (no coverglass). Minimum is 0 kcps , and maximum is 128
- * kcps.
- * @return (VL53L4CD_ERROR) status : 0 if OK.
- */
-
-VL53L4CD_Error VL53L4CD_SetXtalk(Dev_t dev, uint16_t XtalkValueKcps);
-
-/**
- * @brief This function gets the current Xtalk value in kcps. Xtalk represents
- * the correction to apply to the sensor when a protective coverglass is placed
- * at the top of the sensor.
- * @param (Dev_t) dev : instance of selected VL53L4CD sensor.
- * @param (uint16_t) p_xtalk_kcps : Pointer of current xtalk value in kcps.
- * @return (VL53L4CD_ERROR) status : 0 if OK.
- */
-
-VL53L4CD_Error VL53L4CD_GetXtalk(Dev_t dev, uint16_t *p_xtalk_kcps);
-
-/**
- * @brief This function sets new detection thresholds. The detection
- * thresholds can be programmed to generate an interrupt on pin 7 (GPIO1), only
- * when a condition on distance is reach. Example:
- * VL53L4CD_SetDistanceThreshold(dev,100,300,0): Below 100 mm
- * VL53L4CD_SetDistanceThreshold(dev,100,300,1): Above 300 mm
- * VL53L4CD_SetDistanceThreshold(dev,100,300,2): Below 100mm or above 300mm
- * VL53L4CD_SetDistanceThreshold(dev,100,300,3): Above 100mm or below 300mm
- * @param (Dev_t) dev : instance of selected VL53L4CD sensor.
- * @param (uint16_t) distance_low_mm : Low distance threshold in millimeters.
- * @param (uint16_t) distance_high_mm : High distance threshold in millimeters.
- * @param (uint8_t) window : Interrupt windows (0=below low threshold;
- * 1=above high threshold; 2=out of low/high windows; 3=in low/high windows)
- * @return (VL53L4CD_ERROR) status : 0 if OK.
- */
-
-VL53L4CD_Error VL53L4CD_SetDetectionThresholds(Dev_t dev,
-		uint16_t distance_low_mm,
-		uint16_t distance_high_mm,
-		uint8_t window);
+public:
+    /**
+     * @brief This function programs the software driver version.
+     * @param (VL53L4CD_Version_t) pVersion : Pointer of structure, containing the
+     * software version.
+     * @return (VL53L4CD_ERROR) status : 0 if SW version is OK.
+     */
+    VL53L4CD_Error VL53L4CD_GetSWVersion(
+            VL53L4CD_Version_t *pVersion);
 
 
-/**
- * @brief This function gets the current detection thresholds. The detection
- * thresholds can be programmed to generate an interrupt on pin 7 (GPIO1), only
- * when a condition on distance is reach.
- * @param (Dev_t) dev : instance of selected VL53L4CD sensor.
- * @param (uint16_t) *p_distance_low_mm : Pointer of low distance threshold in
- * millimeters.
- * @param (uint16_t) *p_distance_high_mm : Pointer of high distance threshold in
- * millimeters.
- * @param (uint8_t) *p_window : Interrupt windows (0=below low threshold;
- * 1=above high threshold; 2=out of low/high windows; 3=in low/high windows)
- * @return (VL53L4CD_ERROR) status : 0 if OK.
- */
+    /**
+     * @brief This function sets a new I2C address to a sensor. It can be used for
+     * example when multiple sensors share the same I2C bus.
+     * @param (Dev_t) dev : Device instance to update.
+     * @param (uint8_t) new_address : New I2C address.
+     * @return (VL53L4CD_ERROR) status : 0 if I2C address has been correctly
+     * programmed.
+     */
 
-VL53L4CD_Error VL53L4CD_GetDetectionThresholds(Dev_t dev,
-		uint16_t *p_distance_low_mm,
-		uint16_t *p_distance_high_mm,
-		uint8_t *p_window);
+    VL53L4CD_Error VL53L4CD_SetI2CAddress(
+            Dev_t dev,
+            uint8_t new_address);
 
-/**
- * @brief This function sets a new signal threshold in kcps. If a
- * target has a lower signal as the programmed value, the result status in
- * structure 'VL53L4CD_ResultsData_t' will be equal to 2.
- * @param (Dev_t) dev : instance of selected VL53L4CD sensor.
- * @param (uint16_t) signal_kcps : New signal threshold in kcps. The default
- * value is 1024 kcps. Minimum is 0 kcps (no threshold), and maximum is 16384
- * kcps.
- * @return (VL53L4CD_ERROR) status : 0 if OK.
- */
+    /**
+     * @brief This function is used to get the sensor id of VL53L4CD. The sensor id
+     * should be 0xEBAA.
+     * @param (Dev_t) dev : Device instance.
+     * @param (uint16_t) *p_id : Sensor id.
+     * @return (VL53L4CD_ERROR) status : 0 if OK.
+     */
 
-VL53L4CD_Error VL53L4CD_SetSignalThreshold(Dev_t dev, uint16_t signal_kcps);
+    VL53L4CD_Error VL53L4CD_GetSensorId(
+            Dev_t dev,
+            uint16_t *p_id);
 
-/**
- * @brief This function returns the current signal threshold in kcps. If a
- * target has a lower signal as the programmed value, the result status in
- * structure 'VL53L4CD_ResultsData_t' will be equal to 2.
- * @param (Dev_t) dev : instance of selected VL53L4CD sensor.
- * @param (uint16_t) *p_signal_kcps : Pointer of signal threshold in kcps.
- * @return (VL53L4CD_ERROR) status : 0 if OK.
- */
+    /**
+     * @brief This function is used to initialize the sensor.
+     * @param (Dev_t) dev : Device instance to initialize.
+     * @return (VL53L4CD_ERROR) status : 0 if init is OK.
+     */
 
-VL53L4CD_Error VL53L4CD_GetSignalThreshold(Dev_t dev,
-		uint16_t *p_signal_kcps);
+    VL53L4CD_Error VL53L4CD_SensorInit(
+            Dev_t dev);
 
-/**
- * @brief This function programs a new sigma threshold. The sigma corresponds to
- * the standard deviation of the returned pulse. If the computed sigma is above
- * the programmed value, the result status in structure 'VL53L4CD_ResultsData_t'
- * will be equal to 1.
- * @param (Dev_t) dev : instance of selected VL53L4CD sensor.
- * @param (uint16_t) sigma_mm : New sigma threshold in mm. The default value is
- * 15mm. Minimum is 0mm (not threshold), and maximum is 16383mm.
- * @return (VL53L4CD_ERROR) status : 0 if programming is or 255 if value is too
- * high.
- */
+    /**
+     * @brief This function clears the interrupt. It needs to be called after a
+     * ranging data reading to arm the interrupt for the next data ready event.
+     * @param (Dev_t) dev : Device instance.
+     * @return (VL53L4CD_ERROR) status : 0 if OK.
+     */
 
-VL53L4CD_Error VL53L4CD_SetSigmaThreshold(
-		Dev_t dev,
-		uint16_t 	sigma_mm);
+    VL53L4CD_Error VL53L4CD_ClearInterrupt(
+            Dev_t dev);
 
-/**
- * @brief This function gets the current sigma threshold. The sigma corresponds
- * to the standard deviation of the returned pulse. If the computed sigma is
- * above the programmed value, the result status in structure
- * 'VL53L4CD_ResultsData_t' will be equal to 1.
- * @param (Dev_t) dev : instance of selected VL53L4CD sensor.
- * @param (uint16_t) *p_sigma_mm : Current sigma threshold in mm.
- * @return (VL53L4CD_ERROR) status : 0 if programming is OK.
- */
+    /**
+     * @brief This function starts a ranging session. The ranging operation is
+     * continuous. The clear interrupt has to be done after each get data to allow
+     * the interrupt to raise when the next data is ready.
+     * @param (Dev_t) dev : instance of selected VL53L4CD sensor.
+     * @return (VL53L4CD_ERROR) status : 0 if OK.
+     */
 
-VL53L4CD_Error VL53L4CD_GetSigmaThreshold(
-		Dev_t dev,
-		uint16_t 	*p_sigma_mm);
+    VL53L4CD_Error VL53L4CD_StartRanging(
+            Dev_t dev);
 
-/**
- * @brief This function can be called when the temperature might have changed by
- * more than 8 degrees Celsius. The function can only be used if the sensor is
- * not ranging, otherwise, the ranging needs to be stopped using function
- * 'VL53L4CD_StopRanging()'. After calling this function, the ranging can
- * restart normally.
- * @param (Dev_t) dev : instance of selected VL53L4CD sensor.
- * @return (VL53L4CD_ERROR) status : 0 if update is OK.
- */
+    /**
+     * @brief This function stops the ranging in progress.
+     * @param (Dev_t) dev : instance of selected VL53L4CD sensor.
+     * @return (VL53L4CD_ERROR) status : 0 if OK.
+     */
 
-VL53L4CD_Error VL53L4CD_StartTemperatureUpdate(Dev_t dev);
+    VL53L4CD_Error VL53L4CD_StopRanging(
+            Dev_t dev);
 
+    /**
+     * @brief This function check if a new data is available by polling a dedicated
+     * register.
+     * @param (Dev_t) dev : instance of selected VL53L4CD sensor.
+     * @param (uint8_t) *p_is_data_ready : Pointer containing a flag to know if a
+     * data is ready : 0 = no data ready, 1 = data ready.
+     * @return (VL53L4CD_ERROR) status : 0 if OK.
+     */
+
+    VL53L4CD_Error VL53L4CD_CheckForDataReady(
+            Dev_t dev,
+            uint8_t *p_is_data_ready);
+
+    /**
+     * @brief This function sets new range timing. Timing are composed of
+     * TimingBudget and InterMeasurement. TimingBudget represents the timing during
+     * VCSEL enabled, and InterMeasurement the time between two measurements.
+     * The sensor can have different ranging mode depending of the configuration,
+     * please refer to the user manual for more information.
+     * @param (Dev_t) dev : instance of selected VL53L4CD sensor.
+     * @param (uint32_t) timing_budget_ms :  New timing budget in ms. Value can be
+     * between 10ms and 200ms. Default is 50ms.
+     * @param (uint32_t) inter_measurement_ms :  New inter-measurement in ms. If the
+     * value is equal to 0, the ranging period is defined by the timing budget.
+     * Otherwise, inter-measurement must be > timing budget. When all the timing
+     * budget is consumed, the device goes in low power mode until inter-measurement
+     * is done.
+     * @return (uint8_t) status : 0 if OK.
+     */
+
+    VL53L4CD_Error VL53L4CD_SetRangeTiming(
+            Dev_t dev,
+            uint32_t timing_budget_ms,
+            uint32_t inter_measurement_ms);
+
+    /**
+     * @brief This function gets the current range timing. Timing are composed of
+     * TimingBudget and InterMeasurement. TimingBudget represents the timing during
+     * VCSEL enabled, and InterMeasurement the time between two measurements.
+     * The sensor can have different ranging mode depending of the configuration,
+     * please refer to the user manual for more information.
+     * @param (Dev_t) dev : instance of selected VL53L4CD sensor.
+     * @param (uint32_t) *p_timing_budget_ms :  Pointer containing the current
+     * timing budget in ms.
+     * @param (uint32_t) *p_inter_measurement_ms :  Pointer containing the current
+     * inter-measurement in ms.
+     * @return (uint8_t) status : 0 if OK.
+     */
+
+    VL53L4CD_Error VL53L4CD_GetRangeTiming(
+            Dev_t dev,
+            uint32_t *p_timing_budget_ms,
+            uint32_t *p_inter_measurement_ms);
+
+    /**
+     * @brief This function gets the results reported by the sensor.
+     * @param (Dev_t) dev : instance of selected VL53L4CD sensor.
+     * @param (VL53L4CD_ResultsData_t) *pResult :  Pointer of structure, filled with the
+     * ranging results.
+     * @return (uint8_t) status : 0 if OK.
+     */
+
+    VL53L4CD_Error VL53L4CD_GetResult(Dev_t dev, VL53L4CD_ResultsData_t *pResult);
+
+    /**
+     * @brief This function sets a new offset correction in mm. Offset corresponds
+     * to the difference in millimeters between real distance and measured distance.
+     * @param (Dev_t) dev : instance of selected VL53L4CD sensor.
+     * @param (int16_t) OffsetValueInMm :  Offset value in millimeters. The minimum
+     *  value is -1024mm and maximum is 1023mm.
+     * @return (uint8_t) status : 0 if OK.
+     */
+
+    VL53L4CD_Error VL53L4CD_SetOffset(Dev_t dev, int16_t OffsetValueInMm);
+
+    /**
+     * @brief This function gets the current offset correction in mm. Offset
+     * corresponds to the difference in millimeters between real distance and
+     * measured distance.
+     * @param (Dev_t) dev : instance of selected VL53L4CD sensor.
+     * @param (int16_t) OffsetValueInMm :  Offset value in millimeters. The minimum
+     *  value is -1024mm and maximum is 1023mm.
+     * @return (uint8_t) status : 0 if OK.
+     */
+
+    VL53L4CD_Error VL53L4CD_GetOffset(Dev_t dev, int16_t *Offset);
+
+    /**
+     * @brief This function sets a new Xtalk value in kcps. Xtalk represents the
+     * correction to apply to the sensor when a protective coverglass is placed
+     * at the top of the sensor.
+     * @param (Dev_t) dev : instance of selected VL53L4CD sensor.
+     * @param (uint16_t) XtalkValueKcps : New xtalk value in kcps. The default
+     * value is 0 kcps (no coverglass). Minimum is 0 kcps , and maximum is 128
+     * kcps.
+     * @return (VL53L4CD_ERROR) status : 0 if OK.
+     */
+
+    VL53L4CD_Error VL53L4CD_SetXtalk(Dev_t dev, uint16_t XtalkValueKcps);
+
+    /**
+     * @brief This function gets the current Xtalk value in kcps. Xtalk represents
+     * the correction to apply to the sensor when a protective coverglass is placed
+     * at the top of the sensor.
+     * @param (Dev_t) dev : instance of selected VL53L4CD sensor.
+     * @param (uint16_t) p_xtalk_kcps : Pointer of current xtalk value in kcps.
+     * @return (VL53L4CD_ERROR) status : 0 if OK.
+     */
+
+    VL53L4CD_Error VL53L4CD_GetXtalk(Dev_t dev, uint16_t *p_xtalk_kcps);
+
+    /**
+     * @brief This function sets new detection thresholds. The detection
+     * thresholds can be programmed to generate an interrupt on pin 7 (GPIO1), only
+     * when a condition on distance is reach. Example:
+     * VL53L4CD_SetDistanceThreshold(dev,100,300,0): Below 100 mm
+     * VL53L4CD_SetDistanceThreshold(dev,100,300,1): Above 300 mm
+     * VL53L4CD_SetDistanceThreshold(dev,100,300,2): Below 100mm or above 300mm
+     * VL53L4CD_SetDistanceThreshold(dev,100,300,3): Above 100mm or below 300mm
+     * @param (Dev_t) dev : instance of selected VL53L4CD sensor.
+     * @param (uint16_t) distance_low_mm : Low distance threshold in millimeters.
+     * @param (uint16_t) distance_high_mm : High distance threshold in millimeters.
+     * @param (uint8_t) window : Interrupt windows (0=below low threshold;
+     * 1=above high threshold; 2=out of low/high windows; 3=in low/high windows)
+     * @return (VL53L4CD_ERROR) status : 0 if OK.
+     */
+
+    VL53L4CD_Error VL53L4CD_SetDetectionThresholds(Dev_t dev,
+            uint16_t distance_low_mm,
+            uint16_t distance_high_mm,
+            uint8_t window);
+
+
+    /**
+     * @brief This function gets the current detection thresholds. The detection
+     * thresholds can be programmed to generate an interrupt on pin 7 (GPIO1), only
+     * when a condition on distance is reach.
+     * @param (Dev_t) dev : instance of selected VL53L4CD sensor.
+     * @param (uint16_t) *p_distance_low_mm : Pointer of low distance threshold in
+     * millimeters.
+     * @param (uint16_t) *p_distance_high_mm : Pointer of high distance threshold in
+     * millimeters.
+     * @param (uint8_t) *p_window : Interrupt windows (0=below low threshold;
+     * 1=above high threshold; 2=out of low/high windows; 3=in low/high windows)
+     * @return (VL53L4CD_ERROR) status : 0 if OK.
+     */
+
+    VL53L4CD_Error VL53L4CD_GetDetectionThresholds(Dev_t dev,
+            uint16_t *p_distance_low_mm,
+            uint16_t *p_distance_high_mm,
+            uint8_t *p_window);
+
+    /**
+     * @brief This function sets a new signal threshold in kcps. If a
+     * target has a lower signal as the programmed value, the result status in
+     * structure 'VL53L4CD_ResultsData_t' will be equal to 2.
+     * @param (Dev_t) dev : instance of selected VL53L4CD sensor.
+     * @param (uint16_t) signal_kcps : New signal threshold in kcps. The default
+     * value is 1024 kcps. Minimum is 0 kcps (no threshold), and maximum is 16384
+     * kcps.
+     * @return (VL53L4CD_ERROR) status : 0 if OK.
+     */
+
+    VL53L4CD_Error VL53L4CD_SetSignalThreshold(Dev_t dev, uint16_t signal_kcps);
+
+    /**
+     * @brief This function returns the current signal threshold in kcps. If a
+     * target has a lower signal as the programmed value, the result status in
+     * structure 'VL53L4CD_ResultsData_t' will be equal to 2.
+     * @param (Dev_t) dev : instance of selected VL53L4CD sensor.
+     * @param (uint16_t) *p_signal_kcps : Pointer of signal threshold in kcps.
+     * @return (VL53L4CD_ERROR) status : 0 if OK.
+     */
+
+    VL53L4CD_Error VL53L4CD_GetSignalThreshold(Dev_t dev,
+            uint16_t *p_signal_kcps);
+
+    /**
+     * @brief This function programs a new sigma threshold. The sigma corresponds to
+     * the standard deviation of the returned pulse. If the computed sigma is above
+     * the programmed value, the result status in structure 'VL53L4CD_ResultsData_t'
+     * will be equal to 1.
+     * @param (Dev_t) dev : instance of selected VL53L4CD sensor.
+     * @param (uint16_t) sigma_mm : New sigma threshold in mm. The default value is
+     * 15mm. Minimum is 0mm (not threshold), and maximum is 16383mm.
+     * @return (VL53L4CD_ERROR) status : 0 if programming is or 255 if value is too
+     * high.
+     */
+
+    VL53L4CD_Error VL53L4CD_SetSigmaThreshold(
+            Dev_t dev,
+            uint16_t 	sigma_mm);
+
+    /**
+     * @brief This function gets the current sigma threshold. The sigma corresponds
+     * to the standard deviation of the returned pulse. If the computed sigma is
+     * above the programmed value, the result status in structure
+     * 'VL53L4CD_ResultsData_t' will be equal to 1.
+     * @param (Dev_t) dev : instance of selected VL53L4CD sensor.
+     * @param (uint16_t) *p_sigma_mm : Current sigma threshold in mm.
+     * @return (VL53L4CD_ERROR) status : 0 if programming is OK.
+     */
+
+    VL53L4CD_Error VL53L4CD_GetSigmaThreshold(
+            Dev_t dev,
+            uint16_t 	*p_sigma_mm);
+
+    /**
+     * @brief This function can be called when the temperature might have changed by
+     * more than 8 degrees Celsius. The function can only be used if the sensor is
+     * not ranging, otherwise, the ranging needs to be stopped using function
+     * 'VL53L4CD_StopRanging()'. After calling this function, the ranging can
+     * restart normally.
+     * @param (Dev_t) dev : instance of selected VL53L4CD sensor.
+     * @return (VL53L4CD_ERROR) status : 0 if update is OK.
+     */
+
+    VL53L4CD_Error VL53L4CD_StartTemperatureUpdate(Dev_t dev);
+};
 #endif  //VL53L4CD_API_H_

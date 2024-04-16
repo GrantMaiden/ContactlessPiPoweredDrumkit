@@ -60,9 +60,20 @@ typedef struct
 
 
 using namespace std;
-class Controller
+class Controller : public VL53L4CD
 {
     public:
+        virtual void distanceDataReady(sensorValues sensVals, sensorID sensor)
+        {
+            updateSensorValue(sensVals, sensor);
+            primaryStateMachine();
+        }
+
+        /**
+         * initialize controller globals and states
+         **/
+        void initialize();
+
         /**
          * Controller State Machine. Handles all system states, inputs, and outputs.
          **/
@@ -137,11 +148,6 @@ class Controller
         bool gesture_detected_sensor4 = false;
         bool gesture_detected_sensor3 = false;
         bool gesture_detected_sensor2 = false;
-        /**
-         * initialize controller globals and states
-         **/
-        void initialize();
-
 
         /**
          * calculates most recent velocity of each sensor

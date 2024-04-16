@@ -12,7 +12,7 @@ Description:    contains user constants, global enums, and structs
 #define TOTAL_INSTRUMENTS_SOUND_TEST2       3
 
 // Misc
-#define DISTANCE_SENSOR_INTERRUPT_TIMEOUT   50
+#define DISTANCE_SENSOR_INTERRUPT_TIMEOUT   20
 #define BTB_TIMER_1_INTERVAL_NS             2.5*1000000
 
 // Gpio Controller Defines

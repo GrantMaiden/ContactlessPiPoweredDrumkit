@@ -12,10 +12,12 @@ class GpioController;
 #define VL53L4CD_I2C_FAST_MODE_PLUS
 // Includes
 extern "C" {
-#include "VL53L4CD_api.h"
-#include "platform.h"
-#include "types.h"
+
 }
+#include "VL53L4CD_api.h"
+#include "types.h"
+#include "platform.h"
+#include <pigpio.h>
 
 // Defines
 #define I2C_ADDRESS_INIT    0x52
@@ -54,11 +56,20 @@ class VL53L4CD
         sensorValues rangingGetData(sensorID sensor);
 
         /**
-         * returns if a snesor has data ready
+         * returns if a sensor has data ready
          * \param sensor - sensorID
          * \returns bool
          **/
         bool rangingCheckIfReady(sensorID sensor);
+
+        /**
+         * Called when new Distance sensor data has been recieved.
+         * This needs to be implemented in a derived
+         * class by the client. Defined as abstract.
+         * \param sensVals - senseVals structure that contains sensor data
+         * \param sensor - SensorID signifying which sensor data is coming from
+         **/
+        virtual void distanceDataReady(sensorValues sensVals, sensorID sensor) = 0;
 
     private:
         // private global variables
@@ -100,6 +111,12 @@ class VL53L4CD
          * Polls all sensors simultaneously
          **/
         void rangingPollingTestAll();
+
+        void dataReadyISR(int gpio);
+
+        static void rangingISRCallback(int gpio, int, uint32_t, void* userdata) {
+            ((VL53L4CD*)userdata)->dataReadyISR(gpio);
+        }
 
 
 };
