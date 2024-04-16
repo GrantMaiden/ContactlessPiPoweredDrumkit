@@ -2,7 +2,7 @@
 Module Name:    btb_main.cpp
 Project:        btb
 Author:         Grant Maiden
-Description:    Entry Point into ENG5228 project for University of Glasgow
+Description:    Entry Point into ENG5220 project for University of Glasgow
 \***************************************************************************/
 
 #include <stdlib.h>
@@ -10,10 +10,7 @@ Description:    Entry Point into ENG5228 project for University of Glasgow
 #include <stdio.h>
 #include <unistd.h>
 #include <pigpio.h>
-#include <CppThread.h>
 
-#include "CppThread.h"
-#include "CppTimer.h"
 #include "btb_main.h"
 #include "gpio_controller.h"
 #include "defines.h"
@@ -65,50 +62,13 @@ int main(int argc, char *argv[])
     Controller controller;
     controller.initialize();
 
-    // Initialize threads ////
-    btbThread btbThread1;
-    btbThread1.start();
-
-    //// Initialize Timers ////
-	btbTimer1 btbTimer_2p5ms;
-	btbTimer_2p5ms.startns(BTB_TIMER_1_INTERVAL_NS);
+    printf("Press ctrl+z to end the BTB program\n");
     while(1)
     {
-
     }
 
 }
 
-/**********************************************\
-Function Name:  btbThread::run
-Input Args:     none
-Output Args:    none
-Description:    override virtual run method for btbThread Class. Calls Statemachines for output control
-/**********************************************/
-void btbThread::run() {
-    while(1)
-    {
-        //if(enableLedSM)
-        {
-            // TODO: call led state machine
-            //enableLedSM = false;
-        }
-
-        // controller Statemachine
-        //controller.primaryStateMachine();
-    }
-}
-
-/**********************************************\
-Function Name:  btbTimer1::timerEvent
-Input Args:     none
-Output Args:    none
-Description:    override timerEvent from btbTimer1 class. Enables LED statemachine periodically.
-/**********************************************/
-void btbTimer1::timerEvent(){
-    enableLedSM = true;
-    //printf("TimerRunningCB\n");
-}
 
 /**********************************************\
 Function Name:  parseCommandLine()
@@ -164,7 +124,7 @@ void runCommandLine(char *argv[])
     else if (!strcmp(argv[0], "ledInitialiseTest"))
     {
         LedControl ledControl;
-        ledControl.ledInitialiseTest();
+        ledControl.ledFadeTest(5, 20);
     }
     else if (!strcmp(argv[0], "interruptTest"))
     {
@@ -173,13 +133,6 @@ void runCommandLine(char *argv[])
 
         // initialize Distance Sensors
         vl53l4cd.rangingInit();
-
-        // Initialize threads ////
-        //initInterrupts();
-
-        //btbThread btbThread1;
-        //btbThread1.start();
-        //controller.updateState(controllerState::TEST_DISTANCE_SENSORS);
 
         while (1)
         {
