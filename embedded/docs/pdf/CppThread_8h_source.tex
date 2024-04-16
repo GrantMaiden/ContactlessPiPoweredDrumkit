@@ -1,0 +1,32 @@
+\hypertarget{CppThread_8h_source}{}\doxysubsection{Cpp\+Thread.\+h}
+\label{CppThread_8h_source}\index{include/CppThread.h@{include/CppThread.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef \_\_CPP\_THREAD\_H\_}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define \_\_CPP\_THREAD\_H\_}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <thread>}}
+\DoxyCodeLine{12 }
+\DoxyCodeLine{20 \textcolor{keyword}{class }\mbox{\hyperlink{classCppThread}{CppThread}} \{}
+\DoxyCodeLine{21 }
+\DoxyCodeLine{22 \textcolor{keyword}{public}:}
+\DoxyCodeLine{26         \textcolor{keyword}{inline} \textcolor{keywordtype}{void} \mbox{\hyperlink{classCppThread_a1be46d1be000f41a763289300623c609}{start}}() \{}
+\DoxyCodeLine{27                 uthread = std::thread(\&\mbox{\hyperlink{classCppThread_a792b79e72250710147c452648def4a78}{CppThread::run}}, \textcolor{keyword}{this});}
+\DoxyCodeLine{28         \}}
+\DoxyCodeLine{29 }
+\DoxyCodeLine{33         \textcolor{keyword}{inline} \textcolor{keywordtype}{void} \mbox{\hyperlink{classCppThread_a8ff0fda6b913cc53764caef0e1200f3f}{join}}() \{}
+\DoxyCodeLine{34                 uthread.join();}
+\DoxyCodeLine{35         \}}
+\DoxyCodeLine{36 }
+\DoxyCodeLine{37 \textcolor{keyword}{protected}:}
+\DoxyCodeLine{43         \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} \mbox{\hyperlink{classCppThread_a792b79e72250710147c452648def4a78}{run}}() = 0;      }
+\DoxyCodeLine{44 }
+\DoxyCodeLine{45 \textcolor{keyword}{private}:}
+\DoxyCodeLine{46         \textcolor{comment}{// pointer to the thread}}
+\DoxyCodeLine{47         std::thread uthread;}
+\DoxyCodeLine{48 \};}
+\DoxyCodeLine{49 }
+\DoxyCodeLine{50 }
+\DoxyCodeLine{51 \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

@@ -1,0 +1,49 @@
+\hypertarget{classCppThread}{}\doxysubsection{Cpp\+Thread Class Reference}
+\label{classCppThread}\index{CppThread@{CppThread}}
+
+
+{\ttfamily \#include $<$Cpp\+Thread.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classCppThread_a1be46d1be000f41a763289300623c609}{start}} ()
+\item 
+void \mbox{\hyperlink{classCppThread_a8ff0fda6b913cc53764caef0e1200f3f}{join}} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual void \mbox{\hyperlink{classCppThread_a792b79e72250710147c452648def4a78}{run}} ()=0
+\end{DoxyCompactItemize}
+
+
+\doxysubsubsection{Detailed Description}
+GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007
+
+(C) 2020-\/2022, Bernd Porr \href{mailto:mail@bernporr.me.uk}{\texttt{ mail@bernporr.\+me.\+uk}} A thin wrapper around the C++ thread model to avoid a static callback. Instead just inherit this class and overload \mbox{\hyperlink{classCppThread_a792b79e72250710147c452648def4a78}{run()}} which then runs in this thread. This is header-\/only so that it can be performed inline for max performance. 
+
+\doxysubsubsection{Member Function Documentation}
+\mbox{\Hypertarget{classCppThread_a8ff0fda6b913cc53764caef0e1200f3f}\label{classCppThread_a8ff0fda6b913cc53764caef0e1200f3f}} 
+\index{CppThread@{CppThread}!join@{join}}
+\index{join@{join}!CppThread@{CppThread}}
+\doxyparagraph{\texorpdfstring{join()}{join()}}
+{\footnotesize\ttfamily void Cpp\+Thread\+::join (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Waits for the thread to terminate. \mbox{\Hypertarget{classCppThread_a792b79e72250710147c452648def4a78}\label{classCppThread_a792b79e72250710147c452648def4a78}} 
+\index{CppThread@{CppThread}!run@{run}}
+\index{run@{run}!CppThread@{CppThread}}
+\doxyparagraph{\texorpdfstring{run()}{run()}}
+{\footnotesize\ttfamily virtual void Cpp\+Thread\+::run (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [pure virtual]}}
+
+This method does all the work of this thread. Overload this abstract function with a real one doing the actual work of this thread. \mbox{\Hypertarget{classCppThread_a1be46d1be000f41a763289300623c609}\label{classCppThread_a1be46d1be000f41a763289300623c609}} 
+\index{CppThread@{CppThread}!start@{start}}
+\index{start@{start}!CppThread@{CppThread}}
+\doxyparagraph{\texorpdfstring{start()}{start()}}
+{\footnotesize\ttfamily void Cpp\+Thread\+::start (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Starts the thread. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/Cpp\+Thread.\+h\end{DoxyCompactItemize}

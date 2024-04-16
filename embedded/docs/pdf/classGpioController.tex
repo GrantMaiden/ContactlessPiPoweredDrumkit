@@ -1,0 +1,106 @@
+\hypertarget{classGpioController}{}\doxysubsection{Gpio\+Controller Class Reference}
+\label{classGpioController}\index{GpioController@{GpioController}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{classGpioController_aafdd41c8976402d25e1bf8db55819222}{gpio\+Test}} (uint seconds)
+\item 
+int \mbox{\hyperlink{classGpioController_a4ffca3bcc79d2c4ad74e9c02dfe68950}{gpio\+Initialize\+Lib}} (void)
+\item 
+int \mbox{\hyperlink{classGpioController_a63da553df056aa124d06cacd27faf484}{gpio\+Set\+Output}} (int GPIOnumber, int logic\+Level)
+\item 
+bool \mbox{\hyperlink{classGpioController_aaf9f9b913c9312b1fb88b6d5d72e682b}{led\+Nop\+Asm\+Test}} (uint seconds)
+\item 
+bool \mbox{\hyperlink{classGpioController_ad8bbb818ca48b2535adaaf51908f7a4a}{gpio\+Led\+Spi\+Test}} (char $\ast$arr)
+\item 
+void \mbox{\hyperlink{classGpioController_a0d89c3d7bc51ffea975d7af5da28c798}{gpio\+Led\+Set\+Color}} (char $\ast$arr)
+\end{DoxyCompactItemize}
+
+
+\doxysubsubsection{Member Function Documentation}
+\mbox{\Hypertarget{classGpioController_a4ffca3bcc79d2c4ad74e9c02dfe68950}\label{classGpioController_a4ffca3bcc79d2c4ad74e9c02dfe68950}} 
+\index{GpioController@{GpioController}!gpioInitializeLib@{gpioInitializeLib}}
+\index{gpioInitializeLib@{gpioInitializeLib}!GpioController@{GpioController}}
+\doxyparagraph{\texorpdfstring{gpioInitializeLib()}{gpioInitializeLib()}}
+{\footnotesize\ttfamily int Gpio\+Controller\+::gpio\+Initialize\+Lib (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+initialize Pi\+Gpio Library \begin{DoxyReturn}{Returns}
+int-\/ Pi\+Gpio library version 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classGpioController_a0d89c3d7bc51ffea975d7af5da28c798}\label{classGpioController_a0d89c3d7bc51ffea975d7af5da28c798}} 
+\index{GpioController@{GpioController}!gpioLedSetColor@{gpioLedSetColor}}
+\index{gpioLedSetColor@{gpioLedSetColor}!GpioController@{GpioController}}
+\doxyparagraph{\texorpdfstring{gpioLedSetColor()}{gpioLedSetColor()}}
+{\footnotesize\ttfamily void Gpio\+Controller\+::gpio\+Led\+Set\+Color (\begin{DoxyParamCaption}\item[{char $\ast$}]{arr }\end{DoxyParamCaption})}
+
+Sets Led Color Array to input 144bits (18bytes). Led\texorpdfstring{$<$}{<}-\/\texorpdfstring{$>$}{>}Byte Order D1-\/\+D2-\/\+D3-\/\+D4-\/\+D5-\/\+D6 
+\begin{DoxyParams}{Parameters}
+{\em array-\/} & char array 144 bits to be programmed to Leds \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool-\/ returns true if completed successfully or false if error occured. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classGpioController_ad8bbb818ca48b2535adaaf51908f7a4a}\label{classGpioController_ad8bbb818ca48b2535adaaf51908f7a4a}} 
+\index{GpioController@{GpioController}!gpioLedSpiTest@{gpioLedSpiTest}}
+\index{gpioLedSpiTest@{gpioLedSpiTest}!GpioController@{GpioController}}
+\doxyparagraph{\texorpdfstring{gpioLedSpiTest()}{gpioLedSpiTest()}}
+{\footnotesize\ttfamily bool Gpio\+Controller\+::gpio\+Led\+Spi\+Test (\begin{DoxyParamCaption}\item[{char $\ast$}]{arr }\end{DoxyParamCaption})}
+
+Test command-\/ sets led to RGB brightness level via SPI interface 
+\begin{DoxyParams}{Parameters}
+{\em array-\/} & char array 144 bits to be programmed to Leds \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool-\/ returns true if completed successfully or false if error occured. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classGpioController_a63da553df056aa124d06cacd27faf484}\label{classGpioController_a63da553df056aa124d06cacd27faf484}} 
+\index{GpioController@{GpioController}!gpioSetOutput@{gpioSetOutput}}
+\index{gpioSetOutput@{gpioSetOutput}!GpioController@{GpioController}}
+\doxyparagraph{\texorpdfstring{gpioSetOutput()}{gpioSetOutput()}}
+{\footnotesize\ttfamily int Gpio\+Controller\+::gpio\+Set\+Output (\begin{DoxyParamCaption}\item[{int}]{GPIOnumber,  }\item[{int}]{logic\+Level }\end{DoxyParamCaption})}
+
+Sets Output level of GPIO 
+\begin{DoxyParams}{Parameters}
+{\em GPIOnumber-\/} & gpio number that is being modified. \\
+\hline
+{\em logic\+Level-\/} & 0 or 1. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int-\/ Pi\+Gpio success or failure 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classGpioController_aafdd41c8976402d25e1bf8db55819222}\label{classGpioController_aafdd41c8976402d25e1bf8db55819222}} 
+\index{GpioController@{GpioController}!gpioTest@{gpioTest}}
+\index{gpioTest@{gpioTest}!GpioController@{GpioController}}
+\doxyparagraph{\texorpdfstring{gpioTest()}{gpioTest()}}
+{\footnotesize\ttfamily bool Gpio\+Controller\+::gpio\+Test (\begin{DoxyParamCaption}\item[{uint}]{seconds }\end{DoxyParamCaption})}
+
+GPIO Speed test. Toggles GPIO 4 (pin 7) at maximimum speed for user defined seconds. 
+\begin{DoxyParams}{Parameters}
+{\em seconds-\/} & uint number of seconds to run test for \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool-\/ returns true if completed successfully or false if error occured. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classGpioController_aaf9f9b913c9312b1fb88b6d5d72e682b}\label{classGpioController_aaf9f9b913c9312b1fb88b6d5d72e682b}} 
+\index{GpioController@{GpioController}!ledNopAsmTest@{ledNopAsmTest}}
+\index{ledNopAsmTest@{ledNopAsmTest}!GpioController@{GpioController}}
+\doxyparagraph{\texorpdfstring{ledNopAsmTest()}{ledNopAsmTest()}}
+{\footnotesize\ttfamily bool Gpio\+Controller\+::led\+Nop\+Asm\+Test (\begin{DoxyParamCaption}\item[{uint}]{seconds }\end{DoxyParamCaption})}
+
+Spew \textquotesingle{}1010\textquotesingle{} pattern to Leds using asm nop for delay 
+\begin{DoxyParams}{Parameters}
+{\em seconds-\/} & uint number of seconds to run test for \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool-\/ returns true if completed successfully or false if error occured. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/gpio\+\_\+controller.\+h\end{DoxyCompactItemize}

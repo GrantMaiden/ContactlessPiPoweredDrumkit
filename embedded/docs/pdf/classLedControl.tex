@@ -1,0 +1,162 @@
+\hypertarget{classLedControl}{}\doxysubsection{Led\+Control Class Reference}
+\label{classLedControl}\index{LedControl@{LedControl}}
+Inheritance diagram for Led\+Control\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classLedControl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classLedControl_a11c2879b60fc34cdaa30dda36ca95fe5}{led\+Create\+Color\+Arr}} (char $\ast$output\+Arr, unsigned led1, unsigned led2, unsigned led3, unsigned led4, unsigned led5, unsigned led6)
+\item 
+void \mbox{\hyperlink{classLedControl_a607f4f10ad59ed50061f486af65b8be8}{init\+Leds}} ()
+\item 
+void \mbox{\hyperlink{classLedControl_acfcbbfe2acbb7b4763d09e10a96be8b8}{led\+Flash\+Test}} (unsigned led\+Colour, int flash\+Time\+On, int flash\+Time\+Off, int flash\+Num)
+\item 
+void \mbox{\hyperlink{classLedControl_a09c4e34192a7991d04f7dc7f3265b201}{led\+Fade\+Test}} (int fade\+Num, int fade\+Speed)
+\item 
+void \mbox{\hyperlink{classLedControl_ad8c83b69dd491d5ca8fd806aa0ac198b}{set\+Led\+Velocity}} (sensor\+ID sensor, int avg\+Velocity)
+\item 
+void \mbox{\hyperlink{classLedControl_aa156a9966b9b372b23a9d3d6931c8178}{sensor\+Hit\+Led}} (sensor\+ID sensor, int hit\+Strength)
+\item 
+bool \mbox{\hyperlink{classLedControl_a84017bdd96fb715988e2dd86a2a94056}{sensor\+Hit\+Recently}} ()
+\item 
+unsigned \mbox{\hyperlink{classLedControl_a1106eac568e543ed3a8f156ff3c805df}{hit\+Color\+Setter}} (int sensor\+Str)
+\item 
+void \mbox{\hyperlink{classLedControl_a339d33f66690cbff3d3ba49c2123f8f4}{hit\+Detect\+Output\+Control}} ()
+\item 
+void \mbox{\hyperlink{classLedControl_a67a905403c6b62da32c1c0a2c361a841}{led\+SM}} ()
+\item 
+void \mbox{\hyperlink{classLedControl_af339507803651d408c47162dfddf2c6e}{led\+Initialise\+Test}} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+
+
+\doxysubsubsection{Member Function Documentation}
+\mbox{\Hypertarget{classLedControl_a1106eac568e543ed3a8f156ff3c805df}\label{classLedControl_a1106eac568e543ed3a8f156ff3c805df}} 
+\index{LedControl@{LedControl}!hitColorSetter@{hitColorSetter}}
+\index{hitColorSetter@{hitColorSetter}!LedControl@{LedControl}}
+\doxyparagraph{\texorpdfstring{hitColorSetter()}{hitColorSetter()}}
+{\footnotesize\ttfamily unsigned Led\+Control\+::hit\+Color\+Setter (\begin{DoxyParamCaption}\item[{int}]{sensor\+Str }\end{DoxyParamCaption})}
+
+Generates color for a sensor for a given hit strength 
+\begin{DoxyParams}{Parameters}
+{\em sensor\+Str-\/} & int hit strength velocity measured by sensor \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classLedControl_a339d33f66690cbff3d3ba49c2123f8f4}\label{classLedControl_a339d33f66690cbff3d3ba49c2123f8f4}} 
+\index{LedControl@{LedControl}!hitDetectOutputControl@{hitDetectOutputControl}}
+\index{hitDetectOutputControl@{hitDetectOutputControl}!LedControl@{LedControl}}
+\doxyparagraph{\texorpdfstring{hitDetectOutputControl()}{hitDetectOutputControl()}}
+{\footnotesize\ttfamily void Led\+Control\+::hit\+Detect\+Output\+Control (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Generates color for a sensor for a given amount of time when hit \mbox{\Hypertarget{classLedControl_a607f4f10ad59ed50061f486af65b8be8}\label{classLedControl_a607f4f10ad59ed50061f486af65b8be8}} 
+\index{LedControl@{LedControl}!initLeds@{initLeds}}
+\index{initLeds@{initLeds}!LedControl@{LedControl}}
+\doxyparagraph{\texorpdfstring{initLeds()}{initLeds()}}
+{\footnotesize\ttfamily void Led\+Control\+::init\+Leds (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Initialize LED globals \mbox{\Hypertarget{classLedControl_a11c2879b60fc34cdaa30dda36ca95fe5}\label{classLedControl_a11c2879b60fc34cdaa30dda36ca95fe5}} 
+\index{LedControl@{LedControl}!ledCreateColorArr@{ledCreateColorArr}}
+\index{ledCreateColorArr@{ledCreateColorArr}!LedControl@{LedControl}}
+\doxyparagraph{\texorpdfstring{ledCreateColorArr()}{ledCreateColorArr()}}
+{\footnotesize\ttfamily void Led\+Control\+::led\+Create\+Color\+Arr (\begin{DoxyParamCaption}\item[{char $\ast$}]{output\+Arr,  }\item[{unsigned}]{led1,  }\item[{unsigned}]{led2,  }\item[{unsigned}]{led3,  }\item[{unsigned}]{led4,  }\item[{unsigned}]{led5,  }\item[{unsigned}]{led6 }\end{DoxyParamCaption})}
+
+creates a single color array combined from input arguments. Will fill output\+Arr memory with combined data. Performs RGB-\/\texorpdfstring{$>$}{>}GRB byteshift 
+\begin{DoxyParams}{Parameters}
+{\em output\+Arr-\/} & char$\ast$ this needs to be 18char long empty array \\
+\hline
+{\em led1-\/} & unsigned 24bit value RGB color code. \\
+\hline
+{\em led2-\/} & unsigned 24bit value RGB color code. \\
+\hline
+{\em led3-\/} & unsigned 24bit value RGB color code. \\
+\hline
+{\em led4-\/} & unsigned 24bit value RGB color code. \\
+\hline
+{\em led5-\/} & unsigned 24bit value RGB color code. \\
+\hline
+{\em led6-\/} & unsigned 24bit value RGB color code. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classLedControl_a09c4e34192a7991d04f7dc7f3265b201}\label{classLedControl_a09c4e34192a7991d04f7dc7f3265b201}} 
+\index{LedControl@{LedControl}!ledFadeTest@{ledFadeTest}}
+\index{ledFadeTest@{ledFadeTest}!LedControl@{LedControl}}
+\doxyparagraph{\texorpdfstring{ledFadeTest()}{ledFadeTest()}}
+{\footnotesize\ttfamily void Led\+Control\+::led\+Fade\+Test (\begin{DoxyParamCaption}\item[{int}]{fade\+Num,  }\item[{int}]{fade\+Speed }\end{DoxyParamCaption})}
+
+Makes all LEDs Fade from (0 -\/ 255) an number of times at a given speed 
+\begin{DoxyParams}{Parameters}
+{\em fade\+Step-\/} & int number of bits step changes in fade \\
+\hline
+{\em fade\+Num-\/} & int number of times LEDs fade \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classLedControl_acfcbbfe2acbb7b4763d09e10a96be8b8}\label{classLedControl_acfcbbfe2acbb7b4763d09e10a96be8b8}} 
+\index{LedControl@{LedControl}!ledFlashTest@{ledFlashTest}}
+\index{ledFlashTest@{ledFlashTest}!LedControl@{LedControl}}
+\doxyparagraph{\texorpdfstring{ledFlashTest()}{ledFlashTest()}}
+{\footnotesize\ttfamily void Led\+Control\+::led\+Flash\+Test (\begin{DoxyParamCaption}\item[{unsigned}]{led\+Colour,  }\item[{int}]{flash\+Time\+On,  }\item[{int}]{flash\+Time\+Off,  }\item[{int}]{flash\+Num }\end{DoxyParamCaption})}
+
+Makes all LEDs flash an number of times for a given colour at a speed in seconds 
+\begin{DoxyParams}{Parameters}
+{\em led\+Colour-\/} & unsigned 24bit value RGB color code. \\
+\hline
+{\em flash\+Time\+On-\/} & int number of seconds that LEDs are on \\
+\hline
+{\em flash\+Time\+Off-\/} & int number of seconds that LEDs are off \\
+\hline
+{\em flash\+Num-\/} & int number of times LEDs are flashed \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classLedControl_af339507803651d408c47162dfddf2c6e}\label{classLedControl_af339507803651d408c47162dfddf2c6e}} 
+\index{LedControl@{LedControl}!ledInitialiseTest@{ledInitialiseTest}}
+\index{ledInitialiseTest@{ledInitialiseTest}!LedControl@{LedControl}}
+\doxyparagraph{\texorpdfstring{ledInitialiseTest()}{ledInitialiseTest()}}
+{\footnotesize\ttfamily void Led\+Control\+::led\+Initialise\+Test (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Peter\textquotesingle{}s LED Initializer test \mbox{\Hypertarget{classLedControl_a67a905403c6b62da32c1c0a2c361a841}\label{classLedControl_a67a905403c6b62da32c1c0a2c361a841}} 
+\index{LedControl@{LedControl}!ledSM@{ledSM}}
+\index{ledSM@{ledSM}!LedControl@{LedControl}}
+\doxyparagraph{\texorpdfstring{ledSM()}{ledSM()}}
+{\footnotesize\ttfamily void Led\+Control\+::led\+SM (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+State Machine for LEDs \mbox{\Hypertarget{classLedControl_aa156a9966b9b372b23a9d3d6931c8178}\label{classLedControl_aa156a9966b9b372b23a9d3d6931c8178}} 
+\index{LedControl@{LedControl}!sensorHitLed@{sensorHitLed}}
+\index{sensorHitLed@{sensorHitLed}!LedControl@{LedControl}}
+\doxyparagraph{\texorpdfstring{sensorHitLed()}{sensorHitLed()}}
+{\footnotesize\ttfamily void Led\+Control\+::sensor\+Hit\+Led (\begin{DoxyParamCaption}\item[{sensor\+ID}]{sensor,  }\item[{int}]{hit\+Strength }\end{DoxyParamCaption})}
+
+Takes the hit information from the sensor logic and provides LED feeddback depending on the strength 
+\begin{DoxyParams}{Parameters}
+{\em sensor\+ID-\/} & enum which sensor \\
+\hline
+{\em hit\+Strength-\/} & int hit strength velocity measured by sensor \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classLedControl_a84017bdd96fb715988e2dd86a2a94056}\label{classLedControl_a84017bdd96fb715988e2dd86a2a94056}} 
+\index{LedControl@{LedControl}!sensorHitRecently@{sensorHitRecently}}
+\index{sensorHitRecently@{sensorHitRecently}!LedControl@{LedControl}}
+\doxyparagraph{\texorpdfstring{sensorHitRecently()}{sensorHitRecently()}}
+{\footnotesize\ttfamily bool Led\+Control\+::sensor\+Hit\+Recently (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Checks if a sensor has been hit recently \mbox{\Hypertarget{classLedControl_ad8c83b69dd491d5ca8fd806aa0ac198b}\label{classLedControl_ad8c83b69dd491d5ca8fd806aa0ac198b}} 
+\index{LedControl@{LedControl}!setLedVelocity@{setLedVelocity}}
+\index{setLedVelocity@{setLedVelocity}!LedControl@{LedControl}}
+\doxyparagraph{\texorpdfstring{setLedVelocity()}{setLedVelocity()}}
+{\footnotesize\ttfamily void Led\+Control\+::set\+Led\+Velocity (\begin{DoxyParamCaption}\item[{sensor\+ID}]{sensor,  }\item[{int}]{avg\+Velocity }\end{DoxyParamCaption})}
+
+Takes filtered velocity from controller and gives it to led state machine 
+\begin{DoxyParams}{Parameters}
+{\em id-\/} & enum which sensor \\
+\hline
+{\em avg\+Velocity-\/} & int current average velocity measured by sensor \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/led.\+h\end{DoxyCompactItemize}

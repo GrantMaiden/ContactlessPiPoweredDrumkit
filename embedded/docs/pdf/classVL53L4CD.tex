@@ -1,0 +1,86 @@
+\hypertarget{classVL53L4CD}{}\doxysubsection{VL53\+L4\+CD Class Reference}
+\label{classVL53L4CD}\index{VL53L4CD@{VL53L4CD}}
+Inheritance diagram for VL53\+L4\+CD\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classVL53L4CD}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classVL53L4CD_aa50845e779bebe4d312e79ef1a14a62b}{ranging\+Init}} ()
+\item 
+void \mbox{\hyperlink{classVL53L4CD_a07ac79dcf2d0ba4c91df4fb0aea824f0}{ranging\+Test\+Distance\+Sensors}} ()
+\item 
+\mbox{\hyperlink{structsensorValues}{sensor\+Values}} \mbox{\hyperlink{classVL53L4CD_ad81309cbabd2f3a7f4eb1c26cd97a64d}{ranging\+Get\+Data}} (sensor\+ID sensor)
+\item 
+bool \mbox{\hyperlink{classVL53L4CD_af33c4ab62ad9db0773ed3dadaa0257c5}{ranging\+Check\+If\+Ready}} (sensor\+ID sensor)
+\item 
+virtual void \mbox{\hyperlink{classVL53L4CD_a149a2250aabe18254a50be683b9fbba5}{distance\+Data\+Ready}} (\mbox{\hyperlink{structsensorValues}{sensor\+Values}} sens\+Vals, sensor\+ID sensor)=0
+\end{DoxyCompactItemize}
+
+
+\doxysubsubsection{Member Function Documentation}
+\mbox{\Hypertarget{classVL53L4CD_a149a2250aabe18254a50be683b9fbba5}\label{classVL53L4CD_a149a2250aabe18254a50be683b9fbba5}} 
+\index{VL53L4CD@{VL53L4CD}!distanceDataReady@{distanceDataReady}}
+\index{distanceDataReady@{distanceDataReady}!VL53L4CD@{VL53L4CD}}
+\doxyparagraph{\texorpdfstring{distanceDataReady()}{distanceDataReady()}}
+{\footnotesize\ttfamily virtual void VL53\+L4\+CD\+::distance\+Data\+Ready (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structsensorValues}{sensor\+Values}}}]{sens\+Vals,  }\item[{sensor\+ID}]{sensor }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Called when new Distance sensor data has been recieved. This needs to be implemented in a derived class by the client. Defined as abstract. 
+\begin{DoxyParams}{Parameters}
+{\em sens\+Vals} & -\/ sense\+Vals structure that contains sensor data \\
+\hline
+{\em sensor} & -\/ Sensor\+ID signifying which sensor data is coming from \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \mbox{\hyperlink{classController_af53bfa42e907627e5f39668e3d8acb5c}{Controller}}.
+
+\mbox{\Hypertarget{classVL53L4CD_af33c4ab62ad9db0773ed3dadaa0257c5}\label{classVL53L4CD_af33c4ab62ad9db0773ed3dadaa0257c5}} 
+\index{VL53L4CD@{VL53L4CD}!rangingCheckIfReady@{rangingCheckIfReady}}
+\index{rangingCheckIfReady@{rangingCheckIfReady}!VL53L4CD@{VL53L4CD}}
+\doxyparagraph{\texorpdfstring{rangingCheckIfReady()}{rangingCheckIfReady()}}
+{\footnotesize\ttfamily bool VL53\+L4\+CD\+::ranging\+Check\+If\+Ready (\begin{DoxyParamCaption}\item[{sensor\+ID}]{sensor }\end{DoxyParamCaption})}
+
+returns if a sensor has data ready 
+\begin{DoxyParams}{Parameters}
+{\em sensor} & -\/ sensor\+ID \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classVL53L4CD_ad81309cbabd2f3a7f4eb1c26cd97a64d}\label{classVL53L4CD_ad81309cbabd2f3a7f4eb1c26cd97a64d}} 
+\index{VL53L4CD@{VL53L4CD}!rangingGetData@{rangingGetData}}
+\index{rangingGetData@{rangingGetData}!VL53L4CD@{VL53L4CD}}
+\doxyparagraph{\texorpdfstring{rangingGetData()}{rangingGetData()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structsensorValues}{sensor\+Values}} VL53\+L4\+CD\+::ranging\+Get\+Data (\begin{DoxyParamCaption}\item[{sensor\+ID}]{sensor }\end{DoxyParamCaption})}
+
+Get data from input dev id 
+\begin{DoxyParams}{Parameters}
+{\em sensor} & -\/ sensor\+ID \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{structsensorValues}{sensor\+Values}} 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classVL53L4CD_aa50845e779bebe4d312e79ef1a14a62b}\label{classVL53L4CD_aa50845e779bebe4d312e79ef1a14a62b}} 
+\index{VL53L4CD@{VL53L4CD}!rangingInit@{rangingInit}}
+\index{rangingInit@{rangingInit}!VL53L4CD@{VL53L4CD}}
+\doxyparagraph{\texorpdfstring{rangingInit()}{rangingInit()}}
+{\footnotesize\ttfamily void VL53\+L4\+CD\+::ranging\+Init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Initialize disatance sensor globals \mbox{\Hypertarget{classVL53L4CD_a07ac79dcf2d0ba4c91df4fb0aea824f0}\label{classVL53L4CD_a07ac79dcf2d0ba4c91df4fb0aea824f0}} 
+\index{VL53L4CD@{VL53L4CD}!rangingTestDistanceSensors@{rangingTestDistanceSensors}}
+\index{rangingTestDistanceSensors@{rangingTestDistanceSensors}!VL53L4CD@{VL53L4CD}}
+\doxyparagraph{\texorpdfstring{rangingTestDistanceSensors()}{rangingTestDistanceSensors()}}
+{\footnotesize\ttfamily void VL53\+L4\+CD\+::ranging\+Test\+Distance\+Sensors (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Test Distance Sensors 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/ranging.\+h\end{DoxyCompactItemize}

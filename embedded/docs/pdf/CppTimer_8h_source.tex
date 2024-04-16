@@ -1,0 +1,122 @@
+\hypertarget{CppTimer_8h_source}{}\doxysubsection{Cpp\+Timer.\+h}
+\label{CppTimer_8h_source}\index{include/CppTimer.h@{include/CppTimer.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef \_\_CPP\_TIMER\_H\_}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define \_\_CPP\_TIMER\_H\_}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#include <stdlib.h>}}
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#include <unistd.h>}}
+\DoxyCodeLine{15 \textcolor{preprocessor}{\#include <stdio.h>}}
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#include <time.h>}}
+\DoxyCodeLine{17 \textcolor{preprocessor}{\#include <thread>}}
+\DoxyCodeLine{18 \textcolor{preprocessor}{\#include <sys/timerfd.h>}}
+\DoxyCodeLine{19 }
+\DoxyCodeLine{23 \textcolor{keyword}{enum} cppTimerType\_t}
+\DoxyCodeLine{24 \{}
+\DoxyCodeLine{25     PERIODIC,}
+\DoxyCodeLine{26     ONESHOT}
+\DoxyCodeLine{27 \};}
+\DoxyCodeLine{28 }
+\DoxyCodeLine{33 \textcolor{keyword}{class }\mbox{\hyperlink{classCppTimer}{CppTimer}}}
+\DoxyCodeLine{34 \{}
+\DoxyCodeLine{35 }
+\DoxyCodeLine{36 \textcolor{keyword}{public}:}
+\DoxyCodeLine{46     \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} \mbox{\hyperlink{classCppTimer_a7de6bd2c8c9b5daa70d5c3d9b97fa49b}{startns}}(\textcolor{keywordtype}{long} nanosecs, cppTimerType\_t type = PERIODIC) \{}
+\DoxyCodeLine{47         \textcolor{keywordflow}{if} (running) \textcolor{keywordflow}{return};}
+\DoxyCodeLine{48         fd = timerfd\_create(CLOCK\_MONOTONIC, 0);}
+\DoxyCodeLine{49         \textcolor{keywordflow}{if} (fd < 0)}
+\DoxyCodeLine{50             \textcolor{keywordflow}{throw}(\textcolor{stringliteral}{"{}Could not start timer"{}});}
+\DoxyCodeLine{51         \textcolor{keywordflow}{switch} (type)}
+\DoxyCodeLine{52         \{}
+\DoxyCodeLine{53         \textcolor{keywordflow}{case} (PERIODIC):}
+\DoxyCodeLine{54             \textcolor{comment}{//starts after specified period of nanoseconds}}
+\DoxyCodeLine{55             its.it\_value.tv\_sec = nanosecs / 1000000000;}
+\DoxyCodeLine{56             its.it\_value.tv\_nsec = nanosecs \% 1000000000;}
+\DoxyCodeLine{57             its.it\_interval.tv\_sec = nanosecs / 1000000000;}
+\DoxyCodeLine{58             its.it\_interval.tv\_nsec = nanosecs \% 1000000000;}
+\DoxyCodeLine{59             \textcolor{keywordflow}{break};}
+\DoxyCodeLine{60         \textcolor{keywordflow}{case} (ONESHOT):}
+\DoxyCodeLine{61             \textcolor{comment}{//fires once after specified period of nanoseconds}}
+\DoxyCodeLine{62             its.it\_value.tv\_sec = nanosecs / 1000000000;}
+\DoxyCodeLine{63             its.it\_value.tv\_nsec = nanosecs \% 1000000000;}
+\DoxyCodeLine{64             its.it\_interval.tv\_sec = 0;}
+\DoxyCodeLine{65             its.it\_interval.tv\_nsec = 0;}
+\DoxyCodeLine{66             \textcolor{keywordflow}{break};}
+\DoxyCodeLine{67         \}}
+\DoxyCodeLine{68         \textcolor{keywordflow}{if} (timerfd\_settime(fd, 0, \&its, NULL) == -\/1)}
+\DoxyCodeLine{69             \textcolor{keywordflow}{throw}(\textcolor{stringliteral}{"{}Could not start timer"{}});}
+\DoxyCodeLine{70         uthread = std::thread(\&CppTimer::worker,\textcolor{keyword}{this});}
+\DoxyCodeLine{71     \}}
+\DoxyCodeLine{72 }
+\DoxyCodeLine{82     \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} \mbox{\hyperlink{classCppTimer_a8054cc8cead2e360b06b6ff99cc964cf}{startms}}(\textcolor{keywordtype}{long} millisecs, cppTimerType\_t type = PERIODIC) \{}
+\DoxyCodeLine{83         \textcolor{keywordflow}{if} (running) \textcolor{keywordflow}{return};}
+\DoxyCodeLine{84         fd = timerfd\_create(CLOCK\_MONOTONIC, 0);}
+\DoxyCodeLine{85         \textcolor{keywordflow}{if} (fd < 0)}
+\DoxyCodeLine{86             \textcolor{keywordflow}{throw}(\textcolor{stringliteral}{"{}Could not start timer"{}});}
+\DoxyCodeLine{87         \textcolor{keywordflow}{switch} (type)}
+\DoxyCodeLine{88         \{}
+\DoxyCodeLine{89         \textcolor{keywordflow}{case} (PERIODIC):}
+\DoxyCodeLine{90             \textcolor{comment}{//starts after specified period of milliseconds}}
+\DoxyCodeLine{91             its.it\_value.tv\_sec = millisecs / 1000;}
+\DoxyCodeLine{92             its.it\_value.tv\_nsec = (millisecs \% 1000) * 1000000;}
+\DoxyCodeLine{93             its.it\_interval.tv\_sec = millisecs / 1000;}
+\DoxyCodeLine{94             its.it\_interval.tv\_nsec = (millisecs \% 1000) * 1000000;}
+\DoxyCodeLine{95             \textcolor{keywordflow}{break};}
+\DoxyCodeLine{96         \textcolor{keywordflow}{case} (ONESHOT):}
+\DoxyCodeLine{97             \textcolor{comment}{//fires once after specified period of milliseconds}}
+\DoxyCodeLine{98             its.it\_value.tv\_sec = millisecs / 1000;}
+\DoxyCodeLine{99             its.it\_value.tv\_nsec = (millisecs \% 1000) * 1000000;}
+\DoxyCodeLine{100             its.it\_interval.tv\_sec = 0;}
+\DoxyCodeLine{101             its.it\_interval.tv\_nsec = 0;}
+\DoxyCodeLine{102             \textcolor{keywordflow}{break};}
+\DoxyCodeLine{103         \}}
+\DoxyCodeLine{104         \textcolor{keywordflow}{if} (timerfd\_settime(fd, 0, \&its, NULL) == -\/1)}
+\DoxyCodeLine{105             \textcolor{keywordflow}{throw}(\textcolor{stringliteral}{"{}Could not start timer"{}});}
+\DoxyCodeLine{106         uthread = std::thread(\&CppTimer::worker,\textcolor{keyword}{this});}
+\DoxyCodeLine{107     \}}
+\DoxyCodeLine{108 }
+\DoxyCodeLine{113     \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} \mbox{\hyperlink{classCppTimer_aafb86e2bb43311bf154867dd6da43e80}{stop}}() \{}
+\DoxyCodeLine{114         \textcolor{keywordflow}{if} (!running) \textcolor{keywordflow}{return};}
+\DoxyCodeLine{115         running = \textcolor{keyword}{false};}
+\DoxyCodeLine{116         uthread.join();}
+\DoxyCodeLine{117     \}}
+\DoxyCodeLine{118 }
+\DoxyCodeLine{123     \textcolor{keyword}{virtual} \mbox{\hyperlink{classCppTimer_a2942aab831713273a76218048fe61b16}{\string~CppTimer}}() \{}
+\DoxyCodeLine{124         \mbox{\hyperlink{classCppTimer_aafb86e2bb43311bf154867dd6da43e80}{stop}}();}
+\DoxyCodeLine{125     \}}
+\DoxyCodeLine{126 }
+\DoxyCodeLine{127 \textcolor{keyword}{protected}:}
+\DoxyCodeLine{132     \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} \mbox{\hyperlink{classCppTimer_ac2665403595b6aee5f581d0ebfeb886c}{timerEvent}}() = 0;}
+\DoxyCodeLine{133 }
+\DoxyCodeLine{134 \textcolor{keyword}{private}:}
+\DoxyCodeLine{135     \textcolor{keywordtype}{int} fd = 0;}
+\DoxyCodeLine{136     \textcolor{keyword}{struct }itimerspec its;}
+\DoxyCodeLine{137     \textcolor{keywordtype}{bool} running = \textcolor{keyword}{false};}
+\DoxyCodeLine{138     std::thread uthread;}
+\DoxyCodeLine{139     \textcolor{keywordtype}{void} worker() \{}
+\DoxyCodeLine{140         running = \textcolor{keyword}{true};}
+\DoxyCodeLine{141         \textcolor{keywordflow}{while} (running) \{}
+\DoxyCodeLine{142             uint64\_t exp;}
+\DoxyCodeLine{143             \textcolor{keyword}{const} \textcolor{keywordtype}{long} \textcolor{keywordtype}{int} s = read(fd, \&exp, \textcolor{keyword}{sizeof}(uint64\_t));}
+\DoxyCodeLine{144             \textcolor{keywordflow}{if} (s != \textcolor{keyword}{sizeof}(uint64\_t) ) \{}
+\DoxyCodeLine{145                 running = \textcolor{keyword}{false};}
+\DoxyCodeLine{146                 \textcolor{keywordflow}{return};}
+\DoxyCodeLine{147             \}}
+\DoxyCodeLine{148             \mbox{\hyperlink{classCppTimer_ac2665403595b6aee5f581d0ebfeb886c}{timerEvent}}();}
+\DoxyCodeLine{149         \}}
+\DoxyCodeLine{150         \textcolor{comment}{// disarm}}
+\DoxyCodeLine{151         \textcolor{keyword}{struct }itimerspec itsnew;}
+\DoxyCodeLine{152         itsnew.it\_value.tv\_sec = 0;}
+\DoxyCodeLine{153         itsnew.it\_value.tv\_nsec = 0;}
+\DoxyCodeLine{154         itsnew.it\_interval.tv\_sec = 0;}
+\DoxyCodeLine{155         itsnew.it\_interval.tv\_nsec = 0;}
+\DoxyCodeLine{156         timerfd\_settime(fd, 0, \&itsnew, \&its);}
+\DoxyCodeLine{157         close(fd);}
+\DoxyCodeLine{158         fd = -\/1;}
+\DoxyCodeLine{159     \}}
+\DoxyCodeLine{160 \};}
+\DoxyCodeLine{161 }
+\DoxyCodeLine{162 \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}
